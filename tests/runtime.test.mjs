@@ -3,13 +3,16 @@ import assert from "node:assert/strict";
 import { chmod, mkdir, mkdtemp, readFile, realpath, rm, symlink, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { tmpdir } from "node:os";
+import { fileURLToPath } from "node:url";
 import {
   BUSY_SKILL_MESSAGE,
   OUTPUT_TYPE,
   PROFILE_TYPE,
   SELECTED_SKILL_TYPE,
   STATE_TYPE,
+  completeWorkbenchArguments,
   doctor,
+  readCatalog,
   probeExecutable,
   readSkill,
   registerWorkbench,
@@ -137,6 +140,7 @@ function harness(root, initialBranch = [], { idle = () => true } = {}) {
     errors: () => notifications.filter(({ level }) => level === "error").map(({ message }) => message),
     switchBranch(entries) { branch = entries; },
     command(args) { return commands.get("workbench").handler(args, ctx); },
+    complete(prefix) { return commands.get("workbench").getArgumentCompletions(prefix); },
     context(list = []) { return hooks.get("context")({ type: "context", messages: list }, ctx); },
     /** The conversation the model receives for one request (the context hook's projection). */
     async request(list = []) { return (await this.context(list))?.messages ?? list; },
@@ -487,4 +491,99 @@ test("doctor checks presence without running binaries, contacting services, or e
   await assert.rejects(readFile(marker), { code: "ENOENT" });
   await assert.rejects(probeExecutable("node --version", { env }), /실행파일 이름/);
   await assert.rejects(probeExecutable("../node", { env }), /실행파일 이름/);
+});
+
+const values = (items) => items?.map((item) => item.value) ?? null;
+
+test("argument completion follows the command grammar: subcommands, then catalog profiles or skill ids", async (t) => {
+  const { catalog } = await fixture(t);
+  const complete = (prefix) => values(completeWorkbenchArguments(prefix, catalog));
+  const subcommands = ["list", "use ", "skill ", "status", "doctor", "help"];
+  assert.deepEqual(complete(""), subcommands);
+  assert.deepEqual(complete("   "), subcommands, "Leading whitespace is ignored.");
+  assert.deepEqual(complete("u"), ["use "]);
+  assert.deepEqual(complete("s"), ["skill ", "status"]);
+  assert.deepEqual(complete("use "), ["use coding", "use game", "use auto", "use off"]);
+  assert.deepEqual(complete("use c"), ["use coding"]);
+  assert.deepEqual(complete("  use \t c"), ["use coding"], "Repeated whitespace still finds the argument.");
+  assert.deepEqual(complete("use a"), ["use auto"]);
+  assert.deepEqual(complete("list "), ["list coding", "list game"], "list offers catalog profiles, not auto/off.");
+  assert.deepEqual(complete("list g"), ["list game"]);
+  assert.deepEqual(complete("skill "), ["skill minimal-code", "skill review", "skill game-art"]);
+  assert.deepEqual(complete("skill r"), ["skill review"]);
+  const [skill] = completeWorkbenchArguments("skill mi", catalog);
+  assert.deepEqual(skill, {
+    value: "skill minimal-code",
+    label: "skill minimal-code",
+    description: "Minimal Code: Inspect existing callers before changing code.",
+  });
+  for (const finished of [
+    "status", "doctor", "help", "list", "use coding", "skill review", // complete as typed: Enter submits
+    "use coding ", "use coding x", "skill review ", "list game more", // a finished argument or an extra word
+    "status ", "doctor x", "help ", // subcommands without arguments
+    "list coding ", "use off ", "\tuse\tcoding\t", "skill review extra", // whitespace or a third token after the argument
+    "skill coding", "list auto", "list off", "use minimal-code", // values of another subcommand
+    "bogus", "bogus ", "use zz", "skill nope", "USE ", "use Coding", // unknown words; the handler is case-sensitive
+  ]) {
+    assert.equal(completeWorkbenchArguments(finished, catalog), null, JSON.stringify(finished));
+  }
+  assert.deepEqual(complete("u"), ["use "], "Subcommands need no catalog.");
+  assert.deepEqual(values(completeWorkbenchArguments("use ", undefined)), ["use auto", "use off"], "auto/off need no catalog.");
+  for (const prefix of ["list ", "skill ", "use c"]) {
+    assert.equal(completeWorkbenchArguments(prefix, undefined), null, `Without a catalog no ${JSON.stringify(prefix)} argument is invented.`);
+  }
+  assert.deepEqual(values(completeWorkbenchArguments("", undefined)), subcommands);
+});
+
+test("every completed argument is accepted by the command handler", async (t) => {
+  const f = await fixture(t);
+  const h = harness(f.root);
+  for (const command of ["list", "use", "skill"]) {
+    for (const value of values(await h.complete(command + " "))) {
+      await h.command(value);
+      assert.deepEqual(h.errors(), [], value);
+    }
+  }
+  assert.equal(h.messages.length, 3, "Each completed skill id selects that skill.");
+});
+
+test("completion reads only the catalog and changes no command or session state", async (t) => {
+  const f = await fixture(t);
+  // Skill bodies are unreadable: completion must not open them.
+  for (const skill of f.catalog.skills) await rm(join(f.root, skill.path));
+  const h = harness(f.root, [state("game")]);
+  assert.deepEqual(values(await h.complete("skill ")), ["skill minimal-code", "skill review", "skill game-art"]);
+  assert.deepEqual(values(await h.complete("use g")), ["use game"]);
+  assert.deepEqual(h.messages, []);
+  assert.deepEqual(h.appends, []);
+  assert.deepEqual(h.notifications, []);
+});
+
+test("a missing catalog leaves subcommands, offers no arguments, reports nothing and is retried", async (t) => {
+  const f = await fixture(t);
+  const text = await readFile(join(f.root, "catalog.json"), "utf8");
+  await rm(join(f.root, "catalog.json"));
+  const h = harness(f.root);
+  assert.deepEqual(values(await h.complete("l")), ["list"]);
+  assert.equal(await h.complete("skill "), null);
+  assert.equal(await h.complete("list "), null);
+  assert.deepEqual(values(await h.complete("use ")), ["use auto", "use off"], "auto/off stay usable without a catalog.");
+  await writeFile(join(f.root, "catalog.json"), "{ broken");
+  assert.equal(await h.complete("skill "), null, "A broken catalog does not throw.");
+  assert.deepEqual(h.notifications, [], "Typing must not raise errors.");
+  await writeFile(join(f.root, "catalog.json"), text);
+  assert.deepEqual(values(await h.complete("use g")), ["use game"], "A failed read is not cached.");
+});
+
+test("the shipped catalog supplies every profile and skill id as a candidate", async () => {
+  const root = fileURLToPath(new URL("..", import.meta.url));
+  const catalog = await readCatalog(root);
+  assert.deepEqual(values(completeWorkbenchArguments("list ", catalog)), catalog.profiles.map((profile) => `list ${profile.id}`));
+  assert.deepEqual(values(completeWorkbenchArguments("use ", catalog)), [...catalog.profiles.map((profile) => `use ${profile.id}`), "use auto", "use off"]);
+  assert.deepEqual(values(completeWorkbenchArguments("skill ", catalog)), catalog.skills.map((skill) => `skill ${skill.id}`));
+  assert.deepEqual(values(completeWorkbenchArguments("skill ponytail", catalog)), ["skill ponytail", "skill ponytail-review"],
+    "An id that prefixes another stays offered next to it.");
+  assert.equal(completeWorkbenchArguments("skill ponytail-review", catalog), null);
+  assert.equal(catalog.skills.length, 27);
+  assert.equal(catalog.profiles.length, 7);
 });

@@ -23,11 +23,12 @@ Node.js 24.21.0 and `@earendil-works/pi-coding-agent` 1.1.0. The package archive
 | Check | Result and scope |
 |---|---|
 | `node scripts/check.mjs` | Passes; now also fails on a skill whose `profiles` differ from the profiles that list it, or that names an unknown profile (both confirmed to fail on a modified copy) |
-| `node --test tests/runtime.test.mjs` | 14 tests: one current profile guidance per request built from the branch (legacy stored guidance and command output dropped, other messages and one-shot skills kept, input untouched), auto/off, busy selection refused including a race during loading, UI-only command output, OMP fallback |
-| `tests/pi-loader.mjs` with Pi 1.1.0 | One extension with `context` and `before_agent_start` handlers, seven routing skills, zero diagnostics |
+| `node --test tests/runtime.test.mjs` | 19 tests: one current profile guidance per request built from the branch (legacy stored guidance and command output dropped, other messages and one-shot skills kept, input untouched), auto/off, busy selection refused including a race during loading, UI-only command output, OMP fallback; `/workbench` argument completion (subcommands, catalog profiles and skill ids by context and prefix, none after a finished argument, extra word or wrong subcommand, every candidate accepted by the handler, no SKILL.md read or state change, missing/broken catalog retried) |
+| `tests/pi-loader.mjs` with Pi 1.1.0 | One extension with `context` and `before_agent_start` handlers, seven routing skills, zero diagnostics; the loaded `/workbench` completion callback returns catalog candidates |
+| Umbrella `scripts/command-completions.test.mjs` with Pi 1.1.0 | Pi's `CombinedAutocompleteProvider` suggests and applies `/workbench use co` → `/workbench use coding`, `list ga` → `list game`, `skill ponytail-r` → `skill ponytail-review`, and offers nothing for finished or invalid arguments |
 | `tests/pi-session.mjs` with Pi 1.1.0 | A real `AgentSession` with this package and a scripted faux model (11 model requests): one profile guidance per request over three requests, a branch switch, a reload and auto/off; no Workbench profile/output message stored; a skill selection during a run is refused and reaches neither the steering message nor the next idle request; an idle selection reaches the next request. The 0.1.0 runtime fails this check (guidance accumulated), and so does the new runtime with the busy check removed |
 
-Not verified: an interactive TUI session, OMP, model behaviour with real providers, and compaction summaries created before this change (they are not rewritten).
+Not verified: an interactive TUI session (Tab completion is checked through Pi's autocomplete provider, not a terminal), OMP, model behaviour with real providers, and compaction summaries created before this change (they are not rewritten).
 
 ## Limits of this validation
 

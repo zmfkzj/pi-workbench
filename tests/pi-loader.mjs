@@ -28,12 +28,21 @@ try {
   assert.equal(installed.length, 1, "Exactly one Workbench extension must register.");
   assert(installed[0].handlers.has("context"), "Profile guidance is projected per request through the context event.");
   assert(installed[0].handlers.has("before_agent_start"));
+  // The registered /workbench callback itself (not only the pure function) completes arguments from the catalog.
+  const complete = installed[0].commands.get("workbench").getArgumentCompletions;
+  assert.equal(typeof complete, "function", "/workbench completes arguments.");
+  const values = async (prefix) => (await complete(prefix))?.map((item) => item.value) ?? null;
+  assert.deepEqual(await values("u"), ["use "]);
+  assert.deepEqual(await values("use co"), ["use coding"]);
+  assert.deepEqual(await values("list ga"), ["list game"]);
+  assert.deepEqual(await values("skill ponytail-r"), ["skill ponytail-review"]);
+  assert.equal(await complete("use coding "), null);
   const skills = loader.getSkills();
   assert.deepEqual(skills.diagnostics, []);
   const expected = ["requirements", "game", "analysis", "vision", "manufacturing", "coding", "promo"].map((id) => `wb-${id}`).sort();
   assert.deepEqual(skills.skills.map((skill) => skill.name).sort(), expected, "Discover only the seven routing skills, not all vendor skills.");
   assert(skills.skills.every((skill) => skill.filePath.startsWith(join(root, "skills"))));
-  console.log(JSON.stringify({ ok: true, hostModule: hostSpecifier, registeredCommands: ["workbench"], discoveredSkills: expected, extensionErrors: 0, skillDiagnostics: 0 }, null, 2));
+  console.log(JSON.stringify({ ok: true, hostModule: hostSpecifier, registeredCommands: ["workbench"], argumentCompletion: true, discoveredSkills: expected, extensionErrors: 0, skillDiagnostics: 0 }, null, 2));
 } finally {
   await rm(sandbox, { recursive: true, force: true });
 }

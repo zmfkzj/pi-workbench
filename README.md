@@ -119,6 +119,8 @@ Game UI/UX는 플레이 화면의 HUD·메뉴·입력 설계용이라 `game`에�
 | `/workbench status` | 현재 프로필 확인 |
 | `/workbench doctor` | 로컬 도구·환경변수의 존재 여부 확인 |
 
+Pi 입력창에서 `/workbench ` 뒤에 Tab을 누르면 하위 명령을, `use `·`list `·`skill ` 뒤에서는 `catalog.json`의 프로필(`use`는 `auto`·`off` 포함)과 스킬 ID를 입력한 prefix에 맞춰 제안한다(예: `/workbench use co` → `use coding`, `/workbench skill ponytail-r` → `skill ponytail-review`). 완성은 catalog만 읽고 스킬 본문을 열거나 프로필·세션 상태를 바꾸지 않는다. 이미 완성된 인수 뒤나 인수가 없는 하위 명령 뒤에는 후보를 내지 않는다.
+
 설치된 Pi의 native skill 명령으로 `/skill:wb-requirements`, `/skill:wb-game`, `/skill:wb-analysis`, `/skill:wb-vision`, `/skill:wb-manufacturing`, `/skill:wb-coding`, `/skill:wb-promo`를 직접 선택할 수도 있다.
 
 `list`·`status`·`doctor`·도움말의 출력은 화면 알림으로만 보여 주며 세션에 저장하거나 모델에 보내지 않는다. 대화형(TUI)과 RPC에서 보이며, UI가 없는 print/JSON 모드에서는 표시되지 않는다.
@@ -172,7 +174,7 @@ node scripts/check.mjs
 node --test tests/runtime.test.mjs
 ```
 
-첫 명령은 구성, 프로필↔스킬 소속의 양방향 일치, 라이선스 포함 여부, 모든 원본 파일의 Git blob/SHA-256, 별칭 파일, 로컬 Markdown 참조를 검사한다. 두 번째는 상태·명령·요청별 프로필 안내·작업 중 선택 거부·로딩 경계·호스트 호환·doctor를 검증한다.
+첫 명령은 구성, 프로필↔스킬 소속의 양방향 일치, 라이선스 포함 여부, 모든 원본 파일의 Git blob/SHA-256, 별칭 파일, 로컬 Markdown 참조를 검사한다. 두 번째는 상태·명령·인수 자동완성·요청별 프로필 안내·작업 중 선택 거부·로딩 경계·호스트 호환·doctor를 검증한다.
 
 별도로 설치된 Pi로 실제 리소스 로딩과 세션 동작을 확인할 수 있다. 두 번째는 스크립트 모델(faux)로 연속 요청·분기 전환·reload·auto/off·작업 중 선택에서 모델이 받는 내용을 검사하며 네트워크나 유료 모델을 쓰지 않는다.
 
