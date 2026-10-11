@@ -1,0 +1,785 @@
+{
+  "schemaVersion": 1,
+  "profiles": [
+    {
+      "id": "requirements",
+      "title": "요구사항 도출",
+      "description": "사용자의 목적에서 기능·비기능 요구사항과 수용 기준을 만든다",
+      "skills": [
+        "requirements-elicitation",
+        "problem-solving",
+        "search-first"
+      ],
+      "guidance": "Read the requirements section of docs/WORKFLOWS.ko.md. Elicit user outcomes, functional and nonfunctional requirements, sources, conflicts and acceptance criteria. Unknown metrics remain TBD; do not choose a technology stack unless asked."
+    },
+    {
+      "id": "game",
+      "title": "게임 제작·분석",
+      "description": "레퍼런스 판단, 게임 설계·밸런스·에셋·VFX·사운드·UI",
+      "skills": [
+        "game-design",
+        "problem-solving",
+        "create-game-assets",
+        "game-feel",
+        "game-ui-ux",
+        "fire-smoke-skill-vfx",
+        "imagegen",
+        "sound-effects",
+        "music",
+        "frontend-design",
+        "ui-ux-pro-max",
+        "ponytail",
+        "search-first"
+      ],
+      "guidance": "Read the game section of docs/WORKFLOWS.ko.md and applicable adapter notes. Inspect relevant references and explain what to adopt/avoid. Use the current engine. Validate representative assets at native scale and effects/audio in motion or playback. For implementation start with Ponytail full."
+    },
+    {
+      "id": "analysis",
+      "title": "원인·솔루션·대안 비교",
+      "description": "경쟁 가설·판별 검증·해결책·추천이 바뀌는 조건",
+      "skills": [
+        "problem-solving",
+        "structured-root-cause-research",
+        "game-design",
+        "tao-validate-recipe-transfer",
+        "8d-problem-solving",
+        "verification-before-completion"
+      ],
+      "guidance": "Read the analysis and comparison sections of docs/WORKFLOWS.ko.md. Separate facts, hypotheses and conclusions. Seek a discriminating check, compare distinct interventions after hard constraints, and state evidence gaps and conditions that change the recommendation."
+    },
+    {
+      "id": "vision",
+      "title": "비전 AI 분석",
+      "description": "데이터·라벨·모델·평가·배포를 잇는 진단과 비교",
+      "skills": [
+        "problem-solving",
+        "structured-root-cause-research",
+        "tao-validate-recipe-transfer",
+        "fiftyone-model-evaluation",
+        "find-docs",
+        "property-based-testing"
+      ],
+      "guidance": "Read the vision and comparison sections of docs/WORKFLOWS.ko.md. Check capture, labels, split leakage, preprocessing, model, threshold and deployment parity. Compare FP/FN slices on locked evaluation data under equal conditions before recommending retraining."
+    },
+    {
+      "id": "manufacturing",
+      "title": "제조업 SW 분석",
+      "description": "발생 원인·검출 실패·측정 신뢰성·현장 개선",
+      "skills": [
+        "problem-solving",
+        "structured-root-cause-research",
+        "8d-problem-solving",
+        "dmaic"
+      ],
+      "guidance": "Read the manufacturing and comparison sections of docs/WORKFLOWS.ko.md. Separate occurrence from escape and process/sensor/software failures. Verify timestamps, units, calibration and measurement reliability before causal claims. Scale 8D/DMAIC to the task."
+    },
+    {
+      "id": "coding",
+      "title": "코딩·리뷰·검증",
+      "description": "Ponytail 중심의 재사용·문서 조회·UI·구조 검색·테스트",
+      "skills": [
+        "ponytail",
+        "search-first",
+        "find-docs",
+        "ponytail-review",
+        "frontend-design",
+        "ui-ux-pro-max",
+        "vercel-react-best-practices",
+        "ast-grep",
+        "ast-grep-outline",
+        "structured-root-cause-research",
+        "verification-before-completion",
+        "property-based-testing"
+      ],
+      "guidance": "Read the coding section of docs/WORKFLOWS.ko.md. Default to Ponytail full and lightweight ECC search-first. Read current callers and tests, honor the existing stack, make the smallest complete change, and verify concrete risks. Load specialized skills only when relevant."
+    },
+    {
+      "id": "promo",
+      "title": "홍보 스틸·배너·영상",
+      "description": "실제 게임의 장점을 전달하는 이미지·음향·영상 제작",
+      "skills": [
+        "create-game-assets",
+        "imagegen",
+        "frontend-design",
+        "ui-ux-pro-max",
+        "sound-effects",
+        "music",
+        "video-director"
+      ],
+      "guidance": "Read the promo section of docs/WORKFLOWS.ko.md and provider adapters. Establish audience, channel, dimensions, safe areas, message and rights. Use actual gameplay for gameplay claims. Render, inspect and listen when tools exist; clearly label brief-only or unverified outputs."
+    }
+  ],
+  "skills": [
+    {
+      "id": "requirements-elicitation",
+      "name": "Requirements Elicitation",
+      "description": "사용자 목적에서 기능·비기능 요구사항, 충돌, 수용 기준을 도출",
+      "profiles": [
+        "requirements"
+      ],
+      "path": "vendor/requirements/skills/by-role/business-analyst/requirements-elicitation/SKILL.md",
+      "notes": [
+        "기술 스택 선정은 별도 요청일 때만 한다. NFR 목표값은 출처가 없으면 TBD로 둔다.",
+        "원문의 최소 3개 기법·24시간·워크숍 절차는 작업 규모와 이미 받은 정보에 맞춘다."
+      ],
+      "dependencies": [],
+      "sourceId": "requirements",
+      "sourcePath": "skills/by-role/business-analyst/requirements-elicitation",
+      "source": {
+        "repository": "qa-aman/claude-skills",
+        "path": "skills/by-role/business-analyst/requirements-elicitation/SKILL.md",
+        "commit": "72ef27fe4fe791363be7c811a16c25ffaa6ea9c0",
+        "license": "MIT",
+        "url": "https://github.com/qa-aman/claude-skills/blob/72ef27fe4fe791363be7c811a16c25ffaa6ea9c0/skills/by-role/business-analyst/requirements-elicitation/SKILL.md"
+      }
+    },
+    {
+      "id": "problem-solving",
+      "name": "Problem Solving",
+      "description": "문제 정의, 근거 수집, 원인과 해결책·대안 비교",
+      "profiles": [
+        "analysis",
+        "requirements",
+        "game",
+        "vision",
+        "manufacturing"
+      ],
+      "path": "vendor/problem-solving/skills/problem-solving/SKILL.md",
+      "notes": [
+        "난이도에 맞는 참조만 읽는다. 필수 제약을 먼저 걸러내고 효과·비용·가역성·불확실성을 비교한다."
+      ],
+      "dependencies": [],
+      "sourceId": "problem-solving",
+      "sourcePath": "skills/problem-solving",
+      "source": {
+        "repository": "schattenspiegel/skill-foundry-skills",
+        "path": "skills/problem-solving/SKILL.md",
+        "commit": "d09a0109b081d9e350c2e48e8e8d8282da5976b8",
+        "license": "MIT",
+        "url": "https://github.com/schattenspiegel/skill-foundry-skills/blob/d09a0109b081d9e350c2e48e8e8d8282da5976b8/skills/problem-solving/SKILL.md"
+      }
+    },
+    {
+      "id": "structured-root-cause-research",
+      "name": "Structured Root Cause Research",
+      "description": "증거와 반증 가능한 경쟁 가설로 재발·간헐 문제를 진단",
+      "profiles": [
+        "analysis",
+        "vision",
+        "manufacturing",
+        "coding"
+      ],
+      "path": "vendor/root-cause/SKILL.md",
+      "notes": [
+        "관찰·가정·추론을 구분한다. 5 Why의 단계 수나 단일 원인을 강제하지 않는다."
+      ],
+      "dependencies": [],
+      "sourceId": "root-cause",
+      "sourcePath": "",
+      "source": {
+        "repository": "meiiie/structured-root-cause-research-skill",
+        "path": "SKILL.md",
+        "commit": "bf2b7ef2277d72ac5cca59929f15c10b0c808bfd",
+        "license": "MIT",
+        "url": "https://github.com/meiiie/structured-root-cause-research-skill/blob/bf2b7ef2277d72ac5cca59929f15c10b0c808bfd/SKILL.md"
+      }
+    },
+    {
+      "id": "game-design",
+      "name": "Game Design",
+      "description": "게임 루프·시스템·UX·밸런스 방향을 비평하고 대안을 설계",
+      "profiles": [
+        "game",
+        "analysis"
+      ],
+      "path": "vendor/game-design/skills/productivity/game-design/SKILL.md",
+      "notes": [
+        "Claude 전용 wire/hook 설정은 Pi에 적용하지 않는다.",
+        "저자의 디자인 선호를 보편 법칙으로 취급하지 않는다. 최신 게임 레퍼런스는 별도 검색·열람이 필요하다."
+      ],
+      "dependencies": [],
+      "sourceId": "game-design",
+      "sourcePath": "skills/productivity/game-design",
+      "source": {
+        "repository": "saschb2b/skills",
+        "path": "skills/productivity/game-design/SKILL.md",
+        "commit": "007d499932facd683aae4775dc0d341dca91e53b",
+        "license": "MIT",
+        "url": "https://github.com/saschb2b/skills/blob/007d499932facd683aae4775dc0d341dca91e53b/skills/productivity/game-design/SKILL.md"
+      }
+    },
+    {
+      "id": "tao-validate-recipe-transfer",
+      "name": "NVIDIA TAO Recipe Transfer",
+      "description": "비전 모델의 데이터·전처리·학습·평가·배포 차이를 진단",
+      "profiles": [
+        "vision",
+        "analysis"
+      ],
+      "path": "vendor/tao/skills/applications/tao-validate-recipe-transfer/SKILL.md",
+      "notes": [
+        "고정 정확도 차이·표본 수·한 배치 과적합 기준을 모든 모델의 합격선으로 적용하지 않는다.",
+        "분석만 요청했다면 학습·GPU 작업을 자동 시작하지 않는다."
+      ],
+      "dependencies": [
+        "진단 스크립트: Python 3, NumPy, Pillow",
+        "실제 모델 실행: 대상 프로젝트의 프레임워크·모델·데이터·연산 환경"
+      ],
+      "sourceId": "tao",
+      "sourcePath": "skills/applications/tao-validate-recipe-transfer",
+      "source": {
+        "repository": "NVIDIA-TAO/tao-skill-bank",
+        "path": "skills/applications/tao-validate-recipe-transfer/SKILL.md",
+        "commit": "6e022786ab6afe8aa41c877e0d6c9fd391a38fda",
+        "license": "Apache-2.0",
+        "url": "https://github.com/NVIDIA-TAO/tao-skill-bank/blob/6e022786ab6afe8aa41c877e0d6c9fd391a38fda/skills/applications/tao-validate-recipe-transfer/SKILL.md"
+      }
+    },
+    {
+      "id": "fiftyone-model-evaluation",
+      "name": "FiftyOne Model Evaluation",
+      "description": "FP/FN·오류 구간과 모델 간 차이를 실제 데이터에서 확인",
+      "profiles": [
+        "vision"
+      ],
+      "path": "vendor/fiftyone/skills/fiftyone-model-evaluation/SKILL.md",
+      "notes": [
+        "GT·prediction 필드와 평가 조건을 확인한다. 오류 상관관계만으로 원인을 확정하지 않는다.",
+        "MCP/plugin 설치 및 앱 시작·종료를 확장 설치 단계에서 실행하지 않는다."
+      ],
+      "dependencies": [
+        "FiftyOne SDK와 데이터셋 또는 사용 가능한 FiftyOne MCP/evaluation 플러그인"
+      ],
+      "sourceId": "fiftyone",
+      "sourcePath": "skills/fiftyone-model-evaluation",
+      "source": {
+        "repository": "voxel51/fiftyone-skills",
+        "path": "skills/fiftyone-model-evaluation/SKILL.md",
+        "commit": "8b87befcce6cfb86e73b4ccc1f692a0a2b6a4218",
+        "license": "Apache-2.0",
+        "url": "https://github.com/voxel51/fiftyone-skills/blob/8b87befcce6cfb86e73b4ccc1f692a0a2b6a4218/skills/fiftyone-model-evaluation/SKILL.md"
+      }
+    },
+    {
+      "id": "8d-problem-solving",
+      "name": "8D Problem Solving",
+      "description": "제조 문제의 발생 원인·검출 실패·임시 조치·영구 조치를 분리",
+      "profiles": [
+        "manufacturing",
+        "analysis"
+      ],
+      "path": "vendor/quality-engineering/skills/problem-solving/8d-problem-solving/SKILL.md",
+      "notes": [
+        "현물 격리·고객 통지·승인·현장 검증을 수행한 것처럼 보고하지 않는다.",
+        "프로세스·센서·SW 문제를 증거로 분리하고 작업 규모에 맞춰 8D를 축약한다."
+      ],
+      "dependencies": [],
+      "sourceId": "quality-engineering",
+      "sourcePath": "skills/problem-solving/8d-problem-solving",
+      "source": {
+        "repository": "RBraga01/Quality-Engineering-Skills",
+        "path": "skills/problem-solving/8d-problem-solving/SKILL.md",
+        "commit": "70df27cbd6a5ad6808499e934d2c72be4f8bef1e",
+        "license": "MIT",
+        "url": "https://github.com/RBraga01/Quality-Engineering-Skills/blob/70df27cbd6a5ad6808499e934d2c72be4f8bef1e/skills/problem-solving/8d-problem-solving/SKILL.md"
+      }
+    },
+    {
+      "id": "dmaic",
+      "name": "DMAIC",
+      "description": "측정 체계와 기준선을 확인하고 개선 실험·관리 계획을 수립",
+      "profiles": [
+        "manufacturing"
+      ],
+      "path": "vendor/quality-engineering/skills/problem-solving/dmaic/SKILL.md",
+      "notes": [
+        "Cpk·GRR·표본 수·기간의 예시 기준을 일반 SW에 그대로 적용하지 않는다.",
+        "측정 불확실성과 공정 조건을 먼저 검증한다."
+      ],
+      "dependencies": [],
+      "sourceId": "quality-engineering",
+      "sourcePath": "skills/problem-solving/dmaic",
+      "source": {
+        "repository": "RBraga01/Quality-Engineering-Skills",
+        "path": "skills/problem-solving/dmaic/SKILL.md",
+        "commit": "70df27cbd6a5ad6808499e934d2c72be4f8bef1e",
+        "license": "MIT",
+        "url": "https://github.com/RBraga01/Quality-Engineering-Skills/blob/70df27cbd6a5ad6808499e934d2c72be4f8bef1e/skills/problem-solving/dmaic/SKILL.md"
+      }
+    },
+    {
+      "id": "create-game-assets",
+      "name": "Create Game Assets",
+      "description": "아트 방향부터 대표 에셋·일관된 묶음·엔진 import와 시각 검수",
+      "profiles": [
+        "game",
+        "promo"
+      ],
+      "path": "vendor/gamedev/skills/disciplines/create-game-assets/SKILL.md",
+      "notes": [
+        "레퍼런스 출처와 사용 권리, 생성/수정 이력을 기록한다. 실제 표시 크기와 엔진 화면으로 검수한다."
+      ],
+      "dependencies": [
+        "이미지·3D 생성 도구는 별도 연결",
+        "래스터 검수 스크립트: Python 3.10+, Pillow"
+      ],
+      "sourceId": "gamedev",
+      "sourcePath": "skills/disciplines/create-game-assets",
+      "source": {
+        "repository": "gamedev-skills/awesome-gamedev-agent-skills",
+        "path": "skills/disciplines/create-game-assets/SKILL.md",
+        "commit": "0a70cfc64672d512c5b5b6006b5dcb5cf90dbdbd",
+        "license": "Apache-2.0",
+        "url": "https://github.com/gamedev-skills/awesome-gamedev-agent-skills/blob/0a70cfc64672d512c5b5b6006b5dcb5cf90dbdbd/skills/disciplines/create-game-assets/SKILL.md"
+      }
+    },
+    {
+      "id": "game-feel",
+      "name": "Game Feel",
+      "description": "히트스톱·카메라·타격·전환·소리 피드백 설계 및 튜닝",
+      "profiles": [
+        "game"
+      ],
+      "path": "vendor/gamedev/skills/disciplines/game-feel/SKILL.md",
+      "notes": [
+        "실제 엔진의 프레임·물리·입력 특성을 따른다. 정지 이미지로 움직임 품질을 검증했다고 하지 않는다."
+      ],
+      "dependencies": [
+        "대상 게임 엔진과 플레이·화면 캡처 환경"
+      ],
+      "sourceId": "gamedev",
+      "sourcePath": "skills/disciplines/game-feel",
+      "source": {
+        "repository": "gamedev-skills/awesome-gamedev-agent-skills",
+        "path": "skills/disciplines/game-feel/SKILL.md",
+        "commit": "0a70cfc64672d512c5b5b6006b5dcb5cf90dbdbd",
+        "license": "Apache-2.0",
+        "url": "https://github.com/gamedev-skills/awesome-gamedev-agent-skills/blob/0a70cfc64672d512c5b5b6006b5dcb5cf90dbdbd/skills/disciplines/game-feel/SKILL.md"
+      }
+    },
+    {
+      "id": "game-ui-ux",
+      "name": "Game UI/UX",
+      "description": "HUD·메뉴·입력 탐색·가독성·접근성·반응형 게임 UI",
+      "profiles": [
+        "game",
+        "promo"
+      ],
+      "path": "vendor/gamedev/skills/disciplines/game-ui-ux/SKILL.md",
+      "notes": [
+        "해상도·안전 영역·패드/키보드 입력을 실제 런타임에서 확인한다."
+      ],
+      "dependencies": [
+        "대상 엔진 또는 UI 런타임"
+      ],
+      "sourceId": "gamedev",
+      "sourcePath": "skills/disciplines/game-ui-ux",
+      "source": {
+        "repository": "gamedev-skills/awesome-gamedev-agent-skills",
+        "path": "skills/disciplines/game-ui-ux/SKILL.md",
+        "commit": "0a70cfc64672d512c5b5b6006b5dcb5cf90dbdbd",
+        "license": "Apache-2.0",
+        "url": "https://github.com/gamedev-skills/awesome-gamedev-agent-skills/blob/0a70cfc64672d512c5b5b6006b5dcb5cf90dbdbd/skills/disciplines/game-ui-ux/SKILL.md"
+      }
+    },
+    {
+      "id": "imagegen",
+      "name": "OpenAI Image Generation",
+      "description": "컨셉·스프라이트·텍스처·홍보 스틸컷·배너 제작",
+      "profiles": [
+        "game",
+        "promo"
+      ],
+      "path": "vendor/codex-imagegen/codex-rs/skills/src/assets/samples/imagegen/SKILL.md",
+      "notes": [
+        "Pi에는 Codex image_gen이 자동으로 생기지 않는다. 사용자가 연결한 생성 도구 또는 선택한 API 경로만 쓴다.",
+        "미설정이면 브리프·프롬프트를 완성하고 실제 생성 여부를 명확히 표시한다. 임의 API 비용을 발생시키지 않는다."
+      ],
+      "dependencies": [
+        "호스트의 이미지 생성 도구 또는 Python openai SDK·OPENAI_API_KEY (API 경로 선택 시)"
+      ],
+      "sourceId": "codex-imagegen",
+      "sourcePath": "codex-rs/skills/src/assets/samples/imagegen",
+      "source": {
+        "repository": "openai/codex",
+        "path": "codex-rs/skills/src/assets/samples/imagegen/SKILL.md",
+        "commit": "a07c8ebd57feedc4cf5dfe854c8e9101de54186b",
+        "license": "Apache-2.0",
+        "url": "https://github.com/openai/codex/blob/a07c8ebd57feedc4cf5dfe854c8e9101de54186b/codex-rs/skills/src/assets/samples/imagegen/SKILL.md"
+      }
+    },
+    {
+      "id": "sound-effects",
+      "name": "ElevenLabs Sound Effects",
+      "description": "타격음·환경음·UI 음향·루프 SFX 제작",
+      "profiles": [
+        "game",
+        "promo"
+      ],
+      "path": "vendor/elevenlabs/sound-effects/SKILL.md",
+      "notes": [
+        "스킬의 shell 설치 예제를 자동 실행하지 않는다. 가능하면 이미 설치한 CLI/SDK를 이용한다.",
+        "파형·파일 생성만으로 청취 검수를 대체하지 않는다."
+      ],
+      "dependencies": [
+        "ElevenLabs CLI/SDK·인증·사용 가능한 계정 한도"
+      ],
+      "sourceId": "elevenlabs",
+      "sourcePath": "sound-effects",
+      "source": {
+        "repository": "elevenlabs/skills",
+        "path": "sound-effects/SKILL.md",
+        "commit": "1d08a4a250cff67cc8056ec31587c031ecb06d2f",
+        "license": "MIT",
+        "url": "https://github.com/elevenlabs/skills/blob/1d08a4a250cff67cc8056ec31587c031ecb06d2f/sound-effects/SKILL.md"
+      }
+    },
+    {
+      "id": "music",
+      "name": "ElevenLabs Music",
+      "description": "게임 BGM·루프·구간별 구성·홍보 음악 제작",
+      "profiles": [
+        "game",
+        "promo"
+      ],
+      "path": "vendor/elevenlabs/music/SKILL.md",
+      "notes": [
+        "서비스 플랜·권리 조건과 프로젝트 예산을 확인한다. 사용 가능한 인증을 선택하며 비밀값을 출력하지 않는다."
+      ],
+      "dependencies": [
+        "ElevenLabs 음악 기능이 가능한 계정·CLI/SDK·인증"
+      ],
+      "sourceId": "elevenlabs",
+      "sourcePath": "music",
+      "source": {
+        "repository": "elevenlabs/skills",
+        "path": "music/SKILL.md",
+        "commit": "1d08a4a250cff67cc8056ec31587c031ecb06d2f",
+        "license": "MIT",
+        "url": "https://github.com/elevenlabs/skills/blob/1d08a4a250cff67cc8056ec31587c031ecb06d2f/music/SKILL.md"
+      }
+    },
+    {
+      "id": "video-director",
+      "name": "Video Director",
+      "description": "게임 footage를 트레일러·가로/세로 홍보 영상으로 편집·렌더링",
+      "profiles": [
+        "promo"
+      ],
+      "path": "vendor/video-director/video-director/SKILL.md",
+      "notes": [
+        "실제 영상 소스의 편집·렌더링 워크플로다. 텍스트만으로 영상 생성 모델이 연결되는 것은 아니다.",
+        "HyperFrames 및 관련 스킬을 자동 설치하지 않는다. 예제 미디어는 번들에 포함하지 않는다."
+      ],
+      "dependencies": [
+        "Node 22+, FFmpeg/ffprobe",
+        "Python: numpy, fonttools, brotli",
+        "HyperFrames와 해당 제작·렌더링 환경 (별도 설정)"
+      ],
+      "sourceId": "video-director",
+      "sourcePath": "video-director",
+      "source": {
+        "repository": "DotanVG/video-director-skill",
+        "path": "video-director/SKILL.md",
+        "commit": "59d5909fca60166c430aa43811c6fb389d490e3b",
+        "license": "MIT",
+        "url": "https://github.com/DotanVG/video-director-skill/blob/59d5909fca60166c430aa43811c6fb389d490e3b/video-director/SKILL.md"
+      }
+    },
+    {
+      "id": "fire-smoke-skill-vfx",
+      "name": "Fire & Smoke VFX",
+      "description": "화염·연기·열왜곡·블룸의 구현 모듈·데모·품질 기준",
+      "profiles": [
+        "game"
+      ],
+      "path": "vendor/vfx/agent-skills/game-combat/fire-smoke-skill-vfx/SKILL.md",
+      "notes": [
+        "Three.js r170/WebGL2/GLSL에 특화됐다. Unity·Godot·Unreal에는 구현을 그대로 복사하지 않는다."
+      ],
+      "dependencies": [
+        "Three.js·WebGL2 런타임 (적합한 프로젝트에서만)"
+      ],
+      "sourceId": "vfx",
+      "sourcePath": "agent-skills/game-combat/fire-smoke-skill-vfx",
+      "source": {
+        "repository": "MengTo/Skills",
+        "path": "agent-skills/game-combat/fire-smoke-skill-vfx/SKILL.md",
+        "commit": "83a47fee32f0b6349bff1fede99257a5ef03dc93",
+        "license": "MIT",
+        "url": "https://github.com/MengTo/Skills/blob/83a47fee32f0b6349bff1fede99257a5ef03dc93/agent-skills/game-combat/fire-smoke-skill-vfx/SKILL.md"
+      }
+    },
+    {
+      "id": "ponytail",
+      "name": "Ponytail 5 — Full",
+      "description": "기존 패턴·플랫폼·의존성을 활용해 가장 작은 완결된 코드 변경",
+      "profiles": [
+        "coding",
+        "game"
+      ],
+      "path": "vendor/ponytail/skills/ponytail/SKILL.md",
+      "notes": [
+        "full을 기본으로 한다. 기존 동작·검증·접근성·보안·사용자 요구를 보존한다.",
+        "활성 범위는 Workbench 프로필 또는 명시한 다음 요청이다. 원문의 세션 지속 규칙이 선택 범위를 확장하지 않는다."
+      ],
+      "dependencies": [],
+      "sourceId": "ponytail",
+      "sourcePath": "skills/ponytail",
+      "source": {
+        "repository": "DietrichGebert/ponytail",
+        "path": "skills/ponytail/SKILL.md",
+        "commit": "9b58c1ffb790c075ca32e70a89cf1d80588f4abf",
+        "license": "MIT",
+        "url": "https://github.com/DietrichGebert/ponytail/blob/9b58c1ffb790c075ca32e70a89cf1d80588f4abf/skills/ponytail/SKILL.md"
+      }
+    },
+    {
+      "id": "ponytail-review",
+      "name": "Ponytail Review",
+      "description": "코드 변경 없이 불필요한 복잡성·간소화 가능성과 위험을 리뷰",
+      "profiles": [
+        "coding"
+      ],
+      "path": "vendor/ponytail/skills/ponytail-review/SKILL.md",
+      "notes": [
+        "사용자가 요구한 언어로 보고한다. 리뷰 요청을 코드 수정 권한으로 해석하지 않는다."
+      ],
+      "dependencies": [],
+      "sourceId": "ponytail",
+      "sourcePath": "skills/ponytail-review",
+      "source": {
+        "repository": "DietrichGebert/ponytail",
+        "path": "skills/ponytail-review/SKILL.md",
+        "commit": "9b58c1ffb790c075ca32e70a89cf1d80588f4abf",
+        "license": "MIT",
+        "url": "https://github.com/DietrichGebert/ponytail/blob/9b58c1ffb790c075ca32e70a89cf1d80588f4abf/skills/ponytail-review/SKILL.md"
+      }
+    },
+    {
+      "id": "search-first",
+      "name": "ECC Search First",
+      "description": "기존 코드·표준 기능·설치된 패키지·오픈소스를 먼저 조사",
+      "profiles": [
+        "coding",
+        "game",
+        "requirements"
+      ],
+      "path": "vendor/ecc/skills/search-first/SKILL.md",
+      "notes": [
+        "현재 호스트에 실제로 있는 검색·서브에이전트 도구와 경로만 사용한다.",
+        "작은 변경에는 가벼운 검색만 한다. 패키지 채택 시 유지보수·라이선스·추가 의존성을 함께 판단한다."
+      ],
+      "dependencies": [
+        "최신 외부 조사에는 웹/문서 검색 수단·네트워크"
+      ],
+      "sourceId": "ecc",
+      "sourcePath": "skills/search-first",
+      "source": {
+        "repository": "affaan-m/ECC",
+        "path": "skills/search-first/SKILL.md",
+        "commit": "8ce348fbea0d66f5c49c7b35e8ba8bb143b15132",
+        "license": "MIT",
+        "url": "https://github.com/affaan-m/ECC/blob/8ce348fbea0d66f5c49c7b35e8ba8bb143b15132/skills/search-first/SKILL.md"
+      }
+    },
+    {
+      "id": "frontend-design",
+      "name": "Anthropic Frontend Design",
+      "description": "분명한 미술 방향과 타이포·레이아웃·인터랙션을 갖춘 웹 UI",
+      "profiles": [
+        "coding",
+        "game",
+        "promo"
+      ],
+      "path": "vendor/anthropic-skills/skills/frontend-design/SKILL.md",
+      "notes": [
+        "실제 UI 런타임·기존 디자인 시스템·접근성을 우선한다. 시각 검수가 없으면 미검증으로 보고한다."
+      ],
+      "dependencies": [
+        "대상 프런트엔드 런타임·가능하면 브라우저 캡처"
+      ],
+      "sourceId": "anthropic-skills",
+      "sourcePath": "skills/frontend-design",
+      "source": {
+        "repository": "anthropics/skills",
+        "path": "skills/frontend-design/SKILL.md",
+        "commit": "dbd4588f9e1033efb41dad4bef2f7947c8993d44",
+        "license": "Apache-2.0",
+        "url": "https://github.com/anthropics/skills/blob/dbd4588f9e1033efb41dad4bef2f7947c8993d44/skills/frontend-design/SKILL.md"
+      }
+    },
+    {
+      "id": "ui-ux-pro-max",
+      "name": "UI UX Pro Max",
+      "description": "로컬 디자인 데이터에서 스타일·색상·폰트·UX 가이드를 검색",
+      "profiles": [
+        "coding",
+        "game",
+        "promo"
+      ],
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/SKILL.md",
+      "notes": [
+        "CLAUDE_PLUGIN_ROOT가 있다고 가정하지 않는다. 이 스킬의 Base directory/scripts/search.py를 실행한다.",
+        "로컬 CSV 검색은 최신 외부 레퍼런스 조사를 대신하지 않는다."
+      ],
+      "dependencies": [
+        "Python 3 (검색 스크립트는 표준 라이브러리)"
+      ],
+      "sourceId": "ui-ux-pro-max",
+      "sourcePath": ".claude/skills/ui-ux-pro-max",
+      "source": {
+        "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+        "path": ".claude/skills/ui-ux-pro-max/SKILL.md",
+        "commit": "67803eac81607188194aea9842a723b89326d90d",
+        "license": "MIT",
+        "url": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/blob/67803eac81607188194aea9842a723b89326d90d/.claude/skills/ui-ux-pro-max/SKILL.md"
+      }
+    },
+    {
+      "id": "vercel-react-best-practices",
+      "name": "Vercel React Best Practices",
+      "description": "React·Next.js의 성능·데이터 로딩·렌더링 패턴 검토",
+      "profiles": [
+        "coding"
+      ],
+      "path": "vendor/vercel/skills/react-best-practices/SKILL.md",
+      "notes": [
+        "React/Next.js 프로젝트에만 적용한다. 실제 버전·측정 결과·현재 패턴과 맞는 규칙을 선택한다."
+      ],
+      "dependencies": [],
+      "sourceId": "vercel",
+      "sourcePath": "skills/react-best-practices",
+      "source": {
+        "repository": "vercel-labs/agent-skills",
+        "path": "skills/react-best-practices/SKILL.md",
+        "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+        "license": "MIT",
+        "url": "https://github.com/vercel-labs/agent-skills/blob/063bee94c3f4df8453406c830b0a7df0f2860278/skills/react-best-practices/SKILL.md"
+      }
+    },
+    {
+      "id": "find-docs",
+      "name": "Context7 Find Docs",
+      "description": "사용 중인 라이브러리와 버전에 맞는 문서·예제를 조회",
+      "profiles": [
+        "coding",
+        "vision"
+      ],
+      "path": "vendor/context7/skills/find-docs/SKILL.md",
+      "notes": [
+        "Pi 전용 Context7 도구를 자동 제공하지 않는다. 실제 사용 가능한 MCP 또는 CLI 경로를 이용한다.",
+        "이미 설치한 CLI를 우선한다. 네트워크 조회 실패를 성공처럼 보고하지 않는다."
+      ],
+      "dependencies": [
+        "Context7 MCP 또는 ctx7 CLI/Node·네트워크; 인증은 구성에 따라 필요"
+      ],
+      "sourceId": "context7",
+      "sourcePath": "skills/find-docs",
+      "source": {
+        "repository": "upstash/context7",
+        "path": "skills/find-docs/SKILL.md",
+        "commit": "522c4db4fa2e1e31f1b320f09fa8c8fab376987a",
+        "license": "MIT",
+        "url": "https://github.com/upstash/context7/blob/522c4db4fa2e1e31f1b320f09fa8c8fab376987a/skills/find-docs/SKILL.md"
+      }
+    },
+    {
+      "id": "ast-grep",
+      "name": "ast-grep",
+      "description": "구문 트리 패턴으로 코드 구조를 검색·검증",
+      "profiles": [
+        "coding"
+      ],
+      "path": "vendor/ast-grep/ast-grep/skills/ast-grep/SKILL.md",
+      "notes": [
+        "타입 분석·호출 그래프를 제공한다고 가정하지 않는다. 제안한 구조 규칙을 작은 예제에서 확인한다."
+      ],
+      "dependencies": [
+        "ast-grep CLI"
+      ],
+      "sourceId": "ast-grep",
+      "sourcePath": "ast-grep/skills/ast-grep",
+      "source": {
+        "repository": "ast-grep/agent-skill",
+        "path": "ast-grep/skills/ast-grep/SKILL.md",
+        "commit": "f2175aff21f20cfb8e2db30c28febeb3a2d42b61",
+        "license": "MIT",
+        "url": "https://github.com/ast-grep/agent-skill/blob/f2175aff21f20cfb8e2db30c28febeb3a2d42b61/ast-grep/skills/ast-grep/SKILL.md"
+      }
+    },
+    {
+      "id": "ast-grep-outline",
+      "name": "ast-grep Outline",
+      "description": "큰 파일의 구조를 압축해서 살피고 필요한 코드만 선택",
+      "profiles": [
+        "coding"
+      ],
+      "path": "vendor/ast-grep/ast-grep/skills/outline/SKILL.md",
+      "notes": [
+        "설치된 CLI의 outline 지원을 먼저 확인한다. 미지원이면 기존 검색·읽기로 진행한다."
+      ],
+      "dependencies": [
+        "outline 명령을 지원하는 ast-grep CLI"
+      ],
+      "sourceId": "ast-grep",
+      "sourcePath": "ast-grep/skills/outline",
+      "source": {
+        "repository": "ast-grep/agent-skill",
+        "path": "ast-grep/skills/outline/SKILL.md",
+        "commit": "f2175aff21f20cfb8e2db30c28febeb3a2d42b61",
+        "license": "MIT",
+        "url": "https://github.com/ast-grep/agent-skill/blob/f2175aff21f20cfb8e2db30c28febeb3a2d42b61/ast-grep/skills/outline/SKILL.md"
+      }
+    },
+    {
+      "id": "verification-before-completion",
+      "name": "Superpowers Verification Before Completion",
+      "description": "완료·수정 성공 주장에 대응하는 실제 검증 근거 확인",
+      "profiles": [
+        "coding",
+        "analysis"
+      ],
+      "path": "vendor/superpowers/skills/verification-before-completion/SKILL.md",
+      "notes": [
+        "의미 있는 검증을 선택하고 결과의 실행 여부를 구분한다. 사소한 변경마다 전체 테스트를 강제하지 않는다."
+      ],
+      "dependencies": [],
+      "sourceId": "superpowers",
+      "sourcePath": "skills/verification-before-completion",
+      "source": {
+        "repository": "obra/superpowers",
+        "path": "skills/verification-before-completion/SKILL.md",
+        "commit": "bb92a77741419a4ab5f06e711a283343f1ada0c3",
+        "license": "MIT",
+        "url": "https://github.com/obra/superpowers/blob/bb92a77741419a4ab5f06e711a283343f1ada0c3/skills/verification-before-completion/SKILL.md"
+      }
+    },
+    {
+      "id": "property-based-testing",
+      "name": "Trail of Bits Property-Based Testing",
+      "description": "좌표 변환·파서·직렬화·경계 조건의 불변식과 반례를 검사",
+      "profiles": [
+        "coding",
+        "vision"
+      ],
+      "path": "vendor/property-testing/plugins/property-based-testing/skills/property-based-testing/SKILL.md",
+      "notes": [
+        "원본은 CC-BY-SA-4.0이며 이 번들의 MIT 코드와 별도다.",
+        "불변식이 실질적인 위험을 줄이는 경우 선택한다. 기존 테스트 도구를 존중한다."
+      ],
+      "dependencies": [
+        "대상 언어의 속성 기반 테스트 라이브러리 (예: Hypothesis, fast-check)"
+      ],
+      "sourceId": "property-testing",
+      "sourcePath": "plugins/property-based-testing/skills/property-based-testing",
+      "source": {
+        "repository": "trailofbits/skills",
+        "path": "plugins/property-based-testing/skills/property-based-testing/SKILL.md",
+        "commit": "442fc9d6c89b1e937e6f7a477e7071ea75fcbea4",
+        "license": "CC-BY-SA-4.0",
+        "url": "https://github.com/trailofbits/skills/blob/442fc9d6c89b1e937e6f7a477e7071ea75fcbea4/plugins/property-based-testing/skills/property-based-testing/SKILL.md"
+      }
+    }
+  ]
+}

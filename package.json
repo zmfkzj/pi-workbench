@@ -1,0 +1,60 @@
+{
+  "name": "pi-workbench",
+  "version": "0.1.0",
+  "description": "On-demand requirements, game, vision AI, manufacturing, coding and promotional media skills for Pi.",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zmfkzj/pi-workbench.git"
+  },
+  "homepage": "https://github.com/zmfkzj/pi-workbench#readme",
+  "bugs": {
+    "url": "https://github.com/zmfkzj/pi-workbench/issues"
+  },
+  "keywords": [
+    "pi-package",
+    "skills",
+    "requirements",
+    "game-development",
+    "vision-ai"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "files": [
+    "index.js",
+    "lib",
+    "skills",
+    "vendor",
+    "docs",
+    "scripts",
+    "tests",
+    "SKILL.md",
+    "README.md",
+    "LICENSE",
+    "THIRD_PARTY_NOTICES.md",
+    "catalog.json",
+    "sources.json",
+    "sources.lock.json",
+    "vendor-integrity.json"
+  ],
+  "scripts": {
+    "check": "node scripts/check.mjs",
+    "test": "node --test tests/runtime.test.mjs",
+    "vendor": "python3 scripts/vendor_sources.py"
+  },
+  "pi": {
+    "extensions": [
+      "./index.js"
+    ],
+    "skills": [
+      "./skills"
+    ]
+  },
+  "omp": {
+    "extensions": [
+      "./index.js"
+    ]
+  }
+}

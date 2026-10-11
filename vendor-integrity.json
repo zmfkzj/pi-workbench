@@ -1,0 +1,2126 @@
+{
+  "schemaVersion": 1,
+  "files": [
+    {
+      "path": "vendor/anthropic-skills/skills/frontend-design/LICENSE.txt",
+      "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594",
+      "bytes": 10174,
+      "gitBlob": "f433b1a53f5b830a205fd2df78e2b34974656c7b"
+    },
+    {
+      "path": "vendor/anthropic-skills/skills/frontend-design/SKILL.md",
+      "sha256": "d91970639e9f5c37682ac7ab60094d35f1c7c1f38d731bd56396563aee10c1d3",
+      "bytes": 9390,
+      "gitBlob": "a5333457c414d20d625f307df945842c0952ecc3"
+    },
+    {
+      "path": "vendor/ast-grep/README.md",
+      "sha256": "9a10d494166c6a509ea83066b844d0d6c4a8069a33d802abfe5e2752f7f4ed54",
+      "bytes": 8891,
+      "gitBlob": "1321f5e9c1e7379354a706d798da03c98aee31a0"
+    },
+    {
+      "path": "vendor/ast-grep/ast-grep/.claude-plugin/plugin.json",
+      "sha256": "d2b28ae79c84b18e085c3da552a9dd5f480be264ddaf8e9dd74e3c657f2077dc",
+      "bytes": 653,
+      "gitBlob": "252b69c4c7e45481af8dd769fed0d8af60be80f8"
+    },
+    {
+      "path": "vendor/ast-grep/ast-grep/skills/ast-grep/SKILL.md",
+      "sha256": "a18b68ab555758b85915937cf252d70b0261f930a07ce52095e7cafbbd304782",
+      "bytes": 11030,
+      "gitBlob": "1c6e3afd2887aba4f24317c03f776c013086abc2"
+    },
+    {
+      "path": "vendor/ast-grep/ast-grep/skills/ast-grep/references/rule_reference.md",
+      "sha256": "9f6d2ba2f2dbde059f61f426c262abe943f548984496962c43c7cc6e44813ad6",
+      "bytes": 10697,
+      "gitBlob": "9821e35ff253f6a0d709918af20215165e9b1adf"
+    },
+    {
+      "path": "vendor/ast-grep/ast-grep/skills/outline/SKILL.md",
+      "sha256": "e403fca295ad403bad60bbde1ffa320095cba60f99d09bda5c83a224da8b6613",
+      "bytes": 3210,
+      "gitBlob": "efe301fd62fdc52fbcab93aa2ac11229718bf437"
+    },
+    {
+      "path": "vendor/codex-imagegen/codex-rs/skills/src/assets/samples/imagegen/LICENSE.txt",
+      "sha256": "4dd13869245e356246a5b770723247bbb80a8f07a181d1d3d873a1734297cdb9",
+      "bytes": 10776,
+      "gitBlob": "13e25df86ce06eb6488e6a6bc5c5847f5dedc352"
+    },
+    {
+      "path": "vendor/codex-imagegen/codex-rs/skills/src/assets/samples/imagegen/SKILL.md",
+      "sha256": "681ddb4ad6d06a2acc78a3535b583f8d0c1ea800ecda3d56370d3310fd2cd4ba",
+      "bytes": 19201,
+      "gitBlob": "c39b1f921ce679f08416ab16ceb01945835bb950"
+    },
+    {
+      "path": "vendor/codex-imagegen/codex-rs/skills/src/assets/samples/imagegen/agents/openai.yaml",
+      "sha256": "9ca574af14580dc7a2a3dc37a1796d17f93cb8850be66501f0799ef8603e9dc0",
+      "bytes": 275,
+      "gitBlob": "5e01d4410ef4918b45d942175e7ddc39ba7ab5d2"
+    },
+    {
+      "path": "vendor/codex-imagegen/codex-rs/skills/src/assets/samples/imagegen/assets/imagegen-small.svg",
+      "sha256": "cff5f34f57ff60b3ee92eaedd17b15e96dd4b9e776df3e78936c9e00d42be294",
+      "bytes": 2889,
+      "gitBlob": "20128b2dba2b93ecd7c398bb379b6049dc94a944"
+    },
+    {
+      "path": "vendor/codex-imagegen/codex-rs/skills/src/assets/samples/imagegen/assets/imagegen.png",
+      "sha256": "95952f644064eb9e890f98d8db07216347186526e4c41ad66d3420629eb86e20",
+      "bytes": 1711,
+      "gitBlob": "94b54541a9affd39a7aa09d0efd5bc6b712b723b"
+    },
+    {
+      "path": "vendor/codex-imagegen/codex-rs/skills/src/assets/samples/imagegen/references/cli.md",
+      "sha256": "ecfc2e09261a0feb3482517a5fa0ff410cb7d1958e3cbd2ac6b61586f5b81405",
+      "bytes": 9655,
+      "gitBlob": "748c83c745b6f010d4afba27224cb947c02e9485"
+    },
+    {
+      "path": "vendor/codex-imagegen/codex-rs/skills/src/assets/samples/imagegen/references/codex-network.md",
+      "sha256": "c88298ca4481f6116a16fa7987434fc977f8b311c1bbc0c3d862ffd0c5981148",
+      "bytes": 1779,
+      "gitBlob": "5ce1fbc748bdccdd837c35b37b6cc1c95c0aa89b"
+    },
+    {
+      "path": "vendor/codex-imagegen/codex-rs/skills/src/assets/samples/imagegen/references/image-api.md",
+      "sha256": "dc975d7af8a4888967251a0276014b4a71ea30455294944b762256373ce3e569",
+      "bytes": 6072,
+      "gitBlob": "64eff30ee6ab19671ff31b83c992ac19e9829430"
+    },
+    {
+      "path": "vendor/codex-imagegen/codex-rs/skills/src/assets/samples/imagegen/references/prompting.md",
+      "sha256": "b210b051c775860267080941eba968212bf0ac7fce581d75c5dcc217d8293f8b",
+      "bytes": 8282,
+      "gitBlob": "5a826563580bc014897fa61629314ae8a6171513"
+    },
+    {
+      "path": "vendor/codex-imagegen/codex-rs/skills/src/assets/samples/imagegen/references/sample-prompts.md",
+      "sha256": "70474177d151855b175c6133de2aae1d90b7f146b0dab50ec830972c47d72183",
+      "bytes": 17617,
+      "gitBlob": "3e6b46fd02ed7bc85d771a1c35c1c85e9db16ddd"
+    },
+    {
+      "path": "vendor/codex-imagegen/codex-rs/skills/src/assets/samples/imagegen/scripts/image_gen.py",
+      "sha256": "b4345cf835e5b593b97df6bb2b70bda493b8a97eee4cabbc99b2fa57dba9b448",
+      "bytes": 34667,
+      "gitBlob": "ca78422d715585f6983a300199ed79e45bdb7ac0"
+    },
+    {
+      "path": "vendor/codex-imagegen/codex-rs/skills/src/assets/samples/imagegen/scripts/remove_chroma_key.py",
+      "sha256": "a5893c4bd04b21abced33731ea89d2ac428e81d92a0368eb18ffbe4fda5253e2",
+      "bytes": 13905,
+      "gitBlob": "f14df3551888464cd9dc7b75c9678c20f084ed97"
+    },
+    {
+      "path": "vendor/context7/LICENSE",
+      "sha256": "85cfb556dc2b22b55d2565674fcdaac82f3f2f6b7a928d27003132721bb6736c",
+      "bytes": 1079,
+      "gitBlob": "17900de42d69131467aaa7a53fa88b92d238dc63"
+    },
+    {
+      "path": "vendor/context7/skills/find-docs/SKILL.md",
+      "sha256": "37c155ac06e5df9e9c5589af125d909a0f27c9c955284b9c8b1b3eb21cb47b4f",
+      "bytes": 7638,
+      "gitBlob": "d751069c66e10619c078671d6c7d4ea930dfcb61"
+    },
+    {
+      "path": "vendor/ecc/LICENSE",
+      "sha256": "326146379f01bb137c0a5d3c54770c1aa31076705c8b88a7f6b26a460f6221b2",
+      "bytes": 1071,
+      "gitBlob": "b832b6f642312312367c07688dc7426db40a82ed"
+    },
+    {
+      "path": "vendor/ecc/skills/search-first/SKILL.md",
+      "sha256": "76835db48dd910061d2e4271b1151793d2fddbabeb2d2866eed068b3580c55d5",
+      "bytes": 8210,
+      "gitBlob": "3d2669e71ba54afba95defb05080253058190600"
+    },
+    {
+      "path": "vendor/elevenlabs/LICENSE",
+      "sha256": "4ab5e9af2296f748eefa6c0696667f83aa9c0edda7b6972785966b60644b3da6",
+      "bytes": 1067,
+      "gitBlob": "61c1c47ce5964af14a44759b75bd61e5925a898c"
+    },
+    {
+      "path": "vendor/elevenlabs/music/SKILL.md",
+      "sha256": "f2e204571b391ea76817203809d0cd313e7737b2061cfe52339dc9ee3738c13c",
+      "bytes": 13658,
+      "gitBlob": "a4b0fdcd99de89e1bbdcdaa72e688b4b933f46a4"
+    },
+    {
+      "path": "vendor/elevenlabs/music/references/api_reference.md",
+      "sha256": "fd913eb337ca12c456236f26c5d5d046c3bcb7d9c9feb8075c5f9699106fb57a",
+      "bytes": 18120,
+      "gitBlob": "6e7fc4e0ff056800291d157a6dc04f2db877cc01"
+    },
+    {
+      "path": "vendor/elevenlabs/music/references/installation.md",
+      "sha256": "2ef32cf83d7f14131335621d88fcd816fba9746ae90b8deccb5865743239d59b",
+      "bytes": 2049,
+      "gitBlob": "063afd1ec9a015d87c37940f9e1280273d37e5e4"
+    },
+    {
+      "path": "vendor/elevenlabs/sound-effects/SKILL.md",
+      "sha256": "e4b87f43220ef2992cc30a16b8f12500e2dbc613a0de814ca58dff946c25e966",
+      "bytes": 3859,
+      "gitBlob": "62e55b0fdf7fb61636d33adbb2fc50031f2160c9"
+    },
+    {
+      "path": "vendor/elevenlabs/sound-effects/references/installation.md",
+      "sha256": "58724eebca1477e889a13d8a5cb9956b95f6b0269b3ecb16e5a74b1a57034522",
+      "bytes": 2004,
+      "gitBlob": "94159f9d04dbe110210d0c12d9ab63b882c98fa2"
+    },
+    {
+      "path": "vendor/fiftyone/LICENSE",
+      "sha256": "7679aaf8d519d5416acf6971009d0e9be09c31a8c3fb1caa33fe10a43155907f",
+      "bytes": 10762,
+      "gitBlob": "1d8e28a4f26f32188b15c5b07fad53a2094d5bbd"
+    },
+    {
+      "path": "vendor/fiftyone/skills/fiftyone-model-evaluation/README.md",
+      "sha256": "7a8f7c28717fd3e4356dd90c2a668204f29ec3304269373b68480a320269bd77",
+      "bytes": 1190,
+      "gitBlob": "0c060dc648364619589a8b8dabee46d4485fa32d"
+    },
+    {
+      "path": "vendor/fiftyone/skills/fiftyone-model-evaluation/SKILL.md",
+      "sha256": "4474d583badb700302e1317ed44a2697ff90956405cb2ded1733597147a174a7",
+      "bytes": 16468,
+      "gitBlob": "44302b0d4daa733c5d664aaa03e7354c11047ff3"
+    },
+    {
+      "path": "vendor/game-design/LICENSE",
+      "sha256": "251ffc580e5d293962880d9236ddeacff0963f666cd307e79df8518e49a68c27",
+      "bytes": 1070,
+      "gitBlob": "16098641ea3ed93dd149d935f0f9415670ebd283"
+    },
+    {
+      "path": "vendor/game-design/skills/productivity/game-design/CARD.manifest.json",
+      "sha256": "0ed9616429b01c058b7951178352c6e409f74727bc66380b35302db5680b3b9e",
+      "bytes": 3644,
+      "gitBlob": "392f897da5f542047d6ca22a424141671ba93f1a"
+    },
+    {
+      "path": "vendor/game-design/skills/productivity/game-design/CARD.md",
+      "sha256": "db3b93c883e7944fd2c60cc01dbac06c7f324c8e01c339b6a8f76a95e60c50fc",
+      "bytes": 4955,
+      "gitBlob": "81a7facd3796e02349e2bb1a5e0741369ce5951e"
+    },
+    {
+      "path": "vendor/game-design/skills/productivity/game-design/CARD.md.sigstore",
+      "sha256": "bd85f4c44dc9755f885ddefb49833897444d996b53fe9eb7c49d855ddfff5107",
+      "bytes": 4421,
+      "gitBlob": "51af47607c3651013043f4e6da35f86eb7cac4c0"
+    },
+    {
+      "path": "vendor/game-design/skills/productivity/game-design/CARD.svg",
+      "sha256": "852d56eb6f16752e26ee292e0e7ce73f1665f07c8e58ea09cb60b3e8f97496d1",
+      "bytes": 10111,
+      "gitBlob": "029aea503a026c01a99c7509e3346a34e434ae73"
+    },
+    {
+      "path": "vendor/game-design/skills/productivity/game-design/INTEGRATION.md",
+      "sha256": "3265353eb9136295cd8ba62f2ff6f375a58abb606e56b81b9fcd74d3124d5fab",
+      "bytes": 5852,
+      "gitBlob": "fda04f824348a20576de0283aef71420237a1b5c"
+    },
+    {
+      "path": "vendor/game-design/skills/productivity/game-design/SKILL.md",
+      "sha256": "8d41c66b3503461b8b5fd9fb81b7361bd64720a8918cb831ddaa59aa0f95ee51",
+      "bytes": 17800,
+      "gitBlob": "1454cc0d5f116900f81b69a63d757f2fd08ec316"
+    },
+    {
+      "path": "vendor/game-design/skills/productivity/game-design/permissions.yaml",
+      "sha256": "a59c33d37ea2d14fbd0b443829a952a6a6ff099c8ffcdc1f12ff6a8e9c8112aa",
+      "bytes": 340,
+      "gitBlob": "4ee216e7df52ad28e06bfba233ff4e86560ff404"
+    },
+    {
+      "path": "vendor/game-design/skills/productivity/game-design/references/concept/concept-bundle.md",
+      "sha256": "2ba929f9e333140f948bdee1839d4f3f660b7ce52e6a865659dcefd10ba4d886",
+      "bytes": 8170,
+      "gitBlob": "d17bd2e1788eafa1cc3d8396c5393df428c7cc9f"
+    },
+    {
+      "path": "vendor/game-design/skills/productivity/game-design/references/concept/index.md",
+      "sha256": "16e032b7512f0515f20d2599fb41f0c5c3f16d5c09bbb5c6bfad4b338f7db159",
+      "bytes": 1363,
+      "gitBlob": "33f5d0cdfcf5dec35410c7e9d137779282189548"
+    },
+    {
+      "path": "vendor/game-design/skills/productivity/game-design/references/concept/seeding.md",
+      "sha256": "bee328491964659a5e50dc1d09adf2a3b83f74ef4dcc9f95e5a8fc7f9d717595",
+      "bytes": 7475,
+      "gitBlob": "964bed13ea15363dc8bce4116c3f76cdf1b8382c"
+    },
+    {
+      "path": "vendor/game-design/skills/productivity/game-design/references/concept/templates.md",
+      "sha256": "d5c134013525135f43fb3295869e38df287310abb0ab7e773644d37d82e92d74",
+      "bytes": 5819,
+      "gitBlob": "34408e1f933d081b225ef39ca020279655df5289"
+    },
+    {
+      "path": "vendor/game-design/skills/productivity/game-design/references/concept/tending.md",
+      "sha256": "021174578c76b5cc3d6fc6626e2b7763c80195c6833b21ca4e8e19cc5050fc17",
+      "bytes": 7637,
+      "gitBlob": "7122a17c1bb81b08e5c810d2859b2b0b1d5b4bb9"
+    },
+    {
+      "path": "vendor/game-design/skills/productivity/game-design/references/design/critique.md",
+      "sha256": "ea95984b8a24f0e65d54a5f4cb6daab537b3a3585b3b73d8c9e606116418fd02",
+      "bytes": 6785,
+      "gitBlob": "4ab5b31e7d6a11a1b194913eda8a3cdecb66b779"
+    },
+    {
+      "path": "vendor/game-design/skills/productivity/game-design/references/design/frameworks.md",
+      "sha256": "44214a3032023330c5ca911f6536ca0f161173469015aa0c67f49009391c640d",
+      "bytes": 10960,
+      "gitBlob": "6a0687e85fc328822fdcb6305ef55694604ba37a"
+    },
+    {
+      "path": "vendor/game-design/skills/productivity/game-design/references/design/index.md",
+      "sha256": "f7eaa86e18afde30c537471e480fb1d4368d732036c6ee695eaba684810907e0",
+      "bytes": 1505,
+      "gitBlob": "5ce2f380bd07a656e67f4a5c26f3ad105906a80d"
+    },
+    {
+      "path": "vendor/game-design/skills/productivity/game-design/references/design/inventory.md",
+      "sha256": "947f09403776b8d74ca5df188d474e02269e54d950079a4c73bfc12876a9d9f7",
+      "bytes": 9866,
+      "gitBlob": "ab63b3dd7c1c9c25c05cb7bd97a0f5819d2abf83"
+    },
+    {
+      "path": "vendor/game-design/skills/productivity/game-design/references/design/method.md",
+      "sha256": "17eb260c67c94d857557a3505c90fae79475ba39ec1c363908b5f99a20045261",
+      "bytes": 5169,
+      "gitBlob": "7b2100e5df7257093c60286a70555b66a847deb9"
+    },
+    {
+      "path": "vendor/game-design/skills/productivity/game-design/references/design/patterns.md",
+      "sha256": "ccc5413a75c72402eff7a9169ec68314aeb3e514c8003a104e0b7c43147f14f0",
+      "bytes": 24422,
+      "gitBlob": "7bd283b87c643e9bae27b6148838d4e51f53b71e"
+    },
+    {
+      "path": "vendor/game-design/skills/productivity/game-design/references/design/principles.md",
+      "sha256": "bfaaa51a0801121be7fac0ee5c44cb035a9a308ae16d75aa12d8d8a3434d176b",
+      "bytes": 15601,
+      "gitBlob": "e1e4b383b019e6f8978f481d4877bfeb5862201d"
+    },
+    {
+      "path": "vendor/game-design/skills/productivity/game-design/references/design/systems.md",
+      "sha256": "7fd0c6729d64a5e7a1842c355ba64f920273bab4e47bda0353e42d5035ec6ef9",
+      "bytes": 8215,
+      "gitBlob": "51403a9a177647a49a9f72f32f2c80f806702382"
+    },
+    {
+      "path": "vendor/game-design/skills/productivity/game-design/references/index.md",
+      "sha256": "67d5dbd8f8a4588155905828fe63dc2f5b0571ee4e79df96194932217a365b29",
+      "bytes": 1275,
+      "gitBlob": "6408b6aa47b5310ba4338d82d540534ef540262f"
+    },
+    {
+      "path": "vendor/game-design/skills/productivity/game-design/references/interface/accessibility.md",
+      "sha256": "6f178c60aafeb13158bfef917c7151510738e46dbf96ed681ba4d0a35b6dfab6",
+      "bytes": 6907,
+      "gitBlob": "b29b816f6ffa3475b6f9e49a104f2a7e4ab7e04a"
+    },
+    {
+      "path": "vendor/game-design/skills/productivity/game-design/references/interface/dialogue.md",
+      "sha256": "7ed7394807db7d9dfe98e0663641f32b1b0a8156f7ec0c3ca3c8551749540750",
+      "bytes": 6999,
+      "gitBlob": "2b8188cfdbc468456b122f9e31dfb8f1aba99017"
+    },
+    {
+      "path": "vendor/game-design/skills/productivity/game-design/references/interface/guidance-and-feedback.md",
+      "sha256": "0786f5921e480dad49519c44f3ba2b3f5627377d17cb31c4d68f1293c6545879",
+      "bytes": 6077,
+      "gitBlob": "a8d10df239d503d8678a8358d8fe8d240e15ee6e"
+    },
+    {
+      "path": "vendor/game-design/skills/productivity/game-design/references/interface/index.md",
+      "sha256": "3e71bee7e0631cc5aa81ff987e523f13f81ce89653d6dde4788fdfe9cf8ce931",
+      "bytes": 2287,
+      "gitBlob": "76e9bf3fd857a1cab9feead28021e26e132b1659"
+    },
+    {
+      "path": "vendor/game-design/skills/productivity/game-design/references/interface/input-prompts.md",
+      "sha256": "d5d699134ee770f6a7f9040b03619d61786363d1f20c4aa33971260598be2967",
+      "bytes": 6112,
+      "gitBlob": "4b8aa6bbda86f0bc2f375c0fc7d4304242629bcd"
+    },
+    {
+      "path": "vendor/game-design/skills/productivity/game-design/references/interface/interface.md",
+      "sha256": "fa5b4a80fe0d10398b32ad1424bf2f2f97a71df065b80ea12609bf2a6442dd1b",
+      "bytes": 7929,
+      "gitBlob": "c8176f0f5ec7d20f048a24f437e31d6ea2863ab3"
+    },
+    {
+      "path": "vendor/game-design/skills/productivity/game-design/references/interface/menus-and-screens.md",
+      "sha256": "b2aa794283162d775a6a26d81d6b0f7dac1dc3204fe354054d7f812db51cfcae",
+      "bytes": 6258,
+      "gitBlob": "577f7ebf94ab349f9db41f52380301a1c4108b75"
+    },
+    {
+      "path": "vendor/game-design/skills/productivity/game-design/references/interface/onboarding.md",
+      "sha256": "6f9f04dea39722749ca5332817da731f220fb6a96e5f41232041dc196523baf2",
+      "bytes": 6305,
+      "gitBlob": "61e1814ebd4e3fb776276a606665ca77d74eb920"
+    },
+    {
+      "path": "vendor/game-design/skills/productivity/game-design/references/interface/transitions.md",
+      "sha256": "3375d0678ab38cca21e4601e9e4c6b6da3fa522777a25a55d25545db596b9825",
+      "bytes": 8457,
+      "gitBlob": "384c1801754227f771113728fc1fa927d87ad4aa"
+    },
+    {
+      "path": "vendor/game-design/skills/productivity/game-design/references/log.md",
+      "sha256": "aa03c0a8c791830305268123d9c18694fa669a63ab0bda7084540a48ab5d28f6",
+      "bytes": 6145,
+      "gitBlob": "f045d07c378bd888b08d97d04322e44115d664c9"
+    },
+    {
+      "path": "vendor/gamedev/LICENSE",
+      "sha256": "6f82dcfeb95a1c0a0452180a3b16f21bf82111780018fed59d95a052b5b75f6c",
+      "bytes": 11395,
+      "gitBlob": "c7fc0c6d59cb8129a0e30fe13f5a6118f3933c44"
+    },
+    {
+      "path": "vendor/gamedev/NOTICE",
+      "sha256": "2dcb65b1c5be24e5ba11e937f3996100f4e980d8cf8ac5b30ba1d70dae6c40f8",
+      "bytes": 883,
+      "gitBlob": "d4204881c3f79f39151a53a6aae476b188a8c51f"
+    },
+    {
+      "path": "vendor/gamedev/skills/disciplines/create-game-assets/SKILL.md",
+      "sha256": "c178cde20316f7d326f2a853a76522b375b325346b5b8797ef52aa98740aff18",
+      "bytes": 7979,
+      "gitBlob": "44fed75da429247eff03a33f0f4987c020aa4be6"
+    },
+    {
+      "path": "vendor/gamedev/skills/disciplines/create-game-assets/agents/openai.yaml",
+      "sha256": "b5ff9e75ab8a845324d28745aa97af0a3cd4fccc56067a6494947e12e40f1990",
+      "bytes": 231,
+      "gitBlob": "cba4fa772706ab7d0dac58426d47dc22d969926e"
+    },
+    {
+      "path": "vendor/gamedev/skills/disciplines/create-game-assets/assets/art-direction-brief.md",
+      "sha256": "6d5dc4f9f5fcb24300bab9ce7dbd56d5c948ba41da3cca2d3b3d235fee5fb72c",
+      "bytes": 858,
+      "gitBlob": "faf39aea6196fcc9e97c6ea249da57f1149cd8eb"
+    },
+    {
+      "path": "vendor/gamedev/skills/disciplines/create-game-assets/assets/asset-manifest.json",
+      "sha256": "6cce05638c11b80eb5c8f776cf187f479a2579f1a1729b0970b1cc8e5fab4c8e",
+      "bytes": 969,
+      "gitBlob": "548ee4867df3f4a9d49a5134e18b0759d046fd7c"
+    },
+    {
+      "path": "vendor/gamedev/skills/disciplines/create-game-assets/references/art-direction.md",
+      "sha256": "19b2ccb827eae0c6c4cd3648ab7febb82e44706bef8515f2e8912de23dec0a5c",
+      "bytes": 3876,
+      "gitBlob": "3cc0543a7f5d58805ff03d133a3881a66e67b21b"
+    },
+    {
+      "path": "vendor/gamedev/skills/disciplines/create-game-assets/references/provenance.md",
+      "sha256": "2c2b30c69dec5c006c91ecbf506fce2ae3f857b5cc82bda9a10ddb5b769c7586",
+      "bytes": 2198,
+      "gitBlob": "7285acb349e83370b0152f1f0414d4f419af23f1"
+    },
+    {
+      "path": "vendor/gamedev/skills/disciplines/create-game-assets/references/raster-pipeline.md",
+      "sha256": "834ecaeb35e61fc50ed5fbd518942f767f0717d1ab641822234a1f9cbe5eeb6f",
+      "bytes": 3909,
+      "gitBlob": "76cc48a55ef246f69486e86dafb9aaf40cadf60a"
+    },
+    {
+      "path": "vendor/gamedev/skills/disciplines/create-game-assets/references/three-d-pipeline.md",
+      "sha256": "8278baa203b7cd560d9fc5688c33489a9c478275c1795def119b7e024b27d03e",
+      "bytes": 3146,
+      "gitBlob": "378ac41c499a099c8173dc62636e7e91ed2a8d4c"
+    },
+    {
+      "path": "vendor/gamedev/skills/disciplines/create-game-assets/scripts/asset_report.py",
+      "sha256": "93e364f095261b44f6fd0345f7132019af1af93e81ebd84d91fe2a5049918203",
+      "bytes": 4702,
+      "gitBlob": "6eb94d625ee1574356019181dc6168855343f9dd"
+    },
+    {
+      "path": "vendor/gamedev/skills/disciplines/create-game-assets/scripts/build_preview_sheet.py",
+      "sha256": "002a550a7b5fac6d8815078a72afc249dd828c40d975b2323223fc770118c64b",
+      "bytes": 3353,
+      "gitBlob": "87a656c9dd69791a2aad0a3fd689abbbee670753"
+    },
+    {
+      "path": "vendor/gamedev/skills/disciplines/create-game-assets/scripts/requirements.txt",
+      "sha256": "1954ca940740c612a12e7abf0a307b7394715964d66dc8037d503fdd5c1b6424",
+      "bytes": 15,
+      "gitBlob": "0f00984858108717cca519f581649778a1ebc9ed"
+    },
+    {
+      "path": "vendor/gamedev/skills/disciplines/game-feel/SKILL.md",
+      "sha256": "68fc818ad939151be2db9e358e4295a71830c19d61f3aff849f1599307f39f9d",
+      "bytes": 8985,
+      "gitBlob": "54eba4a29c87b7e9303579889eaeb26f6dac7a5a"
+    },
+    {
+      "path": "vendor/gamedev/skills/disciplines/game-feel/references/feedback-recipes.md",
+      "sha256": "c1d0c4d9480bf4cd729ca99f2b36ebc1f3f264a873b408f2145898841e5d6685",
+      "bytes": 5543,
+      "gitBlob": "3ebcc3dc9f2e95caaa132af907b5f213a8acb4f4"
+    },
+    {
+      "path": "vendor/gamedev/skills/disciplines/game-ui-ux/SKILL.md",
+      "sha256": "8a094c84a377503aa8f4c40df676d1c6b6fc07d36ff95554ce06467f1614397e",
+      "bytes": 8436,
+      "gitBlob": "c84646755c3d8f2b96fd955d1d2706e911b45596"
+    },
+    {
+      "path": "vendor/gamedev/skills/disciplines/game-ui-ux/references/layout-and-flow.md",
+      "sha256": "000d944db77155ebf97fde035a3d4fbe69ef0ae348e9dbcaff48c5ea134d7d69",
+      "bytes": 5413,
+      "gitBlob": "139caf1d76828a303ba85b9446c75fa259610ea8"
+    },
+    {
+      "path": "vendor/ponytail/LICENSE",
+      "sha256": "fb1bc6909ac3ef82d5c22106e32ef682b0cff66788fa915fb9b53b15c9d2f3ab",
+      "bytes": 1071,
+      "gitBlob": "715d483338cea4365f0d91a27799cf61226d6bcf"
+    },
+    {
+      "path": "vendor/ponytail/skills/ponytail-review/SKILL.md",
+      "sha256": "33fe4ebe22a460924e5d4a261e223df22e409cc94ab76182bee9fb91a3ef022e",
+      "bytes": 5143,
+      "gitBlob": "a50e3ac6ded6fccc9edae34ce37877bbce11e3fa"
+    },
+    {
+      "path": "vendor/ponytail/skills/ponytail/SKILL.md",
+      "sha256": "ba68ff26239c3c3b05b2a9a47ee0d9a6b93a69639a2555ec87a5d44bffaf2f0c",
+      "bytes": 3492,
+      "gitBlob": "b76922f76ec6f4db532203c55d710b749fa1f6af"
+    },
+    {
+      "path": "vendor/problem-solving/LICENSE",
+      "sha256": "05014b2dcbdbaf3b8e26d0ac803dc4d9ad7108805970e898e3ede2c0a94bacab",
+      "bytes": 1083,
+      "gitBlob": "81615e3b082e00401d7747e025f8ad34b5e459d7"
+    },
+    {
+      "path": "vendor/problem-solving/skills/problem-solving/SKILL.md",
+      "sha256": "85c22cb6ed331664a3048f2e096ed59284b0835a8de65bff664f24360a7fa38b",
+      "bytes": 8822,
+      "gitBlob": "d5ed02af2f86d60667c3fa332c0369ec42a9859b"
+    },
+    {
+      "path": "vendor/problem-solving/skills/problem-solving/assets/templates/decision-record.md",
+      "sha256": "858f596a860ed67416db99f61cd103330a200e1a3a96784e56dafd69fac1cb99",
+      "bytes": 355,
+      "gitBlob": "5f51c03f33c3cb77ebe829782e292384f41be000"
+    },
+    {
+      "path": "vendor/problem-solving/skills/problem-solving/assets/templates/diagnostic-brief.md",
+      "sha256": "b6f6d1253cb670dfef210ed99c4b287b6f180b074d48d2e61198c0c2df7df601",
+      "bytes": 396,
+      "gitBlob": "9f09eb052d5859b8d6526ac7a380128c0e6d0f48"
+    },
+    {
+      "path": "vendor/problem-solving/skills/problem-solving/assets/templates/execution-plan.md",
+      "sha256": "d8b80ff0527c9421a3a9b26417c8b40ac07049b5265d2219a6cf96fcf2a83be4",
+      "bytes": 297,
+      "gitBlob": "492c68e3c6d5c5aa2c888cfed06f2653a96f69ae"
+    },
+    {
+      "path": "vendor/problem-solving/skills/problem-solving/assets/templates/experiment-plan.md",
+      "sha256": "16b6a239e695ce1f300a3365d6d2095748ff9110627c3942c0d69ba9e5482801",
+      "bytes": 331,
+      "gitBlob": "3a21efbd5f985c465e39e6da69b9aad86ede2241"
+    },
+    {
+      "path": "vendor/problem-solving/skills/problem-solving/assets/templates/postmortem.md",
+      "sha256": "71a4ef3f05b903de21a79c5112975fa9333399945876a3ff3e3fb7931c4b39b4",
+      "bytes": 567,
+      "gitBlob": "44a81d0048378614712211e79ae8738ecb183f6f"
+    },
+    {
+      "path": "vendor/problem-solving/skills/problem-solving/assets/templates/solution-brief.md",
+      "sha256": "1ffeeaee7e68ba4ff0871158143a08d8754a34a8834785d313ec0687f5f824ce",
+      "bytes": 533,
+      "gitBlob": "6afb6205b6521cf546eaf2d5b454b70ab5881f82"
+    },
+    {
+      "path": "vendor/problem-solving/skills/problem-solving/references/decision-making.md",
+      "sha256": "9c8751b20e09d6aad371e1b9f7f2d06e607a2819fec4ec48d566d72e375e2918",
+      "bytes": 1780,
+      "gitBlob": "838481e922542b448c1e37b4db851398515e2800"
+    },
+    {
+      "path": "vendor/problem-solving/skills/problem-solving/references/decomposition-and-systems.md",
+      "sha256": "09c2903b5cb43c17279041e750500ab1f10c77207de1c1eaf100c9be21c80206",
+      "bytes": 1725,
+      "gitBlob": "18966ec586f4eab0bb2f09615872e68d016a1a52"
+    },
+    {
+      "path": "vendor/problem-solving/skills/problem-solving/references/diagnosis-and-causality.md",
+      "sha256": "1db3ecfac3f9a4d4f73cbbc52af9d54987e1186b7210110a8d818e34ebf30f37",
+      "bytes": 1897,
+      "gitBlob": "6db8c76c5618dd5512e77424b6dd7f9c36ed0817"
+    },
+    {
+      "path": "vendor/problem-solving/skills/problem-solving/references/evidence-and-research.md",
+      "sha256": "3c3e59647035eb3f99d52f1e899208dfeb29e71b4a6106dc40fcb8149ae13fa9",
+      "bytes": 1672,
+      "gitBlob": "8b10e1966790d75cf9c7b959caf5f39b9efc27d5"
+    },
+    {
+      "path": "vendor/problem-solving/skills/problem-solving/references/experimentation.md",
+      "sha256": "5b2758f26014b2f4f1b2b0e623df2c8dc6a6aa3fa48f770fc28f15c744d1dcf8",
+      "bytes": 1613,
+      "gitBlob": "9d8f0e1bae1d33a708c64fdfd065edb266b22176"
+    },
+    {
+      "path": "vendor/problem-solving/skills/problem-solving/references/failure-modes.md",
+      "sha256": "071992db20569505543877fe29acab4098d677b11e2fa291805eddbc1807b7d6",
+      "bytes": 1772,
+      "gitBlob": "295be88c7c574fd31ffee39d57c1827dbd2287e1"
+    },
+    {
+      "path": "vendor/problem-solving/skills/problem-solving/references/framing-and-success.md",
+      "sha256": "6001afb4e9c1b83f2a6b2f0b30023bb9f3aab6ba9d9f0a5753a5cd0e4a0cd7db",
+      "bytes": 1814,
+      "gitBlob": "a26db9f0c40d8a6df8bed5857ad7898e3e9ac5a1"
+    },
+    {
+      "path": "vendor/problem-solving/skills/problem-solving/references/human-factors.md",
+      "sha256": "5c30e2354a034be2a37cb6ee4b8c46c653627a0aee080aca9aea9aaf0ac22fb7",
+      "bytes": 1557,
+      "gitBlob": "f8b0c2ec547305b53aa4c05940b2f76ec438f3cc"
+    },
+    {
+      "path": "vendor/problem-solving/skills/problem-solving/references/operating-loop.md",
+      "sha256": "78951cf20b06cb5c6bbd80526f3eb02d42a62f5cd6a2753c8ba50646a8ade20d",
+      "bytes": 2389,
+      "gitBlob": "54e6a0bf77888375ce13dadc8a0bfb1c4d079cdb"
+    },
+    {
+      "path": "vendor/problem-solving/skills/problem-solving/references/planning-and-execution.md",
+      "sha256": "978e2f1c9479437188c8622a8188b89b635a9023a66f920e8f28561f6311c596",
+      "bytes": 1733,
+      "gitBlob": "2151dc450df9577d9898a14d7033218cdb50e128"
+    },
+    {
+      "path": "vendor/problem-solving/skills/problem-solving/references/solution-patterns.md",
+      "sha256": "93e44c882a305e87a9c5a5c65664523770c581ca1554000f7f1b2bf69ac70883",
+      "bytes": 1895,
+      "gitBlob": "31581b6d7c7f9780b3eaf93b310af2125c509e4b"
+    },
+    {
+      "path": "vendor/problem-solving/skills/problem-solving/references/tool-and-agent-routing.md",
+      "sha256": "3a04bf186a7ecc391d30cab141c1b5925aaaee91a0e444bd2cf6b8ff3e920f2e",
+      "bytes": 1828,
+      "gitBlob": "37d15eee4ef5df7e72867ce01225273e40febebb"
+    },
+    {
+      "path": "vendor/problem-solving/skills/problem-solving/references/verification-and-red-team.md",
+      "sha256": "85623749881b7bc7d171f9f030ee66816a358626b5f015843f00994d1fc7a980",
+      "bytes": 1718,
+      "gitBlob": "70294fe5f4ee0515bbaa3436a567aca0802d1a3f"
+    },
+    {
+      "path": "vendor/problem-solving/skills/problem-solving/references/worked-examples.md",
+      "sha256": "445fd5cb87824224ec6a1b135122728ead1da42820bf052e23b31f52e80e0799",
+      "bytes": 2357,
+      "gitBlob": "fa9df974199dc64c4537f726c97975fde207409e"
+    },
+    {
+      "path": "vendor/property-testing/LICENSE",
+      "sha256": "7abe19ec9bb73b36141b999b861d24ad855e808bafe0f81e84cce28556f6c297",
+      "bytes": 20131,
+      "gitBlob": "3b7b82d0da2db857eda1a798dbd908ea136f07b5"
+    },
+    {
+      "path": "vendor/property-testing/plugins/property-based-testing/skills/property-based-testing/README.md",
+      "sha256": "ffbe30eec09cc64fb1eae836b07ca1d82939bda3f1e6f0dceadcdd78793a3112",
+      "bytes": 15332,
+      "gitBlob": "2c49678009a0e3e796a31dda185935497dec450a"
+    },
+    {
+      "path": "vendor/property-testing/plugins/property-based-testing/skills/property-based-testing/SKILL.md",
+      "sha256": "9448cacb65c6237a7c22dc59602667177ecae405524079ae9ff92240590b995a",
+      "bytes": 4306,
+      "gitBlob": "1cc39d8d8cba5955bf9c8d7c9a2aef348722a55e"
+    },
+    {
+      "path": "vendor/property-testing/plugins/property-based-testing/skills/property-based-testing/agents/openai.yaml",
+      "sha256": "51d635deefa254d8cdf6dc56450851b6ec9545cd37f88a4eb4035cf3f2262fff",
+      "bytes": 254,
+      "gitBlob": "fdde0c37ebd8f31ea34fd945a0c3b784d51defe7"
+    },
+    {
+      "path": "vendor/property-testing/plugins/property-based-testing/skills/property-based-testing/assets/trail-of-bits-mark.svg",
+      "sha256": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05",
+      "bytes": 3084,
+      "gitBlob": "7cd6e7ca7348897984f2498f301a888bb2f3ca71"
+    },
+    {
+      "path": "vendor/property-testing/plugins/property-based-testing/skills/property-based-testing/references/generating.md",
+      "sha256": "c0e72dfc89babe3c32de718b81b94044362c85e776d7475e950dfeaab78bb58e",
+      "bytes": 2634,
+      "gitBlob": "0133ccd27580a6f68d662807832de67cb1d91514"
+    },
+    {
+      "path": "vendor/property-testing/plugins/property-based-testing/skills/property-based-testing/references/interpreting-failures.md",
+      "sha256": "dbae7db8773712ba03268a3d56ea5aa6720af0650a5189580bfd88aa2edc3f9a",
+      "bytes": 3426,
+      "gitBlob": "10aeac48d239da352206b8c49f72ee776e5ca5be"
+    },
+    {
+      "path": "vendor/property-testing/plugins/property-based-testing/skills/property-based-testing/references/libraries.md",
+      "sha256": "f7218acf8e668130ef3048983472579d04e12030c5401926f666363e5f69c686",
+      "bytes": 2952,
+      "gitBlob": "6b9964a46c014f5ecee78cd356fb0bdc4cbcd830"
+    },
+    {
+      "path": "vendor/property-testing/plugins/property-based-testing/skills/property-based-testing/references/refactoring.md",
+      "sha256": "6eb5c206f575704791f089608bb06e41d6eed91b9d3c7fb27912f969aed07a18",
+      "bytes": 4854,
+      "gitBlob": "d4be7fb1fd4f00e53fde109254dd6dc937248011"
+    },
+    {
+      "path": "vendor/property-testing/plugins/property-based-testing/skills/property-based-testing/references/reviewing.md",
+      "sha256": "110b08118a1e7b1a2566def6e9d2a0bf43fc2deefce857d2ce3b4382b07bc774",
+      "bytes": 2859,
+      "gitBlob": "a2ca783a7dabaece9e383f0ace972bb4fe2f7881"
+    },
+    {
+      "path": "vendor/quality-engineering/LICENSE",
+      "sha256": "b4254918c232a679d366f73fad75e5e24131000f67ec4c15cd024dd4249ed914",
+      "bytes": 1085,
+      "gitBlob": "671dce9ca07917fdc16f7600c1696247d89c3cdb"
+    },
+    {
+      "path": "vendor/quality-engineering/skills/documentation/8d-report-writing/SKILL.md",
+      "sha256": "b6691229397b407658fff5dbc5b523e6dc10709ecd6172c6f985288ba7c70f91",
+      "bytes": 11821,
+      "gitBlob": "bc293e906ea83d72e3da5d34a34b3f2a32261d37"
+    },
+    {
+      "path": "vendor/quality-engineering/skills/documentation/8d-report-writing/references/oem-formats.md",
+      "sha256": "8850f021a24d50c49c9c08f36c341f3e1493283e20c92a6e5fb21b9fae1cd606",
+      "bytes": 10825,
+      "gitBlob": "407e756d9242016ca21300e45a152d06bd802c3c"
+    },
+    {
+      "path": "vendor/quality-engineering/skills/problem-solving/5why-root-cause/SKILL.md",
+      "sha256": "492a3f50c07ede34b6e738e75ceea8a9bc46afec63559c0df413c4368dce5028",
+      "bytes": 8144,
+      "gitBlob": "a902740c6eb3ac91d9b49946ae89bd98db222213"
+    },
+    {
+      "path": "vendor/quality-engineering/skills/problem-solving/5why-root-cause/references/chain-validation.md",
+      "sha256": "db3c5d993273b218721fbd5cfb9c94ae7e8962550ab364ffbf0428a1ab898806",
+      "bytes": 8980,
+      "gitBlob": "abb56f98d100ea4dd8abd4b32fa6d02612ef0247"
+    },
+    {
+      "path": "vendor/quality-engineering/skills/problem-solving/8d-problem-solving/SKILL.md",
+      "sha256": "69fc87e295f05f59b18ea9716df4a1f3b014699fdfd24d8a54a7422e1e845ffb",
+      "bytes": 12129,
+      "gitBlob": "a4d1711732af0021c8319c09324f12b699ace3c4"
+    },
+    {
+      "path": "vendor/quality-engineering/skills/problem-solving/8d-problem-solving/assets/8d-template.md",
+      "sha256": "6d7a552c4ca75c8ab3e0fc7413f7ff3e9f1d1d587b1322ffb1d3626fc6901f19",
+      "bytes": 2832,
+      "gitBlob": "ac89d093a06cf9c4de04f776efa4e313f01664ef"
+    },
+    {
+      "path": "vendor/quality-engineering/skills/problem-solving/8d-problem-solving/references/d0-d8-guide.md",
+      "sha256": "1406d2c36dc017d5f6320681ba8313d7db2027bddec85c14068d57bbc2ba0cc5",
+      "bytes": 10843,
+      "gitBlob": "f9df0ce0059feaca2199be0e442a8f67e28540d0"
+    },
+    {
+      "path": "vendor/quality-engineering/skills/problem-solving/dmaic/SKILL.md",
+      "sha256": "f6425c4f7108208fca62c73c52d94c3984ddabf31e45daa4bcd59af601f84f49",
+      "bytes": 11663,
+      "gitBlob": "35ff43f944b2ae9b05cae80a52e2cc2f3052d11f"
+    },
+    {
+      "path": "vendor/quality-engineering/skills/problem-solving/dmaic/references/statistical-tools.md",
+      "sha256": "6b1377a3a07322e4046c39d9c9af237d75937829970761adbcadd87d59a91f65",
+      "bytes": 21000,
+      "gitBlob": "013c3a2939b138b5aea0a003536b2890d159a3f1"
+    },
+    {
+      "path": "vendor/quality-engineering/skills/problem-solving/fishbone-analysis/SKILL.md",
+      "sha256": "d23711b27fbd2100c2ed55f127d27811574d574b626048417dd272f2b5137ce5",
+      "bytes": 9203,
+      "gitBlob": "18ad45691b50357640b82474c8952f97702804db"
+    },
+    {
+      "path": "vendor/quality-engineering/skills/problem-solving/fishbone-analysis/references/6m-category-guide.md",
+      "sha256": "4bde94cc292cb11b714b7072ae1c7e9d69a703fe98c81c942a1a2dc2cd9806e6",
+      "bytes": 18580,
+      "gitBlob": "95b8e977745e2f21bc0f813190dc470335924e4f"
+    },
+    {
+      "path": "vendor/quality-engineering/skills/problem-solving/is-is-not-scoping/SKILL.md",
+      "sha256": "1614fe316a59ce400b725c62b44f21e01ba5de7b45c83b55f530d82a1e8c1b73",
+      "bytes": 7602,
+      "gitBlob": "2a76432cdee63e0a62e46c2ca3e8fae4c7c757fe"
+    },
+    {
+      "path": "vendor/quality-engineering/skills/problem-solving/is-is-not-scoping/references/hypothesis-elimination.md",
+      "sha256": "0b849c468a5428c2ee08e8ce51ca41d0076ee6e03f038e139f01fa052f13e144",
+      "bytes": 12923,
+      "gitBlob": "57d7ca619c4ba8b70ff6f7e5d4c435349d787b26"
+    },
+    {
+      "path": "vendor/requirements/LICENSE",
+      "sha256": "ad6406f2359aad564cbd65c1592024f2729839155d0d1896b2a6a5d59073f53e",
+      "bytes": 1083,
+      "gitBlob": "31fd625202bfddd84f02ae31d85bbd65e5dbf83f"
+    },
+    {
+      "path": "vendor/requirements/skills/by-role/business-analyst/requirements-elicitation/SKILL.md",
+      "sha256": "d7d935d2e3011f019386fe81f22e1c83423daa11793f8e77c97b70879b147ab5",
+      "bytes": 5142,
+      "gitBlob": "676ebe4bf09f1c212733a3f38a4a60a660ee3b6b"
+    },
+    {
+      "path": "vendor/requirements/skills/by-role/business-analyst/requirements-elicitation/references/elicitation-techniques.md",
+      "sha256": "869c26388cad940cc236bfbf71744136edbd323f13c9e386b3b79ea8489c2d71",
+      "bytes": 3628,
+      "gitBlob": "2ac6b30b6cc9bef5cbbf9026aea8f58505ce2e84"
+    },
+    {
+      "path": "vendor/root-cause/LICENSE",
+      "sha256": "1126322e2cc8d165adc4c792eeb195717de2bcc7b39be1ce77959d78e87ef685",
+      "bytes": 1056,
+      "gitBlob": "14fac913ccf80234b1848540089a3bbcb6e5283d"
+    },
+    {
+      "path": "vendor/root-cause/SKILL.md",
+      "sha256": "63c005220903d0ffdaae7e92d65f6693c5408930e1a833e89d7c87c4deac555b",
+      "bytes": 12773,
+      "gitBlob": "70765131648b6e682830b10935ae9f82092a25d7"
+    },
+    {
+      "path": "vendor/superpowers/LICENSE",
+      "sha256": "a37e0e9697144819e1d965176ac4ae5bc3fa02d11e7812036bbcadf6dafe2400",
+      "bytes": 1070,
+      "gitBlob": "abf0390320aa14406af7a520b9b0739fdda9bf08"
+    },
+    {
+      "path": "vendor/superpowers/skills/verification-before-completion/SKILL.md",
+      "sha256": "2befe7fc55bcadaa3d97dd9e8efeb633d2561c0ebe74c5a8b17c4d9e7e4520b3",
+      "bytes": 3646,
+      "gitBlob": "7d45333cc4a49c57a80df6c1fe2fa777a207afbc"
+    },
+    {
+      "path": "vendor/tao/LICENSE",
+      "sha256": "4f321b887d0350e672e06c8a8bc85cff17ee2d1f3c360617079041ceee324c81",
+      "bytes": 11432,
+      "gitBlob": "001a3281169d6ade30cd1a44544029254ba490a8"
+    },
+    {
+      "path": "vendor/tao/skills/applications/tao-validate-recipe-transfer/SKILL.md",
+      "sha256": "7a475af4c76bcc483a7b356f8cea32aecab16603571f717d7c3444b34762e98a",
+      "bytes": 16710,
+      "gitBlob": "59750d41640098f4c468588f012c0e0d779fb15a"
+    },
+    {
+      "path": "vendor/tao/skills/applications/tao-validate-recipe-transfer/assets/status.example.json",
+      "sha256": "e9c7049f56a2c69e0f804a9ae31619ce8a88d9dbe1a8a2b5a8e98543d9d1828e",
+      "bytes": 1721,
+      "gitBlob": "d51e3fb4b1d8f89da4d522782605c833057c91d6"
+    },
+    {
+      "path": "vendor/tao/skills/applications/tao-validate-recipe-transfer/evals/evals.json",
+      "sha256": "14ae71b6b8df08314e74fd166f8a31f21f4aaa5540339a14a5404cfa1aa7ee2f",
+      "bytes": 7796,
+      "gitBlob": "2cee174e9268b1126855851916bf4bd291980393"
+    },
+    {
+      "path": "vendor/tao/skills/applications/tao-validate-recipe-transfer/references/failure-atlas.md",
+      "sha256": "54911a6de2595035eaf6b873a02a3e8f0b499d4cbc02af7ad2d5f3027a45e9e0",
+      "bytes": 4347,
+      "gitBlob": "e11f5021e4151adba7bc6cd40c01f9f021d6766e"
+    },
+    {
+      "path": "vendor/tao/skills/applications/tao-validate-recipe-transfer/references/port-gate.md",
+      "sha256": "e62e7192bfb3a5fcc6731ce41c7b1eaec73353a154551603e188f95b2982545f",
+      "bytes": 6902,
+      "gitBlob": "7b0142280972ff888fd056eaa21335cc15c060e7"
+    },
+    {
+      "path": "vendor/tao/skills/applications/tao-validate-recipe-transfer/references/postmortem.md",
+      "sha256": "b60b7aad02b512f9ddbc95718b53a6600a6fa65692fc06fecba2663f433bf2fe",
+      "bytes": 9565,
+      "gitBlob": "92df49afdb0f4a0128d5471cb72b99eff9125bd7"
+    },
+    {
+      "path": "vendor/tao/skills/applications/tao-validate-recipe-transfer/references/recipe-fields.md",
+      "sha256": "a7fe74d6343c720d3091884a69b1c6dd086bd8e232fbdd0135b97964b8e3b153",
+      "bytes": 7004,
+      "gitBlob": "584b8c09402c81a38cf32c2d828ca60a81118cf0"
+    },
+    {
+      "path": "vendor/tao/skills/applications/tao-validate-recipe-transfer/references/recipe_spec.yaml",
+      "sha256": "c2ced4619eae70b741c3aea3fd05437df5a611b5772d2904f206e7993049e8c3",
+      "bytes": 4176,
+      "gitBlob": "e79bb689bb948e58f42d51a2a9d1e9fe3880a597"
+    },
+    {
+      "path": "vendor/tao/skills/applications/tao-validate-recipe-transfer/references/stacks.md",
+      "sha256": "c767a0e867e171c9a7eb47357fed2c600c6812aafade3248f0d2084522cfa95b",
+      "bytes": 4294,
+      "gitBlob": "48bfbb91b958bfed2ce03c3f17e6409e3aa4997a"
+    },
+    {
+      "path": "vendor/tao/skills/applications/tao-validate-recipe-transfer/references/verification-ladder.md",
+      "sha256": "bbde34f78f4980ddd0fa5e82ed4ecf566c26ba8db37f37ca28093789a51c2db8",
+      "bytes": 4716,
+      "gitBlob": "50540765236981fb6674aa8508f0ba8817f9055a"
+    },
+    {
+      "path": "vendor/tao/skills/applications/tao-validate-recipe-transfer/scripts/domain_gap_report.py",
+      "sha256": "88339fdcd09cee44616413fd4f1888e1d0caebf4a6f739a4a39b85fc96f77b75",
+      "bytes": 14106,
+      "gitBlob": "d7bf85aeb59741cc62f34b44f4882f2c17f25405"
+    },
+    {
+      "path": "vendor/tao/skills/applications/tao-validate-recipe-transfer/scripts/preprocess_parity.py",
+      "sha256": "823c90d2c4a3115cb741168bf17b491b8e090a4d1f1a45bfbb3f82ff7f02f99d",
+      "bytes": 16209,
+      "gitBlob": "866a8384c295686b1e2dca9fd4d927cd2626534e"
+    },
+    {
+      "path": "vendor/tao/skills/applications/tao-validate-recipe-transfer/scripts/render_status.py",
+      "sha256": "55ea880e9b295aeda5b01c3f1ea28624fb504e8ca26dc6c9541c382d32051667",
+      "bytes": 6942,
+      "gitBlob": "ddd338019c66e29637c54866816cf98d98645313"
+    },
+    {
+      "path": "vendor/tao/skills/applications/tao-validate-recipe-transfer/scripts/split_leakage_check.py",
+      "sha256": "eaa86e1c5786335d667d5ef904ebe650f5cda0b0a78dcd06e2ee600c6a93412e",
+      "bytes": 8378,
+      "gitBlob": "594edaaa49cf589d04806b24c6bab6110386ae08"
+    },
+    {
+      "path": "vendor/tao/skills/applications/tao-validate-recipe-transfer/skill-card.md",
+      "sha256": "39baa125c24e1c3d72e9edf292fb0d69aee4a1f51611b937d4479c9cc208e912",
+      "bytes": 3197,
+      "gitBlob": "daf347c594f54ae43f480e437192a9c81e580e53"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/SKILL.md",
+      "sha256": "ea087c341bfb5b23195c7302027268ede86da802554c18a5c4896a6017b439f9",
+      "bytes": 15969,
+      "gitBlob": "41f8e2fd7f8c568228d0b55186ebe3f7b4007377"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/data/app-interface.csv",
+      "sha256": "331e7cf2c0b222d80c566c5f255c63cb339f65bfd02e471a720f28e4864a9f08",
+      "bytes": 11046,
+      "gitBlob": "95e328c807a23be02c9c32c736d0fa19109c6076"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/data/catalog-summary.json",
+      "sha256": "6638da97231c07fb5cef3cd9d3ce483ca7b2f9748980f8c27490eb03968d8894",
+      "bytes": 2392,
+      "gitBlob": "f911c3ae48fac5863a5a5e210866ec5cabece164"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/data/charts.csv",
+      "sha256": "4115cf1120680f2cedef0676cb648f30c7ef4699e2a947535d4113e71ed3b12a",
+      "bytes": 23365,
+      "gitBlob": "c6f4f875fd5b34379f24dbb541539492366a1058"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/data/colors.csv",
+      "sha256": "8162429222bce22df62b564085946a30d07cc9722c58d0a3a494bd0d1d00841c",
+      "bytes": 37940,
+      "gitBlob": "5d2bf7389105f8a824b504b57cc93c00dc1d7e0a"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/data/data-provenance.json",
+      "sha256": "e82fb33ed49375a300e93d9c11ccd1c1493c999e84ee7ee295e527634786e2e0",
+      "bytes": 36686,
+      "gitBlob": "e41d2e553bdc7e5a8e6d16f5daab565faf372188"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/data/google-font-licenses.json",
+      "sha256": "35688523f2955795caa1a47c53b83099e60c1708461476f9cc3a050cf3b0148a",
+      "bytes": 433127,
+      "gitBlob": "3ac2c34e80665bc902e265c52ab6c27b1654524c"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/data/google-fonts.csv",
+      "sha256": "1c8c3b2ea1faf6a1012da463756def8b3889db33f2226f0343bb4daa80307d03",
+      "bytes": 747241,
+      "gitBlob": "d7f87e3e0159b1caba083b9954793d9852256aa0"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/data/icons.csv",
+      "sha256": "50816c6012030178195a16ee481ebf58b47bd985d70e8ec58886cc83f6eddafc",
+      "bytes": 57945,
+      "gitBlob": "cfc3f1eccd7e5aee15d8d70f86d8fa17ba737958"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/data/landing.csv",
+      "sha256": "9a2edd3bb676c2a58f00ade7a062e285222d4297bfd847c8d5b056f0dbbf52d0",
+      "bytes": 25449,
+      "gitBlob": "34858160aa2789c49dca274d48bb116d51dd3f0a"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/data/motion.csv",
+      "sha256": "381affe8df8ea1f66fbbda2598827f9f54299107bbe6a1b4e9b68f6b62091ceb",
+      "bytes": 14679,
+      "gitBlob": "8e0ca9ceb0e4cd4832aee60ac74713e1e1830de8"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/data/phosphor-icons-upstream.json",
+      "sha256": "2399325233b277b5c97a80e6a5e8941154f5d057beee4e7613db87c87d700236",
+      "bytes": 823933,
+      "gitBlob": "ec1d76b8117ccbfdce5df214bf0d993e41a75318"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/data/products.csv",
+      "sha256": "42473f75e8dde5987bdf89ce55d8c168091b80a356cae691dd60247d80720b70",
+      "bytes": 75623,
+      "gitBlob": "9f40f1d1f9743c4a81603076dfbfd115bbb55246"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/data/react-performance.csv",
+      "sha256": "3d925802539abac5afeb63ae8aa1960b7229ad271b3a47caed40ab2d97ad0734",
+      "bytes": 15080,
+      "gitBlob": "425a8e76c6b3bae40e8c633ffbf7ad6222c9f73a"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/data/stacks/angular.csv",
+      "sha256": "704be83f2bad30c7e6de01afb113ffa01e0c458762f48b7102f31ba2367b5553",
+      "bytes": 19863,
+      "gitBlob": "5a1878dbee2b3c55c6468cbb18699b84d1a8c4d2"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/data/stacks/astro.csv",
+      "sha256": "2c2f55fadaafc05e04cc321c8194a1a28b656e6757fe2ba316f41b16428299c6",
+      "bytes": 14591,
+      "gitBlob": "1fd2492420b20a0b311295ab883597fadb8245a6"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/data/stacks/avalonia.csv",
+      "sha256": "442fca14675a020683473e7e49f08abb27b9df0765c80efe54aef61f1a4ac258",
+      "bytes": 27327,
+      "gitBlob": "c67f4117105865587eda9020c57d8c209f3a929a"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/data/stacks/flutter.csv",
+      "sha256": "64dba0ac17349f28bce517a0f5f48c54d9ed2e487ec0c0258303463b382f41a0",
+      "bytes": 14192,
+      "gitBlob": "731805c4076bd9f2755ca4bd7def5be6f6df7e9c"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/data/stacks/html-tailwind.csv",
+      "sha256": "d05a581d20af57b8ca0104a6d31d90a07c437d500662a96c3029fc2f9a4678ee",
+      "bytes": 16551,
+      "gitBlob": "9089eb0fc821ff0c8d135f8ee503be345e8fcb84"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/data/stacks/javafx.csv",
+      "sha256": "2e819b8d5abdd23ad4dae0991650fdb57af497aabd68b37463aa9c442944c869",
+      "bytes": 33577,
+      "gitBlob": "744bd80f437f12bfb5bb9c84630a58022604675a"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/data/stacks/jetpack-compose.csv",
+      "sha256": "699de218b286948eaec7d15767b6e1350ee299167e49bf476d82e3ff58724e0a",
+      "bytes": 12295,
+      "gitBlob": "8daa0b8f9a2ca3f0f1711664d9d677cd1c38dd9e"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/data/stacks/laravel.csv",
+      "sha256": "854ea4daa5fc61292d22235ad33b49ba3fe22423c3de8d3cb03758ffed3b59f9",
+      "bytes": 20163,
+      "gitBlob": "ed11b0fba457e02857f996d1542fb0b8e1271756"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/data/stacks/nextjs.csv",
+      "sha256": "ecd2c27b2ea0127d203ae726060efcdd7335b5e83f96b99e4f3befbbfeebd5a4",
+      "bytes": 18687,
+      "gitBlob": "acdaf097dff26ba0d3b22ab4544bf6169c87afd4"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/data/stacks/nuxt-ui.csv",
+      "sha256": "fce682a338cfcdbf35d318d20e5befbe7b5d81b05abc37f87677a6d9cde84dc6",
+      "bytes": 28700,
+      "gitBlob": "e2aaeca45faa8b987bf94010162b14d458811dde"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/data/stacks/nuxtjs.csv",
+      "sha256": "3d9b54ed2d151bd9c86e9e5609b8a6f88a00c4c52fa601a30af96c49b2c4d176",
+      "bytes": 23014,
+      "gitBlob": "ceab9cf3358d2788af0bd7dc14cb3fab769740d0"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/data/stacks/react-native.csv",
+      "sha256": "ba31dd9c0c04da6bc02a74448bf121f9c0728ae5ba3b4d47b487778b0a1135b5",
+      "bytes": 14049,
+      "gitBlob": "a5aea45dc1d0341b11ee42076a86db842d4d2a19"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/data/stacks/react.csv",
+      "sha256": "4dd176a9787e5c6306b5df94158d75955adcdc6edab41ce5286641a5842303c1",
+      "bytes": 21166,
+      "gitBlob": "fe8f001e695a978733449e04e99d7135af0f1bf3"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/data/stacks/shadcn.csv",
+      "sha256": "e56cfde5b74907836ac3582a4779d5b7f3d206a702ab81b8669a1b668c3eeb51",
+      "bytes": 23184,
+      "gitBlob": "0e8bedf3084e7a40d6310bcd3011c437efcb1700"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/data/stacks/svelte.csv",
+      "sha256": "f6e379ba802941ba26b01d4ffbe3cd39120f2587659a1d93851c707f66bc13db",
+      "bytes": 15078,
+      "gitBlob": "51684fe70448e15333cd16207db7da8aea0508e6"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/data/stacks/swiftui.csv",
+      "sha256": "bdd9231ff3ad658f4e7c063e1eb49df2fd09ac8d90631a86df899b39833b9623",
+      "bytes": 15323,
+      "gitBlob": "ea9b95e8922e663b2adf27a7346e2c2f44c7a215"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/data/stacks/threejs.csv",
+      "sha256": "155d583b9c64da0df4b6c6cb060c02eab222505e0734d6353da02c9e2b5d982b",
+      "bytes": 46769,
+      "gitBlob": "f62286320038beabbdc5e11e07ca2818d8e959a4"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/data/stacks/uno.csv",
+      "sha256": "a0474363e4225b5367214d5675fd3e075f137026f9500f0d04357882ef4f6d48",
+      "bytes": 30091,
+      "gitBlob": "9cab32326b4ad3a3cf43451a3c24553a41126cc1"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/data/stacks/uwp.csv",
+      "sha256": "c409f08c1fbba1f1029f1acaa554e7b4471cc85517a5751c9f2e62465badcd5c",
+      "bytes": 24692,
+      "gitBlob": "04a84ea092a7657fef11e5daa97982be52dc6f59"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/data/stacks/vue.csv",
+      "sha256": "b655f1ebb9dff2652d15981f31b1784c8a6d4759efd2815a14f3088257569f95",
+      "bytes": 12813,
+      "gitBlob": "83997c515775170f22b638635aae0a67a46dfc87"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/data/stacks/winui.csv",
+      "sha256": "e676dc1c13ee6c205c40b0746f1335150a346c7a49a0616d2545bc3d2c930c85",
+      "bytes": 27890,
+      "gitBlob": "107ecead11728a83ec0ea10d815a9d1f43a35792"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/data/stacks/wpf.csv",
+      "sha256": "9781a9950b20333637b30a02e498b7efca21b618a3eeb8665836f3ac6e974da7",
+      "bytes": 24158,
+      "gitBlob": "4e88d6750833a74f85ba487cf2b8f4ff6ebd2f4a"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/data/styles.csv",
+      "sha256": "a93a4d9d7025856575d7b7583bda020be9043013432c5af7c58af9dbdfb206b7",
+      "bytes": 149478,
+      "gitBlob": "d1eb2c216e453005ffa8232ffb94491c183afe3c"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/data/typography.csv",
+      "sha256": "321fc446e89024488ebae96dda93efc4d2307bd8bddb240857ad51364f6782c8",
+      "bytes": 49997,
+      "gitBlob": "70d107d107de30150863c965767320ec33ef29ad"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/data/ui-reasoning.csv",
+      "sha256": "f0774dd741cecdad5eec842034bd6d5e9ea50e9f220a1910069748daa0bb8e9a",
+      "bytes": 77360,
+      "gitBlob": "8931d4c809f8e22ddac00ce612ce0c35f34a59b6"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/data/ux-guidelines.csv",
+      "sha256": "ff81ec613f70ba9fc3fcce52dbe4ae35d44b2079dbe6dc066d2d6e38c28facd5",
+      "bytes": 27516,
+      "gitBlob": "4e7d52b296537a03513b18b2c3f2b946cc802051"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/references/pro-rules.md",
+      "sha256": "d28442d61c310b49c054a4ea736f89fb3008beebdbbc38c4b3a540b8f7fadf23",
+      "bytes": 10909,
+      "gitBlob": "b2ce233287e37ec9ca13476c4014b922e9d5a0e9"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/references/quick-reference.md",
+      "sha256": "0609bc7c89dacb40472465d8fc14257b56b2c43439660fc8d6fa3b8c022e1876",
+      "bytes": 24526,
+      "gitBlob": "7acc7e7540ca6981d878a90aae4455c1638e2385"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/scripts/core.py",
+      "sha256": "c3be4b23e7150e6b45095213158cfa3c8ad96502f01dde3f6ffff9de64a4f481",
+      "bytes": 41236,
+      "gitBlob": "670fe33070cfe706401da4ff276831257dbf1e25"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/scripts/design_system.py",
+      "sha256": "e7d1c94c4b2eada17c5551157668362659ccf9626d34dbd58e68142410f90103",
+      "bytes": 71537,
+      "gitBlob": "d5fe1575f00d839f919603bd09b44fe7e9def4fb"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/scripts/reasoning_contract.py",
+      "sha256": "b8bac1af82aa280d3e06f00aabaeac4337e632996b07fed874e2b6ee6e9c5913",
+      "bytes": 5824,
+      "gitBlob": "63652a666b130c249ea1e2954316f1ac8a5a73d5"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/scripts/search.py",
+      "sha256": "d54e648fe0ec2932cac66684220cc17be4bd4b4eba1d23d3195d509d398db374",
+      "bytes": 9373,
+      "gitBlob": "5038aa875a0d39f24dea803a4c73b38f8f56915f"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/google-api.json",
+      "sha256": "22d8dc81a7d6827b7e8b64b53e7d184210fb9759e8e294e0d5133c81cc460176",
+      "bytes": 1079,
+      "gitBlob": "eacf1bb4559875808247df711376e8cc47c4f7c4"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/google-catalog.json",
+      "sha256": "c608ad5c4084ebc50a4bbbfb69ea2456c01fd5519c457e18410fffd250ae948f",
+      "bytes": 1772,
+      "gitBlob": "4eb89d4d3312b670ef70d44563bf2ffd5cf814bb"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/google-existing.csv",
+      "sha256": "4e0761b839dc6b2187a370e82eddc0aed8a7ff10c09e28dd814bb3656dac595b",
+      "bytes": 480,
+      "gitBlob": "83279e0f218e9725b8a14486a558fa10ff134949"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/google-metadata.json",
+      "sha256": "30bffc29ae348416a2de2f9c6c418e768e4578f136b0f4bac5d2f70124f2e9ba",
+      "bytes": 328,
+      "gitBlob": "43edcbec14c4a5e68d373eda8466c235f2ee7e9b"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/google-overrides.json",
+      "sha256": "6243a48a4619986768c4628e2d0c98ff195beba71ba9be5df8f0c52fc6d90c0b",
+      "bytes": 97,
+      "gitBlob": "162fd1830b08dc1a7b8b891f92f16dbb8b7015f2"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/icons-curated.csv",
+      "sha256": "68362c9a700c13b96f000784a0198c1c7e117a7088a01c85744e44233038fe9d",
+      "bytes": 495,
+      "gitBlob": "3171bfc7a0a6b3b36745b4f7f0c7743f0afad953"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/phosphor-core.json",
+      "sha256": "ae4d0bb076240824e1b643c2270d1f8cc0952a69502ec1e622b7dedd85b930bb",
+      "bytes": 571,
+      "gitBlob": "be0edd337f2c731af41b8a745d37089172c5dc60"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/phosphor-package.json",
+      "sha256": "500588c757d6de03e3d7e69b27a8b8b1f88ccf6bb0333e4c1e9b0d6a4f112475",
+      "bytes": 370,
+      "gitBlob": "ad9e6ef4b835e65a6c0bd0ad9d11f0517fd718c1"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/phosphor-react-exports.json",
+      "sha256": "d79f2ee0afdbc2f87776733e145df3538a16a25d7c2fba0056bb48295dad0ded",
+      "bytes": 87,
+      "gitBlob": "4a0b4587ce9876acac1904831ea774bbf8c69edf"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/phosphor-react-package.json",
+      "sha256": "1c57a1d76bcc0cdd3632d4c18b9c0e79576b4591df39831c9607e5d0eb4f2cec",
+      "bytes": 81,
+      "gitBlob": "a0db183da61e63f3a8f9e3fbfba7405144f41c1e"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/scripts/tests/fixtures/relevance-baseline.json",
+      "sha256": "0df200fc54c1cb97a52d6775e7f501509163cea8f8b73fd7268429bc1f835afe",
+      "bytes": 89426,
+      "gitBlob": "0894a44cc154a01d3b2d624a66c30e7ac3e1a3d5"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/scripts/tests/fixtures/relevance-cases.json",
+      "sha256": "e77d36eebbf6ddc2860946a02cdb659351da6c09f2688f1ed30939a418099646",
+      "bytes": 36734,
+      "gitBlob": "a1fbb87835bda252ba8ae7f15e7090cee580cb42"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/scripts/tests/fixtures/relevance-thresholds.json",
+      "sha256": "1fbe8623fe3e49c8d828139bca9df69043746e488e8bf09d93dfb9cbc31f5cef",
+      "bytes": 5079,
+      "gitBlob": "1f90e9891fa96bcf9f27db54bcc4bc1eb41328a7"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/scripts/tests/test_catalog_refresh.py",
+      "sha256": "3e2ca5d12702318f641ae62d0c14f22a3bcc84d84e79b863c0e947d475604adb",
+      "bytes": 19466,
+      "gitBlob": "8379cc3a224bb9f3dca2a3ebd561cd92b7e05ae4"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/scripts/tests/test_catalog_summary_line_endings.py",
+      "sha256": "fa6ff09f0ec2c99013588c77397f5082dddebe8f467e94c5f8378ec9595f4989",
+      "bytes": 2947,
+      "gitBlob": "056c8e5e7d8ba69c87c31c8ad7bcd32ca3d7223c"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/scripts/tests/test_core.py",
+      "sha256": "3527fe2f4b852f69f07c17ddc0d615d9a6e025c924e45a33985579a94a8d2118",
+      "bytes": 16680,
+      "gitBlob": "b30c0ae54c25f38ec91b37a56cda04426b2510a9"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/scripts/tests/test_core_data_quality.py",
+      "sha256": "3ffc6b4905c9ea26d7ac4527ab154d153584231aee71b2ae4bd017977fa09cc5",
+      "bytes": 8954,
+      "gitBlob": "6d36c79b1f9f8c68c4b02f86a09c5e5f9ba410fe"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
+      "sha256": "0360d6e10080c0bca214f2b0bbad582ba50702a542ce21013351aca54938df3a",
+      "bytes": 19513,
+      "gitBlob": "312dc383b3f6548d7200e928c192673a907b5016"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
+      "sha256": "95ad2c154349f7021f55a558f8dcdd71df1a24fcf531a4364a8e49526a0865ef",
+      "bytes": 9815,
+      "gitBlob": "44c80c1caa159058a7a5858284ea269bcb561449"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/scripts/tests/test_design_system_stack.py",
+      "sha256": "83d09ffe8cfbf7b265f362129f061dfe8e5e167ce5db43adaead197cabc9ca38",
+      "bytes": 2261,
+      "gitBlob": "50f0080300b56f4891014d878edddb781b36d7de"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/scripts/tests/test_native_desktop_stack_freshness.py",
+      "sha256": "3942845712b9a829323cd3568511483135f2a8c7cd79ccf61679da4b0f624dbb",
+      "bytes": 8375,
+      "gitBlob": "79e07f4f5f9c88025506cb3d7bb5aad01dbbd339"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/scripts/tests/test_relevance_evaluator.py",
+      "sha256": "2fe56a4d6fe5fff15ff592274b0eeaba925146cefea6c0fa29d8f1b77c9aca1f",
+      "bytes": 8430,
+      "gitBlob": "ed158e2d4e39a342090b29435dee25bcf5c4444f"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/scripts/tests/test_skill_script_paths.py",
+      "sha256": "7cec24b94be771bc60bc84f8993e614bb16d4047930e1dd3d3bed91628311d44",
+      "bytes": 4305,
+      "gitBlob": "36514964d7ea6edcadc169e0d713c18b1cc0bb09"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/scripts/tests/test_style_taxonomy.py",
+      "sha256": "cd14d0092e8a454d213aa104b53e4e70ba698491fa00fde9fdec5ca8a3d70011",
+      "bytes": 7425,
+      "gitBlob": "09ec131ea6d609e21aaf81327a2e3ffe1ea59d4c"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/scripts/tests/test_text_layout_resilience.py",
+      "sha256": "b51d32ee8a15505b87cb81957fb2d1b385e041e8beb4463c311d236bfd29ebd4",
+      "bytes": 5874,
+      "gitBlob": "8db3b873f958b93906abb8f4e4d6ef75a344c76e"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/scripts/tests/test_web_stack_freshness.py",
+      "sha256": "74897571398585f27e2c35d09d81b0a531c8c774f4a2967e5e1b1d1b05a483d9",
+      "bytes": 7701,
+      "gitBlob": "a54b0eaaa564fc4e0390537b268eaca46d36d5bd"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/scripts/validate_data.py",
+      "sha256": "a599aa256049cf30954d1f164721b99e453eb7e4cb8241bcab2d5573e6cf58b8",
+      "bytes": 52230,
+      "gitBlob": "8b6c7941f6ad3e51cb9d412b11185133e7763001"
+    },
+    {
+      "path": "vendor/ui-ux-pro-max/LICENSE",
+      "sha256": "738f69dfa83db5c347c678fb9d90e560877059f0de93a327c39001bff92dc014",
+      "bytes": 1075,
+      "gitBlob": "1e71cbf26660f31903807d099fe902c098fc7e4c"
+    },
+    {
+      "path": "vendor/vercel/README.md",
+      "sha256": "7c02f64b08fc6c4eef03c01d64f3e2ed478193ccfcbd14edba379abe23304651",
+      "bytes": 7838,
+      "gitBlob": "04a1a5a46a22cfd430e2877b7c145e34fc2653ab"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/AGENTS.md",
+      "sha256": "fc93e7421177bbf869cce892bc60a6c83a4517d974bc3bf65c4e2c1e58a6ccf6",
+      "bytes": 108261,
+      "gitBlob": "4e340a50684a8e7811d5bfa4df48bd9989d0fd87"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/README.md",
+      "sha256": "9eafb2123d3b8b2aef41fba0db2648a3f4f49996f8c7c8bb2c86263befd8b48a",
+      "bytes": 3360,
+      "gitBlob": "f283e1c0c21c5b13c848452528c3949ff544846c"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/SKILL.md",
+      "sha256": "71ed7794962fa6e803ee83030517b5b93a9f70fbfeb431ec4535c5480a8d8355",
+      "bytes": 7251,
+      "gitBlob": "237988de4a66dd8a71d30a2c24ebe1a86b58d04e"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/async-cheap-condition-before-await.md",
+      "sha256": "03107c1f70a293cd58a8abc5474c5548e20ea4efdf01b6d45aae7ad0ac1cb32c",
+      "bytes": 1220,
+      "gitBlob": "5799d7f6ee6e9d70422048ab0cae06ca021d22b2",
+      "aliasOf": "vendor/vercel/skills/react-best-practices/rules/async-cheap-condition-before-await.md"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/async-defer-await.md",
+      "sha256": "f3c142d090615abdcc99d31c123be37b31f0f1ed8d9ec9f7789a3bc6883ae0fb",
+      "bytes": 2208,
+      "gitBlob": "460b5e16baf9c66f85e4169eb9d43e4d07f2ce94",
+      "aliasOf": "vendor/vercel/skills/react-best-practices/rules/async-defer-await.md"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/metadata.json",
+      "sha256": "c4e18bac3290fbe1b471a605867d4df68b03144ea26b8befdbe8f9d8fd124354",
+      "bytes": 921,
+      "gitBlob": "3bec38b176cc71d105895ec4678bbe79305dcb4c"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/_sections.md",
+      "sha256": "01c59969e4e867f0708c8f8ef9c6d87fab9a07d0586244f429ff84013db8a115",
+      "bytes": 1554,
+      "gitBlob": "4d20c144bc3b9265fc5976c704a8dd60ed3a806a"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/_template.md",
+      "sha256": "99df2a3ea088c6c22de2484ddc7e964d0e9923846f44c63380343ecc64455442",
+      "bytes": 631,
+      "gitBlob": "1e9e70703485021e0b969f5731f38c8b9f8694db"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/advanced-effect-event-deps.md",
+      "sha256": "55ed8f9f27a1bff803d6fa55828176207714b02123cbb97ddb8a90d88024a723",
+      "bytes": 1802,
+      "gitBlob": "24d901b62be66f6088eb1de5b262e67f5c337d57"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/advanced-event-handler-refs.md",
+      "sha256": "a3097edeecfb2ff6851cd66ed8cdf0617c3c88180504bee824aa6e75a215bbbc",
+      "bytes": 1483,
+      "gitBlob": "97e7ade243aa6dae50d6faa5111dea0d04778ead"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/advanced-init-once.md",
+      "sha256": "3e4dc22173eb0e2b6dcf583e3babd862b8696328f8f59aee7c4d746c5bc05f6c",
+      "bytes": 958,
+      "gitBlob": "73ee38e5e74c0afa28cb730afe3275479432092a"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/advanced-use-latest.md",
+      "sha256": "8a3f64dfe5a77d1564248faf17fe662ae75b55d497a243cb30b38eb07ccbbf9a",
+      "bytes": 1072,
+      "gitBlob": "9c7cb501693d4a9521697f13dbd5906dd99f0257"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/async-api-routes.md",
+      "sha256": "523338540d73427dc14c0cbb19f2741ebccdf8b105a7b2c1b33d2905cf237a42",
+      "bytes": 1125,
+      "gitBlob": "6feda1ef0ac06b57b33c7b5bd6a19ca88d6c8a34"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/async-cheap-condition-before-await.md",
+      "sha256": "03107c1f70a293cd58a8abc5474c5548e20ea4efdf01b6d45aae7ad0ac1cb32c",
+      "bytes": 1220,
+      "gitBlob": "5799d7f6ee6e9d70422048ab0cae06ca021d22b2"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/async-defer-await.md",
+      "sha256": "f3c142d090615abdcc99d31c123be37b31f0f1ed8d9ec9f7789a3bc6883ae0fb",
+      "bytes": 2208,
+      "gitBlob": "460b5e16baf9c66f85e4169eb9d43e4d07f2ce94"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/async-dependencies.md",
+      "sha256": "16ef469f877e30c6b8e1e1b4bc3e527312fa3c6318cb785a4eca186ea236131a",
+      "bytes": 1293,
+      "gitBlob": "0484ebab993f3db78277e8731872473d02475e6d"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/async-parallel.md",
+      "sha256": "6d2f841896279e976dfcdc1ac89e70771ac188baadfd43c096b5706cb838b961",
+      "bytes": 654,
+      "gitBlob": "64133f6c31fec81eaaabd712586337d20122e09f"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/async-suspense-boundaries.md",
+      "sha256": "de05fedac2eb7ae563b887b5a424464ec3dfaf84e5b7797467ebe2a796ac8afc",
+      "bytes": 2510,
+      "gitBlob": "1fbc05b04ed2474637b12014a77688750e78f931"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/bundle-analyzable-paths.md",
+      "sha256": "62090b5c815fd71bf1133dce754f51abc16a9456d0ccd025fd627de27726e92a",
+      "bytes": 2382,
+      "gitBlob": "8276f156cf1aa8a611bd5bc3cadcb362e16ccd13"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/bundle-barrel-imports.md",
+      "sha256": "e648f6d54525f07a691357040ca5bff6ea3424788a91ff63812adb29622a671b",
+      "bytes": 2795,
+      "gitBlob": "22d1050196671b7bc9f9aaf88cc665ba6fa8deb0"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/bundle-conditional.md",
+      "sha256": "09c8259c3efb04fc0abb8e412ccbda217c222ae8118516283e571c995fe3a7d4",
+      "bytes": 949,
+      "gitBlob": "99d6fc90e31d683d2b6b71353b92d620b484b644"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/bundle-defer-third-party.md",
+      "sha256": "3719fb47b191e8db4fe22686ec88448ad5af9e6838585425abbe103d0b642e37",
+      "bytes": 920,
+      "gitBlob": "db041d1510e51defeade05926ba4e6bbad1068b5"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/bundle-dynamic-imports.md",
+      "sha256": "401817a7369f315fc5a68a1095742ff7d53d0461906880dc9d64a41495ee1986",
+      "bytes": 791,
+      "gitBlob": "60b62695e7a080e2020ff2242d8d841c5e3ecbc4"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/bundle-preload.md",
+      "sha256": "d1f7cc28da7cd5ab249acd287edc5b761afcfb194e9cb62cd44c5f3543db2de2",
+      "bytes": 1149,
+      "gitBlob": "7000504065472628ae614786a3faadd23b0435a7"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/client-event-listeners.md",
+      "sha256": "242a873349febc1ce685e85617994784dbab92c2eaa68aed7fed5a83e7680e93",
+      "bytes": 1969,
+      "gitBlob": "aad4ae91605d715aad8e92b76bd7fb85c91d7cdf"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/client-localstorage-schema.md",
+      "sha256": "0fb7cdf9dc93fdf22f87e3669f953fb9d4ac9b0be42eec4a29fe9a2560610b88",
+      "bytes": 1950,
+      "gitBlob": "d30a1a7d4f85b0d50a0808eaa1b382c6deb595f4"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/client-passive-event-listeners.md",
+      "sha256": "1f35016f9053de69e884ee9be00654e37979c2ca85f5e57764dc2626ff7acb4b",
+      "bytes": 1644,
+      "gitBlob": "ce39a889efb4452ec4c044555ff818301dcf7ece"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/client-swr-dedup.md",
+      "sha256": "644652c39c6cc00de8d1c77a7273612e868dc3f7edda30764164c12ec0f764a3",
+      "bytes": 1159,
+      "gitBlob": "2a430f27fd6abdc1b1b2f809b7a60114ff506790"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/js-batch-dom-css.md",
+      "sha256": "480b891b9eaf96e929dc1e964274a4828e3a78009b7d00ccd965a0d425215959",
+      "bytes": 3266,
+      "gitBlob": "a62d84ed8149b6d4f173debc7043af03f8f8dd06"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/js-cache-function-results.md",
+      "sha256": "3daaa11d24f4295cb6be8bc6f407f2ce83cc7b5bd1f0e68891ea8ab835721dc7",
+      "bytes": 1949,
+      "gitBlob": "180f8ac8fffd7e6ee320242d59d06565d40a12f8"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/js-cache-property-access.md",
+      "sha256": "73e47431e74878a927061bf0ddc7cd91a7556cb35d2573f3421e82300d9ae311",
+      "bytes": 532,
+      "gitBlob": "39eec9061b4ca820150cc8183fb73f9e0c91ce85"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/js-cache-storage.md",
+      "sha256": "11b826b0433898c1ece2d3547010d8e77db9fb240185748c45db91493de9b6cc",
+      "bytes": 1651,
+      "gitBlob": "aa4a30c08176aabd27b41fa44d5c1981457b675f"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/js-combine-iterations.md",
+      "sha256": "71add08aeeb43091d4ff4c0b2842cce8b4bdef8ad3e732cc034bb5a84827e746",
+      "bytes": 753,
+      "gitBlob": "044d017ec3b24b53e46d638acd1d936a22ac6323"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/js-early-exit.md",
+      "sha256": "925ce5ce87f3347186ca62212f29cc6baa2b8c85a96d2720ad07c3d0abf781c0",
+      "bytes": 1133,
+      "gitBlob": "f46cb89c6cbe06e481aba0136848e3b17263ba96"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/js-flatmap-filter.md",
+      "sha256": "9e5b166a41914d975bef7635467f8fb32cd98b5c3126c0bc6f163490812fb5f0",
+      "bytes": 1411,
+      "gitBlob": "ee0edf0da256eb8b62c5a998c768c51eb520e8cd"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/js-hoist-regexp.md",
+      "sha256": "f9e9aef2f7c2307dd7310f283df85dcada45fc43e9bb941b0c3aa414dec21ec4",
+      "bytes": 1028,
+      "gitBlob": "dae3fefdc0a1db66badcd4875489715edcdb038b"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/js-index-maps.md",
+      "sha256": "5df1bdc2cfabb2c98abd55d26762e5c18189535c2e686184f426082e62920391",
+      "bytes": 837,
+      "gitBlob": "9d357a00b15ac67cdd638886f5197a13173a637d"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/js-length-check-first.md",
+      "sha256": "8b54a311c826b299272f29187fc58bc55772a04c4a72eeb29456ee96dc9fc624",
+      "bytes": 1747,
+      "gitBlob": "8b89573630fdc3aa10564273f390ecc7e2b1cd3e"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/js-min-max-loop.md",
+      "sha256": "87dfb67e2f39df6ad8bcfb5b78c5fb364d3c07554ad188a202408d99f3763421",
+      "bytes": 2290,
+      "gitBlob": "4b6656e96aecf3ae6ade52974090ae8b3e3f2bb5"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/js-request-idle-callback.md",
+      "sha256": "ee08f83905b4011abbc33d594033157d77561b5bbd9b36b04f0f409581ffec32",
+      "bytes": 2647,
+      "gitBlob": "d81927e5f0ddb9fa4eece79197728bfc4382cbfe"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/js-set-map-lookups.md",
+      "sha256": "a7fd781a6ba9ad49065961b6f9a90ef486bf6b648390e1a08704025f98e1642b",
+      "bytes": 532,
+      "gitBlob": "680a4892ee291c432bf8e769a44d0f1eb102b74b"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/js-tosorted-immutable.md",
+      "sha256": "d0a5e1b0fec48a0a81397957e2f068e224329f7c42cb5feeed8aae6fa64025e8",
+      "bytes": 1782,
+      "gitBlob": "eae8b3f8aed2c7a893ceaae4cab55fa1c444b309"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/rendering-activity.md",
+      "sha256": "1e5e7eaf3555e61d6a2e900089c676527d26259501db5594f59544b6c664f85a",
+      "bytes": 564,
+      "gitBlob": "c957a490b7c2688542766150741e85e066539251"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/rendering-animate-svg-wrapper.md",
+      "sha256": "9c6ae0ca7a51434e803887c64cded760956579a1452ccb80a461a03f9c937c77",
+      "bytes": 1185,
+      "gitBlob": "646744cbe53b213c6fa5ead54ef107510e5be89d"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/rendering-conditional-render.md",
+      "sha256": "2ec2fa23c4148285144687050c52369adba3da2fbe3d486f8d3e0aad8f06f2bc",
+      "bytes": 980,
+      "gitBlob": "7e866f5852dac80e0822e7f7c33476f5c9fc22f1"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/rendering-content-visibility.md",
+      "sha256": "64eee6d5b916fe74df33363994b27fc7f71bea3bcedc7ee04bda23107ca3e6e4",
+      "bytes": 815,
+      "gitBlob": "aa6656362b2c0dad9ffea788b5850843d6c0629e"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/rendering-hoist-jsx.md",
+      "sha256": "93b229560fae92005ed9a2a829064607b39b2e984e92d221d05b2d41df2b7c0e",
+      "bytes": 1039,
+      "gitBlob": "32d2f3fcea53dadcf847231ee20c60fa2c5c3049"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/rendering-hydration-no-flicker.md",
+      "sha256": "dc7ab358c67c177bca6e6f360fbc935ebe4efa928c0ba3ebd3f9f3d9e2000ca3",
+      "bytes": 2308,
+      "gitBlob": "5cf0e79b69afd7564b965c09435a2c7ee79eb2bd"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/rendering-hydration-suppress-warning.md",
+      "sha256": "915bacb934e2927d84b37a3f3d225a47b309ac8f9e494ed2bcb66ce07c5676a2",
+      "bytes": 872,
+      "gitBlob": "24ba2513a29f5259b3184695d2d4da25e03e42ac"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/rendering-resource-hints.md",
+      "sha256": "351b1095d641717b930f1b2253282b7120af3023bc74e06c17675168d4286864",
+      "bytes": 2549,
+      "gitBlob": "1290bef06baf459f85dc5856ffc4486951224a48"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/rendering-script-defer-async.md",
+      "sha256": "4cea07b7875ba7fc2c7465ff23b63a2bb334f90aaf2d9293d38d67b05fdb32ab",
+      "bytes": 1868,
+      "gitBlob": "ee275ed1c06da8f1ae70e744e47965799eaebf02"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/rendering-svg-precision.md",
+      "sha256": "ed468533f6e95f622859c884b122cf21f9f593ed6bb3d500a54de4b9f9bcb9fb",
+      "bytes": 588,
+      "gitBlob": "6d7712860365294936a1b736d29d3eb970b91da7"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/rendering-usetransition-loading.md",
+      "sha256": "3a1249c3f13026b6f54ab5712c388df219d6af01b12aa542749acd99a46f4bc1",
+      "bytes": 2074,
+      "gitBlob": "0c1b0b98e884d2c77bdec66df754693bd48c7777"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/rerender-defer-reads.md",
+      "sha256": "234050a77faf50cb306be10a9e15bd4421134ab5907e75f13e6d78e2bd262dc9",
+      "bytes": 973,
+      "gitBlob": "e867c95f02fe6ed6ac2f91fdf1c0922304e0423a"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/rerender-dependencies.md",
+      "sha256": "17eb5830956fb56486fd3cfc7431f5849d39751730c05ad9e77dd4f0c27169c5",
+      "bytes": 824,
+      "gitBlob": "47a4d92685702e3a3b07073c62a61800fa0a6d7d"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/rerender-derived-state-no-effect.md",
+      "sha256": "cb11ec76f50aa7b6847269f02d79b120c889a30d9ecd2c1d578f75144419c77a",
+      "bytes": 1201,
+      "gitBlob": "3d9fe4050794ea6655add6bee50cfbc104e5dc31"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/rerender-derived-state.md",
+      "sha256": "1c326bb67b01fb084eb00c8911b0a7cff54681c2315b629f88e49b64eaa6481d",
+      "bytes": 728,
+      "gitBlob": "e5c899f6c073338bbd1b73c0275bc3e5e7d9ae7b"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/rerender-functional-setstate.md",
+      "sha256": "5e68df6b2ae8058e67f476ff1ac67bde159f5a9d18df439e46eabcdeb7b52e58",
+      "bytes": 2968,
+      "gitBlob": "b004ef45e347503947fee397b6c3d163b0a317fb"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/rerender-lazy-state-init.md",
+      "sha256": "4ae844740f266fc8cbf050701230286624a2440ec5be67b9a63d9edc3c580573",
+      "bytes": 2016,
+      "gitBlob": "4ecb350fbadff3db805b72429276e672d42736dc"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/rerender-memo-with-default-value.md",
+      "sha256": "81c47476564ad8a79fc68fc442734255ca7d6829424359464503fda0a9f9a0dd",
+      "bytes": 1173,
+      "gitBlob": "63570491848cb42c2bc7073bceb754893a6a4cfa"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/rerender-memo.md",
+      "sha256": "1f258990c2f27ff6256b3cc5c43300631bb3f0d81f749aed08d07fcdcc131dd1",
+      "bytes": 1148,
+      "gitBlob": "f8982ab612105a3b7faee1292b797338e7fb5271"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/rerender-move-effect-to-event.md",
+      "sha256": "abc2cbf167bee056743023351e96806a411d3398da8802093620aecf0721f029",
+      "bytes": 1268,
+      "gitBlob": "dd58a1af091b3cf5cb271d25904af4feb836d1aa"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/rerender-no-inline-components.md",
+      "sha256": "1cc32907a770272524ba682eef9e7efdd8ad4533b6f89b718a1fcd7d1d0eb6a3",
+      "bytes": 2135,
+      "gitBlob": "d97592acefced05bc4a8538c77d226fa24c08534"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/rerender-simple-expression-in-memo.md",
+      "sha256": "5bdcf2d1558ba5204e643c887b7b4060f89630969425651eb68e96427d97f800",
+      "bytes": 1018,
+      "gitBlob": "59dfab0f3b048097627e0ca6e4c8da36629a5268"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/rerender-split-combined-hooks.md",
+      "sha256": "6f45d703343484ef9acef9388397f3642966ae6a5a258899a0cf1f9977cfbf6c",
+      "bytes": 1844,
+      "gitBlob": "89d805644dbffe3877bc1356bdf8ad416a5c715b"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/rerender-transitions.md",
+      "sha256": "60f4033909a62df5e5b8c601494f9e50a562e2f8c1c2d81eac24f38142265f1c",
+      "bytes": 1055,
+      "gitBlob": "d99f43f764232e994a49a1df89ec9d624552f439"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/rerender-use-deferred-value.md",
+      "sha256": "8c3579576a61a949884167745dcfaf1d5426ba305cc61fd0a79602d70fda4909",
+      "bytes": 1846,
+      "gitBlob": "619c04b0142bf5a5b7d0f69532a56b797a78f664"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/rerender-use-ref-transient-values.md",
+      "sha256": "f1a649af9d1d0b5c762f6c9c4c1c70c90d7df82aa10296ee87aadb78c1b76c54",
+      "bytes": 1742,
+      "gitBlob": "cf04b81f8a531eacd07a32e8917fb3ed3c1bbecb"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/server-after-nonblocking.md",
+      "sha256": "d0b8d24a3db9f0f65f9e2bddbf230b0e03a5f60e1229d93a4a18f5e7a991c7c2",
+      "bytes": 2012,
+      "gitBlob": "e8f5b260f5fc6d58141bc61e0a091569adb81e7e"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/server-auth-actions.md",
+      "sha256": "a2ca8aa102839251c7971ec784560fab943c20b36fe6f80365d4110c13260c23",
+      "bytes": 2649,
+      "gitBlob": "ee82c0442bc69ffae7bf20c07709d57893da1123"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/server-cache-lru.md",
+      "sha256": "1924b64561841923b88a657085097a0aeba3e0ba2d5470b9f5c15cc10d6ae70f",
+      "bytes": 1353,
+      "gitBlob": "ef6938aa53c55dc3c0035bd6c66838810d870260"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/server-cache-react.md",
+      "sha256": "fddeea6c870bb3da4134b61d54b7d09b83d2603f929b7547cd3dc1dc269edd5c",
+      "bytes": 2228,
+      "gitBlob": "87c9ca33168a321a59fbaaa84843e2f48c99751a"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/server-dedup-props.md",
+      "sha256": "c2747424cdac46be62f835f245a0aa887b0090b416d28e2ac8676702645eeb37",
+      "bytes": 2060,
+      "gitBlob": "fb24a2562c73fadbb9a11a79897c2cf93ea3c69a"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/server-hoist-static-io.md",
+      "sha256": "5abea4dd882b13661bd5f7dfb93f9e547d5f08176c61c448ade91b210ed5d49f",
+      "bytes": 4423,
+      "gitBlob": "25205c2fc42d0dd684d6423acde642774329a8cc"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/server-no-shared-module-state.md",
+      "sha256": "4d869bf1cd2f1632e5ca4c0e64b1cf0e71c5f5a0f940bc8a22174d205e735ed7",
+      "bytes": 1766,
+      "gitBlob": "ff7d9f29c6e0e42ec1471acec8a3c7f394c8358d"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/server-parallel-fetching.md",
+      "sha256": "569a2e9fc04f9606686cd75c5894ef8781b502786a7fffe241396846c7733472",
+      "bytes": 1554,
+      "gitBlob": "1affc835a601a894fd02de08e6c9cdfd76d34b64"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/server-parallel-nested-fetching.md",
+      "sha256": "ad5d9656984d4a959997a2367bf59cc6632297b4634a1dd13a087939d83f30b3",
+      "bytes": 992,
+      "gitBlob": "be1dc25075e40e6bda46cb24dc5a6f42b916b0e8"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/rules/server-serialization.md",
+      "sha256": "f4c7d68b29c82381baad059c4a7f09e868e71ec9c3115a26ad3ae7d24c0dfe1f",
+      "bytes": 996,
+      "gitBlob": "39c5c4164c31be7f171ea2f4b3b32fe47709a651"
+    },
+    {
+      "path": "vendor/vercel/skills/react-best-practices/server-hoist-static-io.md",
+      "sha256": "5abea4dd882b13661bd5f7dfb93f9e547d5f08176c61c448ade91b210ed5d49f",
+      "bytes": 4423,
+      "gitBlob": "25205c2fc42d0dd684d6423acde642774329a8cc",
+      "aliasOf": "vendor/vercel/skills/react-best-practices/rules/server-hoist-static-io.md"
+    },
+    {
+      "path": "vendor/vfx/LICENSE",
+      "sha256": "b2a071ba22fefd803f4e9d1f5c777dd79c62d191695586a1a73fd4d0ebd051c6",
+      "bytes": 1064,
+      "gitBlob": "b3a5f823a69b4b010f92930ac09e8a776daf65c6"
+    },
+    {
+      "path": "vendor/vfx/agent-skills/game-combat/fire-smoke-skill-vfx/SKILL.md",
+      "sha256": "f883c371cbacdc7512510529206798ca5599b7fc4a8da54b2309de4e72924bca",
+      "bytes": 30506,
+      "gitBlob": "8dd1160a6128420740f96e55228a41f1789f0d38"
+    },
+    {
+      "path": "vendor/vfx/agent-skills/game-combat/fire-smoke-skill-vfx/agents/openai.yaml",
+      "sha256": "2563706af8fb507deb5e7d2b131f43604c55da1285d29a7e280265283e1d6eb8",
+      "bytes": 635,
+      "gitBlob": "35034698af666ad1abc9f1886c2491dabb48d634"
+    },
+    {
+      "path": "vendor/vfx/agent-skills/game-combat/fire-smoke-skill-vfx/assets/fire-fx.mjs",
+      "sha256": "4abb31ded427e1b634f2d0f479147952ce4050fd7e5fb8ef23adada1f38ad0aa",
+      "bytes": 111152,
+      "gitBlob": "9c0a5ccb9a74dc929c3473d561ae465b3d702da1"
+    },
+    {
+      "path": "vendor/vfx/agent-skills/game-combat/fire-smoke-skill-vfx/demo/PROMPT.md",
+      "sha256": "8eff6b31d48bb3ec8d38b901805e6ec1453b7de64bc58d9c90f0af1ecb8feb5a",
+      "bytes": 6879,
+      "gitBlob": "3f5ced3d07787d0655ab5a1d9048ae01a7c95dc8"
+    },
+    {
+      "path": "vendor/vfx/agent-skills/game-combat/fire-smoke-skill-vfx/demo/assets/ground/burned_ground_01_arm_1k.jpg",
+      "sha256": "fb7f6cd3a2f240712bf6cb21ca2a54072da5a8a4a0cba897f93c3b435a2a8caa",
+      "bytes": 227733,
+      "gitBlob": "0ebc8cb17aee7ed5dd5d09de4d1cd0ebf8d24e2e"
+    },
+    {
+      "path": "vendor/vfx/agent-skills/game-combat/fire-smoke-skill-vfx/demo/assets/ground/burned_ground_01_diff_1k.jpg",
+      "sha256": "be83310cad64d23539e628f14525af651a03646f5a1cc6029bd19a9446ea72f9",
+      "bytes": 1033112,
+      "gitBlob": "061671644f3e843334bf88a74dad0da66086dcbf"
+    },
+    {
+      "path": "vendor/vfx/agent-skills/game-combat/fire-smoke-skill-vfx/demo/assets/ground/burned_ground_01_nor_gl_1k.jpg",
+      "sha256": "86125af02b64b05b0079dd6fa08ffae11878a3f9f50326a265e94c7a64cba865",
+      "bytes": 366727,
+      "gitBlob": "f86d168660038853610386b5ff15a418806e9fe1"
+    },
+    {
+      "path": "vendor/vfx/agent-skills/game-combat/fire-smoke-skill-vfx/demo/assets/three.r170.min.js",
+      "sha256": "aba48d00aac89d4952c8242a3f87707eb120e7a91a427a493283b4c7954b7449",
+      "bytes": 691561,
+      "gitBlob": "d0a62af15b9292d6bf6f18ad68e7f0938914c98c"
+    },
+    {
+      "path": "vendor/vfx/agent-skills/game-combat/fire-smoke-skill-vfx/demo/build.mjs",
+      "sha256": "530d376d87e59c2f85e05b5b1cdbfa7e3d952101a850ef7fe70a43436e70da96",
+      "bytes": 3123,
+      "gitBlob": "d7e3061fe2589a4014887f8a1df6d26880aa60d7"
+    },
+    {
+      "path": "vendor/vfx/agent-skills/game-combat/fire-smoke-skill-vfx/demo/index.html",
+      "sha256": "c307e80decb4da43268eb36f3061c5325a9403955d78c1ae298e4705169c737b",
+      "bytes": 2343839,
+      "gitBlob": "15e027ca35fc0cd6d742b21f489ad642e4deabe5"
+    },
+    {
+      "path": "vendor/vfx/agent-skills/game-combat/fire-smoke-skill-vfx/demo/preview.jpg",
+      "sha256": "ac59962c32da5a1925b79ff16c98fad393c4413f2e828275e6f565273d8a2750",
+      "bytes": 129282,
+      "gitBlob": "519dc1e46ee32e2b519a0d857a941dbdd615f65b"
+    },
+    {
+      "path": "vendor/vfx/agent-skills/game-combat/fire-smoke-skill-vfx/demo/src/stage.js",
+      "sha256": "78bc2be03f6aca7dcdd0374c19b9f29faf407efbcd53c548168a5ec0a6dd40b6",
+      "bytes": 48134,
+      "gitBlob": "4f304ddf3ae04a30e8923af9fb3883dbf214f00c"
+    },
+    {
+      "path": "vendor/vfx/agent-skills/game-combat/fire-smoke-skill-vfx/demo/src/ui.css",
+      "sha256": "6eabdd4ca061255633580f7e3582affbbd4334d102437beef3262240c15d39af",
+      "bytes": 5266,
+      "gitBlob": "6a1f03d00450dac4436d90b7eac064db281c5b60"
+    },
+    {
+      "path": "vendor/vfx/agent-skills/game-combat/fire-smoke-skill-vfx/demo/src/ui.html",
+      "sha256": "ed4098de24779bc3d35e3006855206766aa7f0531df6c941a5bef5a23db5fdc1",
+      "bytes": 3421,
+      "gitBlob": "e4f685860c9ffacdea186333ba83a85f62c2c49a"
+    },
+    {
+      "path": "vendor/vfx/agent-skills/game-combat/fire-smoke-skill-vfx/demo/src/ui.js",
+      "sha256": "1f6935a13c37a9399e43f5b18bab82fec21a2da11cf22d80642b08d8a390ca06",
+      "bytes": 4076,
+      "gitBlob": "f88a5748e807860db9036fe89d84bd78121a17bc"
+    },
+    {
+      "path": "vendor/vfx/agent-skills/game-combat/fire-smoke-skill-vfx/references/scorecard.md",
+      "sha256": "ad4bbd1fde94c1c1582fb6e21e4282d06e840dd7bdc4473e98d18a2482ec54bb",
+      "bytes": 8355,
+      "gitBlob": "041cfac3d67d8f92786e194a255905e5b7232a43"
+    },
+    {
+      "path": "vendor/video-director/LICENSE",
+      "sha256": "be585e6de343c5a7791a900012d244a55910f320f84044eb38a81c8105c0c57e",
+      "bytes": 1230,
+      "gitBlob": "a732c50dc5653fbbc7456af75abddbf71d140a49"
+    },
+    {
+      "path": "vendor/video-director/video-director/SKILL.md",
+      "sha256": "fdfad31347631f7e2a453ab8ec748750283cc38c090af51f8727ddcb1c474346",
+      "bytes": 9992,
+      "gitBlob": "4142b99cf0b540fda679f66121057ecc02a7a804"
+    },
+    {
+      "path": "vendor/video-director/video-director/assets/doc-templates/AB_TEST.md",
+      "sha256": "41a1739f4b360ad415abead3a1af5514a8db58c1a6627add6dc3e002cf5a69a1",
+      "bytes": 957,
+      "gitBlob": "21c6cc78df9582248ec7ea0c323139c008d1941f"
+    },
+    {
+      "path": "vendor/video-director/video-director/assets/doc-templates/BRIEF.md",
+      "sha256": "f91fb229156ab7df6a18ae095b908bea9f0808040b18c2fad60a5a3cc047bef6",
+      "bytes": 944,
+      "gitBlob": "4ee4d69325e899825e016cdf52fa3a1c3bb635da"
+    },
+    {
+      "path": "vendor/video-director/video-director/assets/doc-templates/CLIPS.md",
+      "sha256": "23ac0ce04133c4a3580dd71bfb46491913aafe3fff222173ab8fd306eab48b10",
+      "bytes": 795,
+      "gitBlob": "37f725cf3b25f2c88dd5a7cb165c06dc51646a54"
+    },
+    {
+      "path": "vendor/video-director/video-director/assets/doc-templates/SCRIPT_FINAL.md",
+      "sha256": "23f6c8be3d7cea3104591992a9cec8019568327af590cb3a1df13fd3b86b5c20",
+      "bytes": 1236,
+      "gitBlob": "2012ebcbc2adf33869e1034f7a997c43a6ef60a6"
+    },
+    {
+      "path": "vendor/video-director/video-director/assets/template/README.md",
+      "sha256": "d538240c3953b029b9a410ebd16ecd917783269f66130c998d62c460ce6a317c",
+      "bytes": 1896,
+      "gitBlob": "6ecd41c28221373c5854cf85fb20daafc4399a50"
+    },
+    {
+      "path": "vendor/video-director/video-director/assets/template/build.example.mjs",
+      "sha256": "cbe96ca17e1f136bb804a4a9df0b3daba11f4479a4f718ea488586ce3039401c",
+      "bytes": 9820,
+      "gitBlob": "f1d8470709fc90b6fdbfa708943a31ad0e57d77f"
+    },
+    {
+      "path": "vendor/video-director/video-director/assets/template/kit.mjs",
+      "sha256": "4971d258a59f2afcac4257ec042e0cc03783ef164dcb37616e64891fe3f42f71",
+      "bytes": 12932,
+      "gitBlob": "cb396f5870eae958e8c655a198b5c3b15d31d7fa"
+    },
+    {
+      "path": "vendor/video-director/video-director/assets/template/render-all.sh",
+      "sha256": "a96408ae492cfbc9be1355362c70b26f033f633e8e09cabef64a7a0883d77374",
+      "bytes": 775,
+      "gitBlob": "10da42b41695c49a6714bfc26fcb29ceb32be027"
+    },
+    {
+      "path": "vendor/video-director/video-director/references/capture.md",
+      "sha256": "3324a27f24d9a9e717bdbc6d6098520d29234cbe9318a67e1ef9739f4aa6756a",
+      "bytes": 5737,
+      "gitBlob": "7bcf148b7216e57bbfd382bb78ffa238cce46f33"
+    },
+    {
+      "path": "vendor/video-director/video-director/references/director.md",
+      "sha256": "c7f9c0bf926b1ec3edaab16d44a4acea5cde0ed40a84027ed4efe9fc5c6effc4",
+      "bytes": 5010,
+      "gitBlob": "5b7f24ffd2cfc8dce036274022bf3ad1e135c175"
+    },
+    {
+      "path": "vendor/video-director/video-director/references/editing.md",
+      "sha256": "c2bc6a243e2779a6faf7627af62629da882799709cc88507ab63f7c3921c1eba",
+      "bytes": 5309,
+      "gitBlob": "f953c5d8caff6564b04bc1331af1112374a24573"
+    },
+    {
+      "path": "vendor/video-director/video-director/references/formats.md",
+      "sha256": "e7ca5f4801663ac2098a14743dcfbd7e3edf4f76df8dc1f9227f1bbc5f26a041",
+      "bytes": 1876,
+      "gitBlob": "9090daea926489eaf3bf1938b9b3104dea00ce77"
+    },
+    {
+      "path": "vendor/video-director/video-director/references/game-trailers.md",
+      "sha256": "b1f165daf3322c4466f01c57df78cf284e853687e7b3b97d5a08cce165dbaf18",
+      "bytes": 5401,
+      "gitBlob": "ad41a812649b9516310598e0a667b1def3aa91cf"
+    },
+    {
+      "path": "vendor/video-director/video-director/references/intake.md",
+      "sha256": "3092de6ee09f85b3b2813d6bfc6a685b4499fe583042dbfe1048996e1eef7db2",
+      "bytes": 4184,
+      "gitBlob": "2f11166f5daf730c7f93d780423a899875d04542"
+    },
+    {
+      "path": "vendor/video-director/video-director/references/kinetic-type.md",
+      "sha256": "26cd5726b8544dc43a56a2b88934807fefb4562d54b5e2163a73d8ac3c1e4438",
+      "bytes": 3968,
+      "gitBlob": "b929859d55e3c8160736b70c6fede69ecc4200f3"
+    },
+    {
+      "path": "vendor/video-director/video-director/references/look.md",
+      "sha256": "a51bc9cf72160397bacbd4fb2175e9df2d2ba2d87d707b68c4ece6cf7213252d",
+      "bytes": 2950,
+      "gitBlob": "51dc91dd5d6068c721e19c9f493dfc1a24d43e1a"
+    },
+    {
+      "path": "vendor/video-director/video-director/references/platforms.md",
+      "sha256": "fafefffa3cf9e5917caaaf58525be78893b90bcc4fc656a8968e7b525be72acf",
+      "bytes": 2697,
+      "gitBlob": "b1e7c5f997a0034c4e1ce1b6c77c9932da98477e"
+    },
+    {
+      "path": "vendor/video-director/video-director/references/qa-delivery.md",
+      "sha256": "515a35a40de9e3b9454dc700bd5588557720eda17942df427d1ee202a99788c4",
+      "bytes": 5362,
+      "gitBlob": "75225fe2b3044d53a83f658c8be43cd0d5cb8646"
+    },
+    {
+      "path": "vendor/video-director/video-director/references/sound.md",
+      "sha256": "9634165cc902294b8540efdc0f600624505f197a759f39e229e1c399ddc5dcbc",
+      "bytes": 5867,
+      "gitBlob": "a8b957cf946779326ef872bda6f63f7260a4a733"
+    },
+    {
+      "path": "vendor/video-director/video-director/scripts/audio_window.py",
+      "sha256": "eb250363854c5e82eeafb0cc07de5eb0f6fb24c10bc3f5779ff5d5c501b94c20",
+      "bytes": 2111,
+      "gitBlob": "a4bb04f5e239747f009e243e69fedb19744a1203"
+    },
+    {
+      "path": "vendor/video-director/video-director/scripts/beat_grid.py",
+      "sha256": "b057b4d8a7acd9b84d6b4e2c2fb690569e748b145ee51588e0c32994888cc975",
+      "bytes": 5574,
+      "gitBlob": "a0965d6482645cbaeb52f32ff457314e5fc002d9"
+    },
+    {
+      "path": "vendor/video-director/video-director/scripts/contact_sheet.sh",
+      "sha256": "80d3c192f9c20a2d183775e1710c78915ab54705d85829bcf4911e13d5b52148",
+      "bytes": 2119,
+      "gitBlob": "5a3e80f76eef575f3c16db97a0ce8ef65b87ac89"
+    },
+    {
+      "path": "vendor/video-director/video-director/scripts/font_fit.py",
+      "sha256": "0cd0ba0e8847c6329ca329c48328f90d9109bc3d55afea1eff4e029ab70bcb21",
+      "bytes": 1997,
+      "gitBlob": "ef92fe76ccdbaef87e89301b30a2729d76b8a170"
+    },
+    {
+      "path": "vendor/video-director/video-director/scripts/make_gif.sh",
+      "sha256": "f30158a4f9564cd31e8f43903aa05337b10cc9cbc195017846dbb16b31b6b414",
+      "bytes": 748,
+      "gitBlob": "23d6589550ab99ac21ea1c80c4be188176df2f5b"
+    },
+    {
+      "path": "vendor/video-director/video-director/scripts/master.py",
+      "sha256": "20ce3c40a592245d04ecc9f53408b500716f8444360258f1e5588639f3ad517c",
+      "bytes": 2985,
+      "gitBlob": "ccda2375ef66b9bfb23d314540ecaebaefd7e70a"
+    },
+    {
+      "path": "vendor/video-director/video-director/scripts/share_versions.sh",
+      "sha256": "d65425a66292938fe92d0671a2e3abcf38de63fae57d55d02d9dc2f44eadd41b",
+      "bytes": 1140,
+      "gitBlob": "a645c7122ef9712cd333bc1f07315c082259d155"
+    },
+    {
+      "path": "vendor/video-director/video-director/scripts/simmix.py",
+      "sha256": "ad28e7e5209acb0360e7d1bef0f814b567b3f0edcd9dbe910ccbe96263dff4bf",
+      "bytes": 3905,
+      "gitBlob": "ebf734fce700a4fed1e236820a40c4823dd96bb5"
+    }
+  ]
+}

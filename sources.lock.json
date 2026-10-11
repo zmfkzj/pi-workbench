@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "sources": {
+    "ponytail": {
+      "repository": "DietrichGebert/ponytail",
+      "branch": "main",
+      "commit": "9b58c1ffb790c075ca32e70a89cf1d80588f4abf"
+    },
+    "ecc": {
+      "repository": "affaan-m/ECC",
+      "branch": "main",
+      "commit": "8ce348fbea0d66f5c49c7b35e8ba8bb143b15132"
+    },
+    "anthropic-skills": {
+      "repository": "anthropics/skills",
+      "branch": "main",
+      "commit": "dbd4588f9e1033efb41dad4bef2f7947c8993d44"
+    },
+    "ui-ux-pro-max": {
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "branch": "main",
+      "commit": "67803eac81607188194aea9842a723b89326d90d"
+    },
+    "requirements": {
+      "repository": "qa-aman/claude-skills",
+      "branch": "main",
+      "commit": "72ef27fe4fe791363be7c811a16c25ffaa6ea9c0"
+    },
+    "problem-solving": {
+      "repository": "schattenspiegel/skill-foundry-skills",
+      "branch": "main",
+      "commit": "d09a0109b081d9e350c2e48e8e8d8282da5976b8"
+    },
+    "root-cause": {
+      "repository": "meiiie/structured-root-cause-research-skill",
+      "branch": "main",
+      "commit": "bf2b7ef2277d72ac5cca59929f15c10b0c808bfd"
+    },
+    "game-design": {
+      "repository": "saschb2b/skills",
+      "branch": "main",
+      "commit": "007d499932facd683aae4775dc0d341dca91e53b"
+    },
+    "tao": {
+      "repository": "NVIDIA-TAO/tao-skill-bank",
+      "branch": "main",
+      "commit": "6e022786ab6afe8aa41c877e0d6c9fd391a38fda"
+    },
+    "fiftyone": {
+      "repository": "voxel51/fiftyone-skills",
+      "branch": "main",
+      "commit": "8b87befcce6cfb86e73b4ccc1f692a0a2b6a4218"
+    },
+    "quality-engineering": {
+      "repository": "RBraga01/Quality-Engineering-Skills",
+      "branch": "master",
+      "commit": "70df27cbd6a5ad6808499e934d2c72be4f8bef1e"
+    },
+    "context7": {
+      "repository": "upstash/context7",
+      "branch": "master",
+      "commit": "522c4db4fa2e1e31f1b320f09fa8c8fab376987a"
+    },
+    "ast-grep": {
+      "repository": "ast-grep/agent-skill",
+      "branch": "main",
+      "commit": "f2175aff21f20cfb8e2db30c28febeb3a2d42b61"
+    },
+    "property-testing": {
+      "repository": "trailofbits/skills",
+      "branch": "main",
+      "commit": "442fc9d6c89b1e937e6f7a477e7071ea75fcbea4"
+    },
+    "vercel": {
+      "repository": "vercel-labs/agent-skills",
+      "branch": "main",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278"
+    },
+    "gamedev": {
+      "repository": "gamedev-skills/awesome-gamedev-agent-skills",
+      "branch": "main",
+      "commit": "0a70cfc64672d512c5b5b6006b5dcb5cf90dbdbd"
+    },
+    "codex-imagegen": {
+      "repository": "openai/codex",
+      "branch": "main",
+      "commit": "a07c8ebd57feedc4cf5dfe854c8e9101de54186b"
+    },
+    "elevenlabs": {
+      "repository": "elevenlabs/skills",
+      "branch": "main",
+      "commit": "1d08a4a250cff67cc8056ec31587c031ecb06d2f"
+    },
+    "video-director": {
+      "repository": "DotanVG/video-director-skill",
+      "branch": "main",
+      "commit": "59d5909fca60166c430aa43811c6fb389d490e3b"
+    },
+    "vfx": {
+      "repository": "MengTo/Skills",
+      "branch": "main",
+      "commit": "83a47fee32f0b6349bff1fede99257a5ef03dc93"
+    },
+    "superpowers": {
+      "repository": "obra/superpowers",
+      "branch": "main",
+      "commit": "bb92a77741419a4ab5f06e711a283343f1ada0c3"
+    }
+  }
+}

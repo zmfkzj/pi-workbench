@@ -1,0 +1,285 @@
+{
+  "schemaVersion": 1,
+  "sources": [
+    {
+      "id": "ponytail",
+      "repository": "DietrichGebert/ponytail",
+      "branch": "main",
+      "license": "MIT",
+      "include": [
+        "skills/ponytail",
+        "skills/ponytail-review"
+      ],
+      "licenseFiles": [
+        "LICENSE"
+      ]
+    },
+    {
+      "id": "ecc",
+      "repository": "affaan-m/ECC",
+      "branch": "main",
+      "license": "MIT",
+      "include": [
+        "skills/search-first"
+      ],
+      "licenseFiles": [
+        "LICENSE"
+      ]
+    },
+    {
+      "id": "anthropic-skills",
+      "repository": "anthropics/skills",
+      "branch": "main",
+      "license": "Apache-2.0",
+      "include": [
+        "skills/frontend-design"
+      ],
+      "licenseFiles": [
+        "skills/frontend-design/LICENSE.txt"
+      ]
+    },
+    {
+      "id": "ui-ux-pro-max",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "branch": "main",
+      "license": "MIT",
+      "include": [
+        ".claude/skills/ui-ux-pro-max"
+      ],
+      "licenseFiles": [
+        "LICENSE"
+      ]
+    },
+    {
+      "id": "requirements",
+      "repository": "qa-aman/claude-skills",
+      "branch": "main",
+      "license": "MIT",
+      "include": [
+        "skills/by-role/business-analyst/requirements-elicitation"
+      ],
+      "licenseFiles": [
+        "LICENSE"
+      ]
+    },
+    {
+      "id": "problem-solving",
+      "repository": "schattenspiegel/skill-foundry-skills",
+      "branch": "main",
+      "license": "MIT",
+      "include": [
+        "skills/problem-solving"
+      ],
+      "licenseFiles": [
+        "LICENSE"
+      ]
+    },
+    {
+      "id": "root-cause",
+      "repository": "meiiie/structured-root-cause-research-skill",
+      "branch": "main",
+      "license": "MIT",
+      "include": [
+        "SKILL.md"
+      ],
+      "licenseFiles": [
+        "LICENSE"
+      ]
+    },
+    {
+      "id": "game-design",
+      "repository": "saschb2b/skills",
+      "branch": "main",
+      "license": "MIT",
+      "include": [
+        "skills/productivity/game-design"
+      ],
+      "licenseFiles": [
+        "LICENSE"
+      ]
+    },
+    {
+      "id": "tao",
+      "repository": "NVIDIA-TAO/tao-skill-bank",
+      "branch": "main",
+      "license": "Apache-2.0",
+      "include": [
+        "skills/applications/tao-validate-recipe-transfer"
+      ],
+      "licenseFiles": [
+        "LICENSE"
+      ]
+    },
+    {
+      "id": "fiftyone",
+      "repository": "voxel51/fiftyone-skills",
+      "branch": "main",
+      "license": "Apache-2.0",
+      "include": [
+        "skills/fiftyone-model-evaluation"
+      ],
+      "licenseFiles": [
+        "LICENSE"
+      ]
+    },
+    {
+      "id": "quality-engineering",
+      "repository": "RBraga01/Quality-Engineering-Skills",
+      "branch": "master",
+      "license": "MIT",
+      "include": [
+        "skills/problem-solving/8d-problem-solving",
+        "skills/problem-solving/dmaic",
+        "skills/problem-solving/is-is-not-scoping",
+        "skills/problem-solving/5why-root-cause",
+        "skills/problem-solving/fishbone-analysis",
+        "skills/documentation/8d-report-writing"
+      ],
+      "licenseFiles": [
+        "LICENSE"
+      ]
+    },
+    {
+      "id": "gamedev",
+      "repository": "gamedev-skills/awesome-gamedev-agent-skills",
+      "branch": "main",
+      "license": "Apache-2.0",
+      "include": [
+        "skills/disciplines/create-game-assets",
+        "skills/disciplines/game-feel",
+        "skills/disciplines/game-ui-ux"
+      ],
+      "licenseFiles": [
+        "LICENSE",
+        "NOTICE"
+      ]
+    },
+    {
+      "id": "codex-imagegen",
+      "repository": "openai/codex",
+      "branch": "main",
+      "license": "Apache-2.0",
+      "include": [
+        "codex-rs/skills/src/assets/samples/imagegen"
+      ],
+      "licenseFiles": [
+        "codex-rs/skills/src/assets/samples/imagegen/LICENSE.txt"
+      ]
+    },
+    {
+      "id": "elevenlabs",
+      "repository": "elevenlabs/skills",
+      "branch": "main",
+      "license": "MIT",
+      "include": [
+        "sound-effects",
+        "music"
+      ],
+      "licenseFiles": [
+        "LICENSE"
+      ]
+    },
+    {
+      "id": "video-director",
+      "repository": "DotanVG/video-director-skill",
+      "branch": "main",
+      "license": "MIT",
+      "include": [
+        "video-director"
+      ],
+      "licenseFiles": [
+        "LICENSE"
+      ]
+    },
+    {
+      "id": "vfx",
+      "repository": "MengTo/Skills",
+      "branch": "main",
+      "license": "MIT",
+      "include": [
+        "agent-skills/game-combat/fire-smoke-skill-vfx"
+      ],
+      "licenseFiles": [
+        "LICENSE"
+      ]
+    },
+    {
+      "id": "context7",
+      "repository": "upstash/context7",
+      "branch": "master",
+      "license": "MIT",
+      "include": [
+        "skills/find-docs"
+      ],
+      "licenseFiles": [
+        "LICENSE"
+      ]
+    },
+    {
+      "id": "ast-grep",
+      "repository": "ast-grep/agent-skill",
+      "branch": "main",
+      "license": "MIT",
+      "include": [
+        "ast-grep/skills/ast-grep",
+        "ast-grep/skills/outline"
+      ],
+      "licenseFiles": [
+        "README.md",
+        "ast-grep/.claude-plugin/plugin.json"
+      ],
+      "licenseEvidence": "MIT declared in README and plugin manifest; upstream has no standalone LICENSE file."
+    },
+    {
+      "id": "superpowers",
+      "repository": "obra/superpowers",
+      "branch": "main",
+      "license": "MIT",
+      "include": [
+        "skills/verification-before-completion"
+      ],
+      "licenseFiles": [
+        "LICENSE"
+      ]
+    },
+    {
+      "id": "property-testing",
+      "repository": "trailofbits/skills",
+      "branch": "main",
+      "license": "CC-BY-SA-4.0",
+      "include": [
+        "plugins/property-based-testing/skills/property-based-testing"
+      ],
+      "licenseFiles": [
+        "LICENSE"
+      ]
+    },
+    {
+      "id": "vercel",
+      "repository": "vercel-labs/agent-skills",
+      "branch": "main",
+      "license": "MIT",
+      "include": [
+        "skills/react-best-practices"
+      ],
+      "licenseFiles": [
+        "README.md"
+      ],
+      "licenseEvidence": "MIT declared in README and skill frontmatter; upstream has no standalone LICENSE file.",
+      "aliases": [
+        {
+          "from": "skills/react-best-practices/rules/async-defer-await.md",
+          "to": "skills/react-best-practices/async-defer-await.md"
+        },
+        {
+          "from": "skills/react-best-practices/rules/async-cheap-condition-before-await.md",
+          "to": "skills/react-best-practices/async-cheap-condition-before-await.md"
+        },
+        {
+          "from": "skills/react-best-practices/rules/server-hoist-static-io.md",
+          "to": "skills/react-best-practices/server-hoist-static-io.md"
+        }
+      ]
+    }
+  ]
+}
