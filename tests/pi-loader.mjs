@@ -28,6 +28,11 @@ try {
   assert.equal(installed.length, 1, "Exactly one Workbench extension must register.");
   assert(installed[0].handlers.has("context"), "Profile guidance is projected per request through the context event.");
   assert(installed[0].handlers.has("before_agent_start"));
+  // One-shot selections ride on the user's own input; branch changes and runtime ends drop them; Tab completion wraps at session start.
+  for (const event of ["input", "session_start", "session_tree", "session_shutdown"]) assert(installed[0].handlers.has(event), event);
+  // Command output records (session entries) and the one-shot message have their own transcript renderers.
+  assert.deepEqual([...(installed[0].entryRenderers?.keys() ?? [])], ["pi-workbench.command-output"]);
+  assert.deepEqual([...installed[0].messageRenderers.keys()], ["pi-workbench.selected-skill"]);
   // The registered /workbench callback itself (not only the pure function) completes arguments from the catalog.
   const complete = installed[0].commands.get("workbench").getArgumentCompletions;
   assert.equal(typeof complete, "function", "/workbench completes arguments.");
@@ -37,12 +42,14 @@ try {
   assert.deepEqual(await values("list ga"), ["list game"]);
   assert.deepEqual(await values("skill ponytail-r"), ["skill ponytail-review"]);
   assert.equal(await complete("use coding "), null);
+  assert.deepEqual(await values("c"), ["cancel"]);
+  assert.equal(await complete("cancel "), null, "Nothing is pending in a fresh runtime.");
   const skills = loader.getSkills();
   assert.deepEqual(skills.diagnostics, []);
   const expected = ["requirements", "game", "analysis", "vision", "manufacturing", "coding", "promo"].map((id) => `wb-${id}`).sort();
   assert.deepEqual(skills.skills.map((skill) => skill.name).sort(), expected, "Discover only the seven routing skills, not all vendor skills.");
   assert(skills.skills.every((skill) => skill.filePath.startsWith(join(root, "skills"))));
-  console.log(JSON.stringify({ ok: true, hostModule: hostSpecifier, registeredCommands: ["workbench"], argumentCompletion: true, discoveredSkills: expected, extensionErrors: 0, skillDiagnostics: 0 }, null, 2));
+  console.log(JSON.stringify({ ok: true, hostModule: hostSpecifier, registeredCommands: ["workbench"], handlers: [...installed[0].handlers.keys()], entryRenderers: [...installed[0].entryRenderers.keys()], argumentCompletion: true, discoveredSkills: expected, extensionErrors: 0, skillDiagnostics: 0 }, null, 2));
 } finally {
   await rm(sandbox, { recursive: true, force: true });
 }

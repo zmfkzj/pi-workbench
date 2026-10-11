@@ -80,14 +80,23 @@ Pi 1.1.0의 실제 리소스 로더에서 확장과 스킬 발견을 검증했�
 이 게임 플레이 영상으로 15초 세로 트레일러와 가로 배너를 만들어줘. 연결된 도구로 제작하고 실제 확인한 항목을 알려줘.
 ```
 
-특정 스킬을 다음 요청에만 적용하려면:
+특정 스킬을 다음 요청 한 번에만 적용하려면:
 
 ```text
 /workbench skill ponytail
 이 변경을 구현해줘.
 ```
 
-해당 명령은 원본 스킬과 주의사항을 다음 사용자 요청에 전달한다. 모델 턴을 자동 시작하지 않으며, 기존 프로필 선택도 바꾸지 않는다. **에이전트가 작업 중일 때는 선택을 거부한다.** 작업 중에 보내는 steering·follow-up 요청에는 적용할 수 없고, 나중의 무관한 요청에 붙는 것을 막기 위해서다. 작업이 끝난 뒤 다시 선택하고 요청을 보낸다.
+선택한 스킬은 바로 다음 사용자 요청 한 번에 붙는다. 그 요청 앞에 Pi의 `/skill:` 형식 블록(대화 화면에서는 접힌 `[skill]` 항목)으로 원본 스킬·위치·주의사항을 넣고, 같은 메시지의 그 요청과 그 요청이 시작한 작업에만 적용하며 이후 요청에는 적용하지 않는다고 밝힌다. 이 텍스트는 대화 이력에 남지만 적용 범위는 그 요청 하나다. 모델 턴을 자동 시작하지 않고 프로필도 바꾸지 않는다.
+
+- **다음 사용자 요청:** idle 상태에서 보낸 요청, 에이전트가 작업하는 동안 입력한 steering·follow-up 메시지, RPC 입력, 확장이 사용자 대신 보내는 요청(`/orche single` 등, 보류됐다 다시 보내지는 follow-up, session-bus 작업 큐)이다. 작업 중에도 선택할 수 있다.
+- 다른 확장이 스스로 보내는 메시지(작업 결과, 다른 세션의 메시지 등. `triggerTurn` 포함)는 사용자 요청이 아니므로 선택을 가져가지 않는다.
+- 같은 스킬을 다시 고르면 한 번만 붙는다. 서로 다른 스킬 여러 개는 선택한 순서대로 한 블록에 붙는다.
+- `/workbench status`로 대기 중인 선택을 확인하고 `/workbench cancel [id]`로 하나 또는 전부 취소한다.
+- `/reload`, 분기 이동(`/tree`), 새 세션·세션 전환·fork 때 대기 중인 선택은 알림과 함께 취소된다. 다른 분기나 세션의 요청으로 넘어가지 않는다. 분기 이동이 취소되면 유지된다.
+- `/skill:이름`이나 프롬프트 템플릿으로 시작하는 요청은 Pi가 직접 펼치므로 앞에 붙이지 않는다. idle 상태에서 보낸 이런 요청에는 그 요청 바로 뒤 메시지로 붙는다("바로 앞 사용자 요청에만 적용").
+- **지원하지 않는 경우:** 작업 중 대기열에 넣는 `/skill:`·프롬프트 템플릿 요청에는 붙일 수 없다. Pi가 입력 이벤트 직후 이를 펼쳐 대기열에 넣고, 모델에 전달하기 전에 확장 hook을 다시 부르지 않기 때문이다(요청 문자열을 바꾸면 템플릿 인수나 스킬 명령의 요청이 달라진다). 이때 선택은 알림과 함께 취소되고 이후 요청으로 넘어가지 않는다. 필요하면 작업이 끝난 뒤 다시 선택해 보내거나, 다시 선택한 뒤 일반 문장으로 steering·follow-up을 보낸다.
+- idle 요청이 모델 실행 전에 멈추면(예: 모델 없음) 그 요청이 가져간 선택도 다음 입력 때 알림과 함께 취소된다. 스킬을 읽는 중에 들어온 요청은 읽기를 기다린 뒤 그 선택을 받는다.
 
 ## 프로필 구성
 
@@ -115,15 +124,16 @@ Game UI/UX는 플레이 화면의 HUD·메뉴·입력 설계용이라 `game`에�
 | `/workbench use coding` | 현재 대화 분기의 프로필 선택 |
 | `/workbench use auto` | 기본 Pi 스킬 탐색 사용 |
 | `/workbench use off` | 확장이 추가하는 프로필 안내 중지 |
-| `/workbench skill ponytail-review` | 다음 요청에 원본 스킬과 적용 조건 전달(작업이 끝난 뒤에만) |
-| `/workbench status` | 현재 프로필 확인 |
+| `/workbench skill ponytail-review` | 다음 사용자 요청 한 번에 원본 스킬과 적용 조건 전달(작업 중 steering·follow-up 포함) |
+| `/workbench cancel [id]` | 대기 중인 스킬 선택 취소(id를 빼면 전부) |
+| `/workbench status` | 현재 프로필과 대기 중인 스킬 선택 확인 |
 | `/workbench doctor` | 로컬 도구·환경변수의 존재 여부 확인 |
 
-Pi 입력창에서 `/workbench ` 뒤에 Tab을 누르면 하위 명령을, `use `·`list `·`skill ` 뒤에서는 `catalog.json`의 프로필(`use`는 `auto`·`off` 포함)과 스킬 ID를 입력한 prefix에 맞춰 제안한다(예: `/workbench use co` → `use coding`, `/workbench skill ponytail-r` → `skill ponytail-review`). 완성은 catalog만 읽고 스킬 본문을 열거나 프로필·세션 상태를 바꾸지 않는다. 이미 완성된 인수 뒤나 인수가 없는 하위 명령 뒤에는 후보를 내지 않는다.
+Pi 입력창에서 `/workbench ` 뒤에 Tab을 누르면 하위 명령을, `use `·`list `·`skill `·`cancel ` 뒤에서는 `catalog.json`의 프로필(`use`는 `auto`·`off` 포함)·스킬 ID·대기 중인 선택을 입력한 prefix에 맞춰 제안한다(예: `/workbench use co` → `use coding`, `/workbench skill ponytail-r` → `skill ponytail-review`). 후보 목록이 닫힌 상태에서 Tab을 눌러도(Pi의 강제 완성) 같은 후보가 나오며 파일 목록으로 빠지지 않는다. 확장이 세션 시작 때 `ctx.ui.addAutocompleteProvider`로 `/workbench` 인수 위치에만 작용하는 wrapper를 등록하고, 다른 명령·파일 경로·입력 중 자동 제안은 Pi의 기본 동작 그대로다. 후보가 하나면 Tab이 바로 적용하고, 목록이 열린 상태의 Enter는 고른 후보를 적용만 하며 실행은 다음 Enter로 한다. `ponytail`처럼 다른 ID(`ponytail-review`)의 prefix인 ID를 끝까지 입력하면 두 후보가 모두 나오고 Enter는 입력한 ID를 그대로 둔다. 완성은 catalog만 읽고 스킬 본문을 열거나 프로필·세션 상태를 바꾸지 않는다. 이미 완성된 인수 뒤나 인수가 없는 하위 명령 뒤에는 후보를 내지 않는다. print·JSON·RPC 모드에는 입력창 자동완성이 없다.
 
 설치된 Pi의 native skill 명령으로 `/skill:wb-requirements`, `/skill:wb-game`, `/skill:wb-analysis`, `/skill:wb-vision`, `/skill:wb-manufacturing`, `/skill:wb-coding`, `/skill:wb-promo`를 직접 선택할 수도 있다.
 
-`list`·`status`·`doctor`·도움말의 출력은 화면 알림으로만 보여 주며 세션에 저장하거나 모델에 보내지 않는다. 대화형(TUI)과 RPC에서 보이며, UI가 없는 print/JSON 모드에서는 표시되지 않는다.
+`list`·`status`·`doctor`·도움말의 출력은 세션 기록(custom entry `pi-workbench.command-output`)으로 남긴다. 대화형(TUI)에서는 이 기록이 대화 화면에 표시되어 다음 알림에 덮이지 않고, 세션을 다시 열어도 보인다. 이 기록은 모델 요청과 압축 요약에 들어가지 않는다(Pi는 custom entry를 모델 컨텍스트에서 제외한다). 단, Pi는 사용자·assistant 메시지가 하나도 없는 세션을 파일로 저장하지 않으므로, 명령만 실행한 새 세션의 기록은 첫 대화가 생기기 전에는 디스크에 남지 않는다. 다른 모드(Pi 1.1.0 CLI로 확인): RPC(`--mode rpc`)는 `extension_ui_request`의 `notify` 알림과 `entry_appended` 이벤트를 모두 보내고, JSON 모드(`--mode json`)는 `entry_appended` 이벤트의 `entry.data.text`로만 보낸다. 텍스트 print 모드(`pi -p`)는 확장 알림과 세션 기록을 출력하지 않아 아무것도 보이지 않는다. 짧은 확인(`use`·`skill`·`cancel`)은 알림으로만 보여 준다.
 
 프로필 안내는 요청마다 현재 대화 분기의 프로필로 다시 만들어 모델 요청에만 하나 넣고, 세션에는 저장하지 않는다(Pi의 `context` 이벤트). 이전 버전이 저장한 프로필 안내·명령 출력 메시지도 요청에서 제외한다. 세션 파일의 기존 기록이나 이미 만든 압축 요약을 지우지는 않는다. `off`는 스킬을 제거하거나 지난 대화를 지우지 않는다.
 
@@ -174,13 +184,14 @@ node scripts/check.mjs
 node --test tests/runtime.test.mjs
 ```
 
-첫 명령은 구성, 프로필↔스킬 소속의 양방향 일치, 라이선스 포함 여부, 모든 원본 파일의 Git blob/SHA-256, 별칭 파일, 로컬 Markdown 참조를 검사한다. 두 번째는 상태·명령·인수 자동완성·요청별 프로필 안내·작업 중 선택 거부·로딩 경계·호스트 호환·doctor를 검증한다.
+첫 명령은 구성, 프로필↔스킬 소속의 양방향 일치, 라이선스 포함 여부, 모든 원본 파일의 Git blob/SHA-256, 별칭 파일, 로컬 Markdown 참조를 검사한다. 두 번째는 상태·명령·인수 자동완성(강제 Tab wrapper 포함)·요청별 프로필 안내·one-shot 선택(다음 사용자 입력 연결, 중복·취소·분기/reload, 대기열 `/skill:`·템플릿 취소, 읽기 중 경합)·명령 출력 기록과 렌더러·호스트 호환·doctor를 검증한다.
 
-별도로 설치된 Pi로 실제 리소스 로딩과 세션 동작을 확인할 수 있다. 두 번째는 스크립트 모델(faux)로 연속 요청·분기 전환·reload·auto/off·작업 중 선택에서 모델이 받는 내용을 검사하며 네트워크나 유료 모델을 쓰지 않는다.
+별도로 설치된 Pi로 실제 리소스 로딩과 세션·입력창 동작을 확인할 수 있다. `pi-session.mjs`는 스크립트 모델(faux)로 연속 요청·분기 전환·reload·auto/off, 다른 확장의 `triggerTurn` 실행 중 steering·follow-up에 붙는 선택, 대기열 `/skill:`·템플릿의 취소, 명령 출력 기록의 재열기에서 모델이 받는 내용을 검사하며 네트워크나 유료 모델을 쓰지 않는다. `pi-editor.mjs`는 Pi 입력창 편집기(pi-tui `Editor`)에 키를 입력해 Tab·Enter 동작을 확인한다(터미널 화면은 그리지 않음).
 
 ```bash
 PI_WORKBENCH_HOST_MODULE=/path/to/pi/dist/index.js node tests/pi-loader.mjs
 PI_WORKBENCH_HOST_MODULE=/path/to/pi/dist/index.js node tests/pi-session.mjs
+PI_WORKBENCH_HOST_MODULE=/path/to/pi/dist/index.js node tests/pi-editor.mjs
 ```
 
 실제 확인 범위와 미검증 항목은 [검증 기록](docs/VALIDATION.md)에 있다. API 비용이 드는 이미지·음악 생성이나 모델 학습을 테스트 과정에서 호출하지 않았다.

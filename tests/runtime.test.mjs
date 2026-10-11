@@ -5,19 +5,29 @@ import { dirname, join } from "node:path";
 import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
 import {
-  BUSY_SKILL_MESSAGE,
+  OUTPUT_ENTRY_TYPE,
   OUTPUT_TYPE,
   PROFILE_TYPE,
   SELECTED_SKILL_TYPE,
+  SKILL_MARKER,
   STATE_TYPE,
   completeWorkbenchArguments,
+  displayWidth,
   doctor,
+  embedSkillSelections,
   readCatalog,
   probeExecutable,
   readSkill,
   registerWorkbench,
+  renderOutputEntry,
+  renderSelectedSkillMessage,
   resolveSkillPath,
+  skillSelectionText,
+  workbenchAutocompleteProvider,
 } from "../lib/runtime.js";
+
+// Pi 1.1.0's parser of a `/skill:name request` user message (agent-session.js parseSkillBlock), which its transcript uses.
+const PI_SKILL_BLOCK = /^<skill name="([^"]+)" location="([^"]+)">\n([\s\S]*?)\n<\/skill>(?:\n\n([\s\S]+))?$/;
 
 function state(mode) {
   return { type: "custom", customType: STATE_TYPE, data: { mode } };
@@ -97,19 +107,26 @@ const user = (text, timestamp = 1) => ({ role: "user", content: [{ type: "text",
 const assistant = (text) => ({ role: "assistant", content: [{ type: "text", text }], timestamp: 2 });
 const custom = (customType, content) => ({ role: "custom", customType, content, display: false, timestamp: 3 });
 const profiles = (messages) => messages.filter((m) => m.role === "custom" && m.customType === PROFILE_TYPE);
+const count = (text, needle) => text.split(needle).length - 1;
+const plainTheme = { fg: (_token, text) => text, bg: (_token, text) => text };
+// eslint-disable-next-line no-control-regex
+const plain = (lines) => lines.map((line) => line.replace(/\x1b\[[0-9;]*m/g, ""));
 
 /**
  * @param {string} root
  * @param {any[]} [initialBranch]
- * @param {{ idle?: () => boolean }} [options]
+ * @param {{ mode?: string, commands?: any[] | (() => any[]), renderers?: boolean }} [options]
  */
-function harness(root, initialBranch = [], { idle = () => true } = {}) {
+function harness(root, initialBranch = [], { mode, commands: slashCommands = [], renderers = true } = {}) {
   let branch = initialBranch;
   const commands = new Map();
   const hooks = new Map();
   const messages = [];
   const appends = [];
   const notifications = [];
+  const entryRenderers = new Map();
+  const messageRenderers = new Map();
+  const autocompleteFactories = [];
   const pi = {
     registerCommand(name, definition) {
       assert.ok(!commands.has(name), "The extension must not register its command twice.");
@@ -127,17 +144,28 @@ function harness(root, initialBranch = [], { idle = () => true } = {}) {
     sendMessage(message, options) {
       messages.push({ message: structuredClone(message), options: structuredClone(options) });
     },
+    getCommands: () => (typeof slashCommands === "function" ? slashCommands() : slashCommands),
+    ...(renderers ? {
+      registerEntryRenderer(customType, renderer) { entryRenderers.set(customType, renderer); },
+      registerMessageRenderer(customType, renderer) { messageRenderers.set(customType, renderer); },
+    } : {}),
   };
   const ctx = {
+    mode,
     sessionManager: { getBranch: () => branch },
-    ui: { notify: (message, level) => notifications.push({ message, level }) },
-    isIdle: () => idle(),
+    ui: {
+      notify: (message, level) => notifications.push({ message, level }),
+      addAutocompleteProvider: (factory) => autocompleteFactories.push(factory),
+    },
   };
   registerWorkbench(pi, root);
   return {
-    commands, hooks, messages, appends, notifications,
+    commands, hooks, messages, appends, notifications, entryRenderers, messageRenderers, autocompleteFactories,
     outputs: () => notifications.filter(({ level }) => level === "info").map(({ message }) => message),
+    warnings: () => notifications.filter(({ level }) => level === "warning").map(({ message }) => message),
     errors: () => notifications.filter(({ level }) => level === "error").map(({ message }) => message),
+    records: () => appends.filter(({ customType }) => customType === OUTPUT_ENTRY_TYPE).map(({ data }) => data),
+    states: () => appends.filter(({ customType }) => customType === STATE_TYPE),
     switchBranch(entries) { branch = entries; },
     command(args) { return commands.get("workbench").handler(args, ctx); },
     complete(prefix) { return commands.get("workbench").getArgumentCompletions(prefix); },
@@ -145,6 +173,11 @@ function harness(root, initialBranch = [], { idle = () => true } = {}) {
     /** The conversation the model receives for one request (the context hook's projection). */
     async request(list = []) { return (await this.context(list))?.messages ?? list; },
     beforeStart(event = {}) { return hooks.get("before_agent_start")(event, ctx); },
+    /** A user input as Pi's input event carries it (idle unless `streamingBehavior` is set). */
+    input(text, event = {}) { return hooks.get("input")({ type: "input", text, source: "interactive", ...event }, ctx); },
+    start() { return hooks.get("session_start")({ type: "session_start", reason: "startup" }, ctx); },
+    tree() { return hooks.get("session_tree")({ type: "session_tree", newLeafId: "b", oldLeafId: "a" }, ctx); },
+    shutdown(reason) { return hooks.get("session_shutdown")({ type: "session_shutdown", reason }, ctx); },
   };
 }
 
@@ -152,13 +185,17 @@ test("registration has no startup messages, state writes, or dependency work", a
   const temporary = await temporaryDirectory(t);
   const h = harness(join(temporary, "package-not-installed"));
   assert.deepEqual([...h.commands.keys()], ["workbench"]);
-  assert.deepEqual([...h.hooks.keys()], ["context", "before_agent_start"]);
+  assert.deepEqual([...h.hooks.keys()], ["input", "context", "before_agent_start", "session_start", "session_tree", "session_shutdown"]);
+  assert.deepEqual([...h.entryRenderers.keys()], [OUTPUT_ENTRY_TYPE]);
+  assert.deepEqual([...h.messageRenderers.keys()], [SELECTED_SKILL_TYPE]);
   assert.deepEqual(h.messages, []);
   assert.deepEqual(h.appends, []);
   assert.deepEqual(h.notifications, []);
   assert.equal(await h.context([user("hello")]), undefined);
+  assert.equal(h.input("hello"), undefined, "Without a selection the input passes unchanged.");
   assert.equal(await h.beforeStart({ systemPrompt: "Existing instructions", systemPromptOptions: { sections: {} } }), undefined);
   assert.equal(await h.beforeStart({ systemPrompt: "Existing instructions" }), undefined);
+  h.tree();
   assert.deepEqual(h.notifications, [], "Default startup must not need a catalog or provider.");
 });
 
@@ -189,8 +226,8 @@ test("active branch history restores the last valid state and keeps sibling bran
   h.switchBranch(main);
   assert.match(await only(), /\(coding\)/);
   await h.command("status");
-  assert.equal(h.outputs().at(-1), "Workbench profile: coding");
-  assert.deepEqual(main, mainBefore, "Selecting a profile in a sibling must not rewrite its parent.");
+  assert.match(h.outputs().at(-1), /^Workbench profile: coding$/m);
+  assert.deepEqual(main.filter((entry) => entry.customType !== OUTPUT_ENTRY_TYPE), mainBefore, "Selecting a profile in a sibling must not rewrite its parent.");
   assert.equal(sibling.at(-1).data.mode, "off");
   assert.deepEqual(h.errors(), []);
   assert.deepEqual(h.messages, [], "Profile guidance and command output are never stored as messages.");
@@ -241,7 +278,7 @@ test("repeated requests carry exactly one current profile guidance and never sto
   assert.deepEqual(h.errors(), []);
 });
 
-test("list, filtered list, status and help are shown to the user without entering the model context", async (t) => {
+test("list, filtered list, status, doctor and help become session records that never enter the model context", async (t) => {
   const f = await fixture(t);
   const h = harness(f.root);
   await h.command("list");
@@ -252,81 +289,303 @@ test("list, filtered list, status and help are shown to the user without enterin
   assert.match(h.outputs().at(-1), /game-art/);
   assert.doesNotMatch(h.outputs().at(-1), /minimal-code|RAW-GAME-BODY/);
   await h.command("use coding");
-  assert.deepEqual(h.appends, [{ customType: STATE_TYPE, data: { mode: "coding" } }]);
+  assert.deepEqual(h.states(), [{ customType: STATE_TYPE, data: { mode: "coding" } }]);
   await h.command("status");
-  assert.equal(h.outputs().at(-1), "Workbench profile: coding");
+  assert.match(h.outputs().at(-1), /^Workbench profile: coding$/m);
+  assert.match(h.outputs().at(-1), /대기 중인 스킬 선택: 없음/);
   await h.command("");
   assert.match(h.outputs().at(-1), /\/workbench skill <id>/);
+  assert.match(h.outputs().at(-1), /\/workbench cancel \[id\]/);
+  await h.command("doctor");
+  assert.deepEqual(h.records().map(({ command }) => command), ["list", "list game", "status", "help", "doctor"],
+    "Each long output is a session entry; the profile confirmation is a notice only.");
+  assert.deepEqual(h.records().map(({ text }) => text), [0, 1, 3, 4, 5].map((index) => h.outputs()[index]),
+    "Outside the TUI (here: no mode) the record is also shown as a notification.");
   assert.deepEqual(h.messages, [], "Command output is not sent to or stored for the model.");
+  // Session entries are not messages: the model's context (here, the context hook's projection) never carries them.
+  assert.doesNotMatch(JSON.stringify(await h.request([user("request")])), /Profiles: coding|Workbench profile: coding|대기 중인 스킬 선택|Local executables|\/workbench cancel/);
   assert.deepEqual(h.errors(), []);
 });
 
-test("one-shot loading preserves exact raw instructions, canonical base directory, and explicit scope", async (t) => {
+test("in the interactive TUI the records are rendered in the transcript instead of a notice that a later one replaces", async (t) => {
   const f = await fixture(t);
-  const loaded = await readSkill(f.root, f.catalog.skills[0]);
-  assert.equal(loaded.raw, f.raw["minimal-code"]);
-  assert.equal(loaded.path, await realpath(join(f.root, f.catalog.skills[0].path)));
-  assert.equal(loaded.baseDir, dirname(loaded.path));
-  const startMarker = "--- BEGIN ORIGINAL SKILL.md ---\n";
-  const endMarker = "\n--- END ORIGINAL SKILL.md ---";
-  const start = loaded.content.indexOf(startMarker) + startMarker.length;
-  const end = loaded.content.lastIndexOf(endMarker);
-  assert.ok(start >= startMarker.length && end > start);
-  assert.equal(loaded.content.slice(start, end), f.raw["minimal-code"], "Do not normalize or rewrite upstream content.");
-  assert.match(loaded.content, /next user request and its continuations/);
-  assert.match(loaded.content, /does not change the Workbench profile/);
-  assert.match(loaded.content, /whole session do not apply to this one-shot selection/);
-  const baseLine = loaded.content.split("\n").find((line) => line.startsWith("Base directory: "));
-  const baseDir = JSON.parse(baseLine.slice("Base directory: ".length));
-  assert.equal(await readFile(join(baseDir, "references/checklist.md"), "utf8"), "Reference resolved from the skill directory.\n");
-  assert.match(loaded.content, /Do not add host-specific hooks/);
-  assert.match(loaded.content, /Optional documentation provider/);
-  assert.match(loaded.content, /not installed or connected by this extension/);
+  const h = harness(f.root, [state("coding")], { mode: "tui" });
+  for (const command of ["list", "list coding", "status", "help", "doctor"]) await h.command(command);
+  assert.deepEqual(h.outputs(), [], "No info notice: the transcript entry is the output.");
+  assert.equal(h.records().length, 5);
+  const render = h.entryRenderers.get(OUTPUT_ENTRY_TYPE);
+  const entry = { type: "custom", customType: OUTPUT_ENTRY_TYPE, data: h.records()[0] };
+  for (const width of [8, 20, 37, 80, 160]) {
+    const lines = render(entry, { expanded: false }, plainTheme).render(width);
+    assert.ok(lines.every((line) => displayWidth(line) <= width), `every line fits width ${width}`);
+    const text = plain(lines).join("\n").replace(/\s+/g, "");
+    assert.ok(text.startsWith("[workbenchlist]Profiles:coding,game"), `header and first line at width ${width}`);
+    for (const skill of f.catalog.skills) assert.ok(text.includes(skill.id), `${skill.id} at width ${width}`);
+  }
+  assert.match(plain(render(entry, { expanded: false }, plainTheme).render(80)).join("\n"), /^ \[workbench list\] *$/m);
+  // A record without its data renders nothing rather than failing the transcript.
+  assert.equal(render({ type: "custom", customType: OUTPUT_ENTRY_TYPE }, { expanded: false }, plainTheme), undefined);
+  // Without entry renderers (another host) the notice is still the output; the record is kept for the session.
+  const other = harness(f.root, [state("coding")], { mode: "tui", renderers: false });
+  await other.command("status");
+  assert.match(other.outputs().at(-1), /Workbench profile: coding/);
+  assert.equal(other.records().length, 1);
 });
 
-test("an idle skill selection queues for the next request without changing profile state", async (t) => {
+test("the renderers wrap wide text conservatively and keep Pi's transcript colors", () => {
+  assert.equal(displayWidth("abc"), 3);
+  assert.equal(displayWidth("가나"), 4);
+  assert.equal(displayWidth("— · →"), 5);
+  assert.equal(displayWidth("😀"), 2);
+  const colored = { fg: (token, text) => `<${token}>${text}</${token}>`, bg: (token, text) => `[${token}]${text}` };
+  const korean = "기능·비기능 요구사항과 수용 기준을 도출하는 아주 긴 설명 문장이 여러 줄로 나뉘어야 합니다";
+  const lines = renderOutputEntry({ data: { command: "list", text: korean } }, {}, plainTheme).render(24);
+  assert.ok(lines.length > 3);
+  assert.ok(lines.every((line) => displayWidth(line) <= 24));
+  assert.equal(plain(lines).join("").replace(/\s+/g, ""), `[workbenchlist]${korean.replace(/\s+/g, "")}`);
+  const styled = renderOutputEntry({ data: { command: "status", text: "Workbench profile: coding" } }, {}, colored).render(40);
+  assert.ok(styled.every((line) => line.startsWith("[customMessageBg]")));
+  assert.ok(styled.some((line) => line.includes("<customMessageLabel>")));
+  assert.ok(styled.some((line) => line.includes("<customMessageText>Workbench profile: coding</customMessageText>")));
+  const message = { role: "custom", customType: SELECTED_SKILL_TYPE, content: "FULL-SKILL-TEXT", display: true, details: { skillIds: ["review"] } };
+  const collapsed = renderSelectedSkillMessage(message, { expanded: false }, plainTheme).render(60).join("\n");
+  assert.match(collapsed, /\[skill\] review \(Workbench one-shot\)/);
+  assert.doesNotMatch(collapsed, /FULL-SKILL-TEXT/);
+  assert.match(renderSelectedSkillMessage(message, { expanded: true }, plainTheme).render(60).join("\n"), /FULL-SKILL-TEXT/);
+  // Messages an older version stored carry one skill id.
+  assert.match(renderSelectedSkillMessage({ ...message, details: { skillId: "old-id" } }, {}, plainTheme).render(60).join("\n"), /old-id/);
+});
+
+test("one-shot text keeps the exact raw instructions, the canonical base directory and a scope tied to its placement", async (t) => {
+  const f = await fixture(t);
+  const selection = await readSkill(f.root, f.catalog.skills[0]);
+  assert.equal(selection.raw, f.raw["minimal-code"]);
+  assert.equal(selection.path, await realpath(join(f.root, f.catalog.skills[0].path)));
+  assert.equal(selection.baseDir, dirname(selection.path));
+  const content = skillSelectionText([selection], f.root);
+  const startMarker = "--- BEGIN ORIGINAL SKILL.md ---\n";
+  const endMarker = "\n--- END ORIGINAL SKILL.md ---";
+  const start = content.indexOf(startMarker) + startMarker.length;
+  const end = content.lastIndexOf(endMarker);
+  assert.ok(start >= startMarker.length && end > start);
+  assert.equal(content.slice(start, end), f.raw["minimal-code"], "Do not normalize or rewrite upstream content.");
+  assert.ok(content.startsWith(`${SKILL_MARKER} Minimal Code (minimal-code).`));
+  assert.match(content, /for the user request that follows this block in the same message/);
+  assert.match(content, /Apply it to that request and the work it starts only/);
+  assert.match(content, /does not apply to later user requests, even though this text stays in the conversation history/);
+  assert.doesNotMatch(content, /next user request/, "The text sits with the request it applies to: no 'next request' that reads as a later one.");
+  assert.match(content, /does not change the Workbench profile/);
+  assert.match(content, /whole session do not apply to this one-shot selection/);
+  const baseLine = content.split("\n").find((line) => line.startsWith("Base directory: "));
+  const baseDir = JSON.parse(baseLine.slice("Base directory: ".length));
+  assert.equal(await readFile(join(baseDir, "references/checklist.md"), "utf8"), "Reference resolved from the skill directory.\n");
+  assert.match(content, /Do not add host-specific hooks/);
+  assert.match(content, /Optional documentation provider/);
+  assert.match(content, /not installed or connected by this extension/);
+  const after = skillSelectionText([selection], f.root, "after");
+  assert.match(after, /for the user request immediately before this message/);
+  // In front of the request, in Pi's own one-shot skill format: Pi's transcript shows a collapsed skill block and the request.
+  const embedded = embedSkillSelections([selection], f.root, "이 변경을 구현해줘");
+  const [, name, location, body, request] = PI_SKILL_BLOCK.exec(embedded);
+  assert.equal(name, "minimal-code");
+  assert.equal(location, selection.path);
+  assert.equal(body, content);
+  assert.equal(request, "이 변경을 구현해줘");
+  assert.ok(PI_SKILL_BLOCK.test(embedSkillSelections([selection], f.root, "")), "An image-only request keeps a parseable block.");
+});
+
+test("an idle selection goes to the next user request only, in front of it, without changing profile state", async (t) => {
   const f = await fixture(t);
   const entries = [state("game")];
   const h = harness(f.root, entries);
   await h.command("skill minimal-code");
-  assert.equal(h.messages.length, 1);
-  const { message, options } = h.messages[0];
-  assert.equal(message.customType, SELECTED_SKILL_TYPE);
-  assert.equal(message.display, true);
-  assert.deepEqual(options, { triggerTurn: false, deliverAs: "nextTurn" });
-  assert.deepEqual(message.details, {
-    skillId: "minimal-code",
-    baseDir: dirname(await realpath(join(f.root, f.catalog.skills[0].path))),
-  });
-  assert.ok(message.content.includes(f.raw["minimal-code"]));
+  assert.deepEqual(h.messages, [], "Nothing is queued in Pi: Workbench keeps the selection itself.");
   assert.deepEqual(h.appends, []);
-  assert.deepEqual(entries, [state("game")]);
-  assert.equal(h.notifications.at(-1).level, "info");
+  assert.match(h.outputs().at(-1), /minimal-code 원본 스킬을 다음 사용자 요청 한 번에 붙입니다/);
+  await h.command("status");
+  assert.match(h.outputs().at(-1), /대기 중인 스킬 선택 \(다음 사용자 요청 한 번\): minimal-code/);
+  const images = [{ type: "image", data: "AAAA", mimeType: "image/png" }];
+  const result = h.input("이 변경을 구현해줘", { images });
+  assert.equal(result.action, "transform");
+  assert.equal(result.images, undefined, "Images stay as they are (Pi keeps the current ones).");
+  const [, name, , body, request] = PI_SKILL_BLOCK.exec(result.text);
+  assert.equal(name, "minimal-code");
+  assert.equal(request, "이 변경을 구현해줘");
+  assert.ok(body.includes(f.raw["minimal-code"]));
+  assert.match(h.outputs().at(-1), /minimal-code 스킬을 이 사용자 요청에 붙였습니다/);
+  // Taken: the following requests are not touched again.
+  assert.equal(h.input("다음 요청"), undefined);
+  assert.equal(h.input("그 다음 요청", { streamingBehavior: "followUp" }), undefined);
+  await h.command("status");
+  assert.match(h.outputs().at(-1), /대기 중인 스킬 선택: 없음/);
   const subsequent = profiles(await h.request([user("request")]));
   assert.equal(subsequent.length, 1);
   assert.match(subsequent[0].content, /\(game\)/);
   assert.doesNotMatch(subsequent[0].content, /RAW-CODING-BODY|selected-skill/);
+  assert.deepEqual(entries.filter((entry) => entry.customType === STATE_TYPE), [state("game")]);
+  assert.deepEqual(h.errors(), []);
 });
 
-test("a skill selection while the agent is busy is refused, also when the agent starts during loading", async (t) => {
+test("a steering or follow-up message typed while another run works receives the selection", async (t) => {
   const f = await fixture(t);
-  for (const states of [[false], [true, false]]) {
-    const sequence = [...states];
-    const h = harness(f.root, [state("game")], { idle: () => Boolean(sequence.length > 1 ? sequence.shift() : sequence[0]) });
-    await h.command("skill minimal-code");
-    assert.deepEqual(h.messages, [], `nothing may be queued (${states})`);
-    assert.deepEqual(h.appends, []);
-    assert.equal(h.notifications.at(-1).level, "error");
-    assert.equal(h.notifications.at(-1).message, `Workbench: ${BUSY_SKILL_MESSAGE}`);
+  for (const streamingBehavior of ["steer", "followUp"]) {
+    const h = harness(f.root);
+    await h.command("skill review");
+    // An extension's own message (task result, peer note) starts a run without Pi's input event: nothing here is called.
+    const result = h.input("이 결과를 반영해줘", { streamingBehavior });
+    assert.equal(result.action, "transform", streamingBehavior);
+    assert.equal(PI_SKILL_BLOCK.exec(result.text)[4], "이 결과를 반영해줘");
+    assert.match(h.outputs().at(-1), streamingBehavior === "steer" ? /\(steering\)에 붙였습니다/ : /\(follow-up\)에 붙였습니다/);
+    assert.equal(h.input("나중의 무관한 요청"), undefined, `${streamingBehavior}: not attached again later`);
   }
+  // Selecting while the agent works is allowed now: the typed steering message right after takes it.
+  const busy = harness(f.root);
+  await busy.command("skill review");
+  assert.equal(busy.input("steer now", { streamingBehavior: "steer" }).action, "transform");
+  // A user message an extension submits on the user's behalf (/orche single, a held follow-up, a queued prompt) also takes it.
+  const relayed = harness(f.root);
+  await relayed.command("skill review");
+  assert.equal(relayed.input("relayed request", { source: "extension" }).action, "transform");
+  assert.match(relayed.outputs().at(-1), /확장이 사용자 대신 보낸 요청/);
+});
+
+test("selections are kept once per skill, several skills share one block, and cancel removes one or all", async (t) => {
+  const f = await fixture(t);
+  const h = harness(f.root);
+  await h.command("skill minimal-code");
+  await h.command("skill minimal-code");
+  assert.match(h.outputs().at(-1), /minimal-code은\(는\) 이미 다음 사용자 요청에 붙을 예정입니다/);
+  await h.command("skill review");
+  await h.command("skill game-art");
+  await h.command("status");
+  assert.match(h.outputs().at(-1), /: minimal-code, review, game-art —/);
+  await h.command("cancel review");
+  assert.match(h.outputs().at(-1), /review 선택을 취소했습니다\. 남은 선택: minimal-code, game-art/);
+  await h.command("cancel review");
+  assert.match(h.errors().at(-1), /대기 중인 스킬 선택이 아닙니다: review/);
+  const text = h.input("request").text;
+  const [, name, , body] = PI_SKILL_BLOCK.exec(text);
+  assert.equal(name, "minimal-code, game-art");
+  assert.equal(count(text, f.raw["minimal-code"]), 1, "One copy of a skill selected twice.");
+  assert.equal(count(text, "RAW-GAME-BODY"), 1);
+  assert.equal(count(text, "RAW-REVIEW-BODY"), 0, "A cancelled skill is not sent.");
+  assert.equal(count(text, SKILL_MARKER), 1);
+  assert.match(body, /these skills .* Apply them to that request and the work it starts only/s);
+  assert.ok(body.indexOf("## Minimal Code (minimal-code)") < body.indexOf("## Game Art (game-art)"), "Selection order is kept.");
+  await h.command("skill review");
+  await h.command("cancel");
+  assert.match(h.outputs().at(-1), /대기 중이던 스킬 선택을 취소했습니다: review/);
+  assert.equal(h.input("after cancel"), undefined);
+  await h.command("cancel");
+  assert.match(h.outputs().at(-1), /대기 중인 스킬 선택이 없습니다/);
+  assert.deepEqual(h.messages, []);
+});
+
+test("a branch change, reload or session switch drops pending selections with a notice; none moves to another request", async (t) => {
+  const f = await fixture(t);
+  const h = harness(f.root);
+  await h.command("skill review");
+  h.tree();
+  assert.match(h.warnings().at(-1), /분기를 옮겨 대기 중이던 스킬 선택을 취소했습니다: review/);
+  assert.equal(h.input("request on the other branch"), undefined);
+  for (const [reason, label] of [["reload", "/reload"], ["new", "새 세션"], ["resume", "세션 전환"], ["fork", "세션 fork"]]) {
+    const other = harness(f.root);
+    await other.command("skill review");
+    other.shutdown(reason);
+    assert.match(other.warnings().at(-1), new RegExp(`대기 중이던 스킬 선택을 취소했습니다 \\(${label}\\): review`));
+    assert.equal(other.input("request"), undefined, reason);
+  }
+  const quitting = harness(f.root);
+  await quitting.command("skill review");
+  quitting.shutdown("quit");
+  assert.deepEqual(quitting.warnings(), [], "Quitting needs no notice.");
+  // Nothing pending: a branch change says nothing.
+  const quiet = harness(f.root);
+  quiet.tree();
+  assert.deepEqual(quiet.notifications, []);
+});
+
+test("a selection still loading when it is cancelled, the branch changes or the runtime stops is not added afterwards", async (t) => {
+  const f = await fixture(t);
+  for (const interrupt of ["cancel", "cancel minimal-code", "tree", "reload"]) {
+    const h = harness(f.root);
+    const loading = h.command("skill minimal-code");
+    await h.command("status");
+    assert.match(h.outputs().at(-1), /: minimal-code —/, `${interrupt}: a loading selection is listed`);
+    if (interrupt === "tree") h.tree();
+    else if (interrupt === "reload") h.shutdown("reload");
+    else await h.command(interrupt);
+    await loading;
+    assert.equal(h.input("request"), undefined, `${interrupt}: no selection revived by the finished read`);
+    if (interrupt !== "reload") assert.match(h.warnings().at(-1), /불러오는 동안 선택이 취소되어 붙이지 않습니다/);
+  }
+  // Two selections of the same skill at once: one is kept.
+  const twice = harness(f.root);
+  await Promise.all([twice.command("skill review"), twice.command("skill review")]);
+  assert.equal(count(twice.input("request").text, "RAW-REVIEW-BODY"), 1);
+  // A request that arrives while the SKILL.md is still read waits for the read and takes the selection, not a later request.
+  const racing = harness(f.root);
+  const selecting = racing.command("skill review");
+  const taken = await racing.input("request typed right away");
+  await selecting;
+  assert.equal(taken.action, "transform");
+  assert.equal(PI_SKILL_BLOCK.exec(taken.text)[4], "request typed right away");
+  assert.equal(racing.input("later"), undefined);
+});
+
+test("requests Pi expands itself keep their command at the start: idle ones get the selection after them, queued ones cancel it", async (t) => {
+  const f = await fixture(t);
+  const slash = [{ name: "skill:wb-coding", source: "skill" }, { name: "review-template", source: "prompt" }, { name: "workbench", source: "extension" }];
+  for (const text of ["/skill:wb-coding 이 변경을 리뷰해줘", "/review-template src/app.ts"]) {
+    const h = harness(f.root, [], { commands: slash });
+    await h.command("skill review");
+    assert.equal(h.input(text), undefined, `${text}: unchanged, so Pi still expands it`);
+    const started = await h.beforeStart({ prompt: "expanded", systemPromptOptions: { sections: {} } });
+    assert.equal(started.message.customType, SELECTED_SKILL_TYPE);
+    assert.equal(started.message.display, true);
+    assert.deepEqual(started.message.details, { skillIds: ["review"], placement: "after" });
+    assert.match(started.message.content, /for the user request immediately before this message/);
+    assert.ok(started.message.content.includes(f.raw.review));
+    assert.match(h.outputs().at(-1), /review 스킬을 이 사용자 요청 바로 뒤에 붙였습니다/);
+    assert.equal(await h.beforeStart({ prompt: "later", systemPromptOptions: { sections: {} } }), undefined, "only once");
+    assert.equal(h.input("later request"), undefined);
+  }
+  // Queued while the agent works: Pi expands and queues it right after the input event, so the selection cannot go with it. It is
+  // cancelled with a notice and never moves on to a later request.
+  const queued = harness(f.root, [], { commands: slash });
+  await queued.command("skill review");
+  await queued.command("skill game-art");
+  assert.equal(queued.input("/review-template x", { streamingBehavior: "followUp" }), undefined, "the queued request is unchanged");
+  assert.match(queued.warnings().at(-1), /\/skill:·프롬프트 템플릿 요청에는 Workbench 스킬을 붙일 수 없어 선택\(review, game-art\)을 취소했습니다\. 이후 요청으로 넘기지 않습니다/);
+  assert.match(queued.warnings().at(-1), /\/workbench skill <id>로 다시 선택/);
+  assert.equal(queued.input("plain follow-up", { streamingBehavior: "followUp" }), undefined, "not attached to the next request");
+  assert.equal(queued.input("/skill:wb-coding later", { streamingBehavior: "steer" }), undefined);
+  await queued.command("status");
+  assert.match(queued.outputs().at(-1), /대기 중인 스킬 선택: 없음/);
+  await queued.command("skill review");
+  assert.equal(queued.input("selected again, in plain words", { streamingBehavior: "steer" }).action, "transform");
+  // An idle request that took them but never started (for example no model) does not pass them on to the next input either.
+  const unstarted = harness(f.root, [], { commands: slash });
+  await unstarted.command("skill review");
+  assert.equal(unstarted.input("/review-template x"), undefined);
+  assert.equal(unstarted.input("retry in plain words"), undefined);
+  assert.match(unstarted.warnings().at(-1), /스킬\(review\)을 받을 요청이 시작되지 않아 선택을 취소했습니다/);
+  assert.equal(await unstarted.beforeStart({ prompt: "retry", systemPromptOptions: { sections: {} } }), undefined, "not sent later");
+  // Slash text Pi does not expand is an ordinary request; on a host that cannot list commands any slash text is treated as expandable.
+  const literal = harness(f.root, [], { commands: slash });
+  await literal.command("skill review");
+  assert.equal(literal.input("/usr/bin is missing").action, "transform");
+  const unknownHost = harness(f.root, [], { commands: () => { throw new Error("no commands"); } });
+  await unknownHost.command("skill review");
+  assert.equal(unknownHost.input("/anything"), undefined);
 });
 
 test("invalid commands and missing catalog selections report errors without queueing or persisting work", async (t) => {
   const f = await fixture(t);
   const h = harness(f.root, [state("coding")]);
   for (const command of [
-    "not-a-command", "skill", "skill absent", "list absent",
-    "use", "use absent", "use vision", "use coding extra", "status extra",
+    "not-a-command", "skill", "skill absent", "list absent", "cancel absent",
+    "use", "use absent", "use vision", "use coding extra", "status extra", "cancel review extra",
   ]) {
     const count = h.notifications.length;
     await h.command(command);
@@ -336,6 +595,7 @@ test("invalid commands and missing catalog selections report errors without queu
   }
   assert.deepEqual(h.messages, []);
   assert.deepEqual(h.appends, []);
+  assert.equal(h.input("request"), undefined);
   assert.match(profiles(await h.request([user("request")]))[0].content, /\(coding\)/);
 });
 
@@ -375,6 +635,7 @@ test("a catalog entry cannot bypass the path boundary through the one-shot comma
   assert.deepEqual(h.messages, []);
   assert.deepEqual(h.appends, []);
   assert.equal(h.notifications.at(-1).level, "error");
+  assert.equal(h.input("request"), undefined, "Nothing was selected.");
   assert.doesNotMatch(JSON.stringify(h.notifications), /OUTSIDE-CONTENT-SENTINEL/);
 });
 
@@ -416,7 +677,7 @@ test("auto and off require no catalog and add no profile guidance", async (t) =>
     assert.equal(await h.context([user("request")]), undefined);
     assert.equal(await h.beforeStart({ systemPrompt: [] }), undefined);
     await h.command("status");
-    assert.equal(h.outputs().at(-1), "Workbench profile: " + mode);
+    assert.match(h.outputs().at(-1), new RegExp(`^Workbench profile: ${mode}$`, "m"));
   }
   assert.deepEqual(h.errors(), []);
   assert.deepEqual(h.messages, []);
@@ -495,14 +756,15 @@ test("doctor checks presence without running binaries, contacting services, or e
 
 const values = (items) => items?.map((item) => item.value) ?? null;
 
-test("argument completion follows the command grammar: subcommands, then catalog profiles or skill ids", async (t) => {
+test("argument completion follows the command grammar: subcommands, then catalog profiles, skill ids or pending selections", async (t) => {
   const { catalog } = await fixture(t);
-  const complete = (prefix) => values(completeWorkbenchArguments(prefix, catalog));
-  const subcommands = ["list", "use ", "skill ", "status", "doctor", "help"];
+  const complete = (prefix, pending) => values(completeWorkbenchArguments(prefix, catalog, pending));
+  const subcommands = ["list", "use ", "skill ", "cancel", "status", "doctor", "help"];
   assert.deepEqual(complete(""), subcommands);
   assert.deepEqual(complete("   "), subcommands, "Leading whitespace is ignored.");
   assert.deepEqual(complete("u"), ["use "]);
   assert.deepEqual(complete("s"), ["skill ", "status"]);
+  assert.deepEqual(complete("c"), ["cancel"]);
   assert.deepEqual(complete("use "), ["use coding", "use game", "use auto", "use off"]);
   assert.deepEqual(complete("use c"), ["use coding"]);
   assert.deepEqual(complete("  use \t c"), ["use coding"], "Repeated whitespace still finds the argument.");
@@ -517,12 +779,16 @@ test("argument completion follows the command grammar: subcommands, then catalog
     label: "skill minimal-code",
     description: "Minimal Code: Inspect existing callers before changing code.",
   });
+  assert.equal(completeWorkbenchArguments("skill mi", catalog, ["minimal-code"])[0].description, "[대기 중] Minimal Code: Inspect existing callers before changing code.");
+  assert.deepEqual(complete("cancel ", ["review", "game-art"]), ["cancel review", "cancel game-art"]);
+  assert.deepEqual(complete("cancel g", ["review", "game-art"]), ["cancel game-art"]);
+  assert.equal(completeWorkbenchArguments("cancel ", catalog, []), null, "Nothing pending, nothing to cancel.");
   for (const finished of [
-    "status", "doctor", "help", "list", "use coding", "skill review", // complete as typed: Enter submits
+    "status", "doctor", "help", "list", "cancel", "use coding", "skill review", // complete as typed: Enter submits
     "use coding ", "use coding x", "skill review ", "list game more", // a finished argument or an extra word
     "status ", "doctor x", "help ", // subcommands without arguments
     "list coding ", "use off ", "\tuse\tcoding\t", "skill review extra", // whitespace or a third token after the argument
-    "skill coding", "list auto", "list off", "use minimal-code", // values of another subcommand
+    "skill coding", "list auto", "list off", "use minimal-code", "cancel review", // values of another subcommand or not pending
     "bogus", "bogus ", "use zz", "skill nope", "USE ", "use Coding", // unknown words; the handler is case-sensitive
   ]) {
     assert.equal(completeWorkbenchArguments(finished, catalog), null, JSON.stringify(finished));
@@ -544,7 +810,13 @@ test("every completed argument is accepted by the command handler", async (t) =>
       assert.deepEqual(h.errors(), [], value);
     }
   }
-  assert.equal(h.messages.length, 3, "Each completed skill id selects that skill.");
+  assert.deepEqual(values(await h.complete("cancel ")), ["cancel minimal-code", "cancel review", "cancel game-art"], "Each completed skill id selected that skill.");
+  for (const value of values(await h.complete("cancel "))) {
+    await h.command(value);
+    assert.deepEqual(h.errors(), [], value);
+  }
+  assert.equal(await h.complete("cancel "), null);
+  assert.deepEqual(h.messages, []);
 });
 
 test("completion reads only the catalog and changes no command or session state", async (t) => {
@@ -573,6 +845,53 @@ test("a missing catalog leaves subcommands, offers no arguments, reports nothing
   assert.deepEqual(h.notifications, [], "Typing must not raise errors.");
   await writeFile(join(f.root, "catalog.json"), text);
   assert.deepEqual(values(await h.complete("use g")), ["use game"], "A failed read is not cached.");
+});
+
+test("Tab with no list open completes /workbench arguments instead of files and leaves everything else to Pi", async (t) => {
+  const f = await fixture(t);
+  const calls = [];
+  const current = {
+    triggerCharacters: ["#"],
+    async getSuggestions(lines, line, col, options) { calls.push(["get", lines[line].slice(0, col), Boolean(options.force)]); return { items: [{ value: "FILE", label: "FILE" }], prefix: "" }; },
+    applyCompletion(lines, line, col, item, prefix) { calls.push(["apply", item.value, prefix]); return { lines, cursorLine: line, cursorCol: col }; },
+    shouldTriggerFileCompletion(lines, line, col) { calls.push(["gate", lines[line].slice(0, col)]); return !lines[line].trim().startsWith("/") || lines[line].trim().includes(" "); },
+  };
+  const h = harness(f.root, [], { commands: [{ name: "workbench", source: "extension", sourceInfo: { path: join(f.root, "index.js") } }] });
+  h.start();
+  assert.equal(h.autocompleteFactories.length, 1);
+  const provider = h.autocompleteFactories[0](current);
+  assert.deepEqual(provider.triggerCharacters, ["#"]);
+  const forced = (line) => provider.getSuggestions([line], 0, line.length, { signal: new AbortController().signal, force: true });
+  const suggestion = async (line) => { const result = await forced(line); return result && { prefix: result.prefix, values: values(result.items) }; };
+  // The file gate declines `/workbench ` (command and space); the wrapper opens it for that command only.
+  assert.equal(provider.shouldTriggerFileCompletion(["/workbench "], 0, 11), true);
+  assert.equal(provider.shouldTriggerFileCompletion(["/orche "], 0, 7), false, "other commands keep Pi's gate");
+  assert.deepEqual(await suggestion("/workbench "), { prefix: "", values: ["list", "use ", "skill ", "cancel", "status", "doctor", "help"] });
+  assert.deepEqual(await suggestion("/workbench use "), { prefix: "use ", values: ["use coding", "use game", "use auto", "use off"] });
+  assert.deepEqual(await suggestion("/workbench list "), { prefix: "list ", values: ["list coding", "list game"] });
+  assert.deepEqual(await suggestion("/workbench skill "), { prefix: "skill ", values: ["skill minimal-code", "skill review", "skill game-art"] });
+  assert.deepEqual(await suggestion("  /workbench skill r"), { prefix: "skill r", values: ["skill review"] });
+  for (const line of ["/workbench xyz ", "/workbench use coding ", "/workbench status "]) {
+    assert.equal(await forced(line), null, `${line}: nothing, and no file list`);
+  }
+  await h.command("skill review");
+  assert.deepEqual(await suggestion("/workbench cancel "), { prefix: "cancel ", values: ["cancel review"] });
+  assert.ok(!calls.some(([kind]) => kind === "get"), "Workbench argument positions never reach the file completion.");
+  // Everything else is Pi's: typed (natural) completion, other commands, plain text, other lines.
+  const natural = await provider.getSuggestions(["/workbench u"], 0, 12, { signal: new AbortController().signal });
+  assert.equal(natural.items[0].value, "FILE");
+  for (const line of ["/orche ", "see ./sr", "/workbenchx y"]) assert.equal((await forced(line)).items[0].value, "FILE", line);
+  assert.equal((await provider.getSuggestions(["text", "/workbench "], 1, 11, { signal: new AbortController().signal, force: true })).items[0].value, "FILE");
+  provider.applyCompletion(["/workbench u"], 0, 12, { value: "use ", label: "use " }, "u");
+  assert.deepEqual(calls.at(-1), ["apply", "use ", "u"]);
+  // A renamed command (two extensions registered /workbench) completes under its own name only.
+  const renamed = harness(f.root, [], { commands: [{ name: "workbench:2", source: "extension", sourceInfo: { path: join(f.root, "index.js") } }, { name: "workbench:1", source: "extension", sourceInfo: { path: "/elsewhere/index.js" } }] });
+  renamed.start();
+  const own = renamed.autocompleteFactories[0](current);
+  assert.deepEqual(values((await own.getSuggestions(["/workbench:2 u"], 0, 14, { signal: new AbortController().signal, force: true })).items), ["use "]);
+  assert.equal((await own.getSuggestions(["/workbench:1 u"], 0, 14, { signal: new AbortController().signal, force: true })).items[0].value, "FILE");
+  // Hosts without autocomplete wrappers (print, JSON, RPC have no-ops; others may lack it) are left alone.
+  assert.equal(workbenchAutocompleteProvider(current, "workbench", async () => null).triggerCharacters, current.triggerCharacters);
 });
 
 test("the shipped catalog supplies every profile and skill id as a candidate", async () => {
