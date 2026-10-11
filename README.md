@@ -87,7 +87,7 @@ Pi 1.1.0의 실제 리소스 로더에서 확장과 스킬 발견을 검증했�
 이 변경을 구현해줘.
 ```
 
-해당 명령은 원본 스킬과 주의사항을 다음 사용자 요청에 전달한다. 모델 턴을 자동 시작하지 않으며, 기존 프로필 선택도 바꾸지 않는다.
+해당 명령은 원본 스킬과 주의사항을 다음 사용자 요청에 전달한다. 모델 턴을 자동 시작하지 않으며, 기존 프로필 선택도 바꾸지 않는다. **에이전트가 작업 중일 때는 선택을 거부한다.** 작업 중에 보내는 steering·follow-up 요청에는 적용할 수 없고, 나중의 무관한 요청에 붙는 것을 막기 위해서다. 작업이 끝난 뒤 다시 선택하고 요청을 보낸다.
 
 ## 프로필 구성
 
@@ -101,6 +101,8 @@ Pi 1.1.0의 실제 리소스 로더에서 확장과 스킬 발견을 검증했�
 | `coding` | 구현·리뷰·재사용·문서 조회·UI·구조 검색·검증 | Ponytail/Review, ECC, Frontend Design, UI UX Pro Max, Vercel React, Context7, ast-grep/Outline, Superpowers, Trail of Bits |
 | `promo` | 홍보 스틸컷·배너·음향·영상 | Imagegen, Create Game Assets, Frontend Design, UI UX Pro Max, ElevenLabs, Video Director |
 
+Game UI/UX는 플레이 화면의 HUD·메뉴·입력 설계용이라 `game`에만 속한다. 홍보 시안의 화면 구성은 `promo`의 Frontend Design·UI UX Pro Max가 담당한다. `scripts/check.mjs`는 스킬의 `profiles`와 프로필의 `skills` 목록이 양방향으로 일치하는지 검사한다.
+
 `comparison`은 별도 모드가 아니라 `analysis`와 분야별 프로필이 함께 사용하는 대안 비교 절차다. 게임 엔진이 정해지지 않았으므로 기본 구성은 범용이고, Three.js 전용 VFX는 적합한 프로젝트에서만 선택한다.
 
 ## 명령
@@ -113,13 +115,27 @@ Pi 1.1.0의 실제 리소스 로더에서 확장과 스킬 발견을 검증했�
 | `/workbench use coding` | 현재 대화 분기의 프로필 선택 |
 | `/workbench use auto` | 기본 Pi 스킬 탐색 사용 |
 | `/workbench use off` | 확장이 추가하는 프로필 안내 중지 |
-| `/workbench skill ponytail-review` | 다음 요청에 원본 스킬과 적용 조건 전달 |
+| `/workbench skill ponytail-review` | 다음 요청에 원본 스킬과 적용 조건 전달(작업이 끝난 뒤에만) |
 | `/workbench status` | 현재 프로필 확인 |
 | `/workbench doctor` | 로컬 도구·환경변수의 존재 여부 확인 |
 
 설치된 Pi의 native skill 명령으로 `/skill:wb-requirements`, `/skill:wb-game`, `/skill:wb-analysis`, `/skill:wb-vision`, `/skill:wb-manufacturing`, `/skill:wb-coding`, `/skill:wb-promo`를 직접 선택할 수도 있다.
 
-`off`는 스킬을 제거하거나 지난 대화를 지우지 않는다. 스킬 자체를 더 이상 노출하지 않으려면 Pi에서 이 패키지를 비활성화하거나 `pi remove /absolute/path/to/pi-workbench`로 등록을 해제한다.
+`list`·`status`·`doctor`·도움말의 출력은 화면 알림으로만 보여 주며 세션에 저장하거나 모델에 보내지 않는다. 대화형(TUI)과 RPC에서 보이며, UI가 없는 print/JSON 모드에서는 표시되지 않는다.
+
+프로필 안내는 요청마다 현재 대화 분기의 프로필로 다시 만들어 모델 요청에만 하나 넣고, 세션에는 저장하지 않는다(Pi의 `context` 이벤트). 이전 버전이 저장한 프로필 안내·명령 출력 메시지도 요청에서 제외한다. 세션 파일의 기존 기록이나 이미 만든 압축 요약을 지우지는 않는다. `off`는 스킬을 제거하거나 지난 대화를 지우지 않는다.
+
+스킬 자체를 더 이상 노출하지 않으려면 Pi에서 이 패키지를 비활성화하거나, 설치할 때 쓴 source로 등록을 해제한다.
+
+```bash
+# Git으로 설치한 경우 (`--local`로 설치했다면 같은 옵션을 붙인다)
+pi remove git:github.com/zmfkzj/pi-workbench
+
+# 로컬 폴더를 등록한 경우: 설치할 때 지정한 경로
+pi remove /absolute/path/to/pi-workbench
+```
+
+Git 설치본의 내려받은 디렉터리 경로는 등록된 source가 아니므로 `pi remove`에 쓸 수 없다. `pi -e`로 한 번 실행한 경우는 등록되지 않았으므로 제거할 것이 없다.
 
 ## 작업에서 기대할 동작
 
@@ -156,12 +172,13 @@ node scripts/check.mjs
 node --test tests/runtime.test.mjs
 ```
 
-첫 명령은 구성, 라이선스 포함 여부, 모든 원본 파일의 Git blob/SHA-256, 별칭 파일, 로컬 Markdown 참조를 검사한다. 두 번째는 상태·명령·로딩 경계·호스트 호환·doctor를 검증한다.
+첫 명령은 구성, 프로필↔스킬 소속의 양방향 일치, 라이선스 포함 여부, 모든 원본 파일의 Git blob/SHA-256, 별칭 파일, 로컬 Markdown 참조를 검사한다. 두 번째는 상태·명령·요청별 프로필 안내·작업 중 선택 거부·로딩 경계·호스트 호환·doctor를 검증한다.
 
-별도로 설치된 Pi로 실제 리소스 로딩을 확인할 수 있다.
+별도로 설치된 Pi로 실제 리소스 로딩과 세션 동작을 확인할 수 있다. 두 번째는 스크립트 모델(faux)로 연속 요청·분기 전환·reload·auto/off·작업 중 선택에서 모델이 받는 내용을 검사하며 네트워크나 유료 모델을 쓰지 않는다.
 
 ```bash
 PI_WORKBENCH_HOST_MODULE=/path/to/pi/dist/index.js node tests/pi-loader.mjs
+PI_WORKBENCH_HOST_MODULE=/path/to/pi/dist/index.js node tests/pi-session.mjs
 ```
 
 실제 확인 범위와 미검증 항목은 [검증 기록](docs/VALIDATION.md)에 있다. API 비용이 드는 이미지·음악 생성이나 모델 학습을 테스트 과정에서 호출하지 않았다.

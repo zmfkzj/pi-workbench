@@ -26,11 +26,18 @@ for (const profile of catalog.profiles) {
   assert(route.startsWith(`---\nname: wb-${profile.id}\n`));
   for (const id of profile.skills) assert(route.includes(catalog.skills.find((s) => s.id === id).path));
 }
+const profileIds = new Set(catalog.profiles.map((p) => p.id));
 for (const skill of catalog.skills) {
   await resolveSkillPath(root, skill.path);
   assert.match(skill.source.commit, /^[0-9a-f]{40}$/);
   assert.equal(skill.source.commit, locks.sources[skill.sourceId].commit);
   assert(skill.notes.length > 0 && Array.isArray(skill.dependencies));
+  assert(Array.isArray(skill.profiles) && skill.profiles.length > 0, `Missing profiles for ${skill.id}`);
+  for (const id of skill.profiles) assert(profileIds.has(id), `Unknown profile ${id} declared by ${skill.id}`);
+  const declared = [...new Set(skill.profiles)].sort();
+  assert.equal(declared.length, skill.profiles.length, `Duplicate profile declared by ${skill.id}`);
+  const listed = catalog.profiles.filter((p) => p.skills.includes(skill.id)).map((p) => p.id).sort();
+  assert.deepEqual(declared, listed, `Profile membership differs for ${skill.id}: skill declares ${declared.join(",")}, profiles list ${listed.join(",")}`);
 }
 const tracked = new Set();
 for (const file of integrity.files) {

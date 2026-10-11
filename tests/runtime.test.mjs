@@ -4,6 +4,10 @@ import { chmod, mkdir, mkdtemp, readFile, realpath, rm, symlink, writeFile } fro
 import { dirname, join } from "node:path";
 import { tmpdir } from "node:os";
 import {
+  BUSY_SKILL_MESSAGE,
+  OUTPUT_TYPE,
+  PROFILE_TYPE,
+  SELECTED_SKILL_TYPE,
   STATE_TYPE,
   doctor,
   probeExecutable,
@@ -86,7 +90,17 @@ async function fixture(t) {
   return { temporary, root, catalog, raw };
 }
 
-function harness(root, initialBranch = []) {
+const user = (text, timestamp = 1) => ({ role: "user", content: [{ type: "text", text }], timestamp });
+const assistant = (text) => ({ role: "assistant", content: [{ type: "text", text }], timestamp: 2 });
+const custom = (customType, content) => ({ role: "custom", customType, content, display: false, timestamp: 3 });
+const profiles = (messages) => messages.filter((m) => m.role === "custom" && m.customType === PROFILE_TYPE);
+
+/**
+ * @param {string} root
+ * @param {any[]} [initialBranch]
+ * @param {{ idle?: () => boolean }} [options]
+ */
+function harness(root, initialBranch = [], { idle = () => true } = {}) {
   let branch = initialBranch;
   const commands = new Map();
   const hooks = new Map();
@@ -114,13 +128,18 @@ function harness(root, initialBranch = []) {
   const ctx = {
     sessionManager: { getBranch: () => branch },
     ui: { notify: (message, level) => notifications.push({ message, level }) },
-    isIdle: () => false,
+    isIdle: () => idle(),
   };
   registerWorkbench(pi, root);
   return {
     commands, hooks, messages, appends, notifications,
+    outputs: () => notifications.filter(({ level }) => level === "info").map(({ message }) => message),
+    errors: () => notifications.filter(({ level }) => level === "error").map(({ message }) => message),
     switchBranch(entries) { branch = entries; },
     command(args) { return commands.get("workbench").handler(args, ctx); },
+    context(list = []) { return hooks.get("context")({ type: "context", messages: list }, ctx); },
+    /** The conversation the model receives for one request (the context hook's projection). */
+    async request(list = []) { return (await this.context(list))?.messages ?? list; },
     beforeStart(event = {}) { return hooks.get("before_agent_start")(event, ctx); },
   };
 }
@@ -129,10 +148,12 @@ test("registration has no startup messages, state writes, or dependency work", a
   const temporary = await temporaryDirectory(t);
   const h = harness(join(temporary, "package-not-installed"));
   assert.deepEqual([...h.commands.keys()], ["workbench"]);
-  assert.deepEqual([...h.hooks.keys()], ["before_agent_start"]);
+  assert.deepEqual([...h.hooks.keys()], ["context", "before_agent_start"]);
   assert.deepEqual(h.messages, []);
   assert.deepEqual(h.appends, []);
   assert.deepEqual(h.notifications, []);
+  assert.equal(await h.context([user("hello")]), undefined);
+  assert.equal(await h.beforeStart({ systemPrompt: "Existing instructions", systemPromptOptions: { sections: {} } }), undefined);
   assert.equal(await h.beforeStart({ systemPrompt: "Existing instructions" }), undefined);
   assert.deepEqual(h.notifications, [], "Default startup must not need a catalog or provider.");
 });
@@ -151,38 +172,89 @@ test("active branch history restores the last valid state and keeps sibling bran
   const mainBefore = structuredClone(main);
   const sibling = [...structuredClone(main), state("game")];
   const h = harness(f.root, main);
-  assert.match((await h.beforeStart()).message.content, /\(coding\)/);
+  const only = async () => {
+    const list = profiles(await h.request([user("request")]));
+    assert.equal(list.length, 1);
+    return list[0].content;
+  };
+  assert.match(await only(), /\(coding\)/);
   h.switchBranch(sibling);
-  assert.match((await h.beforeStart()).message.content, /\(game\)/);
+  assert.match(await only(), /\(game\)/);
   await h.command("use off");
-  assert.equal(await h.beforeStart(), undefined);
+  assert.equal(await h.context([user("request")]), undefined);
   h.switchBranch(main);
-  assert.match((await h.beforeStart()).message.content, /\(coding\)/);
+  assert.match(await only(), /\(coding\)/);
   await h.command("status");
-  assert.equal(h.messages.at(-1).message.content, "Workbench profile: coding");
+  assert.equal(h.outputs().at(-1), "Workbench profile: coding");
   assert.deepEqual(main, mainBefore, "Selecting a profile in a sibling must not rewrite its parent.");
   assert.equal(sibling.at(-1).data.mode, "off");
-  assert.deepEqual(h.notifications, []);
+  assert.deepEqual(h.errors(), []);
+  assert.deepEqual(h.messages, [], "Profile guidance and command output are never stored as messages.");
 });
 
-test("list, filtered list, and use expose the catalog without initiating an agent turn", async (t) => {
+test("repeated requests carry exactly one current profile guidance and never store it", async (t) => {
+  const f = await fixture(t);
+  const h = harness(f.root, [state("coding")]);
+  const skill = { ...custom(SELECTED_SKILL_TYPE, "ONE-SHOT-SKILL"), display: true };
+  // History of an older version: stored profile guidance and command output, next to other extensions' messages.
+  const history = [
+    custom(PROFILE_TYPE, "Selected workbench profile: OLD (game)."),
+    user("first"), assistant("first answer"),
+    custom(OUTPUT_TYPE, "Workbench profile: game"),
+    custom("another-extension", "KEEP-OTHER"),
+    skill,
+    custom(PROFILE_TYPE, "Selected workbench profile: OLD AGAIN (game)."),
+  ];
+  for (let index = 0; index < 3; index++) {
+    history.push(user(`request ${index}`));
+    const before = structuredClone(history);
+    const sent = await h.request(history);
+    assert.deepEqual(history, before, "The stored conversation is not modified.");
+    const list = profiles(sent);
+    assert.equal(list.length, 1, `request ${index}`);
+    assert.equal(sent[0], list[0], "The guidance comes first, at a stable place.");
+    assert.match(list[0].content, /\(coding\)/);
+    assert.match(list[0].content, /replaces any earlier Workbench profile guidance/);
+    assert.equal(list[0].display, false);
+    assert.doesNotMatch(JSON.stringify(sent), /OLD|pi-workbench\.output/);
+    assert.ok(sent.some((m) => m.content === "KEEP-OTHER"));
+    assert.ok(sent.includes(skill) || sent.some((m) => m.customType === SELECTED_SKILL_TYPE && m.content === "ONE-SHOT-SKILL"));
+    assert.equal(sent.length, history.length - 3 + 1);
+    history.push(assistant(`answer ${index}`));
+  }
+  await h.command("use game");
+  const game = await h.request(history);
+  assert.equal(profiles(game).length, 1);
+  assert.match(profiles(game)[0].content, /\(game\)/);
+  assert.doesNotMatch(JSON.stringify(game), /\(coding\)/);
+  for (const mode of ["auto", "off"]) {
+    await h.command(`use ${mode}`);
+    const sent = await h.request(history);
+    assert.equal(profiles(sent).length, 0, mode);
+    assert.doesNotMatch(JSON.stringify(sent), /OLD|pi-workbench\.output/);
+  }
+  assert.deepEqual(h.messages, []);
+  assert.deepEqual(h.errors(), []);
+});
+
+test("list, filtered list, status and help are shown to the user without entering the model context", async (t) => {
   const f = await fixture(t);
   const h = harness(f.root);
   await h.command("list");
-  assert.match(h.messages.at(-1).message.content, /minimal-code/);
-  assert.match(h.messages.at(-1).message.content, /review/);
-  assert.match(h.messages.at(-1).message.content, /game-art/);
+  assert.match(h.outputs().at(-1), /minimal-code/);
+  assert.match(h.outputs().at(-1), /review/);
+  assert.match(h.outputs().at(-1), /game-art/);
   await h.command("list game");
-  assert.match(h.messages.at(-1).message.content, /game-art/);
-  assert.doesNotMatch(h.messages.at(-1).message.content, /minimal-code|RAW-GAME-BODY/);
+  assert.match(h.outputs().at(-1), /game-art/);
+  assert.doesNotMatch(h.outputs().at(-1), /minimal-code|RAW-GAME-BODY/);
   await h.command("use coding");
   assert.deepEqual(h.appends, [{ customType: STATE_TYPE, data: { mode: "coding" } }]);
   await h.command("status");
-  assert.equal(h.messages.at(-1).message.content, "Workbench profile: coding");
+  assert.equal(h.outputs().at(-1), "Workbench profile: coding");
   await h.command("");
-  assert.match(h.messages.at(-1).message.content, /\/workbench skill <id>/);
-  assert.ok(h.messages.every(({ options }) => options.triggerTurn === false));
-  assert.deepEqual(h.notifications, []);
+  assert.match(h.outputs().at(-1), /\/workbench skill <id>/);
+  assert.deepEqual(h.messages, [], "Command output is not sent to or stored for the model.");
+  assert.deepEqual(h.errors(), []);
 });
 
 test("one-shot loading preserves exact raw instructions, canonical base directory, and explicit scope", async (t) => {
@@ -208,14 +280,14 @@ test("one-shot loading preserves exact raw instructions, canonical base director
   assert.match(loaded.content, /not installed or connected by this extension/);
 });
 
-test("skill selection uses the host next-turn queue even while busy, without changing profile state", async (t) => {
+test("an idle skill selection queues for the next request without changing profile state", async (t) => {
   const f = await fixture(t);
   const entries = [state("game")];
   const h = harness(f.root, entries);
   await h.command("skill minimal-code");
   assert.equal(h.messages.length, 1);
   const { message, options } = h.messages[0];
-  assert.equal(message.customType, "pi-workbench.selected-skill");
+  assert.equal(message.customType, SELECTED_SKILL_TYPE);
   assert.equal(message.display, true);
   assert.deepEqual(options, { triggerTurn: false, deliverAs: "nextTurn" });
   assert.deepEqual(message.details, {
@@ -226,9 +298,23 @@ test("skill selection uses the host next-turn queue even while busy, without cha
   assert.deepEqual(h.appends, []);
   assert.deepEqual(entries, [state("game")]);
   assert.equal(h.notifications.at(-1).level, "info");
-  const subsequent = await h.beforeStart();
-  assert.match(subsequent.message.content, /\(game\)/);
-  assert.doesNotMatch(subsequent.message.content, /RAW-CODING-BODY|selected-skill/);
+  const subsequent = profiles(await h.request([user("request")]));
+  assert.equal(subsequent.length, 1);
+  assert.match(subsequent[0].content, /\(game\)/);
+  assert.doesNotMatch(subsequent[0].content, /RAW-CODING-BODY|selected-skill/);
+});
+
+test("a skill selection while the agent is busy is refused, also when the agent starts during loading", async (t) => {
+  const f = await fixture(t);
+  for (const states of [[false], [true, false]]) {
+    const sequence = [...states];
+    const h = harness(f.root, [state("game")], { idle: () => Boolean(sequence.length > 1 ? sequence.shift() : sequence[0]) });
+    await h.command("skill minimal-code");
+    assert.deepEqual(h.messages, [], `nothing may be queued (${states})`);
+    assert.deepEqual(h.appends, []);
+    assert.equal(h.notifications.at(-1).level, "error");
+    assert.equal(h.notifications.at(-1).message, `Workbench: ${BUSY_SKILL_MESSAGE}`);
+  }
 });
 
 test("invalid commands and missing catalog selections report errors without queueing or persisting work", async (t) => {
@@ -246,7 +332,7 @@ test("invalid commands and missing catalog selections report errors without queu
   }
   assert.deepEqual(h.messages, []);
   assert.deepEqual(h.appends, []);
-  assert.match((await h.beforeStart()).message.content, /\(coding\)/);
+  assert.match(profiles(await h.request([user("request")]))[0].content, /\(coding\)/);
 });
 
 test("skill paths reject traversal, absolute paths, directories, and symlink escapes", async (t) => {
@@ -288,11 +374,15 @@ test("a catalog entry cannot bypass the path boundary through the one-shot comma
   assert.doesNotMatch(JSON.stringify(h.notifications), /OUTSIDE-CONTENT-SENTINEL/);
 });
 
-test("profile hooks return only an additive message for Pi strings and OMP array prompts", async (t) => {
+test("Pi prompt options get no stored message; hosts without them (OMP strings and arrays) keep the additive fallback", async (t) => {
   const f = await fixture(t);
   const h = harness(f.root, [state("coding")]);
+  const pi = { systemPrompt: "Existing Pi system instructions.", systemPromptOptions: { sections: { other: "kept" } }, prompt: "Implement." };
+  const piBefore = structuredClone(pi);
+  assert.equal(await h.beforeStart(pi), undefined);
+  assert.deepEqual(pi, piBefore, "Pi's prompt options stay untouched.");
   for (const systemPrompt of [
-    "Existing Pi system instructions.",
+    "Existing OMP-like system instructions.",
     [{ type: "text", text: "Existing OMP system block." }, { type: "text", text: "Second block." }],
   ]) {
     const event = { systemPrompt, prompt: "Implement the requested change." };
@@ -300,39 +390,48 @@ test("profile hooks return only an additive message for Pi strings and OMP array
     const result = await h.beforeStart(event);
     assert.deepEqual(Object.keys(result), ["message"]);
     assert.deepEqual(event, before, "The caller's system prompt must remain untouched.");
-    assert.equal(result.message.customType, "pi-workbench.profile");
+    assert.equal(result.message.customType, PROFILE_TYPE);
     assert.equal(result.message.display, false);
     assert.match(result.message.content, /Use existing project conventions/);
     assert.ok(result.message.content.includes(JSON.stringify(await realpath(join(f.root, f.catalog.skills[0].path)))));
     assert.match(result.message.content, /Read only the relevant SKILL\.md files/);
     assert.doesNotMatch(result.message.content, /RAW-CODING-BODY|RAW-REVIEW-BODY|game-art/);
+    // A host that also has the context event still sends only one guidance.
+    const sent = await h.request([{ role: "custom", ...result.message, timestamp: 1 }, user("request")]);
+    assert.equal(profiles(sent).length, 1);
   }
   assert.deepEqual(h.messages, [], "The hook result is returned to the host, not sent twice.");
   assert.deepEqual(h.appends, []);
 });
 
-test("auto and off require no catalog and inject no profile message", async (t) => {
+test("auto and off require no catalog and add no profile guidance", async (t) => {
   const temporary = await temporaryDirectory(t);
   const h = harness(join(temporary, "missing-catalog"));
   for (const mode of ["auto", "off"]) {
     await h.command("use " + mode);
+    assert.equal(await h.context([user("request")]), undefined);
     assert.equal(await h.beforeStart({ systemPrompt: [] }), undefined);
     await h.command("status");
-    assert.equal(h.messages.at(-1).message.content, "Workbench profile: " + mode);
+    assert.equal(h.outputs().at(-1), "Workbench profile: " + mode);
   }
-  assert.deepEqual(h.notifications, []);
-  assert.ok(h.messages.every(({ message }) => message.customType === "pi-workbench.output"));
+  assert.deepEqual(h.errors(), []);
+  assert.deepEqual(h.messages, []);
 });
 
-test("an unusable catalog reports the profile error without damaging the host start event", async (t) => {
+test("an unusable catalog reports the profile error once without damaging the request", async (t) => {
   const f = await fixture(t);
   await writeFile(join(f.root, "catalog.json"), JSON.stringify({ schemaVersion: 999, profiles: [], skills: [] }));
   const h = harness(f.root, [state("coding")]);
+  const list = [custom(PROFILE_TYPE, "stale guidance"), user("request")];
+  for (let index = 0; index < 2; index++) {
+    const sent = await h.request(list);
+    assert.deepEqual(sent, [user("request")], "Stale guidance is dropped and nothing new is added.");
+  }
   const event = { systemPrompt: "Original system instructions." };
   assert.equal(await h.beforeStart(event), undefined);
   assert.deepEqual(event, { systemPrompt: "Original system instructions." });
-  assert.equal(h.notifications.at(-1).level, "error");
-  assert.match(h.notifications.at(-1).message, /catalog\.json/);
+  assert.equal(h.errors().length, 1, "Reported once, not on every request.");
+  assert.match(h.errors()[0], /catalog\.json/);
   assert.deepEqual(h.messages, []);
   assert.deepEqual(h.appends, []);
 });

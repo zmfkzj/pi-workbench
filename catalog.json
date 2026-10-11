@@ -362,8 +362,7 @@
       "name": "Game UI/UX",
       "description": "HUD·메뉴·입력 탐색·가독성·접근성·반응형 게임 UI",
       "profiles": [
-        "game",
-        "promo"
+        "game"
       ],
       "path": "vendor/gamedev/skills/disciplines/game-ui-ux/SKILL.md",
       "notes": [

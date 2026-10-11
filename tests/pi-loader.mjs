@@ -26,6 +26,7 @@ try {
   assert.deepEqual(extensions.errors, []);
   const installed = extensions.extensions.filter((extension) => extension.commands.has("workbench"));
   assert.equal(installed.length, 1, "Exactly one Workbench extension must register.");
+  assert(installed[0].handlers.has("context"), "Profile guidance is projected per request through the context event.");
   assert(installed[0].handlers.has("before_agent_start"));
   const skills = loader.getSkills();
   assert.deepEqual(skills.diagnostics, []);
