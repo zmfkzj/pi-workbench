@@ -21,6 +21,7 @@ metadata:
   reviewed_by: RBraga01
   standard_edition: "ISO 9001:2015"
 ---
+<!-- Modified by pi-workbench: the reversibility test now reads in the same cause-to-effect direction as Step 3, and the stopping rule no longer promises that a fix prevents recurrence forever. Upstream original and patch: see the pi-workbench patches/quality-engineering/ directory and THIRD_PARTY_NOTICES.md. -->
 
 # 5-Why Root Cause Analysis
 
@@ -84,7 +85,7 @@ For each Why, follow these rules:
 - Not acceptable: "probably," "maybe," "someone said"
 
 **Rule 2: Each answer must logically lead to the next Why**
-- Test reversibility: "Because [Why N], therefore [Why N+1]"
+- Test reversibility: "Because [Why N+1], therefore [Why N]" — each answer is the cause of the one before it, so the chain must read correctly from the deepest cause back to the symptom (see Step 3)
 - If the sentence doesn't make logical sense, the chain is broken
 
 **Rule 3: Keep the chain focused**
@@ -92,7 +93,7 @@ For each Why, follow these rules:
 - If you reach a fork (two possible causes), investigate both separately
 
 **Rule 4: Stop at a systemic root cause**
-- You have reached root cause when: fixing it would prevent the defect from ever recurring
+- You have reached root cause when: it is a systemic condition the organisation controls and the evidence indicates that correcting it should stop this cause path; whether recurrence is actually prevented is confirmed by the Step 4 tests and later verification (for example 8D D6), not assumed
 - Typical systemic root causes: missing procedure, inadequate training system, process design gap, absence of poka-yoke, measurement system failure
 
 ---

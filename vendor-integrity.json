@@ -447,9 +447,15 @@
     },
     {
       "path": "vendor/gamedev/skills/disciplines/create-game-assets/scripts/asset_report.py",
-      "sha256": "93e364f095261b44f6fd0345f7132019af1af93e81ebd84d91fe2a5049918203",
-      "bytes": 4702,
-      "gitBlob": "6eb94d625ee1574356019181dc6168855343f9dd"
+      "sha256": "2bad3864d6da5b80f02cab49ffbf9cb087430d82b9dcc6c6902ef8ff308a319b",
+      "bytes": 5034,
+      "gitBlob": "74f8559a2ce4025c26ae4e520758e07ac954ad24",
+      "upstream": {
+        "sha256": "93e364f095261b44f6fd0345f7132019af1af93e81ebd84d91fe2a5049918203",
+        "bytes": 4702,
+        "gitBlob": "6eb94d625ee1574356019181dc6168855343f9dd"
+      },
+      "patch": "patches/gamedev/0001-asset-report-max-colors-boundary.patch"
     },
     {
       "path": "vendor/gamedev/skills/disciplines/create-game-assets/scripts/build_preview_sheet.py",
@@ -717,9 +723,15 @@
     },
     {
       "path": "vendor/quality-engineering/skills/problem-solving/5why-root-cause/SKILL.md",
-      "sha256": "492a3f50c07ede34b6e738e75ceea8a9bc46afec63559c0df413c4368dce5028",
-      "bytes": 8144,
-      "gitBlob": "a902740c6eb3ac91d9b49946ae89bd98db222213"
+      "sha256": "814f6dfb617575185f7260e95be94a9f6ef7f4990b028055b16385593ea32697",
+      "bytes": 8802,
+      "gitBlob": "c26f81c8214fda18dcb628eb2317b0b79c8ab234",
+      "upstream": {
+        "sha256": "492a3f50c07ede34b6e738e75ceea8a9bc46afec63559c0df413c4368dce5028",
+        "bytes": 8144,
+        "gitBlob": "a902740c6eb3ac91d9b49946ae89bd98db222213"
+      },
+      "patch": "patches/quality-engineering/0003-root-cause-reasoning.patch"
     },
     {
       "path": "vendor/quality-engineering/skills/problem-solving/5why-root-cause/references/chain-validation.md",
@@ -729,9 +741,15 @@
     },
     {
       "path": "vendor/quality-engineering/skills/problem-solving/8d-problem-solving/SKILL.md",
-      "sha256": "69fc87e295f05f59b18ea9716df4a1f3b014699fdfd24d8a54a7422e1e845ffb",
-      "bytes": 12129,
-      "gitBlob": "a4d1711732af0021c8319c09324f12b699ace3c4"
+      "sha256": "27037dfed091b1ab83d2a12b38f77c2d14560dad2fcd045ae05ee33f452d4312",
+      "bytes": 13153,
+      "gitBlob": "ff6511bd7c1d92e4a3daf39fd6e343c25abbdf22",
+      "upstream": {
+        "sha256": "69fc87e295f05f59b18ea9716df4a1f3b014699fdfd24d8a54a7422e1e845ffb",
+        "bytes": 12129,
+        "gitBlob": "a4d1711732af0021c8319c09324f12b699ace3c4"
+      },
+      "patch": "patches/quality-engineering/0002-8d-verification-sample.patch"
     },
     {
       "path": "vendor/quality-engineering/skills/problem-solving/8d-problem-solving/assets/8d-template.md",
@@ -741,27 +759,51 @@
     },
     {
       "path": "vendor/quality-engineering/skills/problem-solving/8d-problem-solving/references/d0-d8-guide.md",
-      "sha256": "1406d2c36dc017d5f6320681ba8313d7db2027bddec85c14068d57bbc2ba0cc5",
-      "bytes": 10843,
-      "gitBlob": "f9df0ce0059feaca2199be0e442a8f67e28540d0"
+      "sha256": "93f228c73b6fc67b04d66914a85fca757c932e2e9dfa0d5b5e6a05b825a72384",
+      "bytes": 11662,
+      "gitBlob": "008a3d4783cb37a288a6a6088ce55ac5d6740c4e",
+      "upstream": {
+        "sha256": "1406d2c36dc017d5f6320681ba8313d7db2027bddec85c14068d57bbc2ba0cc5",
+        "bytes": 10843,
+        "gitBlob": "f9df0ce0059feaca2199be0e442a8f67e28540d0"
+      },
+      "patch": "patches/quality-engineering/0002-8d-verification-sample.patch"
     },
     {
       "path": "vendor/quality-engineering/skills/problem-solving/dmaic/SKILL.md",
-      "sha256": "f6425c4f7108208fca62c73c52d94c3984ddabf31e45daa4bcd59af601f84f49",
-      "bytes": 11663,
-      "gitBlob": "35ff43f944b2ae9b05cae80a52e2cc2f3052d11f"
+      "sha256": "b0b411fa161f8ccbf5f2d1c68b8dea418601be4e3e9955af562c6a4338d7b8d4",
+      "bytes": 12235,
+      "gitBlob": "c6d6f1b2f438d97c71de71e11334e527bcc3cb5c",
+      "upstream": {
+        "sha256": "f6425c4f7108208fca62c73c52d94c3984ddabf31e45daa4bcd59af601f84f49",
+        "bytes": 11663,
+        "gitBlob": "35ff43f944b2ae9b05cae80a52e2cc2f3052d11f"
+      },
+      "patch": "patches/quality-engineering/0001-dmaic-statistics.patch"
     },
     {
       "path": "vendor/quality-engineering/skills/problem-solving/dmaic/references/statistical-tools.md",
-      "sha256": "6b1377a3a07322e4046c39d9c9af237d75937829970761adbcadd87d59a91f65",
-      "bytes": 21000,
-      "gitBlob": "013c3a2939b138b5aea0a003536b2890d159a3f1"
+      "sha256": "1421081b832fb1c5565aace1bb581843dfef06dd2612dc18c7c1c6973ae5fff6",
+      "bytes": 23293,
+      "gitBlob": "2bddc2ff764cdab2fae7eab4c2a5c218616cca69",
+      "upstream": {
+        "sha256": "6b1377a3a07322e4046c39d9c9af237d75937829970761adbcadd87d59a91f65",
+        "bytes": 21000,
+        "gitBlob": "013c3a2939b138b5aea0a003536b2890d159a3f1"
+      },
+      "patch": "patches/quality-engineering/0001-dmaic-statistics.patch"
     },
     {
       "path": "vendor/quality-engineering/skills/problem-solving/fishbone-analysis/SKILL.md",
-      "sha256": "d23711b27fbd2100c2ed55f127d27811574d574b626048417dd272f2b5137ce5",
-      "bytes": 9203,
-      "gitBlob": "18ad45691b50357640b82474c8952f97702804db"
+      "sha256": "d9940d4ce01ce1de0e80cc229a03966186f7a987b11edf2029f89a9dcb188ab7",
+      "bytes": 9694,
+      "gitBlob": "77980468667fa91e002777fcf38cd8d91e1eb979",
+      "upstream": {
+        "sha256": "d23711b27fbd2100c2ed55f127d27811574d574b626048417dd272f2b5137ce5",
+        "bytes": 9203,
+        "gitBlob": "18ad45691b50357640b82474c8952f97702804db"
+      },
+      "patch": "patches/quality-engineering/0003-root-cause-reasoning.patch"
     },
     {
       "path": "vendor/quality-engineering/skills/problem-solving/fishbone-analysis/references/6m-category-guide.md",
@@ -771,15 +813,27 @@
     },
     {
       "path": "vendor/quality-engineering/skills/problem-solving/is-is-not-scoping/SKILL.md",
-      "sha256": "1614fe316a59ce400b725c62b44f21e01ba5de7b45c83b55f530d82a1e8c1b73",
-      "bytes": 7602,
-      "gitBlob": "2a76432cdee63e0a62e46c2ca3e8fae4c7c757fe"
+      "sha256": "c21f319c699fbd7196e37bb2e7b3d76a3763874cc029c5830c4b07e0fa884803",
+      "bytes": 8530,
+      "gitBlob": "22782b355ef12e61f252a2c4081fc41d382f5107",
+      "upstream": {
+        "sha256": "1614fe316a59ce400b725c62b44f21e01ba5de7b45c83b55f530d82a1e8c1b73",
+        "bytes": 7602,
+        "gitBlob": "2a76432cdee63e0a62e46c2ca3e8fae4c7c757fe"
+      },
+      "patch": "patches/quality-engineering/0003-root-cause-reasoning.patch"
     },
     {
       "path": "vendor/quality-engineering/skills/problem-solving/is-is-not-scoping/references/hypothesis-elimination.md",
-      "sha256": "0b849c468a5428c2ee08e8ce51ca41d0076ee6e03f038e139f01fa052f13e144",
-      "bytes": 12923,
-      "gitBlob": "57d7ca619c4ba8b70ff6f7e5d4c435349d787b26"
+      "sha256": "642deadfbcbb11e111f752398e55c537d396f511cd0f4d21a1ca1da1ba067804",
+      "bytes": 13880,
+      "gitBlob": "45054033c69d4187bffea34f9a2db57fe379edf8",
+      "upstream": {
+        "sha256": "0b849c468a5428c2ee08e8ce51ca41d0076ee6e03f038e139f01fa052f13e144",
+        "bytes": 12923,
+        "gitBlob": "57d7ca619c4ba8b70ff6f7e5d4c435349d787b26"
+      },
+      "patch": "patches/quality-engineering/0003-root-cause-reasoning.patch"
     },
     {
       "path": "vendor/requirements/LICENSE",
@@ -831,9 +885,15 @@
     },
     {
       "path": "vendor/tao/skills/applications/tao-validate-recipe-transfer/SKILL.md",
-      "sha256": "7a475af4c76bcc483a7b356f8cea32aecab16603571f717d7c3444b34762e98a",
-      "bytes": 16710,
-      "gitBlob": "59750d41640098f4c468588f012c0e0d779fb15a"
+      "sha256": "f30e35df4dd92876bebaa125e4e13e08332bec13517fec91c47e04f18c87fd6c",
+      "bytes": 17823,
+      "gitBlob": "0aa772d98821f69f02dcb12c9928d1ada5fad25b",
+      "upstream": {
+        "sha256": "7a475af4c76bcc483a7b356f8cea32aecab16603571f717d7c3444b34762e98a",
+        "bytes": 16710,
+        "gitBlob": "59750d41640098f4c468588f012c0e0d779fb15a"
+      },
+      "patch": "patches/tao/0001-leakage-evidence-and-parity-modes.patch"
     },
     {
       "path": "vendor/tao/skills/applications/tao-validate-recipe-transfer/assets/status.example.json",
@@ -873,9 +933,15 @@
     },
     {
       "path": "vendor/tao/skills/applications/tao-validate-recipe-transfer/references/recipe_spec.yaml",
-      "sha256": "c2ced4619eae70b741c3aea3fd05437df5a611b5772d2904f206e7993049e8c3",
-      "bytes": 4176,
-      "gitBlob": "e79bb689bb948e58f42d51a2a9d1e9fe3880a597"
+      "sha256": "8325bb80da4db6d86b9cdfa260f66b3d1128dbd192e11daa92dc63b8ec6db122",
+      "bytes": 4452,
+      "gitBlob": "4b47b3f937ab6665aaf43fbf5fed2fbc3f123bd4",
+      "upstream": {
+        "sha256": "c2ced4619eae70b741c3aea3fd05437df5a611b5772d2904f206e7993049e8c3",
+        "bytes": 4176,
+        "gitBlob": "e79bb689bb948e58f42d51a2a9d1e9fe3880a597"
+      },
+      "patch": "patches/tao/0001-leakage-evidence-and-parity-modes.patch"
     },
     {
       "path": "vendor/tao/skills/applications/tao-validate-recipe-transfer/references/stacks.md",
@@ -897,9 +963,15 @@
     },
     {
       "path": "vendor/tao/skills/applications/tao-validate-recipe-transfer/scripts/preprocess_parity.py",
-      "sha256": "823c90d2c4a3115cb741168bf17b491b8e090a4d1f1a45bfbb3f82ff7f02f99d",
-      "bytes": 16209,
-      "gitBlob": "866a8384c295686b1e2dca9fd4d927cd2626534e"
+      "sha256": "08e160beb91463c26e4a40045e487c35facb146162cf11121670a495ebc601c3",
+      "bytes": 17552,
+      "gitBlob": "d9dfbcc8dc860b154e3ebd74c8e2221a5bd5faae",
+      "upstream": {
+        "sha256": "823c90d2c4a3115cb741168bf17b491b8e090a4d1f1a45bfbb3f82ff7f02f99d",
+        "bytes": 16209,
+        "gitBlob": "866a8384c295686b1e2dca9fd4d927cd2626534e"
+      },
+      "patch": "patches/tao/0001-leakage-evidence-and-parity-modes.patch"
     },
     {
       "path": "vendor/tao/skills/applications/tao-validate-recipe-transfer/scripts/render_status.py",
@@ -909,9 +981,15 @@
     },
     {
       "path": "vendor/tao/skills/applications/tao-validate-recipe-transfer/scripts/split_leakage_check.py",
-      "sha256": "eaa86e1c5786335d667d5ef904ebe650f5cda0b0a78dcd06e2ee600c6a93412e",
-      "bytes": 8378,
-      "gitBlob": "594edaaa49cf589d04806b24c6bab6110386ae08"
+      "sha256": "fa52f1f5a3607b09eb30fbfbed6ca4f334d236432cf19de314bc1ca2b1f0576f",
+      "bytes": 13498,
+      "gitBlob": "fc68faa7b34c0e259ab8527ae7dedac6ace4202e",
+      "upstream": {
+        "sha256": "eaa86e1c5786335d667d5ef904ebe650f5cda0b0a78dcd06e2ee600c6a93412e",
+        "bytes": 8378,
+        "gitBlob": "594edaaa49cf589d04806b24c6bab6110386ae08"
+      },
+      "patch": "patches/tao/0001-leakage-evidence-and-parity-modes.patch"
     },
     {
       "path": "vendor/tao/skills/applications/tao-validate-recipe-transfer/skill-card.md",
@@ -1371,9 +1449,15 @@
     },
     {
       "path": "vendor/vercel/skills/react-best-practices/AGENTS.md",
-      "sha256": "fc93e7421177bbf869cce892bc60a6c83a4517d974bc3bf65c4e2c1e58a6ccf6",
-      "bytes": 108261,
-      "gitBlob": "4e340a50684a8e7811d5bfa4df48bd9989d0fd87"
+      "sha256": "67f2fd34660c1bd251effba018dde9e8e0626b4636d4566b6d38fec44a6cd68b",
+      "bytes": 108883,
+      "gitBlob": "334cd7520de4e443f55cafb4df67f2684cec2fb3",
+      "upstream": {
+        "sha256": "fc93e7421177bbf869cce892bc60a6c83a4517d974bc3bf65c4e2c1e58a6ccf6",
+        "bytes": 108261,
+        "gitBlob": "4e340a50684a8e7811d5bfa4df48bd9989d0fd87"
+      },
+      "patch": "patches/vercel/0001-flatmap-falsy-and-storage-migration.patch"
     },
     {
       "path": "vendor/vercel/skills/react-best-practices/README.md",
@@ -1523,9 +1607,15 @@
     },
     {
       "path": "vendor/vercel/skills/react-best-practices/rules/client-localstorage-schema.md",
-      "sha256": "0fb7cdf9dc93fdf22f87e3669f953fb9d4ac9b0be42eec4a29fe9a2560610b88",
-      "bytes": 1950,
-      "gitBlob": "d30a1a7d4f85b0d50a0808eaa1b382c6deb595f4"
+      "sha256": "427d949058cdaf9143fe264c32f3909c1907d60013a595a087be8470e4c7a689",
+      "bytes": 2323,
+      "gitBlob": "e2b7dffc9f200cb9b84b061cab8fea375fd31461",
+      "upstream": {
+        "sha256": "0fb7cdf9dc93fdf22f87e3669f953fb9d4ac9b0be42eec4a29fe9a2560610b88",
+        "bytes": 1950,
+        "gitBlob": "d30a1a7d4f85b0d50a0808eaa1b382c6deb595f4"
+      },
+      "patch": "patches/vercel/0001-flatmap-falsy-and-storage-migration.patch"
     },
     {
       "path": "vendor/vercel/skills/react-best-practices/rules/client-passive-event-listeners.md",
@@ -1577,9 +1667,15 @@
     },
     {
       "path": "vendor/vercel/skills/react-best-practices/rules/js-flatmap-filter.md",
-      "sha256": "9e5b166a41914d975bef7635467f8fb32cd98b5c3126c0bc6f163490812fb5f0",
-      "bytes": 1411,
-      "gitBlob": "ee0edf0da256eb8b62c5a998c768c51eb520e8cd"
+      "sha256": "ac773cf66a7d9e184e8fb7f4f1b86fc3eba53fc5840e38bb056ca9e34a05cf49",
+      "bytes": 1811,
+      "gitBlob": "a8fa0462651c5aa29e702dc6e777cd51aee13491",
+      "upstream": {
+        "sha256": "9e5b166a41914d975bef7635467f8fb32cd98b5c3126c0bc6f163490812fb5f0",
+        "bytes": 1411,
+        "gitBlob": "ee0edf0da256eb8b62c5a998c768c51eb520e8cd"
+      },
+      "patch": "patches/vercel/0001-flatmap-falsy-and-storage-migration.patch"
     },
     {
       "path": "vendor/vercel/skills/react-best-practices/rules/js-hoist-regexp.md",

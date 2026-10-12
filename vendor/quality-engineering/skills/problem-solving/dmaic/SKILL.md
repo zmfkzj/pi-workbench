@@ -22,6 +22,7 @@ metadata:
   reviewed_by: RBraga01
   standard_edition: "Six Sigma DMAIC / ISO 9001:2015 §10.3 / IATF 16949:2016 §10.1"
 ---
+<!-- Modified by pi-workbench: hypothesis tests are described as evidence of association, and a non-significant result is no longer treated as rejection of the hypothesis. Upstream original and patch: see the pi-workbench patches/quality-engineering/ directory and THIRD_PARTY_NOTICES.md. -->
 
 # DMAIC (Six Sigma Problem Solving)
 
@@ -131,7 +132,7 @@ Use DMAIC when:
 - Identifies the dominant family of variation — directs the investigation
 
 **Hypothesis testing:**
-Confirm or reject hypotheses statistically. Selection guide:
+Test hypotheses statistically. A significant result on observational data shows an association, not a cause; a non-significant result is not proof of no effect unless the study had adequate power or the confidence interval rules out a practically relevant effect (see [statistical tools](references/statistical-tools.md)). Selection guide:
 
 | Situation | Tool |
 |-----------|------|

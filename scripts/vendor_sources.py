@@ -4,6 +4,11 @@
 No downloaded script is executed. Git symlinks are rejected unless the source
 spec explicitly maps them to a real subtree. Existing locks are never advanced
 automatically; edit sources.lock.json deliberately after reviewing an update.
+
+After every upstream file has been verified against its Git blob, the reviewed
+corrections listed as `patches` in sources.json are applied strictly (no fuzz)
+with scripts/vendor_patches.mjs. The integrity manifest then records the
+distributed bytes and, for each corrected file, the upstream digests and patch.
 """
 import concurrent.futures
 import hashlib
@@ -13,6 +18,7 @@ from pathlib import Path, PurePosixPath
 import stat
 import sys
 import time
+import subprocess
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -96,13 +102,28 @@ def fetch_repo(source, lock):
     with concurrent.futures.ThreadPoolExecutor(max_workers=8) as pool:
         for result in pool.map(fetch_file, candidates):
             results.append(result)
+    by_path = {item["path"]: item for item in results}
+    for entry in source.get("patches", []):
+        safe_relative(entry["file"])
+        applied = subprocess.run(
+            ["node", str(ROOT / "scripts" / "vendor_patches.mjs"), "apply", str(ROOT / "vendor" / slug), str(ROOT / entry["file"])],
+            check=True, capture_output=True, text=True)
+        for path in json.loads(applied.stdout):
+            record = by_path.get(f"vendor/{slug}/{path}")
+            if record is None or "patch" in record:
+                raise ValueError(f"{entry['file']} changes {path}, which is not a selected file or is already patched")
+            data = (ROOT / record["path"]).read_bytes()
+            upstream = {key: record[key] for key in ("sha256", "bytes", "gitBlob")}
+            record.update({"sha256": hashlib.sha256(data).hexdigest(), "bytes": len(data),
+                           "gitBlob": hashlib.sha1(f"blob {len(data)}\0".encode() + data).hexdigest(),
+                           "upstream": upstream, "patch": entry["file"]})
     for alias in source.get("aliases", []):
         safe_relative(alias["from"])
         safe_relative(alias["to"])
         source_path = f"vendor/{slug}/{alias['from']}"
         source_record = next((item for item in results if item["path"] == source_path), None)
-        if source_record is None or alias["to"] in selected_paths:
-            raise ValueError(f"Invalid compatibility alias for {repo}: {alias}")
+        if source_record is None or alias["to"] in selected_paths or "patch" in source_record:
+            raise ValueError(f"Invalid compatibility alias for {repo} (missing, shadowing or patched source): {alias}")
         target = ROOT / "vendor" / slug / alias["to"]
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_bytes((ROOT / source_path).read_bytes())

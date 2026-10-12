@@ -108,6 +108,12 @@
       ],
       "licenseFiles": [
         "LICENSE"
+      ],
+      "patches": [
+        {
+          "file": "patches/tao/0001-leakage-evidence-and-parity-modes.patch",
+          "reason": "split_leakage_check.py no longer merges purely numeric file names into one empty filename group and reports filename-stem overlap as a suspicion separate from near-duplicate images and verified --groups; preprocess_parity.py no longer prints that paths agree after a spec-only run and rejects duplicate --path names; SKILL.md and recipe_spec.yaml use the real CLI options."
+        }
       ]
     },
     {
@@ -137,6 +143,20 @@
       ],
       "licenseFiles": [
         "LICENSE"
+      ],
+      "patches": [
+        {
+          "file": "patches/quality-engineering/0001-dmaic-statistics.patch",
+          "reason": "DMAIC worked example recalculated (Welch p about 0.023, 95% CI, normal-model tail estimate 15.9% to 9.8%) with a corrected conclusion; decision rules no longer treat significance as proof of cause or non-significance as proof of no effect."
+        },
+        {
+          "file": "patches/quality-engineering/0002-8d-verification-sample.patch",
+          "reason": "8D D6 sample size follows n >= log(alpha)/log(1-p) (2% at alpha 0.05 rounds up to 149; a higher rate needs fewer units), and zero recurrence in the sample is a bound on the remaining rate, not proof of permanent elimination."
+        },
+        {
+          "file": "patches/quality-engineering/0003-root-cause-reasoning.patch",
+          "reason": "Is/Is-Not no longer eliminates an inspection-gauge hypothesis with the escape it would explain; the 5-Why reversibility test reads cause to effect and drops the never-recur promise; a single-shift fishbone pattern is a hypothesis, not an operator cause."
+        }
       ]
     },
     {
@@ -152,6 +172,12 @@
       "licenseFiles": [
         "LICENSE",
         "NOTICE"
+      ],
+      "patches": [
+        {
+          "file": "patches/gamedev/0001-asset-report-max-colors-boundary.patch",
+          "reason": "asset_report.py --max-colors also fails an image with exactly limit+1 colors."
+        }
       ]
     },
     {
@@ -278,6 +304,12 @@
         {
           "from": "skills/react-best-practices/rules/server-hoist-static-io.md",
           "to": "skills/react-best-practices/server-hoist-static-io.md"
+        }
+      ],
+      "patches": [
+        {
+          "file": "patches/vercel/0001-flatmap-falsy-and-storage-migration.patch",
+          "reason": "The flatMap examples keep the falsy-value filtering of .filter(Boolean), and the localStorage migration removes the v1 key only after the v2 value was stored; the compiled AGENTS.md carries the same corrections as the rules."
         }
       ]
     }

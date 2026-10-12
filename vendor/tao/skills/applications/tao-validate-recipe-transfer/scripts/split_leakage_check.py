@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: Copyright (c) 2026 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
 # SPDX-License-Identifier: Apache-2.0
+# Modified by pi-workbench: purely numeric file names no longer form one empty filename group,
+# filename-stem overlap is reported as a suspicion separate from image evidence, and verified
+# groups can be supplied with --groups. Upstream original and patch: see the pi-workbench
+# patches/tao/ directory and THIRD_PARTY_NOTICES.md.
 """
 Detect near-duplicate images across dataset splits.
 
@@ -11,17 +15,29 @@ so exact-hash dedup misses them entirely.
 
 Method: difference hash (dHash) at 8x8 -> 64-bit signature, compared by Hamming distance.
 Fast, dependency-light, and robust to resize/recompression. Also reports filename-stem
-clustering, which catches frame_0001/frame_0002 style sequences that dHash may miss when
-the camera pans.
+clustering, which hints at frame_0001/frame_0002 style sequences that dHash may miss when
+the camera pans. A shared filename stem is a heuristic suspicion, not proof: names such as
+0001.jpg carry no grouping information and are not grouped at all. Supply verified groups
+(source video, capture session, subject or patient, production lot) with --groups to turn
+group overlap into a confirmed finding.
 
 Usage:
     python split_leakage_check.py --splits train=/data/train val=/data/val test=/data/test
     python split_leakage_check.py --splits train=a val=b --threshold 8 --report leakage.md
+    python split_leakage_check.py --splits train=a val=b --groups groups.csv
 
-Exit codes: 0 = clean, 1 = leakage found (usable as a CI gate).
+--groups takes a CSV with the columns path,group. path is relative to its split directory
+or absolute.
+
+Exit codes: 0 = no confirmed leakage, 1 = leakage found (usable as a CI gate). Leakage
+means near-duplicate images across splits or a verified group in more than one split.
+Filename-stem overlap alone is reported as suspected and fails only with
+--fail-on-filename-groups. A clean result does not rule out leakage through metadata
+(the same subject, patient or product photographed differently).
 """
 
 import argparse
+import csv
 import re
 import sys
 from collections import defaultdict
@@ -51,8 +67,34 @@ def collect(root):
 
 
 def stem_group(name):
-    """Strip trailing digits so frame_0001 and frame_0002 share a group."""
-    return re.sub(r"[_\-]?\d+$", "", Path(name).stem)
+    """Strip trailing digits so frame_0001 and frame_0002 share a group.
+
+    Returns None when nothing but separators would remain (0001.jpg, 17.png): a purely
+    numeric name says nothing about the capture it came from, and grouping all such files
+    under one empty key would report unrelated images as a shared sequence.
+    """
+    group = re.sub(r"[_\-]?\d+$", "", Path(name).stem)
+    return group if re.search(r"[^\W_]", group) else None
+
+
+def load_groups(path, splits):
+    """Read a path,group CSV and return {resolved image path: group}."""
+    try:
+        with open(path, newline="") as handle:
+            rows = list(csv.DictReader(handle))
+    except OSError as exc:
+        raise SystemExit(f"error: cannot read --groups file: {exc}")
+    if not rows or not {"path", "group"} <= set(rows[0]):
+        raise SystemExit("error: --groups CSV needs a header with the columns path,group")
+    mapping = {}
+    for row in rows:
+        image, group = (row["path"] or "").strip(), (row["group"] or "").strip()
+        if not image or not group:
+            raise SystemExit(f"error: --groups row needs both path and group: {row}")
+        candidates = [Path(image)] if Path(image).is_absolute() else [Path(root) / image for root in splits.values()]
+        for candidate in candidates:
+            mapping[candidate.resolve()] = group
+    return mapping
 
 
 def hamming_matrix(a, b):
@@ -73,6 +115,11 @@ def main():
                     help="max Hamming distance counted as a near-duplicate (0-64). "
                          "0-4 = near identical, 5-10 = same scene, >12 = loose. Default 6")
     ap.add_argument("--report", default=None, help="write a markdown report to this path")
+    ap.add_argument("--groups", default=None, metavar="CSV",
+                    help="CSV with columns path,group naming verified groups (video, session, subject, "
+                         "lot). A group found in more than one split is reported as leakage.")
+    ap.add_argument("--fail-on-filename-groups", action="store_true",
+                    help="also exit 1 when only the filename-stem heuristic finds shared groups")
     ap.add_argument("--max-examples", type=int, default=15, help="example pairs to list per split pair")
     args = ap.parse_args()
 
@@ -145,20 +192,59 @@ def main():
                 lines.append(f"| ... | _{len(hits) - args.max_examples} more_ | |")
             lines.append("")
 
-    # --- filename-stem group overlap ---
-    lines.append("## Filename group overlap")
+    # --- verified group overlap ---
+    if args.groups:
+        assigned = load_groups(args.groups, splits)
+        lines.append("## Verified group overlap")
+        lines.append("")
+        verified = defaultdict(set)
+        missing = 0
+        for name in names:
+            for f in data[name]["files"]:
+                group = assigned.get(f.resolve())
+                if group is None:
+                    missing += 1
+                else:
+                    verified[group].add(name)
+        crossing = {g: s for g, s in verified.items() if len(s) > 1}
+        if crossing:
+            leak_found = True
+            lines.append(f"**{len(crossing)} verified group(s) span multiple splits.**")
+            lines.append("")
+            lines.append("| group | splits |")
+            lines.append("|---|---|")
+            for g, s in list(crossing.items())[: args.max_examples]:
+                lines.append(f"| `{g}` | {', '.join(sorted(s))} |")
+            if len(crossing) > args.max_examples:
+                lines.append(f"| ... | _{len(crossing) - args.max_examples} more_ |")
+        else:
+            lines.append("No verified group spans multiple splits.")
+        if missing:
+            lines.append("")
+            lines.append(f"{missing} image(s) have no entry in the groups file and were not checked by group.")
+        lines.append("")
+
+    # --- filename-stem group overlap (heuristic) ---
+    lines.append("## Filename group overlap (heuristic)")
     lines.append("")
-    lines.append("Sequences like `frame_0001` / `frame_0002` share a group. Groups appearing in "
-                 "more than one split indicate a split made without grouping.")
+    lines.append("Sequences like `frame_0001` / `frame_0002` share a group. A group appearing in "
+                 "more than one split is a suspicion, not proof: confirm with capture metadata "
+                 "(or pass verified groups with --groups) before re-splitting.")
     lines.append("")
     groups = defaultdict(set)
+    ungrouped = 0
     for name in names:
         for f in data[name]["files"]:
-            groups[stem_group(f.name)].add(name)
+            group = stem_group(f.name)
+            if group is None:
+                ungrouped += 1
+            else:
+                groups[group].add(name)
     shared = {g: s for g, s in groups.items() if len(s) > 1}
     if shared:
-        leak_found = True
-        lines.append(f"**{len(shared)} group(s) span multiple splits.**")
+        if args.fail_on_filename_groups:
+            leak_found = True
+        lines.append(f"**{len(shared)} filename group(s) span multiple splits (suspected).**")
         lines.append("")
         lines.append("| group | splits |")
         lines.append("|---|---|")
@@ -168,6 +254,9 @@ def main():
             lines.append(f"| ... | _{len(shared) - args.max_examples} more_ |")
     else:
         lines.append("No filename groups span multiple splits.")
+    if ungrouped:
+        lines.append("")
+        lines.append(f"{ungrouped} image(s) have purely numeric names and were not grouped by filename.")
     lines.append("")
 
     # --- verdict ---
@@ -184,10 +273,16 @@ def main():
         lines.append("Note that this check is visual only. It cannot detect leakage from a shared "
                      "subject photographed from different angles, so also confirm the split respects "
                      "whatever grouping exists in the metadata.")
+    elif shared:
+        lines.append("**No confirmed leakage; filename groups span splits (SUSPECTED).** No near-duplicate "
+                     "images were found at this threshold. Check the listed groups against capture "
+                     "metadata (source video, session, subject, lot); if they are real groups, re-split "
+                     "by group or re-run with --groups.")
     else:
         lines.append("No leakage detected at this threshold. Consider re-running with a higher "
                      "threshold (e.g. 10-12) to catch same-scene-different-frame cases, and confirm "
-                     "the split respects any grouping present in the capture metadata.")
+                     "the split respects any grouping present in the capture metadata: different "
+                     "images can still share a subject, patient or product.")
     lines.append("")
 
     report = "\n".join(lines)

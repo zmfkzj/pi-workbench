@@ -4,12 +4,13 @@ impact: LOW-MEDIUM
 impactDescription: eliminates intermediate array
 tags: javascript, arrays, flatMap, filter, performance
 ---
+<!-- Modified by pi-workbench: the flatMap examples keep the falsy-value filtering of .filter(Boolean). Upstream original and patch: see the pi-workbench patches/vercel/ directory and THIRD_PARTY_NOTICES.md. -->
 
 ## Use flatMap to Map and Filter in One Pass
 
 **Impact: LOW-MEDIUM (eliminates intermediate array)**
 
-Chaining `.map().filter(Boolean)` creates an intermediate array and iterates twice. Use `.flatMap()` to transform and filter in a single pass.
+Chaining `.map().filter(Boolean)` creates an intermediate array and iterates twice. Use `.flatMap()` to transform and filter in a single pass. Keep the test the filter applied: `.filter(Boolean)` also drops falsy values such as an empty string, so the `flatMap` condition must check the value as well.
 
 **Incorrect (2 iterations, intermediate array):**
 
@@ -23,7 +24,7 @@ const userNames = users
 
 ```typescript
 const userNames = users.flatMap(user =>
-  user.isActive ? [user.name] : []
+  user.isActive && user.name ? [user.name] : []
 )
 ```
 
@@ -38,7 +39,7 @@ const emails = responses
 
 // After
 const emails = responses.flatMap(r =>
-  r.success ? [r.data.email] : []
+  r.success && r.data.email ? [r.data.email] : []
 )
 
 // Parse and filter valid numbers

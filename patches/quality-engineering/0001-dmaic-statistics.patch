@@ -1,0 +1,97 @@
+pi-workbench correction to RBraga01/Quality-Engineering-Skills at 70df27cbd6a5ad6808499e934d2c72be4f8bef1e
+License of the changed files: MIT (unchanged).
+
+DMAIC worked example recalculated (Welch p about 0.023, 95% CI, normal-model tail estimate 15.9% to 9.8%) with a corrected conclusion; decision rules no longer treat significance as proof of cause or non-significance as proof of no effect.
+
+Paths are relative to the upstream repository root. Applied strictly by
+scripts/vendor_sources.py through scripts/vendor_patches.mjs; verified by scripts/check.mjs.
+diff --git a/skills/problem-solving/dmaic/SKILL.md b/skills/problem-solving/dmaic/SKILL.md
+index 35ff43f..c6d6f1b 100644
+--- a/skills/problem-solving/dmaic/SKILL.md
++++ b/skills/problem-solving/dmaic/SKILL.md
+@@ -22,6 +22,7 @@ metadata:
+   reviewed_by: RBraga01
+   standard_edition: "Six Sigma DMAIC / ISO 9001:2015 §10.3 / IATF 16949:2016 §10.1"
+ ---
++<!-- Modified by pi-workbench: hypothesis tests are described as evidence of association, and a non-significant result is no longer treated as rejection of the hypothesis. Upstream original and patch: see the pi-workbench patches/quality-engineering/ directory and THIRD_PARTY_NOTICES.md. -->
+ 
+ # DMAIC (Six Sigma Problem Solving)
+ 
+@@ -131,7 +132,7 @@ Use DMAIC when:
+ - Identifies the dominant family of variation — directs the investigation
+ 
+ **Hypothesis testing:**
+-Confirm or reject hypotheses statistically. Selection guide:
++Test hypotheses statistically. A significant result on observational data shows an association, not a cause; a non-significant result is not proof of no effect unless the study had adequate power or the confidence interval rules out a practically relevant effect (see [statistical tools](references/statistical-tools.md)). Selection guide:
+ 
+ | Situation | Tool |
+ |-----------|------|
+diff --git a/skills/problem-solving/dmaic/references/statistical-tools.md b/skills/problem-solving/dmaic/references/statistical-tools.md
+index 013c3a2..2bddc2f 100644
+--- a/skills/problem-solving/dmaic/references/statistical-tools.md
++++ b/skills/problem-solving/dmaic/references/statistical-tools.md
+@@ -11,6 +11,7 @@ updated_by: migmcc
+ reviewed_by: RBraga01
+ license: MIT
+ ---
++<!-- Modified by pi-workbench: recalculated the worked example (Welch test, confidence interval, normal-model tail estimate), corrected its conclusion, and replaced decision rules that treated significance as proof of cause or non-significance as proof of no effect. Upstream original and patch: see the pi-workbench patches/quality-engineering/ directory and THIRD_PARTY_NOTICES.md. -->
+ 
+ # Statistical Tools Reference — DMAIC
+ 
+@@ -209,7 +210,7 @@ Running a capability study on a poor measurement system produces false Cpk value
+ 
+ ## Statistical Significance vs Practical Significance
+ 
+-This distinction is critical in DMAIC. Statistical significance answers "Is this effect real (not random noise)?". Practical significance answers "Does this effect matter for the process?".
++This distinction is critical in DMAIC. Statistical significance answers "Is the observed difference larger than sampling noise would plausibly produce?" — it does not establish the cause. Practical significance answers "Does this effect matter for the process?".
+ 
+ ### The problem
+ 
+@@ -219,10 +220,10 @@ With large sample sizes, even trivial differences become statistically significa
+ 
+ | Question | Tool | What it tells you |
+ |---|---|---|
+-| Is the effect statistically real? | p-value from hypothesis test (p < 0.05) | The effect is unlikely to be due to random sampling variation |
++| Is the effect statistically detectable? | p-value from hypothesis test (p < 0.05) | The observed difference would be unlikely if there were no difference; it does not show what caused it |
+ | How large is the effect? | Effect size (Cohen's d, η², R²) | The magnitude of the difference or relationship |
+ | Is the effect large enough to matter? | Compare effect size to CTQ specification or business threshold | Whether the finding will produce a meaningful process or cost improvement |
+-| What is the range of plausible values? | Confidence interval | The precision of the estimate; narrow CI = higher data quality |
++| What is the range of plausible values? | Confidence interval | The precision of the estimate; a narrow CI = a more precise estimate (larger n or less variation), not proof of a large or causal effect |
+ 
+ ### Effect size interpretation (Cohen's conventions)
+ 
+@@ -236,22 +237,23 @@ These thresholds are conventions, not rules. In manufacturing, a "small" effect
+ 
+ ### Worked example
+ 
+-A DMAIC project tests whether a new coolant formulation reduces surface roughness (Ra) on a CNC milled part. Specification: Ra ≤ 1.6 µm.
++A DMAIC project tests whether a new coolant formulation reduces surface roughness (Ra) on a CNC milled part. Specification: Ra ≤ 1.6 µm (USL; no lower limit).
+ 
+-- Current process: Ra mean = 1.42 µm, σ = 0.18 µm
+-- New coolant: Ra mean = 1.38 µm, σ = 0.17 µm
+-- 2-sample t-test: n = 200 per group; p = 0.003 — **statistically significant**
+-- Practical significance: Δ mean = 0.04 µm. The process is already well within specification at 1.42 µm. A 0.04 µm reduction does not meaningfully change Cpk or PPM.
+-- Cohen's d = 0.04 / 0.175 ≈ 0.23 — small effect
+-- Decision: Statistically significant but NOT practically significant. Do not implement new coolant for this metric alone — cost and change risk are not justified by a 0.04 µm improvement that does not change conformance rate.
++- Current process: Ra mean = 1.42 µm, s = 0.18 µm, n = 200 parts
++- New coolant: Ra mean = 1.38 µm, s = 0.17 µm, n = 200 parts
++- Welch 2-sample t-test (independent samples, sample standard deviations, unequal variances): Δ mean = 0.04 µm, SE = √(0.18²/200 + 0.17²/200) ≈ 0.0175 µm, t ≈ 2.285, df ≈ 396.7, two-sided p ≈ 0.023 — **statistically significant at α = 0.05**
++- 95% CI for the reduction: 0.04 ± 1.966 × 0.0175 ≈ [0.006, 0.074] µm — the data are compatible with anything from a negligible to a moderate reduction
++- Cohen's d = 0.04 / √((0.18² + 0.17²)/2) ≈ 0.04 / 0.175 ≈ 0.23 — small by Cohen's convention
++- Conformance: the mean is inside the specification, but USL is only 1.0 s above the current mean (Ppk ≈ (1.6 − 1.42)/(3 × 0.18) ≈ 0.33 → 0.43 with the new coolant). If Ra were normally distributed, the expected share above USL would fall from ≈ 15.9% (z = 1.00) to ≈ 9.8% (z ≈ 1.29). These are model estimates, not observed defect rates: confirm with the observed counts above 1.6 µm and a normality check, because the tail estimate is sensitive to the distribution shape.
++- Decision: a small standardized effect does not by itself mean a small practical effect — near a specification limit, a 0.04 µm shift can change the nonconforming rate materially. Compare the estimated change in nonconforming parts (and its uncertainty, including the CI lower bound near 0.006 µm) with the practical threshold defined before data collection and with the coolant's cost and change risk. If the two groups were not run under a controlled or randomized comparison (same machines, material, period), confirm the effect in a pilot before attributing it to the coolant. Neither process meets a capability target such as Ppk ≥ 1.33, so the coolant alone does not solve the capability problem.
+ 
+ ### Decision rules for DMAIC
+ 
+ | Result | Action |
+ |---|---|
+-| p < 0.05 AND practical effect size exceeds threshold | Confirmed: this X is a key driver; include in solution |
+-| p < 0.05 AND practical effect size below threshold | Statistically real but not worth acting on; document and move on |
+-| p ≥ 0.05 AND practical effect size large | Likely underpowered; collect more data; do not dismiss the X |
+-| p ≥ 0.05 AND practical effect size small | Confirmed non-significant; eliminate this X from the model |
++| p < 0.05 AND practical effect size exceeds threshold | Strong candidate driver: check that the CI's lower bound still matters practically, and confirm cause with a controlled change (DOE or pilot) before including it in the solution — a significant difference in observational data shows association, not cause |
++| p < 0.05 AND practical effect size below threshold | Detectable but estimated below the threshold: check the CI's upper bound and the effect on the nonconforming rate (not only the mean) before deprioritising; document the decision |
++| p ≥ 0.05 AND practical effect size large | Inconclusive, likely underpowered; collect more data; do not dismiss the X |
++| p ≥ 0.05 AND practical effect size small | Not demonstrated, not disproven: deprioritise the X only if the study had adequate power or the CI's upper bound is below the practical threshold; otherwise keep it open and document the uncertainty |
+ 
+ **Never present a p-value in a DMAIC tollgate without also presenting the effect size and confidence interval.** A p-value without context misleads stakeholders and sponsors.

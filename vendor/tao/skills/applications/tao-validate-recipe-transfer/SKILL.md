@@ -19,6 +19,7 @@ tags:
   - data-quality
 allowed-tools: Read Bash Write
 ---
+<!-- Modified by pi-workbench: corrected the preprocess_parity.py command (spec self-check vs. path comparison) and described filename-group overlap as a suspicion separate from image or verified-group evidence. Upstream original and patch: see the pi-workbench patches/tao/ directory and THIRD_PARTY_NOTICES.md. -->
 
 # CV Recipe Transfer
 
@@ -155,7 +156,11 @@ Near-duplicate images across splits are the single biggest source of inflated CV
 Video frames sampled at 5fps, the same scene from a fixed camera, the same patient, the same
 production lot — a random split gives 0.95 mAP and a model that collapses on deployment.
 Detectable via perceptual hashing and group metadata; almost nobody checks. If this skill
-does one thing well, make it this.
+does one thing well, make it this. Near-duplicate images fail the check. Filename-stem overlap
+(`frame_0001` in train, `frame_0002` in val) is reported as a suspicion to confirm against
+capture metadata; pass verified groups (video, session, subject, lot) as a `path,group` CSV with
+`--groups groups.csv` to make group overlap a failing check. A clean visual check does not rule
+out leakage through the same subject or product.
 
 ---
 
@@ -191,10 +196,19 @@ resolve that first.
 
 Write the preprocessing spec — resize policy (letterbox vs stretch), channel order,
 normalization constants, augmentation ordering — into one file that the training pipeline,
-the eval path, and the export path all read. Then verify numerically:
+the eval path, and the export path all read. Then verify numerically. First self-check the spec;
+this renders one tensor and does not run or compare any code path:
 
 ```bash
-python scripts/preprocess_parity.py --config <preproc.yaml> --image <sample.jpg> --paths train,eval,export
+python scripts/preprocess_parity.py --spec <preproc.yaml> --image <sample.jpg>
+```
+
+Then compare the actual preprocessing callables (each `module:attribute` takes an image path
+and returns a CHW or HWC array). Only this comparison establishes parity:
+
+```bash
+python scripts/preprocess_parity.py --image <sample.jpg> \
+    --path train=<module:train_fn> --path eval=<module:eval_fn> --path export=<module:export_fn>
 ```
 
 Preprocessing mismatch between training and inference is the failure mode that actually

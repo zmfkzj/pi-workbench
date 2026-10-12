@@ -4,6 +4,7 @@ impact: MEDIUM
 impactDescription: prevents schema conflicts, reduces storage size
 tags: client, localStorage, storage, versioning, data-minimization
 ---
+<!-- Modified by pi-workbench: the migration example deletes the v1 key only after the v2 value was stored. Upstream original and patch: see the pi-workbench patches/vercel/ directory and THIRD_PARTY_NOTICES.md. -->
 
 ## Version and Minimize localStorage Data
 
@@ -22,11 +23,13 @@ const data = localStorage.getItem('userConfig')
 ```typescript
 const VERSION = 'v2'
 
-function saveConfig(config: { theme: string; language: string }) {
+function saveConfig(config: { theme: string; language: string }): boolean {
   try {
     localStorage.setItem(`userConfig:${VERSION}`, JSON.stringify(config))
+    return true
   } catch {
     // Throws in incognito/private browsing, quota exceeded, or disabled
+    return false
   }
 }
 
@@ -39,14 +42,16 @@ function loadConfig() {
   }
 }
 
-// Migration from v1 to v2
+// Migration from v1 to v2: remove v1 only after v2 was stored,
+// so a failed write keeps the old data for the next attempt
 function migrate() {
   try {
     const v1 = localStorage.getItem('userConfig:v1')
     if (v1) {
       const old = JSON.parse(v1)
-      saveConfig({ theme: old.darkMode ? 'dark' : 'light', language: old.lang })
-      localStorage.removeItem('userConfig:v1')
+      if (saveConfig({ theme: old.darkMode ? 'dark' : 'light', language: old.lang })) {
+        localStorage.removeItem('userConfig:v1')
+      }
     }
   } catch {}
 }

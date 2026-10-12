@@ -27,6 +27,7 @@
     "lib",
     "skills",
     "vendor",
+    "patches",
     "docs",
     "scripts",
     "tests",
@@ -41,7 +42,7 @@
   ],
   "scripts": {
     "check": "node scripts/check.mjs",
-    "test": "node --test tests/runtime.test.mjs",
+    "test": "node --test tests/runtime.test.mjs tests/vendor-corrections.test.mjs",
     "vendor": "python3 scripts/vendor_sources.py"
   },
   "pi": {

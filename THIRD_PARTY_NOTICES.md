@@ -1,8 +1,8 @@
 # Third-party notices
 
-This package is a collection. Original upstream files under `vendor/` are distributed byte-for-byte with their own licenses; they are not relicensed under the extension's MIT license. Routing files and adapters are separate, newly authored integration instructions. No upstream example media outside the selected directories is included.
+This package is a collection. Upstream files under `vendor/` are distributed with their own licenses; they are not relicensed under the extension's MIT license. They are byte-for-byte copies of the locked upstream commits, except the files listed under [Corrected upstream files](#corrected-upstream-files), which carry reviewed corrections. Routing files and adapters are separate, newly authored integration instructions. No upstream example media outside the selected directories is included.
 
-Exact commits are recorded in `sources.lock.json`, and every bundled upstream file has a Git blob SHA and SHA-256 digest in `vendor-integrity.json`.
+Exact commits are recorded in `sources.lock.json`, and every bundled file has a Git blob SHA and SHA-256 digest of its distributed bytes in `vendor-integrity.json`; corrected files also record the upstream digests.
 
 | Source | Commit | License | Preserved notice files |
 |---|---|---|---|
@@ -31,7 +31,20 @@ Exact commits are recorded in `sources.lock.json`, and every bundled upstream fi
 - **ast-grep**: MIT declared in README and plugin manifest; upstream has no standalone LICENSE file.
 - **vercel**: MIT declared in README and skill frontmatter; upstream has no standalone LICENSE file.
 
-Three byte-identical Vercel compatibility aliases repair relative links in the upstream compiled guide. Their original source paths are recorded as `aliasOf` in the integrity manifest; no original file is modified.
+Three byte-identical Vercel compatibility aliases repair relative links in the upstream compiled guide. Their original source paths are recorded as `aliasOf` in the integrity manifest; the aliased files are not modified.
+
+## Corrected upstream files
+
+Reviewed corrections fix verified errors in the files below. Each changed file carries a `Modified by pi-workbench` notice, and its upstream copyright, SPDX and license lines are preserved; the unified diff in `patches/` (paths relative to the upstream repository) records the exact change. `scripts/vendor_sources.py` verifies the upstream Git blob before applying the patches strictly, and `scripts/check.mjs` reverses each patch and verifies the recorded upstream bytes. The corrections are distributed under the license of the file they change. The upstream links in the table above point to the uncorrected originals.
+
+| Source | Patch | Changed files | Correction |
+|---|---|---|---|
+| tao (Apache-2.0) | [0001-leakage-evidence-and-parity-modes.patch](patches/tao/0001-leakage-evidence-and-parity-modes.patch) | `skills/applications/tao-validate-recipe-transfer/SKILL.md`<br>`skills/applications/tao-validate-recipe-transfer/references/recipe_spec.yaml`<br>`skills/applications/tao-validate-recipe-transfer/scripts/preprocess_parity.py`<br>`skills/applications/tao-validate-recipe-transfer/scripts/split_leakage_check.py` | split_leakage_check.py no longer merges purely numeric file names into one empty filename group and reports filename-stem overlap as a suspicion separate from near-duplicate images and verified --groups; preprocess_parity.py no longer prints that paths agree after a spec-only run and rejects duplicate --path names; SKILL.md and recipe_spec.yaml use the real CLI options. |
+| quality-engineering (MIT) | [0001-dmaic-statistics.patch](patches/quality-engineering/0001-dmaic-statistics.patch) | `skills/problem-solving/dmaic/SKILL.md`<br>`skills/problem-solving/dmaic/references/statistical-tools.md` | DMAIC worked example recalculated (Welch p about 0.023, 95% CI, normal-model tail estimate 15.9% to 9.8%) with a corrected conclusion; decision rules no longer treat significance as proof of cause or non-significance as proof of no effect. |
+| quality-engineering (MIT) | [0002-8d-verification-sample.patch](patches/quality-engineering/0002-8d-verification-sample.patch) | `skills/problem-solving/8d-problem-solving/SKILL.md`<br>`skills/problem-solving/8d-problem-solving/references/d0-d8-guide.md` | 8D D6 sample size follows n >= log(alpha)/log(1-p) (2% at alpha 0.05 rounds up to 149; a higher rate needs fewer units), and zero recurrence in the sample is a bound on the remaining rate, not proof of permanent elimination. |
+| quality-engineering (MIT) | [0003-root-cause-reasoning.patch](patches/quality-engineering/0003-root-cause-reasoning.patch) | `skills/problem-solving/5why-root-cause/SKILL.md`<br>`skills/problem-solving/fishbone-analysis/SKILL.md`<br>`skills/problem-solving/is-is-not-scoping/SKILL.md`<br>`skills/problem-solving/is-is-not-scoping/references/hypothesis-elimination.md` | Is/Is-Not no longer eliminates an inspection-gauge hypothesis with the escape it would explain; the 5-Why reversibility test reads cause to effect and drops the never-recur promise; a single-shift fishbone pattern is a hypothesis, not an operator cause. |
+| gamedev (Apache-2.0) | [0001-asset-report-max-colors-boundary.patch](patches/gamedev/0001-asset-report-max-colors-boundary.patch) | `skills/disciplines/create-game-assets/scripts/asset_report.py` | asset_report.py --max-colors also fails an image with exactly limit+1 colors. |
+| vercel (MIT) | [0001-flatmap-falsy-and-storage-migration.patch](patches/vercel/0001-flatmap-falsy-and-storage-migration.patch) | `skills/react-best-practices/AGENTS.md`<br>`skills/react-best-practices/rules/client-localstorage-schema.md`<br>`skills/react-best-practices/rules/js-flatmap-filter.md` | The flatMap examples keep the falsy-value filtering of .filter(Boolean), and the localStorage migration removes the v1 key only after the v2 value was stored; the compiled AGENTS.md carries the same corrections as the rules. |
 
 ## License boundaries
 

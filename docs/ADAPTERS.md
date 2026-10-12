@@ -1,6 +1,6 @@
 # Pi integration notes
 
-These are newly authored integration instructions. Original files under `vendor/` remain unchanged; their source commit, license and checksums are recorded separately.
+These are newly authored integration instructions. Files under `vendor/` are the locked upstream files; a few carry reviewed corrections, each marked `Modified by pi-workbench` and recorded as a patch in `patches/` (see [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md#corrected-upstream-files)). Source commits, licenses, checksums and the upstream digests of corrected files are recorded separately.
 
 ## How selection works
 

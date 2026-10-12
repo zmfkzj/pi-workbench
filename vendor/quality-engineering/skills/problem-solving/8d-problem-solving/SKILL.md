@@ -21,6 +21,7 @@ metadata:
   reviewed_by: RBraga01
   standard_edition: "ISO 9001:2015 / IATF 16949:2016"
 ---
+<!-- Modified by pi-workbench: D6 verification sample size now follows the formula (a higher pre-PCA defect rate needs a smaller sample at a fixed alpha; 2% at alpha 0.05 rounds up to 149), and zero recurrence in that sample is described as a bound on the remaining rate, not proof of permanent elimination. Upstream original and patch: see the pi-workbench patches/quality-engineering/ directory and THIRD_PARTY_NOTICES.md. -->
 
 # 8D Problem Solving
 
@@ -40,7 +41,7 @@ Quick-reference for agents and practitioners. All items must be complete before 
 - [ ] D4: Root cause of **occurrence** identified and validated with data or experiment
 - [ ] D4: Root cause of **escape** identified and validated with data or experiment
 - [ ] D5: One PCA per root cause selected, with verification plan
-- [ ] D6: PCA implemented; verification data confirms zero recurrence; ICA formally removed
+- [ ] D6: PCA implemented; verification data shows zero recurrence in the planned sample; ICA formally removed
 - [ ] D7: PFMEA, Control Plan, and Work Instructions updated (revision numbers documented)
 - [ ] D7: Horizontal deployment assessed and actioned
 - [ ] D8: Champion sign-off obtained; customer notified of closure
@@ -185,10 +186,10 @@ D5 is complete when: one PCA per root cause is selected and documented with veri
 Implement the PCAs. After implementation:
 
 **Verification requirements:**
-- Run sufficient production volume to achieve statistical confidence — **define sample size based on the observed defect rate and risk level** (higher defect rate or safety-related defect → larger sample required). Do not use fixed generic numbers; align the sample with the detection probability needed.
-  - Guidance: if pre-PCA defect rate was p, the verification sample should be large enough that the probability of observing zero defects if p is still present is below 5%. Formula: n ≥ log(0.05) / log(1 − p).
+- Run sufficient production volume to achieve statistical confidence — **define sample size based on the observed defect rate and risk level** (at a fixed α, a lower pre-PCA defect rate requires a larger sample and a higher rate a smaller one; for a safety-related defect choose a smaller α, which also enlarges the sample). Do not use fixed generic numbers; align the sample with the detection probability needed.
+  - Guidance: if pre-PCA defect rate was p, the verification sample should be large enough that the probability of observing zero defects if p is still present is below 5%. Formula: n ≥ log(0.05) / log(1 − p), rounded up — p = 1% → 299, 2% → 149, 5% → 59, 10% → 29 units.
 - Measure the original defect metric before and after
-- Confirm zero recurrence of the exact defect mode
+- Observe zero recurrence of the exact defect mode in that sample. Zero in n units does not prove the defect is permanently eliminated: it shows the pre-PCA rate is no longer plausible at the chosen α and bounds the remaining rate (one-sided 95% upper bound 1 − 0.05^(1/n) ≈ 3/n; 0/149 → about 1.99%). Keep monitoring through the D7 controls.
 
 **Verification evidence to capture:**
 - Process control charts or inspection data after PCA
@@ -197,7 +198,7 @@ Implement the PCAs. After implementation:
 
 ICA (D3) can only be removed **after** D6 verification is complete with objective evidence.
 
-D6 is complete when: data confirms the defect is eliminated, ICA formally removed.
+D6 is complete when: verification data from the planned sample shows zero recurrence of the defect mode, and the ICA is formally removed.
 
 ---
 
@@ -241,7 +242,7 @@ Before closing, verify:
 - [ ] D3 ICA has implementation date and verification evidence
 - [ ] D4 has two root causes (occurrence + escape), both validated with evidence
 - [ ] D5 PCAs directly address D4 root causes
-- [ ] D6 verification data shows zero recurrence after PCA
+- [ ] D6 verification data shows zero recurrence after PCA in a sample sized from the pre-PCA rate
 - [ ] D7: FMEA, control plan, and work instructions are all updated
 - [ ] D8: champion sign-off and customer notification (if applicable)
 

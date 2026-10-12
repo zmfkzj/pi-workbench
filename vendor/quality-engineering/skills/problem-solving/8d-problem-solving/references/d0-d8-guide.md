@@ -11,6 +11,7 @@ updated_by: RBraga01
 reviewed_by: RBraga01
 license: MIT
 ---
+<!-- Modified by pi-workbench: D6 verification sample size now follows the formula (a higher pre-PCA defect rate needs a smaller sample at a fixed alpha; 2% at alpha 0.05 rounds up to 149), and zero recurrence in that sample is described as a bound on the remaining rate, not proof of permanent elimination. Upstream original and patch: see the pi-workbench patches/quality-engineering/ directory and THIRD_PARTY_NOTICES.md. -->
 
 # D0–D8 Reference Guide
 
@@ -173,16 +174,16 @@ Stop the non-conforming product from reaching the customer while D4–D5 are in 
 ## D6 — Implement and Verify PCA Effectiveness
 
 ### Verification requirements
-- **Sufficient production volume based on statistical confidence** — define sample size from the observed defect rate and risk level, not from a fixed number. Higher defect rate or safety-related failure mode requires a larger verification sample.
+- **Sufficient production volume based on statistical confidence** — define sample size from the observed defect rate and risk level, not from a fixed number. At a fixed α, a lower pre-PCA defect rate requires a larger verification sample and a higher rate a smaller one; for a safety-related failure mode choose a smaller α, which enlarges the sample.
   - Reference formula: n ≥ log(α) / log(1 − p), where p = pre-PCA defect rate and α = acceptable probability of missing recurrence (typically 0.05).
-  - Example: defect rate 2% (p = 0.02), α = 0.05 → n ≥ 148 units minimum.
+  - Example: defect rate 2% (p = 0.02), α = 0.05 → n ≥ 148.3, rounded up to 149 units minimum (1% → 299, 5% → 59, 10% → 29).
 - Before/after comparison with same metric as D2
-- Zero recurrence of the exact defect mode
+- Zero recurrence of the exact defect mode in that sample — evidence that the pre-PCA rate is no longer plausible, not proof of permanent elimination (0/n gives a one-sided 95% upper bound of about 3/n on the remaining rate; 0/149 → about 1.99%)
 - ICA removed only after D6 verification is complete with data
 
 ### D6 gate — complete when
 - [ ] PCAs implemented with date
-- [ ] Verification data confirms zero recurrence
+- [ ] Verification data shows zero recurrence in the planned sample
 - [ ] ICA formally removed
 
 ---

@@ -181,10 +181,10 @@ Git 설치본의 내려받은 디렉터리 경로는 등록된 source가 아니�
 
 ```bash
 node scripts/check.mjs
-node --test tests/runtime.test.mjs
+node --test tests/runtime.test.mjs tests/vendor-corrections.test.mjs
 ```
 
-첫 명령은 구성, 프로필↔스킬 소속의 양방향 일치, 라이선스 포함 여부, 모든 원본 파일의 Git blob/SHA-256, 별칭 파일, 로컬 Markdown 참조를 검사한다. 두 번째는 상태·명령·인수 자동완성(강제 Tab wrapper 포함)·요청별 프로필 안내·one-shot 선택(다음 사용자 입력 연결, 중복·취소·분기/reload, 대기열 `/skill:`·템플릿 취소, 읽기 중 경합)·명령 출력 기록과 렌더러·호스트 호환·doctor를 검증한다.
+첫 명령은 구성, 프로필↔스킬 소속의 양방향 일치, 라이선스 포함 여부, 모든 vendor 파일의 Git blob/SHA-256, 별칭 파일, 교정 패치(역적용 시 upstream 원본 digest 재현), 로컬 Markdown 참조를 검사한다. `vendor-corrections.test.mjs`는 교정한 vendor CLI(TAO 누수·전처리 parity, asset_report)를 실제로 실행하고, Vercel 예제를 rules와 컴파일된 `AGENTS.md`에서 추출해 실행하며, DMAIC·8D 문서의 통계값을 입력값에서 다시 계산한다. 교정 전 원본(패치 역적용)으로 같은 오류가 재현되는 음성 대조도 포함한다. Python CLI 검사는 NumPy·Pillow가 있는 `python3`가 필요하며, 없으면 실패한다(`PI_WORKBENCH_SKIP_PYTHON_TESTS=1`이면 건너뜀으로 보고). `runtime.test.mjs`는 상태·명령·인수 자동완성(강제 Tab wrapper 포함)·요청별 프로필 안내·one-shot 선택(다음 사용자 입력 연결, 중복·취소·분기/reload, 대기열 `/skill:`·템플릿 취소, 읽기 중 경합)·명령 출력 기록과 렌더러·호스트 호환·doctor를 검증한다.
 
 별도로 설치된 Pi로 실제 리소스 로딩과 세션·입력창 동작을 확인할 수 있다. `pi-session.mjs`는 스크립트 모델(faux)로 연속 요청·분기 전환·reload·auto/off, 다른 확장의 `triggerTurn` 실행 중 steering·follow-up에 붙는 선택, 대기열 `/skill:`·템플릿의 취소, 명령 출력 기록의 재열기에서 모델이 받는 내용을 검사하며 네트워크나 유료 모델을 쓰지 않는다. `pi-editor.mjs`는 Pi 입력창 편집기(pi-tui `Editor`)에 키를 입력해 Tab·Enter 동작을 확인한다(터미널 화면은 그리지 않음).
 
@@ -196,10 +196,10 @@ PI_WORKBENCH_HOST_MODULE=/path/to/pi/dist/index.js node tests/pi-editor.mjs
 
 실제 확인 범위와 미검증 항목은 [검증 기록](docs/VALIDATION.md)에 있다. API 비용이 드는 이미지·음악 생성이나 모델 학습을 테스트 과정에서 호출하지 않았다.
 
-원본 버전은 `sources.lock.json`으로 고정한다. 업데이트할 때는 해당 commit과 라이선스·참조를 먼저 검토하고, `python3 scripts/vendor_sources.py`, `python3 scripts/build_catalog.py`, 위 검증을 순서대로 실행한다. 스크립트는 선택한 원본을 다운로드하며 실행하지 않는다. 제거한 source의 잔여 파일은 무결성 검사에서 검출되므로 검토 후 삭제한다.
+원본 버전은 `sources.lock.json`으로 고정한다. 업데이트할 때는 해당 commit과 라이선스·참조를 먼저 검토하고, `python3 scripts/vendor_sources.py`, `python3 scripts/build_catalog.py`, 위 검증을 순서대로 실행한다. 스크립트는 선택한 원본을 다운로드하며 실행하지 않는다. 다운로드한 파일의 Git blob을 확인한 뒤 `sources.json`의 `patches`(검증된 오류 교정, `patches/`의 unified diff)를 오차 없이 엄격 적용하고, 교정 파일은 `vendor-integrity.json`에 배포 digest와 upstream digest를 함께 기록한다. lock을 올려 패치가 맞지 않으면 실패하므로 upstream 수정 여부를 확인해 패치를 다시 만들거나 제거한다. 교정 파일과 그 사유는 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md#corrected-upstream-files)에 있다. 제거한 source의 잔여 파일은 무결성 검사에서 검출되므로 검토 후 삭제한다.
 
 ## 출처와 라이선스
 
-확장 코드·라우팅 지침은 MIT다. `vendor/`의 원본은 각자의 MIT, Apache-2.0 또는 CC-BY-SA-4.0 조건을 유지한다. 특히 Trail of Bits 자료를 MIT로 재표시하지 않았다. 전체 목록과 정확한 commit, 재배포하지 않은 참고 후보는 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)에 있다.
+확장 코드·라우팅 지침은 MIT다. `vendor/`의 원본은 각자의 MIT, Apache-2.0 또는 CC-BY-SA-4.0 조건을 유지한다. 교정한 파일은 `Modified by pi-workbench` 표기와 원래 저작권·라이선스 표기를 함께 유지하며, 교정분은 해당 파일의 라이선스를 따른다. 특히 Trail of Bits 자료를 MIT로 재표시하지 않았다. 전체 목록과 정확한 commit, 재배포하지 않은 참고 후보는 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)에 있다.
 
 공식 호스트 문서: [Pi packages](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/docs/packages.md), [Pi extensions](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/docs/extensions.md), [Pi skills](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/docs/skills.md).

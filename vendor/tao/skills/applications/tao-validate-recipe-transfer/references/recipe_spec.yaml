@@ -1,4 +1,6 @@
 # Recipe spec template
+# Modified by pi-workbench: parity_verified requires the compare mode of preprocess_parity.py.
+# Upstream original and patch: see the pi-workbench patches/tao/ directory and THIRD_PARTY_NOTICES.md.
 #
 # Fill this out at the end of Phase A, before touching customer data.
 #
@@ -134,7 +136,7 @@ preprocessing:                   # single shared artifact for train / eval / exp
   scale: 255.0
   mean: []
   std: []
-  parity_verified: false         # set true only after preprocess_parity.py passes
+  parity_verified: false         # set true only after preprocess_parity.py compare mode (--path train/eval/export) passes; a spec-only self-check is not parity
 
 augmentation:
   # For each op: keep/drop, and the semantic reason. "The paper used it" is not a reason.

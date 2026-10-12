@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# Modified by pi-workbench: --max-colors now also fails an image with exactly limit+1
+# colors (previously only images with more than limit+1 colors failed). Upstream original
+# and patch: see the pi-workbench patches/gamedev/ directory and THIRD_PARTY_NOTICES.md.
 """Inspect raster game assets and enforce simple production constraints.
 
 Requires Pillow 10+. The command exits 1 when an explicit constraint fails and
@@ -100,7 +103,9 @@ def main() -> int:
             )
         if args.require_alpha and not report["has_alpha"]:
             problems.append("image has no alpha channel")
-        if args.max_colors is not None and isinstance(report["color_count"], str):
+        if args.max_colors is not None and (
+            isinstance(report["color_count"], str) or report["color_count"] > args.max_colors
+        ):
             problems.append(f"image has more than {args.max_colors} colors")
         report["problems"] = problems
         reports.append(report)

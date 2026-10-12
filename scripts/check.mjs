@@ -4,6 +4,7 @@ import { readFile, readdir, stat } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { PROFILE_IDS, readCatalog, resolveSkillPath } from "../lib/runtime.js";
+import { verifyPatches } from "./vendor_patches.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const json = async (path) => JSON.parse(await readFile(join(root, path), "utf8"));
@@ -54,6 +55,11 @@ for (const source of sources.sources) {
   assert.equal(locks.sources[source.id].repository, source.repository);
   for (const path of source.licenseFiles) assert(tracked.has(`vendor/${source.id}/${path}`), `License missing: ${source.id}/${path}`);
 }
+// Corrected upstream files: the distributed bytes are checked above; the patch must turn them back into the
+// recorded upstream bytes (Git blob as fetched) and forward again, and every changed file must record its patch.
+const patchProblems = await verifyPatches(root, sources.sources, integrity.files);
+assert.deepEqual(patchProblems, [], `Vendor patch verification failed:\n${patchProblems.join("\n")}`);
+assert(manifest.files.includes("patches"), "The package must ship patches/ with the corrected vendor files.");
 
 async function walk(directory) {
   const files = [];
@@ -81,4 +87,4 @@ for (const path of markdown) {
     checkedLinks++;
   }
 }
-console.log(JSON.stringify({ ok: true, profiles: catalog.profiles.length, selectableSkills: catalog.skills.length, upstreamFiles: integrity.files.length, compatibilityAliases: integrity.files.filter((f) => f.aliasOf).length, localMarkdownLinks: checkedLinks, vendorBytes: integrity.files.reduce((n, f) => n + f.bytes, 0) }, null, 2));
+console.log(JSON.stringify({ ok: true, profiles: catalog.profiles.length, selectableSkills: catalog.skills.length, upstreamFiles: integrity.files.length, compatibilityAliases: integrity.files.filter((f) => f.aliasOf).length, correctedFiles: integrity.files.filter((f) => f.patch).length, patches: sources.sources.reduce((n, s) => n + (s.patches?.length ?? 0), 0), localMarkdownLinks: checkedLinks, vendorBytes: integrity.files.reduce((n, f) => n + f.bytes, 0) }, null, 2));

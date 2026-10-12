@@ -1,0 +1,142 @@
+pi-workbench correction to RBraga01/Quality-Engineering-Skills at 70df27cbd6a5ad6808499e934d2c72be4f8bef1e
+License of the changed files: MIT (unchanged).
+
+Is/Is-Not no longer eliminates an inspection-gauge hypothesis with the escape it would explain; the 5-Why reversibility test reads cause to effect and drops the never-recur promise; a single-shift fishbone pattern is a hypothesis, not an operator cause.
+
+Paths are relative to the upstream repository root. Applied strictly by
+scripts/vendor_sources.py through scripts/vendor_patches.mjs; verified by scripts/check.mjs.
+diff --git a/skills/problem-solving/5why-root-cause/SKILL.md b/skills/problem-solving/5why-root-cause/SKILL.md
+index a902740..c26f81c 100644
+--- a/skills/problem-solving/5why-root-cause/SKILL.md
++++ b/skills/problem-solving/5why-root-cause/SKILL.md
+@@ -21,6 +21,7 @@ metadata:
+   reviewed_by: RBraga01
+   standard_edition: "ISO 9001:2015"
+ ---
++<!-- Modified by pi-workbench: the reversibility test now reads in the same cause-to-effect direction as Step 3, and the stopping rule no longer promises that a fix prevents recurrence forever. Upstream original and patch: see the pi-workbench patches/quality-engineering/ directory and THIRD_PARTY_NOTICES.md. -->
+ 
+ # 5-Why Root Cause Analysis
+ 
+@@ -84,7 +85,7 @@ For each Why, follow these rules:
+ - Not acceptable: "probably," "maybe," "someone said"
+ 
+ **Rule 2: Each answer must logically lead to the next Why**
+-- Test reversibility: "Because [Why N], therefore [Why N+1]"
++- Test reversibility: "Because [Why N+1], therefore [Why N]" — each answer is the cause of the one before it, so the chain must read correctly from the deepest cause back to the symptom (see Step 3)
+ - If the sentence doesn't make logical sense, the chain is broken
+ 
+ **Rule 3: Keep the chain focused**
+@@ -92,7 +93,7 @@ For each Why, follow these rules:
+ - If you reach a fork (two possible causes), investigate both separately
+ 
+ **Rule 4: Stop at a systemic root cause**
+-- You have reached root cause when: fixing it would prevent the defect from ever recurring
++- You have reached root cause when: it is a systemic condition the organisation controls and the evidence indicates that correcting it should stop this cause path; whether recurrence is actually prevented is confirmed by the Step 4 tests and later verification (for example 8D D6), not assumed
+ - Typical systemic root causes: missing procedure, inadequate training system, process design gap, absence of poka-yoke, measurement system failure
+ 
+ ---
+diff --git a/skills/problem-solving/fishbone-analysis/SKILL.md b/skills/problem-solving/fishbone-analysis/SKILL.md
+index 18ad456..7798046 100644
+--- a/skills/problem-solving/fishbone-analysis/SKILL.md
++++ b/skills/problem-solving/fishbone-analysis/SKILL.md
+@@ -21,6 +21,7 @@ metadata:
+   reviewed_by: RBraga01
+   standard_edition: "ISO 9001:2015"
+ ---
++<!-- Modified by pi-workbench: a single-shift pattern is a hypothesis to discriminate, not proof of an operator-specific cause. Upstream original and patch: see the pi-workbench patches/quality-engineering/ directory and THIRD_PARTY_NOTICES.md. -->
+ 
+ # Fishbone (Ishikawa) Analysis
+ 
+@@ -61,7 +62,7 @@ Questions to ask:
+ - Was the operator following the correct work instruction?
+ - Could fatigue, shift change, or distraction contribute?
+ - Is the task ergonomically difficult or error-prone?
+-- Is the same defect found on all shifts or only one? (single-shift → operator-specific)
++- Is the same defect found on all shifts or only one? (single-shift → a shift-related hypothesis, not yet an operator cause: compare operators, methods, material lots, machine start-up or warm-up, environment and inspection crew between shifts, and classify it as Confirmed only after data or a trial isolates the operator factor)
+ 
+ ### 2. Machine (Equipment)
+ 
+diff --git a/skills/problem-solving/is-is-not-scoping/SKILL.md b/skills/problem-solving/is-is-not-scoping/SKILL.md
+index 2a76432..22782b3 100644
+--- a/skills/problem-solving/is-is-not-scoping/SKILL.md
++++ b/skills/problem-solving/is-is-not-scoping/SKILL.md
+@@ -21,6 +21,7 @@ metadata:
+   reviewed_by: RBraga01
+   standard_edition: "ISO 9001:2015"
+ ---
++<!-- Modified by pi-workbench: the gauge-miscalibration example no longer treats non-detection at outgoing inspection as the contradiction that eliminates gauge failure; it names discriminating checks instead. Upstream original and patch: see the pi-workbench patches/quality-engineering/ directory and THIRD_PARTY_NOTICES.md. -->
+ 
+ # Is/Is-Not Problem Scoping
+ 
+@@ -110,9 +111,10 @@ Once the matrix is complete, generate hypotheses and test each against the IS/IS
+ - IS NOT: Rev A unaffected → **contradicts** (if the lot included rev A parts)
+ → Hypothesis partially consistent — investigate further
+ 
+-**Hypothesis: "Gauge miscalibration."**
+-- IS NOT: Not found at our outgoing inspection → **contradicts** (if we measure 100%, our gauge would catch it)
+-→ Hypothesis eliminated
++**Hypothesis: "Our outgoing inspection gauge is miscalibrated, so defective parts escaped."**
++- IS NOT: Not found at our outgoing inspection → **consistent**, not contradicting: a miscalibrated gauge is exactly what would pass defective parts. An escape through 100% inspection cannot be the evidence that eliminates gauge failure.
++- Discriminating checks: measure a reference master and seeded defective samples on the gauge; review its calibration and MSA records for the shipping period; re-measure retained parts from the affected batches with an independent method
++→ Hypothesis remains open until those checks are done; if the gauge reads the master within tolerance and rejects the seeded defects, eliminate it and look for damage after inspection (packing, transit)
+ 
+ Any hypothesis that cannot explain ALL items in the IS and IS-NOT columns is eliminated or requires modification. Document the specific contradiction for each eliminated hypothesis.
+ 
+diff --git a/skills/problem-solving/is-is-not-scoping/references/hypothesis-elimination.md b/skills/problem-solving/is-is-not-scoping/references/hypothesis-elimination.md
+index 57d7ca6..4505403 100644
+--- a/skills/problem-solving/is-is-not-scoping/references/hypothesis-elimination.md
++++ b/skills/problem-solving/is-is-not-scoping/references/hypothesis-elimination.md
+@@ -11,6 +11,7 @@ updated_by: RBraga01
+ reviewed_by: RBraga01
+ license: MIT
+ ---
++<!-- Modified by pi-workbench: the gauge examples no longer eliminate an inspection-gauge hypothesis with the escape it would itself explain; H3 stays open as the escape cause with discriminating checks. Upstream original and patch: see the pi-workbench patches/quality-engineering/ directory and THIRD_PARTY_NOTICES.md. -->
+ 
+ # Hypothesis Elimination — Is/Is-Not Reference
+ 
+@@ -55,7 +56,7 @@ A **distinction** is the specific IS/IS-NOT contrast that a hypothesis cannot ex
+ **Examples of valid distinctions:**
+ 
+ - Hypothesis: "All material from supplier X is non-conforming." Distinction: "IS NOT — Batches from supplier X delivered before 2026-04-15 showed 0 defects in 1,200 parts inspected. If all material from supplier X were non-conforming, we would expect defects in those batches too."
+-- Hypothesis: "The inspection gauge is out of calibration." Distinction: "IS NOT — Defect was found at the customer's incoming inspection, not at our outgoing inspection. If our gauge were reading incorrectly, we would not have shipped 0 defectives in the previous 3 months of 100% outgoing inspection."
++- Hypothesis: "The inspection gauge is out of calibration." Distinction: "IS NOT — The gauge read the certified master within tolerance and rejected all 10 seeded defective samples on the day before the affected shipment. If the gauge had been out of calibration, it would have misread the master or passed seeded defects." (Note that a defect found at the customer but not at our outgoing inspection is *consistent* with a gauge failure, so it cannot be the distinction that eliminates it.)
+ - Hypothesis: "Operator skill is the cause." Distinction: "IS — Defect is present across all three shifts, including automated operations. If this were operator-dependent, we would expect it to be absent during automated shift."
+ 
+ ### What does NOT constitute a valid elimination
+@@ -111,19 +112,20 @@ A Tier 1 automotive electronics supplier receives a customer complaint: bent con
+ |---|---|---|---|---|---|---|---|---|
+ | H1 | Supplier material/geometry change at W18 | Consistent (pin 3 only could relate to positional characteristic) | Consistent (batch boundary matches W18) | Consistent | Consistent (onset at W18) | Consistent (~23.5% stable rate) | **SURVIVES** | — |
+ | H2 | New packing configuration causing transit damage | Consistent | Consistent (W18 boundary) | Consistent (found at customer) | Consistent | Partially — 23.5% is high for random transit damage | **PARTIAL** | How many: random transit contact would produce lower, variable rate |
+-| H3 | Outgoing inspection gauge failure | Consistent (defect escaped) | Consistent | **Contradicts** — if gauge failed, we'd expect escapes on other part numbers too; no other complaints received | Partially consistent | Consistent | **ELIMINATED** | Where: "IS NOT — found at our outgoing inspection" combined with 100% inspection means our gauge passed these parts; if gauge failed, rate would not be batch-specific |
++| H3 | Outgoing inspection gauge failure | Consistent (defect escaped) | Does not explain the W18 onset as a cause of deflection; consistent as the reason the deflected parts escaped | Consistent — "not found at our outgoing inspection" is what a failed or insensitive gauge would produce | Partially consistent | Consistent | **OPEN (escape cause)** | None. The batch-specific pattern argues against H3 as the *occurrence* cause, and no other part numbers had defects to escape, so neither eliminates it as the *escape* cause. Discriminate with the gauge master, seeded defects and calibration/MSA records |
+ | H4 | Assembly process change at W18 (crimping jig) | Consistent (pin 3 specific — jig feature) | Consistent (batch boundary W18) | **Partially** — consistent with escaping outgoing inspection if deformation is at or near limit | Consistent (onset W18) | Consistent (stable ~23.5%) | **SURVIVES** | — |
+ | H5 | Damage at customer unpacking | Consistent | **Contradicts** — damage would not be batch-specific; W16/W17 same unpacking process | Contradicts (would be found equally at all deliveries) | Contradicts (would not have a batch onset) | Contradicts (rate would vary by unpacking event) | **ELIMINATED** | Which: "IS NOT — W16 and W17 unaffected"; When: no onset pattern |
+ 
+ ### Investigation Priority After Elimination
+ 
+-Surviving: H1 (supplier change), H4 (assembly jig change). Partial: H2 (packing — low priority).
++Surviving occurrence hypotheses: H1 (supplier change), H4 (assembly jig change). Partial: H2 (packing — low priority). Open escape hypothesis: H3 (outgoing gauge), unless the deflection is shown to happen after outgoing inspection.
+ 
+ **Next actions:**
+ 1. Request supplier change notification log for W18 raw material
+ 2. Review internal ECO log for assembly station changes between W17 and W18
+ 3. Retrieve crimping jig maintenance and calibration records for the period
+ 4. Retain sample parts from W18 for CMM measurement of pin 3 geometry
++5. Check the outgoing gauge against its master and seeded 12–18° deflected samples; review its calibration and MSA records for W18–W19 (H3)
+ 
+ ---
+ 
+@@ -133,11 +135,11 @@ After elimination, surviving hypotheses must be distinguished from the problem s
+ 
+ ### Formula
+ 
+-> "On [part number + revision], [defect description with measurement] was found [where] affecting [quantity/rate] of [which batches]. The defect first appeared [when]. Investigation has confirmed [any confirmed facts from elimination]. Hypotheses under active investigation: [H1 and H4]. The following have been eliminated with evidence: [H3 — gauge failure eliminated by X; H5 — unpacking damage eliminated by Y]."
++> "On [part number + revision], [defect description with measurement] was found [where] affecting [quantity/rate] of [which batches]. The defect first appeared [when]. Investigation has confirmed [any confirmed facts from elimination]. Hypotheses under active investigation: [H1 and H4]. The following have been eliminated with evidence: [H5 — unpacking damage eliminated by Y]."
+ 
+ ### Worked example (from above)
+ 
+-> "On ECU-4472 rev C, connector pin 3 was found laterally deflected 12–18° at customer incoming inspection (Germany Plant), affecting 23.5% (47/200) of units in batches W18 and W19 shipped 2026-04-28 to 2026-05-02. No defects were found in batches W16 or W17 (0/600 units). The defect was not detected at our 100% outgoing inspection. Active hypotheses: (H1) supplier pin material or geometry change at W18; (H4) assembly crimping jig change between W17 and W18. Eliminated: (H3) outgoing gauge failure — contradicted by batch-specific escape pattern and no other part number complaints; (H5) customer unpacking damage — contradicted by batch onset and zero rate in W16/W17 under identical handling."
++> "On ECU-4472 rev C, connector pin 3 was found laterally deflected 12–18° at customer incoming inspection (Germany Plant), affecting 23.5% (47/200) of units in batches W18 and W19 shipped 2026-04-28 to 2026-05-02. No defects were found in batches W16 or W17 (0/600 units). The defect was not detected at our 100% outgoing inspection. Active hypotheses: (H1) supplier pin material or geometry change at W18; (H4) assembly crimping jig change between W17 and W18. Open escape hypothesis: (H3) outgoing gauge failure or insufficient sensitivity — gauge master and seeded-defect checks pending. Eliminated: (H5) customer unpacking damage — contradicted by batch onset and zero rate in W16/W17 under identical handling."
+ 
+ **Rules for the problem statement:**
+ - Contains only documented facts — no hypothesis language ("may have been," "probably," "we think")

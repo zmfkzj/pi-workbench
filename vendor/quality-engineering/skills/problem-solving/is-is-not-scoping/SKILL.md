@@ -21,6 +21,7 @@ metadata:
   reviewed_by: RBraga01
   standard_edition: "ISO 9001:2015"
 ---
+<!-- Modified by pi-workbench: the gauge-miscalibration example no longer treats non-detection at outgoing inspection as the contradiction that eliminates gauge failure; it names discriminating checks instead. Upstream original and patch: see the pi-workbench patches/quality-engineering/ directory and THIRD_PARTY_NOTICES.md. -->
 
 # Is/Is-Not Problem Scoping
 
@@ -110,9 +111,10 @@ Once the matrix is complete, generate hypotheses and test each against the IS/IS
 - IS NOT: Rev A unaffected → **contradicts** (if the lot included rev A parts)
 → Hypothesis partially consistent — investigate further
 
-**Hypothesis: "Gauge miscalibration."**
-- IS NOT: Not found at our outgoing inspection → **contradicts** (if we measure 100%, our gauge would catch it)
-→ Hypothesis eliminated
+**Hypothesis: "Our outgoing inspection gauge is miscalibrated, so defective parts escaped."**
+- IS NOT: Not found at our outgoing inspection → **consistent**, not contradicting: a miscalibrated gauge is exactly what would pass defective parts. An escape through 100% inspection cannot be the evidence that eliminates gauge failure.
+- Discriminating checks: measure a reference master and seeded defective samples on the gauge; review its calibration and MSA records for the shipping period; re-measure retained parts from the affected batches with an independent method
+→ Hypothesis remains open until those checks are done; if the gauge reads the master within tolerance and rejects the seeded defects, eliminate it and look for damage after inspection (packing, transit)
 
 Any hypothesis that cannot explain ALL items in the IS and IS-NOT columns is eliminated or requires modification. Document the specific contradiction for each eliminated hypothesis.
 

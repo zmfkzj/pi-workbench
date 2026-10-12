@@ -21,6 +21,7 @@ metadata:
   reviewed_by: RBraga01
   standard_edition: "ISO 9001:2015"
 ---
+<!-- Modified by pi-workbench: a single-shift pattern is a hypothesis to discriminate, not proof of an operator-specific cause. Upstream original and patch: see the pi-workbench patches/quality-engineering/ directory and THIRD_PARTY_NOTICES.md. -->
 
 # Fishbone (Ishikawa) Analysis
 
@@ -61,7 +62,7 @@ Questions to ask:
 - Was the operator following the correct work instruction?
 - Could fatigue, shift change, or distraction contribute?
 - Is the task ergonomically difficult or error-prone?
-- Is the same defect found on all shifts or only one? (single-shift → operator-specific)
+- Is the same defect found on all shifts or only one? (single-shift → a shift-related hypothesis, not yet an operator cause: compare operators, methods, material lots, machine start-up or warm-up, environment and inspection crew between shifts, and classify it as Confirmed only after data or a trial isolates the operator factor)
 
 ### 2. Machine (Equipment)
 

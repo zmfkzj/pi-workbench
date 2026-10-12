@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: Copyright (c) 2026 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
 # SPDX-License-Identifier: Apache-2.0
+# Modified by pi-workbench: a spec-only run no longer reports that train/eval/export paths
+# agree, duplicate --path names (or "spec" with --spec) are rejected instead of silently
+# replacing a compared tensor, and the exit-code contract states what each mode verifies.
+# Upstream original and patch: see the pi-workbench patches/tao/ directory and
+# THIRD_PARTY_NOTICES.md.
 """
 Assert numerically that the training, eval, and export preprocessing paths agree.
 
@@ -13,7 +18,7 @@ Two modes:
 
 1. SPEC MODE (no user code needed). Give it a YAML/JSON preprocessing spec and it renders
    the tensor, reports the fingerprint, and runs a set of self-checks that catch the
-   common misconfigurations.
+   common misconfigurations. It does not run or compare any train/eval/export code path.
 
        python preprocess_parity.py --spec preproc.yaml --image sample.jpg
 
@@ -22,10 +27,12 @@ Two modes:
 
        python preprocess_parity.py --image sample.jpg \
            --path train=mypkg.data:train_transform \
+           --path eval=mypkg.data:eval_transform \
            --path export=mypkg.deploy:onnx_preprocess
 
    Each target is 'module:attribute'. The attribute must be callable as fn(path) -> array
-   of shape (C,H,W) or (H,W,C).
+   of shape (C,H,W) or (H,W,C). Combined with --spec, a single --path is compared against
+   the tensor rendered from the spec.
 
 Spec format (YAML or JSON):
     resize: letterbox        # letterbox | stretch | shortest_side
@@ -37,7 +44,9 @@ Spec format (YAML or JSON):
     mean: [0.485, 0.456, 0.406]
     std:  [0.229, 0.224, 0.225]
 
-Exit codes: 0 = paths agree / spec sane, 1 = mismatch or suspicious configuration.
+Exit codes: 0 = compared paths agree, or (spec mode alone) no likely spec bug found;
+1 = mismatch, suspicious configuration, or invalid input. A spec-only success is not
+evidence that the train, eval and export paths agree.
 """
 
 import argparse
@@ -307,6 +316,16 @@ def main():
     if not Path(args.image).exists():
         raise SystemExit(f"error: image not found: {args.image}")
 
+    paths = []
+    for item in args.path:
+        if "=" not in item:
+            raise SystemExit(f"error: --path entries must be name=module:attribute, got {item!r}")
+        name, target = item.split("=", 1)
+        if not name or name in (n for n, _ in paths) or (args.spec and name == "spec"):
+            raise SystemExit(f"error: --path names must be non-empty and unique (\"spec\" is reserved "
+                             f"with --spec), got {name!r}")
+        paths.append((name, target))
+
     failed = False
     tensors = {}
 
@@ -331,10 +350,7 @@ def main():
             for n in notes:
                 print(f"  [note] {n}")
 
-    for item in args.path:
-        if "=" not in item:
-            raise SystemExit(f"error: --path entries must be name=module:attribute, got {item!r}")
-        name, target = item.split("=", 1)
+    for name, target in paths:
         fn = resolve(target)
         try:
             tensors[name] = to_chw(fn(args.image))
@@ -367,12 +383,16 @@ def main():
                     print(f"         -> {line}")
 
     print()
+    compared = len(tensors) >= 2
     if failed:
         print("RESULT: mismatch or suspicious configuration. Resolve before training or export -- "
               "this class of bug does not surface until production.")
+    elif not compared:
+        print("RESULT: spec self-checks passed. No train/eval/export path comparison was run -- "
+              "compare the real preprocessing callables with --path before treating parity as verified.")
     else:
-        print("RESULT: paths agree. Re-run across several images, including the most extreme aspect "
-              "ratios in the dataset, since padding bugs are aspect-dependent.")
+        print(f"RESULT: paths agree ({', '.join(tensors)}). Re-run across several images, including the "
+              "most extreme aspect ratios in the dataset, since padding bugs are aspect-dependent.")
     return 1 if failed else 0
 
 

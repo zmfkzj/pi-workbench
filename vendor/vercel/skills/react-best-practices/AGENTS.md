@@ -1,3 +1,4 @@
+<!-- Modified by pi-workbench: sections 4.4 (localStorage migration keeps v1 until v2 is stored) and 7.11 (flatMap keeps the falsy-value filtering of .filter(Boolean)). Upstream original and patch: see the pi-workbench patches/vercel/ directory and THIRD_PARTY_NOTICES.md. -->
 # React Best Practices
 
 **Version 1.0.0**  
@@ -1554,11 +1555,13 @@ const data = localStorage.getItem('userConfig')
 ```typescript
 const VERSION = 'v2'
 
-function saveConfig(config: { theme: string; language: string }) {
+function saveConfig(config: { theme: string; language: string }): boolean {
   try {
     localStorage.setItem(`userConfig:${VERSION}`, JSON.stringify(config))
+    return true
   } catch {
     // Throws in incognito/private browsing, quota exceeded, or disabled
+    return false
   }
 }
 
@@ -1571,14 +1574,16 @@ function loadConfig() {
   }
 }
 
-// Migration from v1 to v2
+// Migration from v1 to v2: remove v1 only after v2 was stored,
+// so a failed write keeps the old data for the next attempt
 function migrate() {
   try {
     const v1 = localStorage.getItem('userConfig:v1')
     if (v1) {
       const old = JSON.parse(v1)
-      saveConfig({ theme: old.darkMode ? 'dark' : 'light', language: old.lang })
-      localStorage.removeItem('userConfig:v1')
+      if (saveConfig({ theme: old.darkMode ? 'dark' : 'light', language: old.lang })) {
+        localStorage.removeItem('userConfig:v1')
+      }
     }
   } catch {}
 }
@@ -3420,7 +3425,7 @@ Global regex (`/g`) has mutable `lastIndex` state:
 
 **Impact: LOW-MEDIUM (eliminates intermediate array)**
 
-Chaining `.map().filter(Boolean)` creates an intermediate array and iterates twice. Use `.flatMap()` to transform and filter in a single pass.
+Chaining `.map().filter(Boolean)` creates an intermediate array and iterates twice. Use `.flatMap()` to transform and filter in a single pass. Keep the test the filter applied: `.filter(Boolean)` also drops falsy values such as an empty string, so the `flatMap` condition must check the value as well.
 
 **Incorrect: 2 iterations, intermediate array**
 
@@ -3434,7 +3439,7 @@ const userNames = users
 
 ```typescript
 const userNames = users.flatMap(user =>
-  user.isActive ? [user.name] : []
+  user.isActive && user.name ? [user.name] : []
 )
 ```
 
@@ -3449,7 +3454,7 @@ const emails = responses
 
 // After
 const emails = responses.flatMap(r =>
-  r.success ? [r.data.email] : []
+  r.success && r.data.email ? [r.data.email] : []
 )
 
 // Parse and filter valid numbers

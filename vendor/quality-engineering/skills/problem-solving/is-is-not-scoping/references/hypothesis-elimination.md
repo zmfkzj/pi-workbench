@@ -11,6 +11,7 @@ updated_by: RBraga01
 reviewed_by: RBraga01
 license: MIT
 ---
+<!-- Modified by pi-workbench: the gauge examples no longer eliminate an inspection-gauge hypothesis with the escape it would itself explain; H3 stays open as the escape cause with discriminating checks. Upstream original and patch: see the pi-workbench patches/quality-engineering/ directory and THIRD_PARTY_NOTICES.md. -->
 
 # Hypothesis Elimination — Is/Is-Not Reference
 
@@ -55,7 +56,7 @@ A **distinction** is the specific IS/IS-NOT contrast that a hypothesis cannot ex
 **Examples of valid distinctions:**
 
 - Hypothesis: "All material from supplier X is non-conforming." Distinction: "IS NOT — Batches from supplier X delivered before 2026-04-15 showed 0 defects in 1,200 parts inspected. If all material from supplier X were non-conforming, we would expect defects in those batches too."
-- Hypothesis: "The inspection gauge is out of calibration." Distinction: "IS NOT — Defect was found at the customer's incoming inspection, not at our outgoing inspection. If our gauge were reading incorrectly, we would not have shipped 0 defectives in the previous 3 months of 100% outgoing inspection."
+- Hypothesis: "The inspection gauge is out of calibration." Distinction: "IS NOT — The gauge read the certified master within tolerance and rejected all 10 seeded defective samples on the day before the affected shipment. If the gauge had been out of calibration, it would have misread the master or passed seeded defects." (Note that a defect found at the customer but not at our outgoing inspection is *consistent* with a gauge failure, so it cannot be the distinction that eliminates it.)
 - Hypothesis: "Operator skill is the cause." Distinction: "IS — Defect is present across all three shifts, including automated operations. If this were operator-dependent, we would expect it to be absent during automated shift."
 
 ### What does NOT constitute a valid elimination
@@ -111,19 +112,20 @@ A Tier 1 automotive electronics supplier receives a customer complaint: bent con
 |---|---|---|---|---|---|---|---|---|
 | H1 | Supplier material/geometry change at W18 | Consistent (pin 3 only could relate to positional characteristic) | Consistent (batch boundary matches W18) | Consistent | Consistent (onset at W18) | Consistent (~23.5% stable rate) | **SURVIVES** | — |
 | H2 | New packing configuration causing transit damage | Consistent | Consistent (W18 boundary) | Consistent (found at customer) | Consistent | Partially — 23.5% is high for random transit damage | **PARTIAL** | How many: random transit contact would produce lower, variable rate |
-| H3 | Outgoing inspection gauge failure | Consistent (defect escaped) | Consistent | **Contradicts** — if gauge failed, we'd expect escapes on other part numbers too; no other complaints received | Partially consistent | Consistent | **ELIMINATED** | Where: "IS NOT — found at our outgoing inspection" combined with 100% inspection means our gauge passed these parts; if gauge failed, rate would not be batch-specific |
+| H3 | Outgoing inspection gauge failure | Consistent (defect escaped) | Does not explain the W18 onset as a cause of deflection; consistent as the reason the deflected parts escaped | Consistent — "not found at our outgoing inspection" is what a failed or insensitive gauge would produce | Partially consistent | Consistent | **OPEN (escape cause)** | None. The batch-specific pattern argues against H3 as the *occurrence* cause, and no other part numbers had defects to escape, so neither eliminates it as the *escape* cause. Discriminate with the gauge master, seeded defects and calibration/MSA records |
 | H4 | Assembly process change at W18 (crimping jig) | Consistent (pin 3 specific — jig feature) | Consistent (batch boundary W18) | **Partially** — consistent with escaping outgoing inspection if deformation is at or near limit | Consistent (onset W18) | Consistent (stable ~23.5%) | **SURVIVES** | — |
 | H5 | Damage at customer unpacking | Consistent | **Contradicts** — damage would not be batch-specific; W16/W17 same unpacking process | Contradicts (would be found equally at all deliveries) | Contradicts (would not have a batch onset) | Contradicts (rate would vary by unpacking event) | **ELIMINATED** | Which: "IS NOT — W16 and W17 unaffected"; When: no onset pattern |
 
 ### Investigation Priority After Elimination
 
-Surviving: H1 (supplier change), H4 (assembly jig change). Partial: H2 (packing — low priority).
+Surviving occurrence hypotheses: H1 (supplier change), H4 (assembly jig change). Partial: H2 (packing — low priority). Open escape hypothesis: H3 (outgoing gauge), unless the deflection is shown to happen after outgoing inspection.
 
 **Next actions:**
 1. Request supplier change notification log for W18 raw material
 2. Review internal ECO log for assembly station changes between W17 and W18
 3. Retrieve crimping jig maintenance and calibration records for the period
 4. Retain sample parts from W18 for CMM measurement of pin 3 geometry
+5. Check the outgoing gauge against its master and seeded 12–18° deflected samples; review its calibration and MSA records for W18–W19 (H3)
 
 ---
 
@@ -133,11 +135,11 @@ After elimination, surviving hypotheses must be distinguished from the problem s
 
 ### Formula
 
-> "On [part number + revision], [defect description with measurement] was found [where] affecting [quantity/rate] of [which batches]. The defect first appeared [when]. Investigation has confirmed [any confirmed facts from elimination]. Hypotheses under active investigation: [H1 and H4]. The following have been eliminated with evidence: [H3 — gauge failure eliminated by X; H5 — unpacking damage eliminated by Y]."
+> "On [part number + revision], [defect description with measurement] was found [where] affecting [quantity/rate] of [which batches]. The defect first appeared [when]. Investigation has confirmed [any confirmed facts from elimination]. Hypotheses under active investigation: [H1 and H4]. The following have been eliminated with evidence: [H5 — unpacking damage eliminated by Y]."
 
 ### Worked example (from above)
 
-> "On ECU-4472 rev C, connector pin 3 was found laterally deflected 12–18° at customer incoming inspection (Germany Plant), affecting 23.5% (47/200) of units in batches W18 and W19 shipped 2026-04-28 to 2026-05-02. No defects were found in batches W16 or W17 (0/600 units). The defect was not detected at our 100% outgoing inspection. Active hypotheses: (H1) supplier pin material or geometry change at W18; (H4) assembly crimping jig change between W17 and W18. Eliminated: (H3) outgoing gauge failure — contradicted by batch-specific escape pattern and no other part number complaints; (H5) customer unpacking damage — contradicted by batch onset and zero rate in W16/W17 under identical handling."
+> "On ECU-4472 rev C, connector pin 3 was found laterally deflected 12–18° at customer incoming inspection (Germany Plant), affecting 23.5% (47/200) of units in batches W18 and W19 shipped 2026-04-28 to 2026-05-02. No defects were found in batches W16 or W17 (0/600 units). The defect was not detected at our 100% outgoing inspection. Active hypotheses: (H1) supplier pin material or geometry change at W18; (H4) assembly crimping jig change between W17 and W18. Open escape hypothesis: (H3) outgoing gauge failure or insufficient sensitivity — gauge master and seeded-defect checks pending. Eliminated: (H5) customer unpacking damage — contradicted by batch onset and zero rate in W16/W17 under identical handling."
 
 **Rules for the problem statement:**
 - Contains only documented facts — no hypothesis language ("may have been," "probably," "we think")

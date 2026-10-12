@@ -1,0 +1,162 @@
+pi-workbench correction to vercel-labs/agent-skills at 063bee94c3f4df8453406c830b0a7df0f2860278
+License of the changed files: MIT (unchanged).
+
+The flatMap examples keep the falsy-value filtering of .filter(Boolean), and the localStorage migration removes the v1 key only after the v2 value was stored; the compiled AGENTS.md carries the same corrections as the rules.
+
+Paths are relative to the upstream repository root. Applied strictly by
+scripts/vendor_sources.py through scripts/vendor_patches.mjs; verified by scripts/check.mjs.
+diff --git a/skills/react-best-practices/AGENTS.md b/skills/react-best-practices/AGENTS.md
+index 4e340a5..334cd75 100644
+--- a/skills/react-best-practices/AGENTS.md
++++ b/skills/react-best-practices/AGENTS.md
+@@ -1,3 +1,4 @@
++<!-- Modified by pi-workbench: sections 4.4 (localStorage migration keeps v1 until v2 is stored) and 7.11 (flatMap keeps the falsy-value filtering of .filter(Boolean)). Upstream original and patch: see the pi-workbench patches/vercel/ directory and THIRD_PARTY_NOTICES.md. -->
+ # React Best Practices
+ 
+ **Version 1.0.0**  
+@@ -1554,11 +1555,13 @@ const data = localStorage.getItem('userConfig')
+ ```typescript
+ const VERSION = 'v2'
+ 
+-function saveConfig(config: { theme: string; language: string }) {
++function saveConfig(config: { theme: string; language: string }): boolean {
+   try {
+     localStorage.setItem(`userConfig:${VERSION}`, JSON.stringify(config))
++    return true
+   } catch {
+     // Throws in incognito/private browsing, quota exceeded, or disabled
++    return false
+   }
+ }
+ 
+@@ -1571,14 +1574,16 @@ function loadConfig() {
+   }
+ }
+ 
+-// Migration from v1 to v2
++// Migration from v1 to v2: remove v1 only after v2 was stored,
++// so a failed write keeps the old data for the next attempt
+ function migrate() {
+   try {
+     const v1 = localStorage.getItem('userConfig:v1')
+     if (v1) {
+       const old = JSON.parse(v1)
+-      saveConfig({ theme: old.darkMode ? 'dark' : 'light', language: old.lang })
+-      localStorage.removeItem('userConfig:v1')
++      if (saveConfig({ theme: old.darkMode ? 'dark' : 'light', language: old.lang })) {
++        localStorage.removeItem('userConfig:v1')
++      }
+     }
+   } catch {}
+ }
+@@ -3420,7 +3425,7 @@ Global regex (`/g`) has mutable `lastIndex` state:
+ 
+ **Impact: LOW-MEDIUM (eliminates intermediate array)**
+ 
+-Chaining `.map().filter(Boolean)` creates an intermediate array and iterates twice. Use `.flatMap()` to transform and filter in a single pass.
++Chaining `.map().filter(Boolean)` creates an intermediate array and iterates twice. Use `.flatMap()` to transform and filter in a single pass. Keep the test the filter applied: `.filter(Boolean)` also drops falsy values such as an empty string, so the `flatMap` condition must check the value as well.
+ 
+ **Incorrect: 2 iterations, intermediate array**
+ 
+@@ -3434,7 +3439,7 @@ const userNames = users
+ 
+ ```typescript
+ const userNames = users.flatMap(user =>
+-  user.isActive ? [user.name] : []
++  user.isActive && user.name ? [user.name] : []
+ )
+ ```
+ 
+@@ -3449,7 +3454,7 @@ const emails = responses
+ 
+ // After
+ const emails = responses.flatMap(r =>
+-  r.success ? [r.data.email] : []
++  r.success && r.data.email ? [r.data.email] : []
+ )
+ 
+ // Parse and filter valid numbers
+diff --git a/skills/react-best-practices/rules/client-localstorage-schema.md b/skills/react-best-practices/rules/client-localstorage-schema.md
+index d30a1a7..e2b7dff 100644
+--- a/skills/react-best-practices/rules/client-localstorage-schema.md
++++ b/skills/react-best-practices/rules/client-localstorage-schema.md
+@@ -4,6 +4,7 @@ impact: MEDIUM
+ impactDescription: prevents schema conflicts, reduces storage size
+ tags: client, localStorage, storage, versioning, data-minimization
+ ---
++<!-- Modified by pi-workbench: the migration example deletes the v1 key only after the v2 value was stored. Upstream original and patch: see the pi-workbench patches/vercel/ directory and THIRD_PARTY_NOTICES.md. -->
+ 
+ ## Version and Minimize localStorage Data
+ 
+@@ -22,11 +23,13 @@ const data = localStorage.getItem('userConfig')
+ ```typescript
+ const VERSION = 'v2'
+ 
+-function saveConfig(config: { theme: string; language: string }) {
++function saveConfig(config: { theme: string; language: string }): boolean {
+   try {
+     localStorage.setItem(`userConfig:${VERSION}`, JSON.stringify(config))
++    return true
+   } catch {
+     // Throws in incognito/private browsing, quota exceeded, or disabled
++    return false
+   }
+ }
+ 
+@@ -39,14 +42,16 @@ function loadConfig() {
+   }
+ }
+ 
+-// Migration from v1 to v2
++// Migration from v1 to v2: remove v1 only after v2 was stored,
++// so a failed write keeps the old data for the next attempt
+ function migrate() {
+   try {
+     const v1 = localStorage.getItem('userConfig:v1')
+     if (v1) {
+       const old = JSON.parse(v1)
+-      saveConfig({ theme: old.darkMode ? 'dark' : 'light', language: old.lang })
+-      localStorage.removeItem('userConfig:v1')
++      if (saveConfig({ theme: old.darkMode ? 'dark' : 'light', language: old.lang })) {
++        localStorage.removeItem('userConfig:v1')
++      }
+     }
+   } catch {}
+ }
+diff --git a/skills/react-best-practices/rules/js-flatmap-filter.md b/skills/react-best-practices/rules/js-flatmap-filter.md
+index ee0edf0..a8fa046 100644
+--- a/skills/react-best-practices/rules/js-flatmap-filter.md
++++ b/skills/react-best-practices/rules/js-flatmap-filter.md
+@@ -4,12 +4,13 @@ impact: LOW-MEDIUM
+ impactDescription: eliminates intermediate array
+ tags: javascript, arrays, flatMap, filter, performance
+ ---
++<!-- Modified by pi-workbench: the flatMap examples keep the falsy-value filtering of .filter(Boolean). Upstream original and patch: see the pi-workbench patches/vercel/ directory and THIRD_PARTY_NOTICES.md. -->
+ 
+ ## Use flatMap to Map and Filter in One Pass
+ 
+ **Impact: LOW-MEDIUM (eliminates intermediate array)**
+ 
+-Chaining `.map().filter(Boolean)` creates an intermediate array and iterates twice. Use `.flatMap()` to transform and filter in a single pass.
++Chaining `.map().filter(Boolean)` creates an intermediate array and iterates twice. Use `.flatMap()` to transform and filter in a single pass. Keep the test the filter applied: `.filter(Boolean)` also drops falsy values such as an empty string, so the `flatMap` condition must check the value as well.
+ 
+ **Incorrect (2 iterations, intermediate array):**
+ 
+@@ -23,7 +24,7 @@ const userNames = users
+ 
+ ```typescript
+ const userNames = users.flatMap(user =>
+-  user.isActive ? [user.name] : []
++  user.isActive && user.name ? [user.name] : []
+ )
+ ```
+ 
+@@ -38,7 +39,7 @@ const emails = responses
+ 
+ // After
+ const emails = responses.flatMap(r =>
+-  r.success ? [r.data.email] : []
++  r.success && r.data.email ? [r.data.email] : []
+ )
+ 
+ // Parse and filter valid numbers

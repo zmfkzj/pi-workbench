@@ -14,7 +14,7 @@ Validated on 2026-10-11 using Node.js 24.19.0 and Python 3.12 in an isolated bui
 | UI UX Pro Max | Bundled Python search runs against bundled CSV data; `SaaS`, product domain, returns two results; unsupported generic query can legitimately return zero |
 | Package round trip | The distributable archive is extracted into a fresh directory and checked again before delivery |
 
-The three compatibility aliases address upstream links in Vercel's compiled `AGENTS.md` that point beside the document instead of into `rules/`. The original files are unchanged; aliases are exact copies whose provenance is recorded with `aliasOf` in `vendor-integrity.json`.
+The three compatibility aliases address upstream links in Vercel's compiled `AGENTS.md` that point beside the document instead of into `rules/`. The aliased files are unchanged; aliases are exact copies whose provenance is recorded with `aliasOf` in `vendor-integrity.json`.
 
 ## Changes after 0.1.0 (unreleased, validated 2026-10-12)
 
@@ -31,6 +31,20 @@ Node.js 24.21.0 and `@earendil-works/pi-coding-agent` 1.1.0. The package archive
 | Pi 1.1.0 CLI, isolated `PI_CODING_AGENT_DIR`, `-e index.js --no-session` | `/workbench status`: text print mode (`-p`) prints nothing (exit 0); `--mode json` emits an `entry_appended` event with the record; `--mode rpc` emits `entry_appended` and an `extension_ui_request` `notify` with the same text |
 
 Not verified: a terminal TUI session on screen (the transcript renderers and Tab are checked through Pi's own components and `Editor` without drawing a terminal), OMP, model behaviour with real providers, and compaction summaries created before this change (they are not rewritten).
+
+## Vendor corrections (unreleased, validated 2026-10-12)
+
+Six reviewed patches in `patches/` correct 16 vendored files (TAO split leakage and preprocessing parity, Vercel flatMap and localStorage examples, gamedev `asset_report.py --max-colors`, DMAIC statistics, 8D verification sample size, Is/Is-Not, 5-Why and Fishbone reasoning); see [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md#corrected-upstream-files). Node.js 24.21.0, Python 3.14.4 with NumPy 2.5.2 and Pillow 12.1.1 from an existing environment (nothing installed).
+
+| Check | Result and scope |
+|---|---|
+| `node scripts/check.mjs` | Passes: 353 files, 16 corrected, 6 patches. Each patch reversed on the distributed file reproduces the recorded upstream SHA-256, size and Git blob, and applied again reproduces the distributed file |
+| `tests/vendor-corrections.test.mjs` | 30 tests. Runs the corrected TAO and gamedev CLIs on generated images (numeric names, near-duplicates, filename and verified groups; spec-only, equal, BGR, shape, invalid input; limit, limit+1, more colours, alpha and size), executes the Vercel code blocks extracted from the rules and the compiled `AGENTS.md` (falsy values, storage write/read/parse/remove failures), recomputes the DMAIC Welch test, CI, effect size, Ppk and normal tails and the 8D sample sizes and zero-failure bound from the documents' inputs, and runs the upstream originals (reversed patches) as negative controls. Tampered files, manifests and patches fail verification |
+| `python3 scripts/vendor_sources.py` + `build_catalog.py` in a scratch copy | Fresh fetch from GitHub at the locked commits, run twice: `vendor/`, file modes, `vendor-integrity.json`, `THIRD_PARTY_NOTICES.md`, `catalog.json` and routing skills identical to the repository |
+| `npm pack` round trip | The archive contains `patches/`; `check.mjs` and the correction tests pass in the extracted package |
+| `tests/pi-loader.mjs` with Pi 1.1.0 | Seven routing skills, zero diagnostics, zero extension errors |
+
+Not verified: model behaviour with the corrected guidance, and manufacturing or vision outcomes; the statistics tests check arithmetic and stated reasoning, not real process data.
 
 ## Limits of this validation
 
