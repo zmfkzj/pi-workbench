@@ -46,6 +46,10 @@ Six reviewed patches in `patches/` correct 16 vendored files (TAO split leakage 
 
 Not verified: model behaviour with the corrected guidance, and manufacturing or vision outcomes; the statistics tests check arithmetic and stated reasoning, not real process data.
 
+## Selection policy pilot (2026-10-12, not shipped in the package)
+
+`experiments/policy-pilot/` in the repository holds a real-model pilot of four content-policy proposals (Ponytail/ECC default, Verification as a separate skill, manual-only vs. conditional tool skills, split DMAIC). It ran 90 sessions with Claude Opus 5.5 and Haiku 5.5 in isolated scratch copies; every run met its acceptance checks, so it found no quality difference, only exposure and token differences. Operational defaults were not changed. See its README for the configurations, raw records, limits and reproduction commands.
+
 ## Limits of this validation
 
 - OMP is tested against the common extension contract and its array-shaped `systemPrompt`; the OMP binary itself was not installed or run.

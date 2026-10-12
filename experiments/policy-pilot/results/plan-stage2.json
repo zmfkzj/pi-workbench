@@ -1,0 +1,928 @@
+{
+  "createdAt": "2026-10-12T02:49:01.337Z",
+  "baseline": {
+    "repository": "zmfkzj/pi-workbench",
+    "commit": "3016176fe38ea3b51bc5654c083d56f211525de0"
+  },
+  "stage": "2",
+  "model": {
+    "provider": "cliproxyapi",
+    "id": "cliproxyapi/claude-opus-5-5",
+    "thinking": "high",
+    "note": "Same model as the requesting main session; cost per message is Pi's list-price calculation from the provider's model catalog, not an invoice."
+  },
+  "tools": [
+    "read",
+    "bash",
+    "edit",
+    "write"
+  ],
+  "limits": {
+    "concurrency": 4,
+    "runTimeoutSeconds": 900,
+    "maxToolCalls": 80,
+    "runCostCapListPrice": 4,
+    "totalCostCapListPrice": 40,
+    "plannedRuns": 56
+  },
+  "variantHashes": {
+    "current": "df2c738bf57356fd8cd1a3f26b92f97fd64d9e062ddf67294c4f5df55b590c12",
+    "r1-no-default-ponytail-ecc": "3c4e28c6b0b4ce5bbfafa97f7c4c6add7a918ca17ff33637ab9d996688b17ba8",
+    "r2-verification-principle": "bac7dc729f489ae6eed0990d4c9af68d541d3bc27db522f125ccc3b25543f53b",
+    "r3a-manual-only": "1da267c5493233d6f0a3677d452c44261066b1f47561cc7365f9f4d590928c8b",
+    "r3b-conditional": "ec2cff4bd7343737822110af67acacbab7bd7c0fa9a65a1c1d3c13bc3d94d828",
+    "r4-split-dmaic": "b62f897ac4a8d3b2052885f0107563868a31a7e38378c177b83bbb2803ac2f53"
+  },
+  "configs": {
+    "off": {
+      "variant": null,
+      "meaning": "No Workbench extension, routing skills or explicit selection (Pi with the same tools and model only)."
+    },
+    "current": {
+      "variant": "current",
+      "meaning": "Workbench 3016176 as shipped (corrected content), natural auto discovery of the seven routing skills."
+    },
+    "r1": {
+      "variant": "r1-no-default-ponytail-ecc",
+      "meaning": "R1: coding path no longer defaults to Ponytail full and ECC search-first; both stay listed and selectable."
+    },
+    "r2": {
+      "variant": "r2-verification-principle",
+      "meaning": "R2: Verification Before Completion removed from routers and catalog; one common verification principle added to the workflow guide."
+    },
+    "r3a": {
+      "variant": "r3a-manual-only",
+      "meaning": "R3 manual-only: tool/environment-dependent skills removed from every router (selectable only with /workbench skill)."
+    },
+    "r3b": {
+      "variant": "r3b-conditional",
+      "meaning": "R3 conditional: the same skills stay listed with an explicit 'use only when <tool/condition> already exists; do not install it' gate."
+    },
+    "r4": {
+      "variant": "r4-split-dmaic",
+      "meaning": "R4: DMAIC SKILL.md split into an entry file and one reference per phase (text moved verbatim)."
+    },
+    "current-select": {
+      "variant": "current",
+      "select": "dmaic",
+      "meaning": "Forced exposure: /workbench skill dmaic attached to the request (current DMAIC)."
+    },
+    "r4-select": {
+      "variant": "r4-split-dmaic",
+      "select": "dmaic",
+      "meaning": "Forced exposure: /workbench skill dmaic attached to the request (split DMAIC entry file)."
+    },
+    "current-profile": {
+      "variant": "current",
+      "commands": [
+        "/workbench use coding"
+      ],
+      "meaning": "Profile mode: /workbench use coding before the request (profile guidance injected per request), current."
+    },
+    "r1-profile": {
+      "variant": "r1-no-default-ponytail-ecc",
+      "commands": [
+        "/workbench use coding"
+      ],
+      "meaning": "Profile mode with the R1 variant."
+    },
+    "r2-profile": {
+      "variant": "r2-verification-principle",
+      "commands": [
+        "/workbench use coding"
+      ],
+      "meaning": "Profile mode with the R2 variant."
+    },
+    "r3a-profile": {
+      "variant": "r3a-manual-only",
+      "commands": [
+        "/workbench use coding"
+      ],
+      "meaning": "Profile mode with the R3 manual-only variant."
+    },
+    "r3b-profile": {
+      "variant": "r3b-conditional",
+      "commands": [
+        "/workbench use coding"
+      ],
+      "meaning": "Profile mode with the R3 conditional variant."
+    },
+    "current-mfg": {
+      "variant": "current",
+      "commands": [
+        "/workbench use manufacturing"
+      ],
+      "meaning": "Profile mode: /workbench use manufacturing, current DMAIC."
+    },
+    "r4-mfg": {
+      "variant": "r4-split-dmaic",
+      "commands": [
+        "/workbench use manufacturing"
+      ],
+      "meaning": "Profile mode: /workbench use manufacturing, split DMAIC."
+    }
+  },
+  "matrix": [
+    {
+      "task": "T1-csv-export",
+      "configs": [
+        "current-profile",
+        "r1-profile",
+        "r2-profile"
+      ],
+      "purpose": "R1/R2 with the coding profile guidance injected",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      }
+    },
+    {
+      "task": "T2-duration-cli",
+      "configs": [
+        "current-profile",
+        "r1-profile",
+        "r2-profile"
+      ],
+      "purpose": "R1/R2 with the coding profile guidance injected",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      }
+    },
+    {
+      "task": "T3-migrate-calls",
+      "configs": [
+        "current-profile",
+        "r3a-profile",
+        "r3b-profile"
+      ],
+      "purpose": "R3 with the coding profile guidance injected",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      }
+    },
+    {
+      "task": "T4-coolant-decision",
+      "configs": [
+        "current-mfg",
+        "r4-mfg"
+      ],
+      "purpose": "R4 with the manufacturing profile guidance injected",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      }
+    },
+    {
+      "task": "T1-csv-export",
+      "configs": [
+        "off",
+        "current",
+        "r1",
+        "r2"
+      ],
+      "purpose": "R1/R2 on a feature task (minimal change, no new dependency, verification) (smaller-model sensitivity)",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-haiku-5-5",
+        "thinking": "high"
+      }
+    },
+    {
+      "task": "T2-duration-cli",
+      "configs": [
+        "off",
+        "current",
+        "r1",
+        "r2"
+      ],
+      "purpose": "R1/R2 on a bug whose CLI symptom is only fixed after the generated lib is rebuilt (smaller-model sensitivity)",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-haiku-5-5",
+        "thinking": "high"
+      }
+    },
+    {
+      "task": "T3-migrate-calls",
+      "configs": [
+        "off",
+        "current",
+        "r3a",
+        "r3b"
+      ],
+      "purpose": "R3 structural refactor where ast-grep would fit but is not installed (smaller-model sensitivity)",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-haiku-5-5",
+        "thinking": "high"
+      }
+    },
+    {
+      "task": "T4-coolant-decision",
+      "configs": [
+        "off",
+        "current",
+        "r4"
+      ],
+      "purpose": "R4 natural discovery on a confounded process-change decision (smaller-model sensitivity)",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-haiku-5-5",
+        "thinking": "high"
+      }
+    },
+    {
+      "task": "T4-coolant-decision",
+      "configs": [
+        "current-select",
+        "r4-select"
+      ],
+      "purpose": "R4 forced exposure (explicit selection), reported separately (smaller-model sensitivity)",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-haiku-5-5",
+        "thinking": "high"
+      }
+    }
+  ],
+  "runs": [
+    {
+      "task": "T2-duration-cli",
+      "config": "current",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-haiku-5-5",
+        "thinking": "high"
+      },
+      "rep": 1,
+      "order": 0,
+      "runId": "S2h-T2-current-r1"
+    },
+    {
+      "task": "T1-csv-export",
+      "config": "current",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-haiku-5-5",
+        "thinking": "high"
+      },
+      "rep": 1,
+      "order": 1,
+      "runId": "S2h-T1-current-r1"
+    },
+    {
+      "task": "T2-duration-cli",
+      "config": "r2-profile",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "rep": 1,
+      "order": 2,
+      "runId": "S2-T2-r2-profile-r1"
+    },
+    {
+      "task": "T1-csv-export",
+      "config": "off",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-haiku-5-5",
+        "thinking": "high"
+      },
+      "rep": 1,
+      "order": 3,
+      "runId": "S2h-T1-off-r1"
+    },
+    {
+      "task": "T4-coolant-decision",
+      "config": "r4-mfg",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "rep": 1,
+      "order": 4,
+      "runId": "S2-T4-r4-mfg-r1"
+    },
+    {
+      "task": "T2-duration-cli",
+      "config": "current-profile",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "rep": 1,
+      "order": 5,
+      "runId": "S2-T2-current-profile-r1"
+    },
+    {
+      "task": "T4-coolant-decision",
+      "config": "off",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-haiku-5-5",
+        "thinking": "high"
+      },
+      "rep": 1,
+      "order": 6,
+      "runId": "S2h-T4-off-r1"
+    },
+    {
+      "task": "T3-migrate-calls",
+      "config": "r3a",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-haiku-5-5",
+        "thinking": "high"
+      },
+      "rep": 1,
+      "order": 7,
+      "runId": "S2h-T3-r3a-r1"
+    },
+    {
+      "task": "T4-coolant-decision",
+      "config": "current-select",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-haiku-5-5",
+        "thinking": "high"
+      },
+      "rep": 1,
+      "order": 8,
+      "runId": "S2h-T4-current-select-r1"
+    },
+    {
+      "task": "T4-coolant-decision",
+      "config": "current-mfg",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "rep": 1,
+      "order": 9,
+      "runId": "S2-T4-current-mfg-r1"
+    },
+    {
+      "task": "T1-csv-export",
+      "config": "r1",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-haiku-5-5",
+        "thinking": "high"
+      },
+      "rep": 1,
+      "order": 10,
+      "runId": "S2h-T1-r1-r1"
+    },
+    {
+      "task": "T1-csv-export",
+      "config": "r2",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-haiku-5-5",
+        "thinking": "high"
+      },
+      "rep": 1,
+      "order": 11,
+      "runId": "S2h-T1-r2-r1"
+    },
+    {
+      "task": "T3-migrate-calls",
+      "config": "r3a-profile",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "rep": 1,
+      "order": 12,
+      "runId": "S2-T3-r3a-profile-r1"
+    },
+    {
+      "task": "T3-migrate-calls",
+      "config": "current-profile",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "rep": 1,
+      "order": 13,
+      "runId": "S2-T3-current-profile-r1"
+    },
+    {
+      "task": "T4-coolant-decision",
+      "config": "r4",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-haiku-5-5",
+        "thinking": "high"
+      },
+      "rep": 1,
+      "order": 14,
+      "runId": "S2h-T4-r4-r1"
+    },
+    {
+      "task": "T2-duration-cli",
+      "config": "r2",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-haiku-5-5",
+        "thinking": "high"
+      },
+      "rep": 1,
+      "order": 15,
+      "runId": "S2h-T2-r2-r1"
+    },
+    {
+      "task": "T2-duration-cli",
+      "config": "r1-profile",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "rep": 1,
+      "order": 16,
+      "runId": "S2-T2-r1-profile-r1"
+    },
+    {
+      "task": "T1-csv-export",
+      "config": "r2-profile",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "rep": 1,
+      "order": 17,
+      "runId": "S2-T1-r2-profile-r1"
+    },
+    {
+      "task": "T3-migrate-calls",
+      "config": "r3b-profile",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "rep": 1,
+      "order": 18,
+      "runId": "S2-T3-r3b-profile-r1"
+    },
+    {
+      "task": "T3-migrate-calls",
+      "config": "off",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-haiku-5-5",
+        "thinking": "high"
+      },
+      "rep": 1,
+      "order": 19,
+      "runId": "S2h-T3-off-r1"
+    },
+    {
+      "task": "T4-coolant-decision",
+      "config": "r4-select",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-haiku-5-5",
+        "thinking": "high"
+      },
+      "rep": 1,
+      "order": 20,
+      "runId": "S2h-T4-r4-select-r1"
+    },
+    {
+      "task": "T3-migrate-calls",
+      "config": "r3b",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-haiku-5-5",
+        "thinking": "high"
+      },
+      "rep": 1,
+      "order": 21,
+      "runId": "S2h-T3-r3b-r1"
+    },
+    {
+      "task": "T2-duration-cli",
+      "config": "r1",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-haiku-5-5",
+        "thinking": "high"
+      },
+      "rep": 1,
+      "order": 22,
+      "runId": "S2h-T2-r1-r1"
+    },
+    {
+      "task": "T2-duration-cli",
+      "config": "off",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-haiku-5-5",
+        "thinking": "high"
+      },
+      "rep": 1,
+      "order": 23,
+      "runId": "S2h-T2-off-r1"
+    },
+    {
+      "task": "T1-csv-export",
+      "config": "current-profile",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "rep": 1,
+      "order": 24,
+      "runId": "S2-T1-current-profile-r1"
+    },
+    {
+      "task": "T1-csv-export",
+      "config": "r1-profile",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "rep": 1,
+      "order": 25,
+      "runId": "S2-T1-r1-profile-r1"
+    },
+    {
+      "task": "T3-migrate-calls",
+      "config": "current",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-haiku-5-5",
+        "thinking": "high"
+      },
+      "rep": 1,
+      "order": 26,
+      "runId": "S2h-T3-current-r1"
+    },
+    {
+      "task": "T4-coolant-decision",
+      "config": "current",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-haiku-5-5",
+        "thinking": "high"
+      },
+      "rep": 1,
+      "order": 27,
+      "runId": "S2h-T4-current-r1"
+    },
+    {
+      "task": "T4-coolant-decision",
+      "config": "current",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-haiku-5-5",
+        "thinking": "high"
+      },
+      "rep": 2,
+      "order": 28,
+      "runId": "S2h-T4-current-r2"
+    },
+    {
+      "task": "T3-migrate-calls",
+      "config": "current",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-haiku-5-5",
+        "thinking": "high"
+      },
+      "rep": 2,
+      "order": 29,
+      "runId": "S2h-T3-current-r2"
+    },
+    {
+      "task": "T1-csv-export",
+      "config": "r1-profile",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "rep": 2,
+      "order": 30,
+      "runId": "S2-T1-r1-profile-r2"
+    },
+    {
+      "task": "T1-csv-export",
+      "config": "current-profile",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "rep": 2,
+      "order": 31,
+      "runId": "S2-T1-current-profile-r2"
+    },
+    {
+      "task": "T2-duration-cli",
+      "config": "off",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-haiku-5-5",
+        "thinking": "high"
+      },
+      "rep": 2,
+      "order": 32,
+      "runId": "S2h-T2-off-r2"
+    },
+    {
+      "task": "T2-duration-cli",
+      "config": "r1",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-haiku-5-5",
+        "thinking": "high"
+      },
+      "rep": 2,
+      "order": 33,
+      "runId": "S2h-T2-r1-r2"
+    },
+    {
+      "task": "T3-migrate-calls",
+      "config": "r3b",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-haiku-5-5",
+        "thinking": "high"
+      },
+      "rep": 2,
+      "order": 34,
+      "runId": "S2h-T3-r3b-r2"
+    },
+    {
+      "task": "T4-coolant-decision",
+      "config": "r4-select",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-haiku-5-5",
+        "thinking": "high"
+      },
+      "rep": 2,
+      "order": 35,
+      "runId": "S2h-T4-r4-select-r2"
+    },
+    {
+      "task": "T3-migrate-calls",
+      "config": "off",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-haiku-5-5",
+        "thinking": "high"
+      },
+      "rep": 2,
+      "order": 36,
+      "runId": "S2h-T3-off-r2"
+    },
+    {
+      "task": "T3-migrate-calls",
+      "config": "r3b-profile",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "rep": 2,
+      "order": 37,
+      "runId": "S2-T3-r3b-profile-r2"
+    },
+    {
+      "task": "T1-csv-export",
+      "config": "r2-profile",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "rep": 2,
+      "order": 38,
+      "runId": "S2-T1-r2-profile-r2"
+    },
+    {
+      "task": "T2-duration-cli",
+      "config": "r1-profile",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "rep": 2,
+      "order": 39,
+      "runId": "S2-T2-r1-profile-r2"
+    },
+    {
+      "task": "T2-duration-cli",
+      "config": "r2",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-haiku-5-5",
+        "thinking": "high"
+      },
+      "rep": 2,
+      "order": 40,
+      "runId": "S2h-T2-r2-r2"
+    },
+    {
+      "task": "T4-coolant-decision",
+      "config": "r4",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-haiku-5-5",
+        "thinking": "high"
+      },
+      "rep": 2,
+      "order": 41,
+      "runId": "S2h-T4-r4-r2"
+    },
+    {
+      "task": "T3-migrate-calls",
+      "config": "current-profile",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "rep": 2,
+      "order": 42,
+      "runId": "S2-T3-current-profile-r2"
+    },
+    {
+      "task": "T3-migrate-calls",
+      "config": "r3a-profile",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "rep": 2,
+      "order": 43,
+      "runId": "S2-T3-r3a-profile-r2"
+    },
+    {
+      "task": "T1-csv-export",
+      "config": "r2",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-haiku-5-5",
+        "thinking": "high"
+      },
+      "rep": 2,
+      "order": 44,
+      "runId": "S2h-T1-r2-r2"
+    },
+    {
+      "task": "T1-csv-export",
+      "config": "r1",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-haiku-5-5",
+        "thinking": "high"
+      },
+      "rep": 2,
+      "order": 45,
+      "runId": "S2h-T1-r1-r2"
+    },
+    {
+      "task": "T4-coolant-decision",
+      "config": "current-mfg",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "rep": 2,
+      "order": 46,
+      "runId": "S2-T4-current-mfg-r2"
+    },
+    {
+      "task": "T4-coolant-decision",
+      "config": "current-select",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-haiku-5-5",
+        "thinking": "high"
+      },
+      "rep": 2,
+      "order": 47,
+      "runId": "S2h-T4-current-select-r2"
+    },
+    {
+      "task": "T3-migrate-calls",
+      "config": "r3a",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-haiku-5-5",
+        "thinking": "high"
+      },
+      "rep": 2,
+      "order": 48,
+      "runId": "S2h-T3-r3a-r2"
+    },
+    {
+      "task": "T4-coolant-decision",
+      "config": "off",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-haiku-5-5",
+        "thinking": "high"
+      },
+      "rep": 2,
+      "order": 49,
+      "runId": "S2h-T4-off-r2"
+    },
+    {
+      "task": "T2-duration-cli",
+      "config": "current-profile",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "rep": 2,
+      "order": 50,
+      "runId": "S2-T2-current-profile-r2"
+    },
+    {
+      "task": "T4-coolant-decision",
+      "config": "r4-mfg",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "rep": 2,
+      "order": 51,
+      "runId": "S2-T4-r4-mfg-r2"
+    },
+    {
+      "task": "T1-csv-export",
+      "config": "off",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-haiku-5-5",
+        "thinking": "high"
+      },
+      "rep": 2,
+      "order": 52,
+      "runId": "S2h-T1-off-r2"
+    },
+    {
+      "task": "T2-duration-cli",
+      "config": "r2-profile",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "rep": 2,
+      "order": 53,
+      "runId": "S2-T2-r2-profile-r2"
+    },
+    {
+      "task": "T1-csv-export",
+      "config": "current",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-haiku-5-5",
+        "thinking": "high"
+      },
+      "rep": 2,
+      "order": 54,
+      "runId": "S2h-T1-current-r2"
+    },
+    {
+      "task": "T2-duration-cli",
+      "config": "current",
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-haiku-5-5",
+        "thinking": "high"
+      },
+      "rep": 2,
+      "order": 55,
+      "runId": "S2h-T2-current-r2"
+    }
+  ]
+}

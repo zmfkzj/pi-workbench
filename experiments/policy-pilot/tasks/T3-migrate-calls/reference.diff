@@ -1,0 +1,74 @@
+--- a/src/admin.js
++++ b/src/admin.js
+@@ -3,9 +3,9 @@
+ const base = "/admin";
+ 
+ export function listAudits(path, opts) {
+-  return http.oldFetch(base + path, opts);
++  return http.fetchJson({ url: base + path, ...opts });
+ }
+ 
+ export function ping() {
+-  return http.oldFetch(`${base}/ping`);
++  return http.fetchJson({ url: `${base}/ping` });
+ }
+--- a/src/orders.js
++++ b/src/orders.js
+@@ -1,4 +1,4 @@
+-import { oldFetch } from "./http.js";
++import { fetchJson } from "./http.js";
+ import { client } from "./legacy-client.js";
+ 
+ // oldFetch(url) is deprecated; this module is being migrated.
+@@ -11,19 +11,18 @@
+ 
+ export async function getOrder(id) {
+   oldFetchCount++;
+-  return oldFetch(buildUrl(id, { expand: true }), {
++  return fetchJson({
++    url: buildUrl(id, { expand: true }),
+     headers: { accept: "application/json" },
+   });
+ }
+ 
+ export async function cancelOrder(id, reason) {
+-  const result = await oldFetch(
+-    `/orders/${id}/cancel`,
+-    {
+-      method: "POST",
+-      body: JSON.stringify({ reason }),
+-    },
+-  );
++  const result = await fetchJson({
++    url: `/orders/${id}/cancel`,
++    method: "POST",
++    body: JSON.stringify({ reason }),
++  });
+   return result;
+ }
+ 
+--- a/src/search.js
++++ b/src/search.js
+@@ -1,7 +1,7 @@
+-import { oldFetch as legacyFetch, fetchJson } from "./http.js";
++import { fetchJson } from "./http.js";
+ 
+ export function search(term, options) {
+-  return legacyFetch("/search?q=" + encodeURIComponent(term), options);
++  return fetchJson({ url: "/search?q=" + encodeURIComponent(term), ...options });
+ }
+ 
+ export function suggest(prefix) {
+--- a/src/users.js
++++ b/src/users.js
+@@ -1,7 +1,7 @@
+-import { oldFetch } from "./http.js";
++import { fetchJson } from "./http.js";
+ 
+-export const getUser = (id) => oldFetch(`/users/${id}`);
++export const getUser = (id) => fetchJson({ url: `/users/${id}` });
+ 
+ export function updateUser(id, data) {
+-  return oldFetch(`/users/${id}`, { method: "PUT", body: JSON.stringify(data) });
++  return fetchJson({ url: `/users/${id}`, method: "PUT", body: JSON.stringify(data) });
+ }

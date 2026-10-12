@@ -1,0 +1,5 @@
+[
+  { "id": 1, "region": "north", "customer": "Acme", "amount": 120.5, "note": null },
+  { "id": 2, "region": "south", "customer": "Bolt, Inc.", "amount": 80, "note": "rush order" },
+  { "id": 3, "region": "north", "customer": "Corner \"Shop\"", "amount": 40, "note": "two\nlines" }
+]

@@ -1,0 +1,11 @@
+{
+  "name": "focus-timer",
+  "version": "0.4.1",
+  "private": true,
+  "type": "module",
+  "bin": { "focus-timer": "bin/timer.cjs" },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node --test"
+  }
+}

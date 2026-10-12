@@ -1,0 +1,22 @@
+--- a/lib/duration.cjs
++++ b/lib/duration.cjs
+@@ -37,7 +37,7 @@
+   const parts = tokens(text);
+   if (!parts) throw new RangeError(`invalid duration: ${JSON.stringify(text)}`);
+   let total = 0;
+-  for (const [value, unit] of parts) total = total * UNITS[unit] + value;
++  for (const [value, unit] of parts) total += value * UNITS[unit];
+   return total;
+ }
+ 
+--- a/src/duration.js
++++ b/src/duration.js
+@@ -35,7 +35,7 @@
+   const parts = tokens(text);
+   if (!parts) throw new RangeError(`invalid duration: ${JSON.stringify(text)}`);
+   let total = 0;
+-  for (const [value, unit] of parts) total = total * UNITS[unit] + value;
++  for (const [value, unit] of parts) total += value * UNITS[unit];
+   return total;
+ }
+ 

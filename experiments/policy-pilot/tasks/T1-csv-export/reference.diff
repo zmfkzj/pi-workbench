@@ -1,0 +1,36 @@
+--- a/bin/report.js
++++ b/bin/report.js
+@@ -1,11 +1,14 @@
+ #!/usr/bin/env node
+ import { readFileSync } from "node:fs";
+-import { formatJson, summarize } from "../src/report.js";
++import { formatJson, summarize, toCsv } from "../src/report.js";
+ 
+-const [path] = process.argv.slice(2);
++const args = process.argv.slice(2);
++const csv = args.includes("--csv");
++const [path] = args.filter((arg) => arg !== "--csv");
+ if (!path) {
+   console.error("usage: report.js <records.json>");
+   process.exit(2);
+ }
+ const records = JSON.parse(readFileSync(path, "utf8"));
+-console.log(formatJson(summarize(records)));
++if (csv) process.stdout.write(toCsv(records, ["id", "region", "customer", "amount", "note"]));
++else console.log(formatJson(summarize(records)));
+--- a/src/report.js
++++ b/src/report.js
+@@ -13,3 +13,13 @@
+ export function formatJson(summary) {
+   return JSON.stringify(summary, null, 2);
+ }
++
++const quote = (value) => {
++  if (value === null || value === undefined) return "";
++  const text = String(value);
++  return /[",\n\r]/.test(text) ? `"${text.replaceAll('"', '""')}"` : text;
++};
++
++export function toCsv(rows, columns) {
++  return [columns, ...rows.map((row) => columns.map((column) => row[column]))].map((cells) => cells.map(quote).join(",")).join("\n") + "\n";
++}
