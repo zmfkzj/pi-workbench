@@ -1,0 +1,8 @@
+{
+  "name": "ledger-tools",
+  "version": "2.3.0",
+  "private": true,
+  "type": "module",
+  "bin": { "ledger": "bin/ledger.js" },
+  "scripts": { "test": "node --test" }
+}

@@ -1,0 +1,393 @@
+diff -ruN a/catalog.json b/catalog.json
+--- a/catalog.json
++++ b/catalog.json
+@@ -22,12 +22,6 @@
+         "create-game-assets",
+         "game-feel",
+         "game-ui-ux",
+-        "fire-smoke-skill-vfx",
+-        "imagegen",
+-        "sound-effects",
+-        "music",
+-        "frontend-design",
+-        "ui-ux-pro-max",
+         "ponytail",
+         "search-first"
+       ],
+@@ -54,10 +48,7 @@
+       "skills": [
+         "problem-solving",
+         "structured-root-cause-research",
+-        "tao-validate-recipe-transfer",
+-        "fiftyone-model-evaluation",
+-        "find-docs",
+-        "property-based-testing"
++        "tao-validate-recipe-transfer"
+       ],
+       "guidance": "Read the vision and comparison sections of docs/WORKFLOWS.ko.md. Check capture, labels, split leakage, preprocessing, model, threshold and deployment parity. Compare FP/FN slices on locked evaluation data under equal conditions before recommending retraining."
+     },
+@@ -80,16 +71,10 @@
+       "skills": [
+         "ponytail",
+         "search-first",
+-        "find-docs",
+         "ponytail-review",
+-        "frontend-design",
+-        "ui-ux-pro-max",
+         "vercel-react-best-practices",
+-        "ast-grep",
+-        "ast-grep-outline",
+         "structured-root-cause-research",
+-        "verification-before-completion",
+-        "property-based-testing"
++        "verification-before-completion"
+       ],
+       "guidance": "Read the coding section of docs/WORKFLOWS.ko.md. Default to Ponytail full and lightweight ECC search-first. Read current callers and tests, honor the existing stack, make the smallest complete change, and verify concrete risks. Load specialized skills only when relevant."
+     },
+@@ -98,13 +83,7 @@
+       "title": "홍보 스틸·배너·영상",
+       "description": "실제 게임의 장점을 전달하는 이미지·음향·영상 제작",
+       "skills": [
+-        "create-game-assets",
+-        "imagegen",
+-        "frontend-design",
+-        "ui-ux-pro-max",
+-        "sound-effects",
+-        "music",
+-        "video-director"
++        "create-game-assets"
+       ],
+       "guidance": "Read the promo section of docs/WORKFLOWS.ko.md and provider adapters. Establish audience, channel, dimensions, safe areas, message and rights. Use actual gameplay for gameplay claims. Render, inspect and listen when tools exist; clearly label brief-only or unverified outputs."
+     }
+@@ -239,11 +218,10 @@
+       "id": "fiftyone-model-evaluation",
+       "name": "FiftyOne Model Evaluation",
+       "description": "FP/FN·오류 구간과 모델 간 차이를 실제 데이터에서 확인",
+-      "profiles": [
+-        "vision"
+-      ],
++      "profiles": [],
+       "path": "vendor/fiftyone/skills/fiftyone-model-evaluation/SKILL.md",
+       "notes": [
++        "수동 전용: 자동 추천하지 않는다. 사용자가 /workbench skill로 선택했을 때만 사용한다.",
+         "GT·prediction 필드와 평가 조건을 확인한다. 오류 상관관계만으로 원인을 확정하지 않는다.",
+         "MCP/plugin 설치 및 앱 시작·종료를 확장 설치 단계에서 실행하지 않는다."
+       ],
+@@ -385,12 +363,10 @@
+       "id": "imagegen",
+       "name": "OpenAI Image Generation",
+       "description": "컨셉·스프라이트·텍스처·홍보 스틸컷·배너 제작",
+-      "profiles": [
+-        "game",
+-        "promo"
+-      ],
++      "profiles": [],
+       "path": "vendor/codex-imagegen/codex-rs/skills/src/assets/samples/imagegen/SKILL.md",
+       "notes": [
++        "수동 전용: 자동 추천하지 않는다. 사용자가 /workbench skill로 선택했을 때만 사용한다.",
+         "Pi에는 Codex image_gen이 자동으로 생기지 않는다. 사용자가 연결한 생성 도구 또는 선택한 API 경로만 쓴다.",
+         "미설정이면 브리프·프롬프트를 완성하고 실제 생성 여부를 명확히 표시한다. 임의 API 비용을 발생시키지 않는다."
+       ],
+@@ -411,12 +387,10 @@
+       "id": "sound-effects",
+       "name": "ElevenLabs Sound Effects",
+       "description": "타격음·환경음·UI 음향·루프 SFX 제작",
+-      "profiles": [
+-        "game",
+-        "promo"
+-      ],
++      "profiles": [],
+       "path": "vendor/elevenlabs/sound-effects/SKILL.md",
+       "notes": [
++        "수동 전용: 자동 추천하지 않는다. 사용자가 /workbench skill로 선택했을 때만 사용한다.",
+         "스킬의 shell 설치 예제를 자동 실행하지 않는다. 가능하면 이미 설치한 CLI/SDK를 이용한다.",
+         "파형·파일 생성만으로 청취 검수를 대체하지 않는다."
+       ],
+@@ -437,12 +411,10 @@
+       "id": "music",
+       "name": "ElevenLabs Music",
+       "description": "게임 BGM·루프·구간별 구성·홍보 음악 제작",
+-      "profiles": [
+-        "game",
+-        "promo"
+-      ],
++      "profiles": [],
+       "path": "vendor/elevenlabs/music/SKILL.md",
+       "notes": [
++        "수동 전용: 자동 추천하지 않는다. 사용자가 /workbench skill로 선택했을 때만 사용한다.",
+         "서비스 플랜·권리 조건과 프로젝트 예산을 확인한다. 사용 가능한 인증을 선택하며 비밀값을 출력하지 않는다."
+       ],
+       "dependencies": [
+@@ -462,11 +434,10 @@
+       "id": "video-director",
+       "name": "Video Director",
+       "description": "게임 footage를 트레일러·가로/세로 홍보 영상으로 편집·렌더링",
+-      "profiles": [
+-        "promo"
+-      ],
++      "profiles": [],
+       "path": "vendor/video-director/video-director/SKILL.md",
+       "notes": [
++        "수동 전용: 자동 추천하지 않는다. 사용자가 /workbench skill로 선택했을 때만 사용한다.",
+         "실제 영상 소스의 편집·렌더링 워크플로다. 텍스트만으로 영상 생성 모델이 연결되는 것은 아니다.",
+         "HyperFrames 및 관련 스킬을 자동 설치하지 않는다. 예제 미디어는 번들에 포함하지 않는다."
+       ],
+@@ -489,11 +460,10 @@
+       "id": "fire-smoke-skill-vfx",
+       "name": "Fire & Smoke VFX",
+       "description": "화염·연기·열왜곡·블룸의 구현 모듈·데모·품질 기준",
+-      "profiles": [
+-        "game"
+-      ],
++      "profiles": [],
+       "path": "vendor/vfx/agent-skills/game-combat/fire-smoke-skill-vfx/SKILL.md",
+       "notes": [
++        "수동 전용: 자동 추천하지 않는다. 사용자가 /workbench skill로 선택했을 때만 사용한다.",
+         "Three.js r170/WebGL2/GLSL에 특화됐다. Unity·Godot·Unreal에는 구현을 그대로 복사하지 않는다."
+       ],
+       "dependencies": [
+@@ -586,13 +556,10 @@
+       "id": "frontend-design",
+       "name": "Anthropic Frontend Design",
+       "description": "분명한 미술 방향과 타이포·레이아웃·인터랙션을 갖춘 웹 UI",
+-      "profiles": [
+-        "coding",
+-        "game",
+-        "promo"
+-      ],
++      "profiles": [],
+       "path": "vendor/anthropic-skills/skills/frontend-design/SKILL.md",
+       "notes": [
++        "수동 전용: 자동 추천하지 않는다. 사용자가 /workbench skill로 선택했을 때만 사용한다.",
+         "실제 UI 런타임·기존 디자인 시스템·접근성을 우선한다. 시각 검수가 없으면 미검증으로 보고한다."
+       ],
+       "dependencies": [
+@@ -612,13 +579,10 @@
+       "id": "ui-ux-pro-max",
+       "name": "UI UX Pro Max",
+       "description": "로컬 디자인 데이터에서 스타일·색상·폰트·UX 가이드를 검색",
+-      "profiles": [
+-        "coding",
+-        "game",
+-        "promo"
+-      ],
++      "profiles": [],
+       "path": "vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/SKILL.md",
+       "notes": [
++        "수동 전용: 자동 추천하지 않는다. 사용자가 /workbench skill로 선택했을 때만 사용한다.",
+         "CLAUDE_PLUGIN_ROOT가 있다고 가정하지 않는다. 이 스킬의 Base directory/scripts/search.py를 실행한다.",
+         "로컬 CSV 검색은 최신 외부 레퍼런스 조사를 대신하지 않는다."
+       ],
+@@ -661,12 +625,10 @@
+       "id": "find-docs",
+       "name": "Context7 Find Docs",
+       "description": "사용 중인 라이브러리와 버전에 맞는 문서·예제를 조회",
+-      "profiles": [
+-        "coding",
+-        "vision"
+-      ],
++      "profiles": [],
+       "path": "vendor/context7/skills/find-docs/SKILL.md",
+       "notes": [
++        "수동 전용: 자동 추천하지 않는다. 사용자가 /workbench skill로 선택했을 때만 사용한다.",
+         "Pi 전용 Context7 도구를 자동 제공하지 않는다. 실제 사용 가능한 MCP 또는 CLI 경로를 이용한다.",
+         "이미 설치한 CLI를 우선한다. 네트워크 조회 실패를 성공처럼 보고하지 않는다."
+       ],
+@@ -687,11 +649,10 @@
+       "id": "ast-grep",
+       "name": "ast-grep",
+       "description": "구문 트리 패턴으로 코드 구조를 검색·검증",
+-      "profiles": [
+-        "coding"
+-      ],
++      "profiles": [],
+       "path": "vendor/ast-grep/ast-grep/skills/ast-grep/SKILL.md",
+       "notes": [
++        "수동 전용: 자동 추천하지 않는다. 사용자가 /workbench skill로 선택했을 때만 사용한다.",
+         "타입 분석·호출 그래프를 제공한다고 가정하지 않는다. 제안한 구조 규칙을 작은 예제에서 확인한다."
+       ],
+       "dependencies": [
+@@ -711,11 +672,10 @@
+       "id": "ast-grep-outline",
+       "name": "ast-grep Outline",
+       "description": "큰 파일의 구조를 압축해서 살피고 필요한 코드만 선택",
+-      "profiles": [
+-        "coding"
+-      ],
++      "profiles": [],
+       "path": "vendor/ast-grep/ast-grep/skills/outline/SKILL.md",
+       "notes": [
++        "수동 전용: 자동 추천하지 않는다. 사용자가 /workbench skill로 선택했을 때만 사용한다.",
+         "설치된 CLI의 outline 지원을 먼저 확인한다. 미지원이면 기존 검색·읽기로 진행한다."
+       ],
+       "dependencies": [
+@@ -758,12 +718,10 @@
+       "id": "property-based-testing",
+       "name": "Trail of Bits Property-Based Testing",
+       "description": "좌표 변환·파서·직렬화·경계 조건의 불변식과 반례를 검사",
+-      "profiles": [
+-        "coding",
+-        "vision"
+-      ],
++      "profiles": [],
+       "path": "vendor/property-testing/plugins/property-based-testing/skills/property-based-testing/SKILL.md",
+       "notes": [
++        "수동 전용: 자동 추천하지 않는다. 사용자가 /workbench skill로 선택했을 때만 사용한다.",
+         "원본은 CC-BY-SA-4.0이며 이 번들의 MIT 코드와 별도다.",
+         "불변식이 실질적인 위험을 줄이는 경우 선택한다. 기존 테스트 도구를 존중한다."
+       ],
+diff -ruN a/docs/WORKFLOWS.ko.md b/docs/WORKFLOWS.ko.md
+--- a/docs/WORKFLOWS.ko.md
++++ b/docs/WORKFLOWS.ko.md
+@@ -129,7 +129,7 @@
+ 1. Ponytail full을 기본 구현 태도로 삼아 요청을 완수하는 가장 작은 일관된 변경을 목표로 한다.
+ 2. ECC search-first로 호출부·테스트·설정·기존 구현·설치된 의존성을 먼저 찾는다.
+ 3. 외부 해법이 필요하면 공식 문서·기존 패키지·원본 구현을 조사하고 채택·확장·직접 구현을 비교한다.
+-4. Context7을 사용할 수 있으면 실제 설치 버전에 맞는 문서를 찾는다. 사용할 수 없으면 공식 문서와 로컬 코드를 확인한다.
++4. 실제 설치 버전에 맞는 공식 문서와 로컬 코드를 확인한다.
+ 5. 프로젝트의 기존 스택·관례를 존중하고 요청하지 않은 레이어·래퍼·옵션·의존성을 추가하지 않는다.
+ 6. 변경이 영향을 주는 호출부·타입·설정·테스트까지 완수하고, 무관한 정리로 범위를 넓히지 않는다.
+ 7. 원래 증상과 중요한 경계·실패 조건을 검증한다. 구현을 그대로 복제하는 테스트나 작은 변경마다 전체 TDD 절차를 강제하지 않는다.
+diff -ruN a/skills/wb-coding/SKILL.md b/skills/wb-coding/SKILL.md
+--- a/skills/wb-coding/SKILL.md
++++ b/skills/wb-coding/SKILL.md
+@@ -21,37 +21,21 @@
+ |---|---|
+ | [Ponytail 5 — Full](../../vendor/ponytail/skills/ponytail/SKILL.md) | 기존 패턴·플랫폼·의존성을 활용해 가장 작은 완결된 코드 변경 |
+ | [ECC Search First](../../vendor/ecc/skills/search-first/SKILL.md) | 기존 코드·표준 기능·설치된 패키지·오픈소스를 먼저 조사 |
+-| [Context7 Find Docs](../../vendor/context7/skills/find-docs/SKILL.md) | 사용 중인 라이브러리와 버전에 맞는 문서·예제를 조회 |
+ | [Ponytail Review](../../vendor/ponytail/skills/ponytail-review/SKILL.md) | 코드 변경 없이 불필요한 복잡성·간소화 가능성과 위험을 리뷰 |
+-| [Anthropic Frontend Design](../../vendor/anthropic-skills/skills/frontend-design/SKILL.md) | 분명한 미술 방향과 타이포·레이아웃·인터랙션을 갖춘 웹 UI |
+-| [UI UX Pro Max](../../vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/SKILL.md) | 로컬 디자인 데이터에서 스타일·색상·폰트·UX 가이드를 검색 |
+ | [Vercel React Best Practices](../../vendor/vercel/skills/react-best-practices/SKILL.md) | React·Next.js의 성능·데이터 로딩·렌더링 패턴 검토 |
+-| [ast-grep](../../vendor/ast-grep/ast-grep/skills/ast-grep/SKILL.md) | 구문 트리 패턴으로 코드 구조를 검색·검증 |
+-| [ast-grep Outline](../../vendor/ast-grep/ast-grep/skills/outline/SKILL.md) | 큰 파일의 구조를 압축해서 살피고 필요한 코드만 선택 |
+ | [Structured Root Cause Research](../../vendor/root-cause/SKILL.md) | 증거와 반증 가능한 경쟁 가설로 재발·간헐 문제를 진단 |
+ | [Superpowers Verification Before Completion](../../vendor/superpowers/skills/verification-before-completion/SKILL.md) | 완료·수정 성공 주장에 대응하는 실제 검증 근거 확인 |
+-| [Trail of Bits Property-Based Testing](../../vendor/property-testing/plugins/property-based-testing/skills/property-based-testing/SKILL.md) | 좌표 변환·파서·직렬화·경계 조건의 불변식과 반례를 검사 |
+ 
+ ## Integration notes
+ 
+ - **ponytail**: full을 기본으로 한다. 기존 동작·검증·접근성·보안·사용자 요구를 보존한다. 활성 범위는 Workbench 프로필 또는 명시한 다음 요청이다. 원문의 세션 지속 규칙이 선택 범위를 확장하지 않는다.
+ - **search-first**: 현재 호스트에 실제로 있는 검색·서브에이전트 도구와 경로만 사용한다. 작은 변경에는 가벼운 검색만 한다. 패키지 채택 시 유지보수·라이선스·추가 의존성을 함께 판단한다.
+   Required when executing: 최신 외부 조사에는 웹/문서 검색 수단·네트워크.
+-- **find-docs**: Pi 전용 Context7 도구를 자동 제공하지 않는다. 실제 사용 가능한 MCP 또는 CLI 경로를 이용한다. 이미 설치한 CLI를 우선한다. 네트워크 조회 실패를 성공처럼 보고하지 않는다.
+-  Required when executing: Context7 MCP 또는 ctx7 CLI/Node·네트워크; 인증은 구성에 따라 필요.
+ - **ponytail-review**: 사용자가 요구한 언어로 보고한다. 리뷰 요청을 코드 수정 권한으로 해석하지 않는다.
+-- **frontend-design**: 실제 UI 런타임·기존 디자인 시스템·접근성을 우선한다. 시각 검수가 없으면 미검증으로 보고한다.
+-  Required when executing: 대상 프런트엔드 런타임·가능하면 브라우저 캡처.
+-- **ui-ux-pro-max**: CLAUDE_PLUGIN_ROOT가 있다고 가정하지 않는다. 이 스킬의 Base directory/scripts/search.py를 실행한다. 로컬 CSV 검색은 최신 외부 레퍼런스 조사를 대신하지 않는다.
+-  Required when executing: Python 3 (검색 스크립트는 표준 라이브러리).
+ - **vercel-react-best-practices**: React/Next.js 프로젝트에만 적용한다. 실제 버전·측정 결과·현재 패턴과 맞는 규칙을 선택한다.
+-- **ast-grep**: 타입 분석·호출 그래프를 제공한다고 가정하지 않는다. 제안한 구조 규칙을 작은 예제에서 확인한다.
+-  Required when executing: ast-grep CLI.
+-- **ast-grep-outline**: 설치된 CLI의 outline 지원을 먼저 확인한다. 미지원이면 기존 검색·읽기로 진행한다.
+-  Required when executing: outline 명령을 지원하는 ast-grep CLI.
+ - **structured-root-cause-research**: 관찰·가정·추론을 구분한다. 5 Why의 단계 수나 단일 원인을 강제하지 않는다.
+ - **verification-before-completion**: 의미 있는 검증을 선택하고 결과의 실행 여부를 구분한다. 사소한 변경마다 전체 테스트를 강제하지 않는다.
+-- **property-based-testing**: 원본은 CC-BY-SA-4.0이며 이 번들의 MIT 코드와 별도다. 불변식이 실질적인 위험을 줄이는 경우 선택한다. 기존 테스트 도구를 존중한다.
+-  Required when executing: 대상 언어의 속성 기반 테스트 라이브러리 (예: Hypothesis, fast-check).
++
++Manual-only skills (not recommended automatically; available only when the user selects them with `/workbench skill <id>`): frontend-design, ui-ux-pro-max, find-docs, ast-grep, ast-grep-outline, property-based-testing.
+ 
+ Use `/workbench skill <id>` for an explicit one-request selection, or `/workbench use coding` for a session-branch profile. The default `auto` mode relies on normal Pi skill discovery.
+diff -ruN a/skills/wb-game/SKILL.md b/skills/wb-game/SKILL.md
+--- a/skills/wb-game/SKILL.md
++++ b/skills/wb-game/SKILL.md
+@@ -24,12 +24,6 @@
+ | [Create Game Assets](../../vendor/gamedev/skills/disciplines/create-game-assets/SKILL.md) | 아트 방향부터 대표 에셋·일관된 묶음·엔진 import와 시각 검수 |
+ | [Game Feel](../../vendor/gamedev/skills/disciplines/game-feel/SKILL.md) | 히트스톱·카메라·타격·전환·소리 피드백 설계 및 튜닝 |
+ | [Game UI/UX](../../vendor/gamedev/skills/disciplines/game-ui-ux/SKILL.md) | HUD·메뉴·입력 탐색·가독성·접근성·반응형 게임 UI |
+-| [Fire & Smoke VFX](../../vendor/vfx/agent-skills/game-combat/fire-smoke-skill-vfx/SKILL.md) | 화염·연기·열왜곡·블룸의 구현 모듈·데모·품질 기준 |
+-| [OpenAI Image Generation](../../vendor/codex-imagegen/codex-rs/skills/src/assets/samples/imagegen/SKILL.md) | 컨셉·스프라이트·텍스처·홍보 스틸컷·배너 제작 |
+-| [ElevenLabs Sound Effects](../../vendor/elevenlabs/sound-effects/SKILL.md) | 타격음·환경음·UI 음향·루프 SFX 제작 |
+-| [ElevenLabs Music](../../vendor/elevenlabs/music/SKILL.md) | 게임 BGM·루프·구간별 구성·홍보 음악 제작 |
+-| [Anthropic Frontend Design](../../vendor/anthropic-skills/skills/frontend-design/SKILL.md) | 분명한 미술 방향과 타이포·레이아웃·인터랙션을 갖춘 웹 UI |
+-| [UI UX Pro Max](../../vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/SKILL.md) | 로컬 디자인 데이터에서 스타일·색상·폰트·UX 가이드를 검색 |
+ | [Ponytail 5 — Full](../../vendor/ponytail/skills/ponytail/SKILL.md) | 기존 패턴·플랫폼·의존성을 활용해 가장 작은 완결된 코드 변경 |
+ | [ECC Search First](../../vendor/ecc/skills/search-first/SKILL.md) | 기존 코드·표준 기능·설치된 패키지·오픈소스를 먼저 조사 |
+ 
+@@ -43,20 +37,10 @@
+   Required when executing: 대상 게임 엔진과 플레이·화면 캡처 환경.
+ - **game-ui-ux**: 해상도·안전 영역·패드/키보드 입력을 실제 런타임에서 확인한다.
+   Required when executing: 대상 엔진 또는 UI 런타임.
+-- **fire-smoke-skill-vfx**: Three.js r170/WebGL2/GLSL에 특화됐다. Unity·Godot·Unreal에는 구현을 그대로 복사하지 않는다.
+-  Required when executing: Three.js·WebGL2 런타임 (적합한 프로젝트에서만).
+-- **imagegen**: Pi에는 Codex image_gen이 자동으로 생기지 않는다. 사용자가 연결한 생성 도구 또는 선택한 API 경로만 쓴다. 미설정이면 브리프·프롬프트를 완성하고 실제 생성 여부를 명확히 표시한다. 임의 API 비용을 발생시키지 않는다.
+-  Required when executing: 호스트의 이미지 생성 도구 또는 Python openai SDK·OPENAI_API_KEY (API 경로 선택 시).
+-- **sound-effects**: 스킬의 shell 설치 예제를 자동 실행하지 않는다. 가능하면 이미 설치한 CLI/SDK를 이용한다. 파형·파일 생성만으로 청취 검수를 대체하지 않는다.
+-  Required when executing: ElevenLabs CLI/SDK·인증·사용 가능한 계정 한도.
+-- **music**: 서비스 플랜·권리 조건과 프로젝트 예산을 확인한다. 사용 가능한 인증을 선택하며 비밀값을 출력하지 않는다.
+-  Required when executing: ElevenLabs 음악 기능이 가능한 계정·CLI/SDK·인증.
+-- **frontend-design**: 실제 UI 런타임·기존 디자인 시스템·접근성을 우선한다. 시각 검수가 없으면 미검증으로 보고한다.
+-  Required when executing: 대상 프런트엔드 런타임·가능하면 브라우저 캡처.
+-- **ui-ux-pro-max**: CLAUDE_PLUGIN_ROOT가 있다고 가정하지 않는다. 이 스킬의 Base directory/scripts/search.py를 실행한다. 로컬 CSV 검색은 최신 외부 레퍼런스 조사를 대신하지 않는다.
+-  Required when executing: Python 3 (검색 스크립트는 표준 라이브러리).
+ - **ponytail**: full을 기본으로 한다. 기존 동작·검증·접근성·보안·사용자 요구를 보존한다. 활성 범위는 Workbench 프로필 또는 명시한 다음 요청이다. 원문의 세션 지속 규칙이 선택 범위를 확장하지 않는다.
+ - **search-first**: 현재 호스트에 실제로 있는 검색·서브에이전트 도구와 경로만 사용한다. 작은 변경에는 가벼운 검색만 한다. 패키지 채택 시 유지보수·라이선스·추가 의존성을 함께 판단한다.
+   Required when executing: 최신 외부 조사에는 웹/문서 검색 수단·네트워크.
+ 
++Manual-only skills (not recommended automatically; available only when the user selects them with `/workbench skill <id>`): imagegen, sound-effects, music, fire-smoke-skill-vfx, frontend-design, ui-ux-pro-max.
++
+ Use `/workbench skill <id>` for an explicit one-request selection, or `/workbench use game` for a session-branch profile. The default `auto` mode relies on normal Pi skill discovery.
+diff -ruN a/skills/wb-promo/SKILL.md b/skills/wb-promo/SKILL.md
+--- a/skills/wb-promo/SKILL.md
++++ b/skills/wb-promo/SKILL.md
+@@ -20,28 +20,12 @@
+ | Skill | Use |
+ |---|---|
+ | [Create Game Assets](../../vendor/gamedev/skills/disciplines/create-game-assets/SKILL.md) | 아트 방향부터 대표 에셋·일관된 묶음·엔진 import와 시각 검수 |
+-| [OpenAI Image Generation](../../vendor/codex-imagegen/codex-rs/skills/src/assets/samples/imagegen/SKILL.md) | 컨셉·스프라이트·텍스처·홍보 스틸컷·배너 제작 |
+-| [Anthropic Frontend Design](../../vendor/anthropic-skills/skills/frontend-design/SKILL.md) | 분명한 미술 방향과 타이포·레이아웃·인터랙션을 갖춘 웹 UI |
+-| [UI UX Pro Max](../../vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/SKILL.md) | 로컬 디자인 데이터에서 스타일·색상·폰트·UX 가이드를 검색 |
+-| [ElevenLabs Sound Effects](../../vendor/elevenlabs/sound-effects/SKILL.md) | 타격음·환경음·UI 음향·루프 SFX 제작 |
+-| [ElevenLabs Music](../../vendor/elevenlabs/music/SKILL.md) | 게임 BGM·루프·구간별 구성·홍보 음악 제작 |
+-| [Video Director](../../vendor/video-director/video-director/SKILL.md) | 게임 footage를 트레일러·가로/세로 홍보 영상으로 편집·렌더링 |
+ 
+ ## Integration notes
+ 
+ - **create-game-assets**: 레퍼런스 출처와 사용 권리, 생성/수정 이력을 기록한다. 실제 표시 크기와 엔진 화면으로 검수한다.
+   Required when executing: 이미지·3D 생성 도구는 별도 연결; 래스터 검수 스크립트: Python 3.10+, Pillow.
+-- **imagegen**: Pi에는 Codex image_gen이 자동으로 생기지 않는다. 사용자가 연결한 생성 도구 또는 선택한 API 경로만 쓴다. 미설정이면 브리프·프롬프트를 완성하고 실제 생성 여부를 명확히 표시한다. 임의 API 비용을 발생시키지 않는다.
+-  Required when executing: 호스트의 이미지 생성 도구 또는 Python openai SDK·OPENAI_API_KEY (API 경로 선택 시).
+-- **frontend-design**: 실제 UI 런타임·기존 디자인 시스템·접근성을 우선한다. 시각 검수가 없으면 미검증으로 보고한다.
+-  Required when executing: 대상 프런트엔드 런타임·가능하면 브라우저 캡처.
+-- **ui-ux-pro-max**: CLAUDE_PLUGIN_ROOT가 있다고 가정하지 않는다. 이 스킬의 Base directory/scripts/search.py를 실행한다. 로컬 CSV 검색은 최신 외부 레퍼런스 조사를 대신하지 않는다.
+-  Required when executing: Python 3 (검색 스크립트는 표준 라이브러리).
+-- **sound-effects**: 스킬의 shell 설치 예제를 자동 실행하지 않는다. 가능하면 이미 설치한 CLI/SDK를 이용한다. 파형·파일 생성만으로 청취 검수를 대체하지 않는다.
+-  Required when executing: ElevenLabs CLI/SDK·인증·사용 가능한 계정 한도.
+-- **music**: 서비스 플랜·권리 조건과 프로젝트 예산을 확인한다. 사용 가능한 인증을 선택하며 비밀값을 출력하지 않는다.
+-  Required when executing: ElevenLabs 음악 기능이 가능한 계정·CLI/SDK·인증.
+-- **video-director**: 실제 영상 소스의 편집·렌더링 워크플로다. 텍스트만으로 영상 생성 모델이 연결되는 것은 아니다. HyperFrames 및 관련 스킬을 자동 설치하지 않는다. 예제 미디어는 번들에 포함하지 않는다.
+-  Required when executing: Node 22+, FFmpeg/ffprobe; Python: numpy, fonttools, brotli; HyperFrames와 해당 제작·렌더링 환경 (별도 설정).
++
++Manual-only skills (not recommended automatically; available only when the user selects them with `/workbench skill <id>`): imagegen, sound-effects, music, video-director, frontend-design, ui-ux-pro-max.
+ 
+ Use `/workbench skill <id>` for an explicit one-request selection, or `/workbench use promo` for a session-branch profile. The default `auto` mode relies on normal Pi skill discovery.
+diff -ruN a/skills/wb-vision/SKILL.md b/skills/wb-vision/SKILL.md
+--- a/skills/wb-vision/SKILL.md
++++ b/skills/wb-vision/SKILL.md
+@@ -22,9 +22,6 @@
+ | [Problem Solving](../../vendor/problem-solving/skills/problem-solving/SKILL.md) | 문제 정의, 근거 수집, 원인과 해결책·대안 비교 |
+ | [Structured Root Cause Research](../../vendor/root-cause/SKILL.md) | 증거와 반증 가능한 경쟁 가설로 재발·간헐 문제를 진단 |
+ | [NVIDIA TAO Recipe Transfer](../../vendor/tao/skills/applications/tao-validate-recipe-transfer/SKILL.md) | 비전 모델의 데이터·전처리·학습·평가·배포 차이를 진단 |
+-| [FiftyOne Model Evaluation](../../vendor/fiftyone/skills/fiftyone-model-evaluation/SKILL.md) | FP/FN·오류 구간과 모델 간 차이를 실제 데이터에서 확인 |
+-| [Context7 Find Docs](../../vendor/context7/skills/find-docs/SKILL.md) | 사용 중인 라이브러리와 버전에 맞는 문서·예제를 조회 |
+-| [Trail of Bits Property-Based Testing](../../vendor/property-testing/plugins/property-based-testing/skills/property-based-testing/SKILL.md) | 좌표 변환·파서·직렬화·경계 조건의 불변식과 반례를 검사 |
+ 
+ ## Integration notes
+ 
+@@ -32,11 +29,7 @@
+ - **structured-root-cause-research**: 관찰·가정·추론을 구분한다. 5 Why의 단계 수나 단일 원인을 강제하지 않는다.
+ - **tao-validate-recipe-transfer**: 고정 정확도 차이·표본 수·한 배치 과적합 기준을 모든 모델의 합격선으로 적용하지 않는다. 분석만 요청했다면 학습·GPU 작업을 자동 시작하지 않는다.
+   Required when executing: 진단 스크립트: Python 3, NumPy, Pillow; 실제 모델 실행: 대상 프로젝트의 프레임워크·모델·데이터·연산 환경.
+-- **fiftyone-model-evaluation**: GT·prediction 필드와 평가 조건을 확인한다. 오류 상관관계만으로 원인을 확정하지 않는다. MCP/plugin 설치 및 앱 시작·종료를 확장 설치 단계에서 실행하지 않는다.
+-  Required when executing: FiftyOne SDK와 데이터셋 또는 사용 가능한 FiftyOne MCP/evaluation 플러그인.
+-- **find-docs**: Pi 전용 Context7 도구를 자동 제공하지 않는다. 실제 사용 가능한 MCP 또는 CLI 경로를 이용한다. 이미 설치한 CLI를 우선한다. 네트워크 조회 실패를 성공처럼 보고하지 않는다.
+-  Required when executing: Context7 MCP 또는 ctx7 CLI/Node·네트워크; 인증은 구성에 따라 필요.
+-- **property-based-testing**: 원본은 CC-BY-SA-4.0이며 이 번들의 MIT 코드와 별도다. 불변식이 실질적인 위험을 줄이는 경우 선택한다. 기존 테스트 도구를 존중한다.
+-  Required when executing: 대상 언어의 속성 기반 테스트 라이브러리 (예: Hypothesis, fast-check).
++
++Manual-only skills (not recommended automatically; available only when the user selects them with `/workbench skill <id>`): fiftyone-model-evaluation, find-docs, property-based-testing.
+ 
+ Use `/workbench skill <id>` for an explicit one-request selection, or `/workbench use vision` for a session-branch profile. The default `auto` mode relies on normal Pi skill discovery.

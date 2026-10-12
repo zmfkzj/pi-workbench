@@ -1,0 +1,41 @@
+--- a/src/config.js
++++ b/src/config.js
+@@ -24,14 +24,25 @@
+   return value;
+ }
+ 
+-/** Parse "key: value" lines. Blank lines and lines starting with # are ignored. */
++/** Remove a trailing comment: # outside a quoted string, at the start or after whitespace (README). */
++function stripComment(text) {
++  let quoted = false;
++  for (let i = 0; i < text.length; i++) {
++    if (quoted && text[i] === "\\") i++;
++    else if (text[i] === '"') quoted = !quoted;
++    else if (!quoted && text[i] === "#" && (i === 0 || /\s/.test(text[i - 1]))) return text.slice(0, i);
++  }
++  return text;
++}
++
++/** Parse "key: value" lines. Blank lines and comments are ignored. */
+ export function parseConfig(text) {
+   const config = {};
+   text.split(/\r?\n/).forEach((line, index) => {
+     if (line.trim() === "" || line.trim().startsWith("#")) return;
+     const match = /^\s*([A-Za-z_][\w.]*)\s*:(.*)$/.exec(line);
+     if (!match) throw new SyntaxError(`line ${index + 1}: expected "key: value"`);
+-    config[match[1]] = parseValue(match[2]);
++    config[match[1]] = parseValue(stripComment(match[2]));
+   });
+   return config;
+ }
+--- a/src/probe.js
++++ b/src/probe.js
+@@ -5,7 +5,7 @@
+   const settings = { ...DEFAULTS, ...config };
+   const retries = Number.isInteger(settings.retries) && settings.retries >= 0 ? settings.retries : DEFAULTS.retries;
+   const timeout = Number.isInteger(settings.timeout_ms) && settings.timeout_ms > 0 ? settings.timeout_ms : DEFAULTS.timeout_ms;
+-  return { ...settings, retries: retries || DEFAULTS.retries, timeout_ms: timeout };
++  return { ...settings, retries, timeout_ms: timeout };
+ }
+ 
+ /** Run a probe with `send(url, timeout)`; returns { ok, attempts }. One first attempt plus up to `retries` retries. */

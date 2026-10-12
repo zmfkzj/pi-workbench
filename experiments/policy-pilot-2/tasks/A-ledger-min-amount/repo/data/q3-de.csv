@@ -1,0 +1,7 @@
+#locale=de
+date,account,description,amount
+2026-07-03,4000,Beratung,"€ 8.400,00"
+2026-07-08,6100,Büromaterial,"(1.234,50)"
+2026-07-12,6200,"Reise, München","1.234,49"
+2026-07-19,6300,Kontoführung,"-12,00"
+2026-07-27,4000,"Schulung ""Basis""","980,00"

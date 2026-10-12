@@ -1,0 +1,7 @@
+date,account,description,amount
+2026-07-02,4000,Consulting retainer,"$12,500.00"
+2026-07-05,6100,Office supplies,(84.20)
+2026-07-09,6200,"Travel, Berlin","1,000.00"
+2026-07-15,4000,Workshop,999.99
+2026-07-21,6100,Refund,−1000.00
+2026-07-30,6300,Bank fee,-7.5

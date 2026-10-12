@@ -1,0 +1,7 @@
+{
+  "name": "probe-runner",
+  "version": "1.8.2",
+  "private": true,
+  "type": "module",
+  "scripts": { "test": "node --test" }
+}

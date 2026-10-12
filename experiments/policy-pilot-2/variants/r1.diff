@@ -1,0 +1,78 @@
+diff -ruN a/catalog.json b/catalog.json
+--- a/catalog.json
++++ b/catalog.json
+@@ -76,7 +76,7 @@
+     {
+       "id": "coding",
+       "title": "코딩·리뷰·검증",
+-      "description": "Ponytail 중심의 재사용·문서 조회·UI·구조 검색·테스트",
++      "description": "재사용·문서 조회·UI·구조 검색·테스트",
+       "skills": [
+         "ponytail",
+         "search-first",
+@@ -91,7 +91,7 @@
+         "verification-before-completion",
+         "property-based-testing"
+       ],
+-      "guidance": "Read the coding section of docs/WORKFLOWS.ko.md. Default to Ponytail full and lightweight ECC search-first. Read current callers and tests, honor the existing stack, make the smallest complete change, and verify concrete risks. Load specialized skills only when relevant."
++      "guidance": "Read the coding section of docs/WORKFLOWS.ko.md. Read current callers and tests, honor the existing stack, make the smallest complete change, and verify concrete risks. Load specialized skills only when relevant."
+     },
+     {
+       "id": "promo",
+diff -ruN a/docs/ADAPTERS.md b/docs/ADAPTERS.md
+--- a/docs/ADAPTERS.md
++++ b/docs/ADAPTERS.md
+@@ -33,11 +33,11 @@
+ 
+ ## Ponytail, ECC and coding scope
+ 
+-Use **Ponytail full** by default for implementation. Reuse existing patterns and dependencies, preserve complete behavior, and make verification proportional to the actual risk. A short patch is not successful if it drops validation, accessibility, security, calibration logic or user requirements.
++Use **Ponytail full** when its implementation guidance is relevant. Reuse existing patterns and dependencies, preserve complete behavior, and make verification proportional to the actual risk. A short patch is not successful if it drops validation, accessibility, security, calibration logic or user requirements.
+ 
+ In this package a one-request selection is scoped to that request; Ponytail's original session-persistence wording does not turn it into an independent global mode. A selected coding profile can keep Ponytail available across turns. Respect an explicit profile change. For Ponytail Review use the user's language and perform code changes only if the user requested them.
+ 
+-Use ECC Search First as a lightweight preflight for small tasks and a deeper comparison for substantial new functionality. Use the current host's tools and skill locations. This package does not install the full ECC or Superpowers agent/hook orchestration and does not require TDD for every edit.
++Use ECC Search First when a task needs a search for existing solutions, with a deeper comparison for substantial new functionality. Use the current host's tools and skill locations. This package does not install the full ECC or Superpowers agent/hook orchestration and does not require TDD for every edit.
+ 
+ React guidance applies to React/Next.js projects. ast-grep provides syntax-pattern analysis; it does not become a type checker or call-graph engine. Check whether the installed version supports `outline`. Property-based testing is useful where real invariants expose risk, such as coordinate transforms, parsing and round trips; preserve the existing project test conventions.
+ 
+diff -ruN a/docs/WORKFLOWS.ko.md b/docs/WORKFLOWS.ko.md
+--- a/docs/WORKFLOWS.ko.md
++++ b/docs/WORKFLOWS.ko.md
+@@ -126,8 +126,8 @@
+ 
+ ## coding — 일반 코딩
+ 
+-1. Ponytail full을 기본 구현 태도로 삼아 요청을 완수하는 가장 작은 일관된 변경을 목표로 한다.
+-2. ECC search-first로 호출부·테스트·설정·기존 구현·설치된 의존성을 먼저 찾는다.
++1. 요청을 완수하는 가장 작은 일관된 변경을 목표로 한다.
++2. 호출부·테스트·설정·기존 구현·설치된 의존성을 먼저 찾는다.
+ 3. 외부 해법이 필요하면 공식 문서·기존 패키지·원본 구현을 조사하고 채택·확장·직접 구현을 비교한다.
+ 4. Context7을 사용할 수 있으면 실제 설치 버전에 맞는 문서를 찾는다. 사용할 수 없으면 공식 문서와 로컬 코드를 확인한다.
+ 5. 프로젝트의 기존 스택·관례를 존중하고 요청하지 않은 레이어·래퍼·옵션·의존성을 추가하지 않는다.
+diff -ruN a/skills/wb-coding/SKILL.md b/skills/wb-coding/SKILL.md
+--- a/skills/wb-coding/SKILL.md
++++ b/skills/wb-coding/SKILL.md
+@@ -1,11 +1,11 @@
+ ---
+ name: wb-coding
+-description: "코딩·리뷰·검증. Ponytail 중심의 재사용·문서 조회·UI·구조 검색·테스트. Use for the coding workflow; select only relevant bundled skills and their references."
++description: "코딩·리뷰·검증. 재사용·문서 조회·UI·구조 검색·테스트. Use for the coding workflow; select only relevant bundled skills and their references."
+ ---
+ 
+ # 코딩·리뷰·검증
+ 
+-Read the coding section of docs/WORKFLOWS.ko.md. Default to Ponytail full and lightweight ECC search-first. Read current callers and tests, honor the existing stack, make the smallest complete change, and verify concrete risks. Load specialized skills only when relevant.
++Read the coding section of docs/WORKFLOWS.ko.md. Read current callers and tests, honor the existing stack, make the smallest complete change, and verify concrete risks. Load specialized skills only when relevant.
+ 
+ ## Start here
+ 
+@@ -34,7 +34,7 @@
+ 
+ ## Integration notes
+ 
+-- **ponytail**: full을 기본으로 한다. 기존 동작·검증·접근성·보안·사용자 요구를 보존한다. 활성 범위는 Workbench 프로필 또는 명시한 다음 요청이다. 원문의 세션 지속 규칙이 선택 범위를 확장하지 않는다.
++- **ponytail**: 구현 방식 지침이 필요할 때 full을 사용한다. 기존 동작·검증·접근성·보안·사용자 요구를 보존한다. 활성 범위는 Workbench 프로필 또는 명시한 다음 요청이다. 원문의 세션 지속 규칙이 선택 범위를 확장하지 않는다.
+ - **search-first**: 현재 호스트에 실제로 있는 검색·서브에이전트 도구와 경로만 사용한다. 작은 변경에는 가벼운 검색만 한다. 패키지 채택 시 유지보수·라이선스·추가 의존성을 함께 판단한다.
+   Required when executing: 최신 외부 조사에는 웹/문서 검색 수단·네트워크.
+ - **find-docs**: Pi 전용 Context7 도구를 자동 제공하지 않는다. 실제 사용 가능한 MCP 또는 CLI 경로를 이용한다. 이미 설치한 CLI를 우선한다. 네트워크 조회 실패를 성공처럼 보고하지 않는다.

@@ -1,0 +1,526 @@
+--- a/src/jobs/batch04.js
++++ b/src/jobs/batch04.js
+@@ -1,12 +1,12 @@
+ // jobs/batch04.js
+-import { log } from "../log.js";
++import { logger } from "../log.js";
+ 
+ export function run(input) {
+   const id = input.id;
+   const out = [];
+-  log("warn", "batch rejected", { id });
++  logger.warn("batch rejected", { id });
+   const level = input.failed ? "error" : "info";
+-  log(level, "batch updated", { failed: Boolean(input.failed) });
+-  log("debug", "batch expired", { out: out.length });
++  logger[level]("batch updated", { failed: Boolean(input.failed) });
++  logger.debug("batch expired", { out: out.length });
+   return out;
+ }
+--- a/src/jobs/batch14.js
++++ b/src/jobs/batch14.js
+@@ -4,11 +4,11 @@
+ export function run(input) {
+   const id = input.id;
+   const out = [];
+-  logging.log("info", "batch created", { id });
++  logging.logger.info("batch created", { id });
+   for (const item of input.items) {
+-    logging.log("debug", "batch updated", { item });
++    logging.logger.debug("batch updated", { item });
+     out.push(item * 2);
+   }
+-  logging.log("debug", "batch retried", { out: out.length });
++  logging.logger.debug("batch retried", { out: out.length });
+   return out;
+ }
+--- a/src/jobs/order00.js
++++ b/src/jobs/order00.js
+@@ -1,25 +1,24 @@
+ // jobs/order00.js
+-import { log } from "../log.js";
++import { logger } from "../log.js";
+ 
+ export function run(input) {
+   const id = input.id;
+   const out = [];
+-  log("error", "order created", { id });
++  logger.error("order created", { id });
+   for (const item of input.items) {
+-    log("debug", "order created", { item });
++    logger.debug("order created", { item });
+     out.push(item * 2);
+   }
+   if (out.length > 2) {
+-    log(
+-      "warn",
++    logger.warn(
+       "order created",
+       { count: out.length, id },
+     );
+   }
+-  input.ok ? log("info", "order created") : log("error", "order expired", { id });
++  input.ok ? logger.info("order created") : logger.error("order expired", { id });
+   // log("debug", "example") is the old form; see README.
+   const hint = "replace log(\"info\", msg) calls in order00";
+   out.push(hint.length);
+-  log("debug", "order expired", { out: out.length });
++  logger.debug("order expired", { out: out.length });
+   return out;
+ }
+--- a/src/jobs/order10.js
++++ b/src/jobs/order10.js
+@@ -1,13 +1,13 @@
+ // jobs/order10.js
+-import { log } from "../log.js";
++import { logger } from "../log.js";
+ 
+ export function run(input) {
+   const id = input.id;
+   const out = [];
+-  log("debug", "order created", { id });
++  logger.debug("order created", { id });
+   // log("debug", "example") is the old form; see README.
+   const hint = "replace log(\"info\", msg) calls in order10";
+   out.push(hint.length);
+-  log("debug", "order flushed", { out: out.length });
++  logger.debug("order flushed", { out: out.length });
+   return out;
+ }
+--- a/src/jobs/order20.js
++++ b/src/jobs/order20.js
+@@ -1,15 +1,15 @@
+ // jobs/order20.js
+-import { log } from "../log.js";
++import { logger } from "../log.js";
+ 
+ export function run(input) {
+   const id = input.id;
+   const out = [];
+-  log("info", "order loaded", { id });
++  logger.info("order loaded", { id });
+   {
+     const log = (level, message) => out.push(`local ${level} ${message}`);
+     log("info", "local only");
+     log("warn", `items ${input.items.length}`);
+   }
+-  log("debug", "order skipped", { out: out.length });
++  logger.debug("order skipped", { out: out.length });
+   return out;
+ }
+--- a/src/jobs/profile08.js
++++ b/src/jobs/profile08.js
+@@ -1,15 +1,15 @@
+ // jobs/profile08.js
+-import { log } from "../log.js";
++import { logger } from "../log.js";
+ 
+ export function run(input) {
+   const id = input.id;
+   const out = [];
+-  log("error", "profile expired", { id });
++  logger.error("profile expired", { id });
+   {
+     const log = (level, message) => out.push(`local ${level} ${message}`);
+     log("info", "local only");
+     log("warn", `items ${input.items.length}`);
+   }
+-  log("debug", "profile retried", { out: out.length });
++  logger.debug("profile retried", { out: out.length });
+   return out;
+ }
+--- a/src/jobs/profile18.js
++++ b/src/jobs/profile18.js
+@@ -1,11 +1,11 @@
+ // jobs/profile18.js
+-import { log } from "../log.js";
++import { logger } from "../log.js";
+ 
+ export function run(input) {
+   const id = input.id;
+   const out = [];
+-  log("error", "profile updated", { id });
+-  input.items.forEach((value) => log("info", "profile synced", { value }));
+-  log("debug", "profile expired", { out: out.length });
++  logger.error("profile updated", { id });
++  input.items.forEach((value) => logger.info("profile synced", { value }));
++  logger.debug("profile expired", { out: out.length });
+   return out;
+ }
+--- a/src/jobs/session02.js
++++ b/src/jobs/session02.js
+@@ -4,11 +4,11 @@
+ export function run(input) {
+   const id = input.id;
+   const out = [];
+-  logging.log("info", "session loaded", { id });
++  logging.logger.info("session loaded", { id });
+   for (const item of input.items) {
+-    logging.log("debug", "session expired", { item });
++    logging.logger.debug("session expired", { item });
+     out.push(item * 2);
+   }
+-  logging.log("debug", "session expired", { out: out.length });
++  logging.logger.debug("session expired", { out: out.length });
+   return out;
+ }
+--- a/src/jobs/session12.js
++++ b/src/jobs/session12.js
+@@ -1,25 +1,24 @@
+ // jobs/session12.js
+-import { log } from "../log.js";
++import { logger } from "../log.js";
+ 
+ export function run(input) {
+   const id = input.id;
+   const out = [];
+-  log("error", "session queued", { id });
++  logger.error("session queued", { id });
+   for (const item of input.items) {
+-    log("debug", "session updated", { item });
++    logger.debug("session updated", { item });
+     out.push(item * 2);
+   }
+   if (out.length > 2) {
+-    log(
+-      "warn",
++    logger.warn(
+       "session flushed",
+       { count: out.length, id },
+     );
+   }
+-  input.ok ? log("info", "session expired") : log("error", "session created", { id });
++  input.ok ? logger.info("session expired") : logger.error("session created", { id });
+   // log("debug", "example") is the old form; see README.
+   const hint = "replace log(\"info\", msg) calls in session12";
+   out.push(hint.length);
+-  log("debug", "session rejected", { out: out.length });
++  logger.debug("session rejected", { out: out.length });
+   return out;
+ }
+--- a/src/jobs/session22.js
++++ b/src/jobs/session22.js
+@@ -1,13 +1,13 @@
+ // jobs/session22.js
+-import { log } from "../log.js";
++import { logger } from "../log.js";
+ 
+ export function run(input) {
+   const id = input.id;
+   const out = [];
+-  log("warn", "session created", { id });
++  logger.warn("session created", { id });
+   // log("debug", "example") is the old form; see README.
+   const hint = "replace log(\"info\", msg) calls in session22";
+   out.push(hint.length);
+-  log("debug", "session skipped", { out: out.length });
++  logger.debug("session skipped", { out: out.length });
+   return out;
+ }
+--- a/src/jobs/shipment06.js
++++ b/src/jobs/shipment06.js
+@@ -1,11 +1,11 @@
+ // jobs/shipment06.js
+-import { log } from "../log.js";
++import { logger } from "../log.js";
+ 
+ export function run(input) {
+   const id = input.id;
+   const out = [];
+-  log("error", "shipment synced", { id });
+-  input.items.forEach((value) => log("info", "shipment updated", { value }));
+-  log("debug", "shipment flushed", { out: out.length });
++  logger.error("shipment synced", { id });
++  input.items.forEach((value) => logger.info("shipment updated", { value }));
++  logger.debug("shipment flushed", { out: out.length });
+   return out;
+ }
+--- a/src/jobs/shipment16.js
++++ b/src/jobs/shipment16.js
+@@ -1,12 +1,12 @@
+ // jobs/shipment16.js
+-import { log } from "../log.js";
++import { logger } from "../log.js";
+ 
+ export function run(input) {
+   const id = input.id;
+   const out = [];
+-  log("info", "shipment retried", { id });
++  logger.info("shipment retried", { id });
+   const level = input.failed ? "error" : "info";
+-  log(level, "shipment rejected", { failed: Boolean(input.failed) });
+-  log("debug", "shipment skipped", { out: out.length });
++  logger[level]("shipment rejected", { failed: Boolean(input.failed) });
++  logger.debug("shipment skipped", { out: out.length });
+   return out;
+ }
+--- a/src/services/cache09.js
++++ b/src/services/cache09.js
+@@ -1,13 +1,13 @@
+ // services/cache09.js
+-import { log } from "../log.js";
++import { logger } from "../log.js";
+ 
+ export function run(input) {
+   const id = input.id;
+   const out = [];
+-  log("debug", "cache flushed", { id });
++  logger.debug("cache flushed", { id });
+   const audit = { entries: [], log(level, message) { this.entries.push([level, message]); } };
+   audit.log("info", "member call, not the logger");
+   out.push(audit.entries.length);
+-  log("debug", "cache synced", { out: out.length });
++  logger.debug("cache synced", { out: out.length });
+   return out;
+ }
+--- a/src/services/cache19.js
++++ b/src/services/cache19.js
+@@ -1,5 +1,5 @@
+ // services/cache19.js
+-import { log } from "../log.js";
++import { logger } from "../log.js";
+ 
+ /** Forward items to a caller-supplied sink with the same signature as the old log(). */
+ export function forward(log, items) {
+@@ -15,8 +15,8 @@
+ export function run(input) {
+   const id = input.id;
+   const out = [];
+-  log("debug", "cache created", { id });
++  logger.debug("cache created", { id });
+   out.push(...forward((level, message) => out.push(`${level}:${message}`), input.items));
+-  log("debug", "cache retried", { out: out.length });
++  logger.debug("cache retried", { out: out.length });
+   return out;
+ }
+--- a/src/services/invoice01.js
++++ b/src/services/invoice01.js
+@@ -1,14 +1,14 @@
+ // services/invoice01.js
+-import { log as trace } from "../log.js";
++import { logger } from "../log.js";
+ 
+ export function run(input) {
+   const id = input.id;
+   const out = [];
+-  trace("debug", "invoice loaded", { id });
++  logger.debug("invoice loaded", { id });
+   for (const item of input.items) {
+-    trace("debug", "invoice rejected", { item });
++    logger.debug("invoice rejected", { item });
+     out.push(item * 2);
+   }
+-  trace("debug", "invoice created", { out: out.length });
++  logger.debug("invoice created", { out: out.length });
+   return out;
+ }
+--- a/src/services/invoice11.js
++++ b/src/services/invoice11.js
+@@ -1,24 +1,23 @@
+ // services/invoice11.js
+-import { LEVELS, log } from "../log.js";
++import { LEVELS, logger } from "../log.js";
+ 
+ export function run(input) {
+   const id = input.id;
+   const out = [];
+-  log("info", "invoice rejected", { id });
++  logger.info("invoice rejected", { id });
+   for (const item of input.items) {
+-    log("debug", "invoice retried", { item });
++    logger.debug("invoice retried", { item });
+     out.push(item * 2);
+   }
+   if (out.length > 2) {
+-    log(
+-      "warn",
++    logger.warn(
+       "invoice synced",
+       { count: out.length, id },
+     );
+   }
+   const level = input.failed ? "error" : "info";
+-  log(level, "invoice expired", { failed: Boolean(input.failed) });
++  logger[level]("invoice expired", { failed: Boolean(input.failed) });
+   out.push(LEVELS.length);
+-  log("debug", "invoice skipped", { out: out.length });
++  logger.debug("invoice skipped", { out: out.length });
+   return out;
+ }
+--- a/src/services/invoice21.js
++++ b/src/services/invoice21.js
+@@ -1,13 +1,13 @@
+ // services/invoice21.js
+-import { log } from "../log.js";
++import { logger } from "../log.js";
+ 
+ export function run(input) {
+   const id = input.id;
+   const out = [];
+-  log("warn", "invoice queued", { id });
++  logger.warn("invoice queued", { id });
+   const audit = { entries: [], log(level, message) { this.entries.push([level, message]); } };
+   audit.log("info", "member call, not the logger");
+   out.push(audit.entries.length);
+-  log("debug", "invoice queued", { out: out.length });
++  logger.debug("invoice queued", { out: out.length });
+   return out;
+ }
+--- a/src/services/refund07.js
++++ b/src/services/refund07.js
+@@ -1,5 +1,5 @@
+ // services/refund07.js
+-import { log } from "../log.js";
++import { logger } from "../log.js";
+ 
+ /** Forward items to a caller-supplied sink with the same signature as the old log(). */
+ export function forward(log, items) {
+@@ -15,8 +15,8 @@
+ export function run(input) {
+   const id = input.id;
+   const out = [];
+-  log("debug", "refund updated", { id });
++  logger.debug("refund updated", { id });
+   out.push(...forward((level, message) => out.push(`${level}:${message}`), input.items));
+-  log("debug", "refund rejected", { out: out.length });
++  logger.debug("refund rejected", { out: out.length });
+   return out;
+ }
+--- a/src/services/refund17.js
++++ b/src/services/refund17.js
+@@ -1,11 +1,11 @@
+ // services/refund17.js
+-import { log } from "../log.js";
++import { logger } from "../log.js";
+ 
+ export function run(input) {
+   const id = input.id;
+   const out = [];
+-  log("error", "refund queued", { id });
+-  input.ok ? log("info", "refund loaded") : log("error", "refund synced", { id });
+-  log("debug", "refund updated", { out: out.length });
++  logger.error("refund queued", { id });
++  input.ok ? logger.info("refund loaded") : logger.error("refund synced", { id });
++  logger.debug("refund updated", { out: out.length });
+   return out;
+ }
+--- a/src/services/report03.js
++++ b/src/services/report03.js
+@@ -1,17 +1,16 @@
+ // services/report03.js
+-import { log } from "../log.js";
++import { logger } from "../log.js";
+ 
+ export function run(input) {
+   const id = input.id;
+   const out = [];
+-  log("info", "report updated", { id });
++  logger.info("report updated", { id });
+   if (out.length > 2) {
+-    log(
+-      "warn",
++    logger.warn(
+       "report synced",
+       { count: out.length, id },
+     );
+   }
+-  log("debug", "report expired", { out: out.length });
++  logger.debug("report expired", { out: out.length });
+   return out;
+ }
+--- a/src/services/report13.js
++++ b/src/services/report13.js
+@@ -1,14 +1,14 @@
+ // services/report13.js
+-import { log as trace } from "../log.js";
++import { logger } from "../log.js";
+ 
+ export function run(input) {
+   const id = input.id;
+   const out = [];
+-  trace("warn", "report updated", { id });
++  logger.warn("report updated", { id });
+   for (const item of input.items) {
+-    trace("debug", "report loaded", { item });
++    logger.debug("report loaded", { item });
+     out.push(item * 2);
+   }
+-  trace("debug", "report retried", { out: out.length });
++  logger.debug("report retried", { out: out.length });
+   return out;
+ }
+--- a/src/services/report23.js
++++ b/src/services/report23.js
+@@ -1,24 +1,23 @@
+ // services/report23.js
+-import { LEVELS, log } from "../log.js";
++import { LEVELS, logger } from "../log.js";
+ 
+ export function run(input) {
+   const id = input.id;
+   const out = [];
+-  log("info", "report rejected", { id });
++  logger.info("report rejected", { id });
+   for (const item of input.items) {
+-    log("debug", "report created", { item });
++    logger.debug("report created", { item });
+     out.push(item * 2);
+   }
+   if (out.length > 2) {
+-    log(
+-      "warn",
++    logger.warn(
+       "report queued",
+       { count: out.length, id },
+     );
+   }
+   const level = input.failed ? "error" : "info";
+-  log(level, "report synced", { failed: Boolean(input.failed) });
++  logger[level]("report synced", { failed: Boolean(input.failed) });
+   out.push(LEVELS.length);
+-  log("debug", "report created", { out: out.length });
++  logger.debug("report created", { out: out.length });
+   return out;
+ }
+--- a/src/services/token05.js
++++ b/src/services/token05.js
+@@ -1,11 +1,11 @@
+ // services/token05.js
+-import { log } from "../log.js";
++import { logger } from "../log.js";
+ 
+ export function run(input) {
+   const id = input.id;
+   const out = [];
+-  log("info", "token updated", { id });
+-  input.ok ? log("info", "token retried") : log("error", "token flushed", { id });
+-  log("debug", "token synced", { out: out.length });
++  logger.info("token updated", { id });
++  input.ok ? logger.info("token retried") : logger.error("token flushed", { id });
++  logger.debug("token synced", { out: out.length });
+   return out;
+ }
+--- a/src/services/token15.js
++++ b/src/services/token15.js
+@@ -1,17 +1,16 @@
+ // services/token15.js
+-import { log } from "../log.js";
++import { logger } from "../log.js";
+ 
+ export function run(input) {
+   const id = input.id;
+   const out = [];
+-  log("error", "token expired", { id });
++  logger.error("token expired", { id });
+   if (out.length > 2) {
+-    log(
+-      "warn",
++    logger.warn(
+       "token created",
+       { count: out.length, id },
+     );
+   }
+-  log("debug", "token queued", { out: out.length });
++  logger.debug("token queued", { out: out.length });
+   return out;
+ }

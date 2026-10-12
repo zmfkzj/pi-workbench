@@ -1,0 +1,1301 @@
+{
+  "stage": "main",
+  "baseline": {
+    "repository": "zmfkzj/pi-workbench",
+    "commit": "44aeb2d",
+    "operationalFilesEqualTo": "3016176fe38ea3b51bc5654c083d56f211525de0"
+  },
+  "model": {
+    "provider": "cliproxyapi",
+    "id": "cliproxyapi/claude-opus-5-5",
+    "thinking": "high"
+  },
+  "tools": [
+    "read",
+    "bash",
+    "edit",
+    "write"
+  ],
+  "environment": {
+    "pi": "1.1.0",
+    "node": "v24.21.0",
+    "python": "3 (system, no numpy)",
+    "astGrep": "0.50.0 on PATH for every run (scratch toolbin, read-only)"
+  },
+  "isolation": {
+    "sandbox": "bwrap",
+    "version": 2,
+    "readOnlyHost": true,
+    "privateTmp": true,
+    "hide": [
+      "/home/arthur"
+    ],
+    "reveal": [
+      "/home/arthur/.bun/bin",
+      "/home/arthur/.bun/install/global/node_modules",
+      "/home/arthur/.nvm/versions/node/v24.21.0",
+      "/home/arthur/.pi/agent/npm",
+      "/home/arthur/.pi/agent/bin",
+      "/home/arthur/.pi/agent/cliproxyapi.json"
+    ]
+  },
+  "limits": {
+    "concurrency": 4,
+    "runTimeoutSeconds": 1200,
+    "maxToolCalls": 120,
+    "runCostCapListPrice": 3,
+    "totalCostCapListPrice": 70,
+    "plannedRuns": 87
+  },
+  "variantHashes": {
+    "current": "3ef91b27b291ba73533e4afc6487d4667d5c9c8b96048e74fa466d1bb018f602",
+    "r1": "c1ad79732e5624e195ad6690b89266707c9af4a3fe4fa7b7052b7ee7791bb81a",
+    "r2": "7825e473dc982d8ecd49bced07e11cf926506124272ec243bdb15644607e24e8",
+    "r3a2": "8edb00fa80d1f1328dd278926c19da499dd05bcc699c965fdd681801e88b560e",
+    "r3b2": "27104adf7ff4bbb07e96f2661667c3988aa272865d3e376369ecff7da9e4e73b",
+    "r4": "4789c94ba4dc51d4ad54e3db1fd8faf6846a329388c9d0b7f6653ccb8727890b"
+  },
+  "taskHashes": {
+    "A-ledger-min-amount": "a1cfda48b03789d4564e68f5c38e58f16ec69cb109b546ebd481fee45d0f47f2",
+    "B-logger-migration": "331493b206722e0c6f25ba88739cf5ce6c7362c3b1c40d2f38ff55fb5c2e3fc1",
+    "C-msa-capability": "250338fdaf26021b2fdfc5800270feb1ecdcdc4796b126ccacf9bb9bcffb8328",
+    "D-probe-retries": "7c5ff3ffc0fe6b4a6f8a3ba99feee4d222121f00b3e08a5f04c2b6362e4a085d"
+  },
+  "tasks": {
+    "A-ledger-min-amount": {
+      "purpose": "R1/R2: feature that must reuse the locale-aware amount parser, reach CLI and API, keep output unchanged; over-change and verification",
+      "verify": {
+        "tests": "node --test|npm (run )?test",
+        "cliWithOption": "bin/ledger\\.js[^\\n]*--min-amount"
+      },
+      "allowed": [
+        "^bin/ledger\\.js$",
+        "^src/(api|export|read|amount)\\.js$",
+        "^test/",
+        "^README\\.md$"
+      ]
+    },
+    "B-logger-migration": {
+      "purpose": "R3: structural migration of 24 modules with aliases, namespace imports and shadowed names; ast-grep 0.50.0 is installed on PATH",
+      "verify": {
+        "tests": "node --test|npm (run )?test",
+        "searchRemaining": "(grep|rg|ast-grep|sg)\\b[^\\n]*log"
+      },
+      "allowed": [
+        "^src/(services|jobs)/",
+        "^test/"
+      ]
+    },
+    "C-msa-capability": {
+      "purpose": "R4: gauge R&R + Xbar-R + capability decision; DMAIC MSA/stability guidance is relevant, numbers are code-checked",
+      "verify": {
+        "compute": "python3|node "
+      },
+      "allowed": [
+        "^results\\.json$",
+        "^report\\.md$",
+        "\\.(py|mjs|js)$"
+      ]
+    },
+    "D-probe-retries": {
+      "purpose": "R1/R2: bug with two causes (falsy retries default, unstripped inline comments) where only the reported command reveals the second; quoted # must survive",
+      "verify": {
+        "tests": "node --test|npm (run )?test",
+        "reportedCommand": "bin/probe\\.js[^\\n]*fail-fast\\.conf"
+      },
+      "allowed": [
+        "^src/(config|probe)\\.js$",
+        "^test/",
+        "^README\\.md$"
+      ]
+    }
+  },
+  "configs": {
+    "off": {
+      "variant": null,
+      "meaning": "No Workbench (provider only)."
+    },
+    "current": {
+      "variant": "current",
+      "meaning": "Current package, natural auto discovery (routers only)."
+    },
+    "cur-prof": {
+      "variant": "current",
+      "commands": [
+        "/workbench use coding"
+      ],
+      "meaning": "Current, coding profile guidance injected (lists skill paths; default Ponytail full + ECC search-first)."
+    },
+    "r1-prof": {
+      "variant": "r1",
+      "commands": [
+        "/workbench use coding"
+      ],
+      "meaning": "R1 variant (no default Ponytail/ECC wording), coding profile."
+    },
+    "r2-prof": {
+      "variant": "r2",
+      "commands": [
+        "/workbench use coding"
+      ],
+      "meaning": "R2 variant (Verification removed, principle in workflow guide), coding profile."
+    },
+    "sel-pe": {
+      "variant": "current",
+      "select": [
+        "ponytail",
+        "search-first"
+      ],
+      "meaning": "Content: Ponytail full + ECC search-first SKILL.md attached to the request (auto mode)."
+    },
+    "sel-ver": {
+      "variant": "current",
+      "select": [
+        "verification-before-completion"
+      ],
+      "meaning": "Content: Verification Before Completion SKILL.md attached (auto mode)."
+    },
+    "sel-prin": {
+      "variant": "r2",
+      "select": [
+        "verification-principle"
+      ],
+      "meaning": "Content: the r2 common principle attached the same way as sel-ver (auto mode)."
+    },
+    "r3a": {
+      "variant": "r3a2",
+      "meaning": "R3 manual-only: tool skills out of routers and profiles (selectable only via /workbench skill), auto."
+    },
+    "r3b": {
+      "variant": "r3b2",
+      "meaning": "R3 conditional: tool skills listed with a use-only-when-installed gate, auto."
+    },
+    "r3a-prof": {
+      "variant": "r3a2",
+      "commands": [
+        "/workbench use coding"
+      ],
+      "meaning": "R3 manual-only, coding profile."
+    },
+    "r3b-prof": {
+      "variant": "r3b2",
+      "commands": [
+        "/workbench use coding"
+      ],
+      "meaning": "R3 conditional, coding profile."
+    },
+    "sel-dmaic": {
+      "variant": "current",
+      "select": [
+        "dmaic"
+      ],
+      "meaning": "Content: current DMAIC SKILL.md attached (auto mode)."
+    },
+    "r4-sel-dmaic": {
+      "variant": "r4",
+      "select": [
+        "dmaic"
+      ],
+      "meaning": "Content: split DMAIC entry SKILL.md attached; phase files must be opened."
+    },
+    "cur-mfg": {
+      "variant": "current",
+      "commands": [
+        "/workbench use manufacturing"
+      ],
+      "meaning": "Current, manufacturing profile."
+    },
+    "r4-mfg": {
+      "variant": "r4",
+      "commands": [
+        "/workbench use manufacturing"
+      ],
+      "meaning": "R4 split DMAIC, manufacturing profile."
+    }
+  },
+  "matrix": {
+    "A-ledger-min-amount": [
+      "off",
+      "current",
+      "cur-prof",
+      "r1-prof",
+      "r2-prof",
+      "sel-pe",
+      "sel-ver",
+      "sel-prin"
+    ],
+    "D-probe-retries": [
+      "off",
+      "current",
+      "cur-prof",
+      "r1-prof",
+      "r2-prof",
+      "sel-pe",
+      "sel-ver",
+      "sel-prin"
+    ],
+    "B-logger-migration": [
+      "off",
+      "current",
+      "r3a",
+      "r3b",
+      "cur-prof",
+      "r3a-prof",
+      "r3b-prof"
+    ],
+    "C-msa-capability": [
+      "off",
+      "current",
+      "sel-dmaic",
+      "r4-sel-dmaic",
+      "cur-mfg",
+      "r4-mfg"
+    ]
+  },
+  "runs": [
+    {
+      "task": "C-msa-capability",
+      "config": "r4-sel-dmaic",
+      "rep": 1,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 0,
+      "runId": "o-C-r4-sel-dmaic-r1"
+    },
+    {
+      "task": "B-logger-migration",
+      "config": "cur-prof",
+      "rep": 1,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 1,
+      "runId": "o-B-cur-prof-r1"
+    },
+    {
+      "task": "A-ledger-min-amount",
+      "config": "r1-prof",
+      "rep": 1,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 2,
+      "runId": "o-A-r1-prof-r1"
+    },
+    {
+      "task": "C-msa-capability",
+      "config": "cur-mfg",
+      "rep": 1,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 3,
+      "runId": "o-C-cur-mfg-r1"
+    },
+    {
+      "task": "D-probe-retries",
+      "config": "off",
+      "rep": 1,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 4,
+      "runId": "o-D-off-r1"
+    },
+    {
+      "task": "A-ledger-min-amount",
+      "config": "sel-prin",
+      "rep": 1,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 5,
+      "runId": "o-A-sel-prin-r1"
+    },
+    {
+      "task": "B-logger-migration",
+      "config": "off",
+      "rep": 1,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 6,
+      "runId": "o-B-off-r1"
+    },
+    {
+      "task": "C-msa-capability",
+      "config": "r4-mfg",
+      "rep": 1,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 7,
+      "runId": "o-C-r4-mfg-r1"
+    },
+    {
+      "task": "D-probe-retries",
+      "config": "r1-prof",
+      "rep": 1,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 8,
+      "runId": "o-D-r1-prof-r1"
+    },
+    {
+      "task": "C-msa-capability",
+      "config": "sel-dmaic",
+      "rep": 1,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 9,
+      "runId": "o-C-sel-dmaic-r1"
+    },
+    {
+      "task": "A-ledger-min-amount",
+      "config": "sel-pe",
+      "rep": 1,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 10,
+      "runId": "o-A-sel-pe-r1"
+    },
+    {
+      "task": "B-logger-migration",
+      "config": "current",
+      "rep": 1,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 11,
+      "runId": "o-B-current-r1"
+    },
+    {
+      "task": "B-logger-migration",
+      "config": "r3a-prof",
+      "rep": 1,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 12,
+      "runId": "o-B-r3a-prof-r1"
+    },
+    {
+      "task": "D-probe-retries",
+      "config": "current",
+      "rep": 1,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 13,
+      "runId": "o-D-current-r1"
+    },
+    {
+      "task": "A-ledger-min-amount",
+      "config": "r2-prof",
+      "rep": 1,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 14,
+      "runId": "o-A-r2-prof-r1"
+    },
+    {
+      "task": "A-ledger-min-amount",
+      "config": "off",
+      "rep": 1,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 15,
+      "runId": "o-A-off-r1"
+    },
+    {
+      "task": "C-msa-capability",
+      "config": "off",
+      "rep": 1,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 16,
+      "runId": "o-C-off-r1"
+    },
+    {
+      "task": "D-probe-retries",
+      "config": "cur-prof",
+      "rep": 1,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 17,
+      "runId": "o-D-cur-prof-r1"
+    },
+    {
+      "task": "B-logger-migration",
+      "config": "r3b-prof",
+      "rep": 1,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 18,
+      "runId": "o-B-r3b-prof-r1"
+    },
+    {
+      "task": "A-ledger-min-amount",
+      "config": "current",
+      "rep": 1,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 19,
+      "runId": "o-A-current-r1"
+    },
+    {
+      "task": "B-logger-migration",
+      "config": "r3b",
+      "rep": 1,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 20,
+      "runId": "o-B-r3b-r1"
+    },
+    {
+      "task": "A-ledger-min-amount",
+      "config": "sel-ver",
+      "rep": 1,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 21,
+      "runId": "o-A-sel-ver-r1"
+    },
+    {
+      "task": "C-msa-capability",
+      "config": "current",
+      "rep": 1,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 22,
+      "runId": "o-C-current-r1"
+    },
+    {
+      "task": "D-probe-retries",
+      "config": "r2-prof",
+      "rep": 1,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 23,
+      "runId": "o-D-r2-prof-r1"
+    },
+    {
+      "task": "D-probe-retries",
+      "config": "sel-ver",
+      "rep": 1,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 24,
+      "runId": "o-D-sel-ver-r1"
+    },
+    {
+      "task": "B-logger-migration",
+      "config": "r3a",
+      "rep": 1,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 25,
+      "runId": "o-B-r3a-r1"
+    },
+    {
+      "task": "A-ledger-min-amount",
+      "config": "cur-prof",
+      "rep": 1,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 26,
+      "runId": "o-A-cur-prof-r1"
+    },
+    {
+      "task": "D-probe-retries",
+      "config": "sel-pe",
+      "rep": 1,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 27,
+      "runId": "o-D-sel-pe-r1"
+    },
+    {
+      "task": "D-probe-retries",
+      "config": "sel-prin",
+      "rep": 1,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 28,
+      "runId": "o-D-sel-prin-r1"
+    },
+    {
+      "task": "D-probe-retries",
+      "config": "sel-prin",
+      "rep": 2,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 29,
+      "runId": "o-D-sel-prin-r2"
+    },
+    {
+      "task": "A-ledger-min-amount",
+      "config": "sel-pe",
+      "rep": 2,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 30,
+      "runId": "o-A-sel-pe-r2"
+    },
+    {
+      "task": "D-probe-retries",
+      "config": "cur-prof",
+      "rep": 2,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 31,
+      "runId": "o-D-cur-prof-r2"
+    },
+    {
+      "task": "C-msa-capability",
+      "config": "cur-mfg",
+      "rep": 2,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 32,
+      "runId": "o-C-cur-mfg-r2"
+    },
+    {
+      "task": "A-ledger-min-amount",
+      "config": "r2-prof",
+      "rep": 2,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 33,
+      "runId": "o-A-r2-prof-r2"
+    },
+    {
+      "task": "D-probe-retries",
+      "config": "r1-prof",
+      "rep": 2,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 34,
+      "runId": "o-D-r1-prof-r2"
+    },
+    {
+      "task": "B-logger-migration",
+      "config": "current",
+      "rep": 2,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 35,
+      "runId": "o-B-current-r2"
+    },
+    {
+      "task": "B-logger-migration",
+      "config": "off",
+      "rep": 2,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 36,
+      "runId": "o-B-off-r2"
+    },
+    {
+      "task": "C-msa-capability",
+      "config": "r4-sel-dmaic",
+      "rep": 2,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 37,
+      "runId": "o-C-r4-sel-dmaic-r2"
+    },
+    {
+      "task": "B-logger-migration",
+      "config": "r3a-prof",
+      "rep": 2,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 38,
+      "runId": "o-B-r3a-prof-r2"
+    },
+    {
+      "task": "C-msa-capability",
+      "config": "off",
+      "rep": 2,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 39,
+      "runId": "o-C-off-r2"
+    },
+    {
+      "task": "A-ledger-min-amount",
+      "config": "sel-ver",
+      "rep": 2,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 40,
+      "runId": "o-A-sel-ver-r2"
+    },
+    {
+      "task": "A-ledger-min-amount",
+      "config": "r1-prof",
+      "rep": 2,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 41,
+      "runId": "o-A-r1-prof-r2"
+    },
+    {
+      "task": "C-msa-capability",
+      "config": "r4-mfg",
+      "rep": 2,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 42,
+      "runId": "o-C-r4-mfg-r2"
+    },
+    {
+      "task": "C-msa-capability",
+      "config": "current",
+      "rep": 2,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 43,
+      "runId": "o-C-current-r2"
+    },
+    {
+      "task": "C-msa-capability",
+      "config": "sel-dmaic",
+      "rep": 2,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 44,
+      "runId": "o-C-sel-dmaic-r2"
+    },
+    {
+      "task": "B-logger-migration",
+      "config": "cur-prof",
+      "rep": 2,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 45,
+      "runId": "o-B-cur-prof-r2"
+    },
+    {
+      "task": "B-logger-migration",
+      "config": "r3b",
+      "rep": 2,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 46,
+      "runId": "o-B-r3b-r2"
+    },
+    {
+      "task": "D-probe-retries",
+      "config": "current",
+      "rep": 2,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 47,
+      "runId": "o-D-current-r2"
+    },
+    {
+      "task": "A-ledger-min-amount",
+      "config": "off",
+      "rep": 2,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 48,
+      "runId": "o-A-off-r2"
+    },
+    {
+      "task": "B-logger-migration",
+      "config": "r3a",
+      "rep": 2,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 49,
+      "runId": "o-B-r3a-r2"
+    },
+    {
+      "task": "D-probe-retries",
+      "config": "r2-prof",
+      "rep": 2,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 50,
+      "runId": "o-D-r2-prof-r2"
+    },
+    {
+      "task": "D-probe-retries",
+      "config": "off",
+      "rep": 2,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 51,
+      "runId": "o-D-off-r2"
+    },
+    {
+      "task": "A-ledger-min-amount",
+      "config": "sel-prin",
+      "rep": 2,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 52,
+      "runId": "o-A-sel-prin-r2"
+    },
+    {
+      "task": "A-ledger-min-amount",
+      "config": "current",
+      "rep": 2,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 53,
+      "runId": "o-A-current-r2"
+    },
+    {
+      "task": "A-ledger-min-amount",
+      "config": "cur-prof",
+      "rep": 2,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 54,
+      "runId": "o-A-cur-prof-r2"
+    },
+    {
+      "task": "D-probe-retries",
+      "config": "sel-pe",
+      "rep": 2,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 55,
+      "runId": "o-D-sel-pe-r2"
+    },
+    {
+      "task": "D-probe-retries",
+      "config": "sel-ver",
+      "rep": 2,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 56,
+      "runId": "o-D-sel-ver-r2"
+    },
+    {
+      "task": "B-logger-migration",
+      "config": "r3b-prof",
+      "rep": 2,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 57,
+      "runId": "o-B-r3b-prof-r2"
+    },
+    {
+      "task": "B-logger-migration",
+      "config": "r3b",
+      "rep": 3,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 58,
+      "runId": "o-B-r3b-r3"
+    },
+    {
+      "task": "C-msa-capability",
+      "config": "sel-dmaic",
+      "rep": 3,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 59,
+      "runId": "o-C-sel-dmaic-r3"
+    },
+    {
+      "task": "D-probe-retries",
+      "config": "cur-prof",
+      "rep": 3,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 60,
+      "runId": "o-D-cur-prof-r3"
+    },
+    {
+      "task": "D-probe-retries",
+      "config": "sel-pe",
+      "rep": 3,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 61,
+      "runId": "o-D-sel-pe-r3"
+    },
+    {
+      "task": "C-msa-capability",
+      "config": "r4-mfg",
+      "rep": 3,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 62,
+      "runId": "o-C-r4-mfg-r3"
+    },
+    {
+      "task": "D-probe-retries",
+      "config": "off",
+      "rep": 3,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 63,
+      "runId": "o-D-off-r3"
+    },
+    {
+      "task": "A-ledger-min-amount",
+      "config": "current",
+      "rep": 3,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 64,
+      "runId": "o-A-current-r3"
+    },
+    {
+      "task": "A-ledger-min-amount",
+      "config": "off",
+      "rep": 3,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 65,
+      "runId": "o-A-off-r3"
+    },
+    {
+      "task": "C-msa-capability",
+      "config": "r4-sel-dmaic",
+      "rep": 3,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 66,
+      "runId": "o-C-r4-sel-dmaic-r3"
+    },
+    {
+      "task": "C-msa-capability",
+      "config": "current",
+      "rep": 3,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 67,
+      "runId": "o-C-current-r3"
+    },
+    {
+      "task": "D-probe-retries",
+      "config": "r1-prof",
+      "rep": 3,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 68,
+      "runId": "o-D-r1-prof-r3"
+    },
+    {
+      "task": "A-ledger-min-amount",
+      "config": "sel-ver",
+      "rep": 3,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 69,
+      "runId": "o-A-sel-ver-r3"
+    },
+    {
+      "task": "A-ledger-min-amount",
+      "config": "cur-prof",
+      "rep": 3,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 70,
+      "runId": "o-A-cur-prof-r3"
+    },
+    {
+      "task": "A-ledger-min-amount",
+      "config": "r1-prof",
+      "rep": 3,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 71,
+      "runId": "o-A-r1-prof-r3"
+    },
+    {
+      "task": "A-ledger-min-amount",
+      "config": "sel-prin",
+      "rep": 3,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 72,
+      "runId": "o-A-sel-prin-r3"
+    },
+    {
+      "task": "C-msa-capability",
+      "config": "cur-mfg",
+      "rep": 3,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 73,
+      "runId": "o-C-cur-mfg-r3"
+    },
+    {
+      "task": "B-logger-migration",
+      "config": "r3b-prof",
+      "rep": 3,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 74,
+      "runId": "o-B-r3b-prof-r3"
+    },
+    {
+      "task": "B-logger-migration",
+      "config": "current",
+      "rep": 3,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 75,
+      "runId": "o-B-current-r3"
+    },
+    {
+      "task": "B-logger-migration",
+      "config": "r3a-prof",
+      "rep": 3,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 76,
+      "runId": "o-B-r3a-prof-r3"
+    },
+    {
+      "task": "B-logger-migration",
+      "config": "r3a",
+      "rep": 3,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 77,
+      "runId": "o-B-r3a-r3"
+    },
+    {
+      "task": "B-logger-migration",
+      "config": "cur-prof",
+      "rep": 3,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 78,
+      "runId": "o-B-cur-prof-r3"
+    },
+    {
+      "task": "C-msa-capability",
+      "config": "off",
+      "rep": 3,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 79,
+      "runId": "o-C-off-r3"
+    },
+    {
+      "task": "A-ledger-min-amount",
+      "config": "sel-pe",
+      "rep": 3,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 80,
+      "runId": "o-A-sel-pe-r3"
+    },
+    {
+      "task": "A-ledger-min-amount",
+      "config": "r2-prof",
+      "rep": 3,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 81,
+      "runId": "o-A-r2-prof-r3"
+    },
+    {
+      "task": "D-probe-retries",
+      "config": "r2-prof",
+      "rep": 3,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 82,
+      "runId": "o-D-r2-prof-r3"
+    },
+    {
+      "task": "D-probe-retries",
+      "config": "current",
+      "rep": 3,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 83,
+      "runId": "o-D-current-r3"
+    },
+    {
+      "task": "B-logger-migration",
+      "config": "off",
+      "rep": 3,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 84,
+      "runId": "o-B-off-r3"
+    },
+    {
+      "task": "D-probe-retries",
+      "config": "sel-ver",
+      "rep": 3,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 85,
+      "runId": "o-D-sel-ver-r3"
+    },
+    {
+      "task": "D-probe-retries",
+      "config": "sel-prin",
+      "rep": 3,
+      "model": {
+        "provider": "cliproxyapi",
+        "id": "cliproxyapi/claude-opus-5-5",
+        "thinking": "high"
+      },
+      "order": 86,
+      "runId": "o-D-sel-prin-r3"
+    }
+  ]
+}

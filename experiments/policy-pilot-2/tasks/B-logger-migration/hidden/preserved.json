@@ -1,0 +1,40 @@
+{
+ "src/jobs/order00.js": [
+  "  // log(\"debug\", \"example\") is the old form; see README.",
+  "  const hint = \"replace log(\\\"info\\\", msg) calls in order00\";"
+ ],
+ "src/services/refund07.js": [
+  "    log(\"debug\", `item ${item}`);",
+  "  log(\"info\", \"forwarded\");"
+ ],
+ "src/jobs/profile08.js": [
+  "    log(\"info\", \"local only\");",
+  "    log(\"warn\", `items ${input.items.length}`);"
+ ],
+ "src/services/cache09.js": [
+  "  audit.log(\"info\", \"member call, not the logger\");"
+ ],
+ "src/jobs/order10.js": [
+  "  // log(\"debug\", \"example\") is the old form; see README.",
+  "  const hint = \"replace log(\\\"info\\\", msg) calls in order10\";"
+ ],
+ "src/jobs/session12.js": [
+  "  // log(\"debug\", \"example\") is the old form; see README.",
+  "  const hint = \"replace log(\\\"info\\\", msg) calls in session12\";"
+ ],
+ "src/services/cache19.js": [
+  "    log(\"debug\", `item ${item}`);",
+  "  log(\"info\", \"forwarded\");"
+ ],
+ "src/jobs/order20.js": [
+  "    log(\"info\", \"local only\");",
+  "    log(\"warn\", `items ${input.items.length}`);"
+ ],
+ "src/services/invoice21.js": [
+  "  audit.log(\"info\", \"member call, not the logger\");"
+ ],
+ "src/jobs/session22.js": [
+  "  // log(\"debug\", \"example\") is the old form; see README.",
+  "  const hint = \"replace log(\\\"info\\\", msg) calls in session22\";"
+ ]
+}

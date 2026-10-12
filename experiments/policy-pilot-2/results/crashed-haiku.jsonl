@@ -1,0 +1,2 @@
+{"runId":"h-C-cur-mfg-r1","stage":"haiku","runDir":"5f1bc8d450d34fe0","harnessError":"runner process crashed (EDQUOT: scratch disk quota) while this run was in flight; run repeated","usage":{"costListPrice":0.023705860000000002},"assistantMessages":9}
+{"runId":"h-A-sel-prin-r1","stage":"haiku","runDir":"c7bd892bc0680406","harnessError":"runner process crashed (EDQUOT: scratch disk quota) while this run was in flight; run repeated","usage":{"costListPrice":0.00905848},"assistantMessages":8}

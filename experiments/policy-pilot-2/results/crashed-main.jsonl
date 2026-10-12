@@ -1,0 +1,4 @@
+{"runId":"o-B-r3a-prof-r1","stage":"main","runDir":"0071b90f234e2001","harnessError":"runner process crashed (EDQUOT: scratch disk quota) while this run was in flight; run repeated","usage":{"costListPrice":0.1424674},"assistantMessages":4}
+{"runId":"o-D-current-r1","stage":"main","runDir":"7bf3ace00f47a570","harnessError":"runner process crashed (EDQUOT: scratch disk quota) while this run was in flight; run repeated","usage":{"costListPrice":0.08157539999999999},"assistantMessages":3}
+{"runId":"o-A-r2-prof-r1","stage":"main","runDir":"7539783856d15143","harnessError":"runner process crashed (EDQUOT: scratch disk quota) while this run was in flight; run repeated","usage":{"costListPrice":0.044349},"assistantMessages":2}
+{"runId":"o-A-off-r1","stage":"main","runDir":"52c8d32350ff994c","harnessError":"runner process crashed (EDQUOT: scratch disk quota) while this run was in flight; run repeated","usage":{"costListPrice":0.0115932},"assistantMessages":1}

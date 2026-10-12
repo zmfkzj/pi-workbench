@@ -1,0 +1,3 @@
+# Shaft diameter, mm
+LSL = 9.8
+USL = 10.2
