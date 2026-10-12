@@ -813,9 +813,9 @@
     },
     {
       "path": "vendor/quality-engineering/skills/problem-solving/is-is-not-scoping/SKILL.md",
-      "sha256": "c21f319c699fbd7196e37bb2e7b3d76a3763874cc029c5830c4b07e0fa884803",
-      "bytes": 8530,
-      "gitBlob": "22782b355ef12e61f252a2c4081fc41d382f5107",
+      "sha256": "da95d916c7f5e14528d5c3af550810abfc1e451406c448690d02e1d2dc96b01e",
+      "bytes": 8733,
+      "gitBlob": "6d027b026e6473948a866624f1e676e887a92821",
       "upstream": {
         "sha256": "1614fe316a59ce400b725c62b44f21e01ba5de7b45c83b55f530d82a1e8c1b73",
         "bytes": 7602,
@@ -825,9 +825,9 @@
     },
     {
       "path": "vendor/quality-engineering/skills/problem-solving/is-is-not-scoping/references/hypothesis-elimination.md",
-      "sha256": "642deadfbcbb11e111f752398e55c537d396f511cd0f4d21a1ca1da1ba067804",
-      "bytes": 13880,
-      "gitBlob": "45054033c69d4187bffea34f9a2db57fe379edf8",
+      "sha256": "7c2c0b162522c6a271b4d11034381587d36f5ac1346b6c9816b0e31cc7969e0b",
+      "bytes": 14025,
+      "gitBlob": "8ba4f7ab9645328ba5b8686dbbfd4bbf00f5272b",
       "upstream": {
         "sha256": "0b849c468a5428c2ee08e8ce51ca41d0076ee6e03f038e139f01fa052f13e144",
         "bytes": 12923,

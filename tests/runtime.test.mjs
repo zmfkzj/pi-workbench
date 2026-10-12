@@ -363,8 +363,8 @@ test("one-shot text keeps the exact raw instructions, the canonical base directo
   assert.equal(selection.path, await realpath(join(f.root, f.catalog.skills[0].path)));
   assert.equal(selection.baseDir, dirname(selection.path));
   const content = skillSelectionText([selection], f.root);
-  const startMarker = "--- BEGIN ORIGINAL SKILL.md ---\n";
-  const endMarker = "\n--- END ORIGINAL SKILL.md ---";
+  const startMarker = "--- BEGIN BUNDLED SKILL.md ---\n";
+  const endMarker = "\n--- END BUNDLED SKILL.md ---";
   const start = content.indexOf(startMarker) + startMarker.length;
   const end = content.lastIndexOf(endMarker);
   assert.ok(start >= startMarker.length && end > start);
@@ -376,6 +376,15 @@ test("one-shot text keeps the exact raw instructions, the canonical base directo
   assert.doesNotMatch(content, /next user request/, "The text sits with the request it applies to: no 'next request' that reads as a later one.");
   assert.match(content, /does not change the Workbench profile/);
   assert.match(content, /whole session do not apply to this one-shot selection/);
+  // Provenance without claiming that every bundled file is the unmodified upstream original.
+  assert.doesNotMatch(content, /ORIGINAL SKILL\.md/);
+  const provenance = `Bundled skill files are based on locked upstream commits and may include reviewed corrections; a file noted "Modified by pi-workbench" carries them, listed in ${JSON.stringify(join(f.root, "THIRD_PARTY_NOTICES.md"))}.`;
+  assert.ok(content.includes(provenance));
+  // The same block and wording for a corrected file, whose text is also passed on byte for byte.
+  const corrected = { ...selection, raw: "---\nname: corrected\n---\n<!-- Modified by pi-workbench: example. -->\nBody\r\n  trailing  \n" };
+  const correctedContent = skillSelectionText([corrected], f.root);
+  assert.ok(correctedContent.includes(`${startMarker}${corrected.raw}${endMarker}`));
+  assert.ok(correctedContent.includes(provenance));
   const baseLine = content.split("\n").find((line) => line.startsWith("Base directory: "));
   const baseDir = JSON.parse(baseLine.slice("Base directory: ".length));
   assert.equal(await readFile(join(baseDir, "references/checklist.md"), "utf8"), "Reference resolved from the skill directory.\n");

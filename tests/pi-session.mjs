@@ -172,7 +172,7 @@ try {
     await s.session.prompt("implement it");
     const mine = userMessage(s.requests[0], "implement it");
     assert.equal(mine.block.name, "ponytail, search-first");
-    assert.equal(count(all(s.requests[0]), "--- BEGIN ORIGINAL SKILL.md ---"), 2, "ponytail once, search-first once, find-docs not at all");
+    assert.equal(count(all(s.requests[0]), "--- BEGIN BUNDLED SKILL.md ---"), 2, "ponytail once, search-first once, find-docs not at all");
     assert.doesNotMatch(all(s.requests[0]), /\(find-docs\)/);
     await s.session.prompt("/workbench skill ponytail");
     await s.session.prompt("/workbench cancel");

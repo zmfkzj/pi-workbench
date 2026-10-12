@@ -112,9 +112,9 @@ Once the matrix is complete, generate hypotheses and test each against the IS/IS
 → Hypothesis partially consistent — investigate further
 
 **Hypothesis: "Our outgoing inspection gauge is miscalibrated, so defective parts escaped."**
-- IS NOT: Not found at our outgoing inspection → **consistent**, not contradicting: a miscalibrated gauge is exactly what would pass defective parts. An escape through 100% inspection cannot be the evidence that eliminates gauge failure.
+- IS NOT: Not found at our outgoing inspection → **consistent**, not contradicting: a miscalibrated gauge could pass defective parts. So could other explanations (an insensitive inspection method, a missed inspection step, damage after inspection), so the non-detection neither eliminates nor supports gauge miscalibration over them.
 - Discriminating checks: measure a reference master and seeded defective samples on the gauge; review its calibration and MSA records for the shipping period; re-measure retained parts from the affected batches with an independent method
-→ Hypothesis remains open until those checks are done; if the gauge reads the master within tolerance and rejects the seeded defects, eliminate it and look for damage after inspection (packing, transit)
+→ Hypothesis remains open until those checks are done; if the gauge reads the master within tolerance and rejects the seeded defects, eliminate it and look for damage after inspection (packing, transit); if it misreads the master or passes seeded defects, gauge miscalibration becomes a supported escape cause
 
 Any hypothesis that cannot explain ALL items in the IS and IS-NOT columns is eliminated or requires modification. Document the specific contradiction for each eliminated hypothesis.
 
