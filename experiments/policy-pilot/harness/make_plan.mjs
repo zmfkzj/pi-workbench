@@ -1,12 +1,15 @@
 // Writes the fixed pilot plan (configurations, matrix, run order, limits) before any model run.
-// node make_plan.mjs <variants dir> <plan.json>
+// node make_plan.mjs <variants dir> <plan.json> [stage] [shared-tmp-trace.json runs-stage1.jsonl,runs-stage2.jsonl]
 import { readFileSync, writeFileSync } from "node:fs";
+import { DEFAULT_ISOLATION } from "./sandbox.mjs";
 import { join } from "node:path";
 
 // Stages: "1" = natural auto discovery and forced DMAIC selection with the main model; "2" = pre-registered after stage 1
 // (all stage 1 runs accepted, vendor skills not opened in natural auto): profile mode with the main model, and the stage 1
 // matrix repeated with a smaller model as a sensitivity check.
-const [variants, target, stage = "1"] = process.argv.slice(2);
+// "3" = replacement of the pair groups whose runs shared host /tmp resources with another run or used /tmp in a way
+// the trace cannot resolve; same model, task, configuration and repetition, run inside the sandbox.mjs boundary.
+const [variants, target, stage = "1", traceFile, ledgerFiles] = process.argv.slice(2);
 const hashes = JSON.parse(readFileSync(join(variants, "hashes.json"), "utf8"));
 
 const configs = {
@@ -61,16 +64,29 @@ const stage2Profile = [
 const matrix = stage === "1" ? stage1 : [...stage2Profile.map((m) => ({ ...m, model: MAIN })), ...stage1.map((m) => ({ ...m, model: SMALL, purpose: `${m.purpose} (smaller-model sensitivity)` }))];
 const cells = matrix.flatMap((m) => m.configs.map((config) => ({ task: m.task, config, ...(m.model && stage !== "1" ? { model: m.model } : {}) })));
 const first = shuffle(cells, stage === "1" ? 20261012 : 20261013);
-const runs = [...first.map((c) => ({ ...c, rep: 1 })), ...[...first].reverse().map((c) => ({ ...c, rep: 2 }))]
+let runs = [...first.map((c) => ({ ...c, rep: 1 })), ...[...first].reverse().map((c) => ({ ...c, rep: 2 }))]
   .map((run, order) => ({ ...run, order, runId: `${stage === "1" ? "" : run.model.id.includes("haiku") ? "S2h-" : "S2-"}${run.task.slice(0, 2)}-${run.config}-r${run.rep}` }));
+let replacement = null;
+if (stage === "3") {
+  const trace = JSON.parse(readFileSync(traceFile, "utf8"));
+  const recorded = ledgerFiles.split(",").flatMap((file) => readFileSync(file, "utf8").split("\n").filter(Boolean).map((line) => JSON.parse(line)));
+  const mode = (config) => (config.includes("select") ? "select" : config.includes("profile") || config.includes("mfg") ? "profile" : "auto");
+  const group = (run) => [run.model.id, run.task, mode(run.config), run.rep].join("|");
+  const triggers = [...new Set([...trace.runsSharingAResourceWithAnotherRun, ...Object.keys(trace.runsWithUnresolvedTmpUse)])].sort();
+  const groups = new Set(recorded.filter((run) => triggers.includes(run.runId)).map(group));
+  const scope = recorded.filter((run) => groups.has(group(run))).map((run) => ({ task: run.task, config: run.config, rep: run.rep, model: { provider: run.model.provider, id: run.model.id, thinking: run.model.thinking }, replaces: run.runId }));
+  runs = shuffle(scope.sort((a, b) => a.replaces.localeCompare(b.replaces)), 20261014).map((run, order) => ({ ...run, order, runId: `S3-${run.replaces}` }));
+  replacement = { rule: "Replace every pair group (model, task, exposure mode, repetition) containing a run that shared a host /tmp resource with another run or used /tmp in a way the trace cannot resolve.", triggers, groups: [...groups].sort() };
+}
 
 const plan = {
   createdAt: new Date().toISOString(),
   baseline: { repository: "zmfkzj/pi-workbench", commit: "3016176fe38ea3b51bc5654c083d56f211525de0" },
   stage,
+  ...(stage === "3" ? { isolation: DEFAULT_ISOLATION, replacement } : {}),
   model: { ...MAIN, note: "Same model as the requesting main session; cost per message is Pi's list-price calculation from the provider's model catalog, not an invoice." },
   tools: ["read", "bash", "edit", "write"],
-  limits: { concurrency: 4, runTimeoutSeconds: 900, maxToolCalls: 80, runCostCapListPrice: 4, totalCostCapListPrice: stage === "1" ? 60 : 40, plannedRuns: runs.length },
+  limits: { concurrency: 4, runTimeoutSeconds: 900, maxToolCalls: 80, runCostCapListPrice: 4, totalCostCapListPrice: stage === "1" ? 60 : stage === "2" ? 40 : 8, plannedRuns: runs.length },
   variantHashes: hashes,
   configs,
   matrix,

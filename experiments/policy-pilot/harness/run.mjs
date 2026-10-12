@@ -9,11 +9,17 @@
 // a minimal environment (no PI_* variables of the calling session), and explicit Pi flags: no extension/skill/context/
 // prompt/theme/MCP discovery; only the provider extension and, unless the configuration is "off", the copied
 // Workbench extension and its routing skills. Credentials are never printed or copied into results.
+//
+// Stages 1 and 2 ran without an access boundary: commands could read and write the shared host /tmp and the
+// repository (see results/shared-tmp-trace.json). When the plan sets `isolation`, every Pi process runs inside the
+// bubblewrap boundary of sandbox.mjs (read-only host, private /tmp, only the run directory writable, repository and
+// Pi agent records hidden).
 import { spawn, spawnSync } from "node:child_process";
 import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, symlinkSync, writeFileSync, appendFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { sandboxArgs } from "./sandbox.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const args = Object.fromEntries(process.argv.slice(2).reduce((pairs, value, i, all) => (value.startsWith("--") ? [...pairs, [value.slice(2), all[i + 1]]] : pairs), []));
@@ -178,7 +184,8 @@ function behaviour(tools, finalText) {
 async function execute(run) {
   const paths = prepare(run);
   const started = Date.now();
-  const child = spawn("pi", command(run, paths), { cwd: paths.work, env: environment(paths), stdio: ["ignore", "pipe", "pipe"] });
+  const [program, programArgs] = plan.isolation ? ["bwrap", [...sandboxArgs(plan.isolation, paths.dir, paths.work), "pi", ...command(run, paths)]] : ["pi", command(run, paths)];
+  const child = spawn(program, programArgs, { cwd: paths.work, env: environment(paths), stdio: ["ignore", "pipe", "pipe"] });
   const events = [];
   let buffer = "";
   let stderr = "";
@@ -215,6 +222,7 @@ async function execute(run) {
   const graded = grade(run, paths);
   const record = {
     runId: run.runId, task: run.task, config: run.config, rep: run.rep, order: run.order,
+    isolation: plan.isolation ?? null, replaces: run.replaces ?? null,
     variant: plan.configs[run.config].variant, variantHash: plan.variantHashes?.[plan.configs[run.config].variant] ?? null,
     model: run.model ?? plan.model, modelsSeen: summary.models, startedAt: new Date(started).toISOString(), wallSeconds, exitCode, killed,
     stopReason: summary.stopReason, errorMessage: summary.errorMessage, settled: summary.settled, retries: summary.retries, stderrTail: stderr.slice(-400),

@@ -48,7 +48,7 @@ Not verified: model behaviour with the corrected guidance, and manufacturing or 
 
 ## Selection policy pilot (2026-10-12, not shipped in the package)
 
-`experiments/policy-pilot/` in the repository holds a real-model pilot of four content-policy proposals (Ponytail/ECC default, Verification as a separate skill, manual-only vs. conditional tool skills, split DMAIC). It ran 90 sessions with Claude Opus 5.5 and Haiku 5.5 in isolated scratch copies; every run met its acceptance checks, so it found no quality difference, only exposure and token differences. Operational defaults were not changed. See its README for the configurations, raw records, limits and reproduction commands.
+`experiments/policy-pilot/` in the repository holds a real-model pilot of four content-policy proposals (Ponytail/ECC default, Verification as a separate skill, manual-only vs. conditional tool skills, split DMAIC). It ran 90 sessions with Claude Opus 5.5 and Haiku 5.5 in scratch copies, then re-ran the 40 runs of the pair groups that had used the shared host /tmp inside a bubblewrap boundary (read-only host, private /tmp). All 130 runs met their acceptance checks, and the vendor texts were rarely or never opened (Verification never), so the pilot supports none of the four proposals; all four stay on hold. Operational defaults were not changed. See its README for the configurations, raw records, limits and reproduction commands.
 
 ## Limits of this validation
 

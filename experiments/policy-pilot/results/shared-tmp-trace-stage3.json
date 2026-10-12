@@ -1,0 +1,2903 @@
+{
+ "source": "full event streams (scratch)",
+ "runsInspected": 40,
+ "eventStreamsMissing": [],
+ "runsNamingHostTmp": [
+  "S3-S2-T3-current-profile-r2",
+  "S3-S2-T3-r3a-profile-r1",
+  "S3-S2-T3-r3b-profile-r1",
+  "S3-S2-T3-r3b-profile-r2",
+  "S3-S2h-T2-off-r1",
+  "S3-S2h-T2-r1-r1",
+  "S3-S2h-T2-r1-r2",
+  "S3-S2h-T3-current-r1",
+  "S3-S2h-T3-current-r2",
+  "S3-S2h-T3-off-r1",
+  "S3-S2h-T3-off-r2",
+  "S3-S2h-T3-r3a-r1",
+  "S3-S2h-T3-r3a-r2",
+  "S3-S2h-T3-r3b-r1",
+  "S3-S2h-T3-r3b-r2",
+  "S3-S2h-T4-current-r2",
+  "S3-S2h-T4-off-r1",
+  "S3-S2h-T4-off-r2",
+  "S3-S2h-T4-r4-r1",
+  "S3-S2h-T4-r4-select-r1",
+  "S3-S2h-T4-r4-select-r2",
+  "S3-T3-current-r1",
+  "S3-T3-current-r2",
+  "S3-T3-off-r1",
+  "S3-T3-off-r2",
+  "S3-T3-r3a-r1",
+  "S3-T3-r3a-r2",
+  "S3-T3-r3b-r1",
+  "S3-T3-r3b-r2"
+ ],
+ "runsWithUnresolvedTmpUse": {
+  "S3-S2h-T4-current-r2": [
+   {
+    "call": 3,
+    "tool": "bash",
+    "text": "cd /tmp && python3 -m venv /tmp/statenv && /tmp/statenv/bin/pip install -q numpy scipy pandas 2>&1 | tail -3; /tmp/statenv/bin/python -c \"import scipy, numpy, pandas; print(scipy.__version__, numpy.__"
+   },
+   {
+    "call": 4,
+    "tool": "bash",
+    "text": "cd /tmp && (python3 -m pip install -q --target /tmp/pylibs numpy scipy 2>&1 | tail -3); PYTHONPATH=/tmp/pylibs python3 -c \"import scipy, numpy; print(scipy.__version__, numpy.__version__)\" 2>&1 | tail"
+   }
+  ],
+  "S3-S2h-T3-r3b-r1": [
+   {
+    "call": 11,
+    "tool": "bash",
+    "text": "cd /tmp/snap && node snap.mjs > before.json && wc -l before.json && head -40 before.json"
+   },
+   {
+    "call": 16,
+    "tool": "bash",
+    "text": "cd <scratch>/runs/S3-S2h-T3-r3b-r1/work/project && echo \"---REMAINING oldFetch---\" && grep -rn \"oldFetch\\|legacyFetch\" . --exclude-dir=node_modules --ex"
+   }
+  ],
+  "S3-S2h-T4-r4-select-r1": [
+   {
+    "call": 4,
+    "tool": "bash",
+    "text": "cd /tmp && for m in numpy pandas scipy statsmodels mpmath; do python3 -c \"import $m; print('$m', $m.__version__)\" 2>/dev/null || echo \"$m: missing\"; done; python3 --version; ls /usr/lib/python3/dist-p"
+   }
+  ],
+  "S3-S2h-T4-r4-r2": [
+   {
+    "call": 3,
+    "tool": "bash",
+    "text": "cd /tmp && (python3 -m pip install --user -q scipy numpy pandas 2>&1 | tail -3); python3 -c \"import scipy, numpy, pandas; print('ok', scipy.__version__, numpy.__version__, pandas.__version__)\" 2>&1 | "
+   }
+  ],
+  "S3-S2h-T4-off-r2": [
+   {
+    "call": 6,
+    "tool": "bash",
+    "text": "cd /tmp && python3 -c \"\nimport math,sys\nsys.path.insert(0,'<scratch>/runs/S3-S2h-T4-off-r2/work/project/scripts')\nfrom analyze_ra import t_two_sided_p, "
+   }
+  ],
+  "S3-S2h-T4-r4-r1": [
+   {
+    "call": 3,
+    "tool": "bash",
+    "text": "cd /tmp && (python3 -m venv /tmp/ra_venv && /tmp/ra_venv/bin/pip install -q scipy numpy pandas 2>&1 | tail -3; /tmp/ra_venv/bin/python -c \"import scipy,numpy,pandas;print('ok',scipy.__version__,numpy."
+   },
+   {
+    "call": 4,
+    "tool": "bash",
+    "text": "cd /tmp && timeout 300 python3 -m pip install -q --target /tmp/ra_deps scipy numpy 2>&1 | tail -3; PYTHONPATH=/tmp/ra_deps python3 -c \"import scipy,numpy;print('scipy',scipy.__version__,'numpy',numpy."
+   }
+  ]
+ },
+ "runsSharingAResourceWithAnotherRun": [
+  "S3-S2-T3-r3b-profile-r1",
+  "S3-S2-T3-r3b-profile-r2",
+  "S3-S2h-T2-r1-r1",
+  "S3-S2h-T2-r1-r2",
+  "S3-S2h-T3-current-r2",
+  "S3-S2h-T3-off-r1",
+  "S3-S2h-T3-off-r2",
+  "S3-S2h-T3-r3b-r1",
+  "S3-S2h-T3-r3b-r2",
+  "S3-S2h-T4-r4-r1",
+  "S3-S2h-T4-r4-select-r1",
+  "S3-T3-current-r1",
+  "S3-T3-current-r2",
+  "S3-T3-off-r1",
+  "S3-T3-off-r2",
+  "S3-T3-r3a-r1",
+  "S3-T3-r3a-r2",
+  "S3-T3-r3b-r1",
+  "S3-T3-r3b-r2"
+ ],
+ "runsWithPossibleEarlierOrConcurrentWriter": [
+  "S3-S2-T3-r3b-profile-r1",
+  "S3-S2-T3-r3b-profile-r2",
+  "S3-S2h-T2-r1-r1",
+  "S3-S2h-T3-current-r2",
+  "S3-S2h-T3-off-r1",
+  "S3-S2h-T3-r3b-r1",
+  "S3-S2h-T4-r4-r1",
+  "S3-T3-current-r1",
+  "S3-T3-current-r2",
+  "S3-T3-off-r1",
+  "S3-T3-off-r2",
+  "S3-T3-r3a-r1",
+  "S3-T3-r3a-r2",
+  "S3-T3-r3b-r1",
+  "S3-T3-r3b-r2"
+ ],
+ "runsConcurrentWithAnotherUser": [
+  "S3-S2h-T3-current-r2",
+  "S3-S2h-T3-off-r1",
+  "S3-T3-current-r1",
+  "S3-T3-current-r2",
+  "S3-T3-off-r1",
+  "S3-T3-off-r2",
+  "S3-T3-r3a-r1",
+  "S3-T3-r3b-r2"
+ ],
+ "recordedDirectAccessToGradersRepoOrOtherRuns": {},
+ "resources": [
+  {
+   "resource": "/tmp/a.json",
+   "users": 2,
+   "entries": [
+    {
+     "runId": "S3-T3-r3b-r2",
+     "model": "cliproxyapi/claude-opus-5-5",
+     "task": "T3-migrate-calls",
+     "config": "r3b",
+     "mode": "auto",
+     "rep": 2,
+     "accepted": true,
+     "costListPrice": 0.11173880000000001,
+     "accesses": [
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/a.json",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/a.json",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [
+      "S3-T3-off-r1"
+     ],
+     "concurrentUsers": [
+      "S3-T3-off-r1"
+     ]
+    },
+    {
+     "runId": "S3-T3-off-r1",
+     "model": "cliproxyapi/claude-opus-5-5",
+     "task": "T3-migrate-calls",
+     "config": "off",
+     "mode": "auto",
+     "rep": 1,
+     "accepted": true,
+     "costListPrice": 0.014767800000000001,
+     "accesses": [
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/a.json",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/a.json",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [
+      "S3-T3-r3b-r2"
+     ],
+     "concurrentUsers": [
+      "S3-T3-r3b-r2"
+     ]
+    }
+   ]
+  },
+  {
+   "resource": "/tmp/after.json",
+   "users": 6,
+   "entries": [
+    {
+     "runId": "S3-S2h-T3-r3b-r2",
+     "model": "cliproxyapi/claude-haiku-5-5",
+     "task": "T3-migrate-calls",
+     "config": "r3b",
+     "mode": "auto",
+     "rep": 2,
+     "accepted": true,
+     "costListPrice": 0.00559142,
+     "accesses": [
+      {
+       "call": 9,
+       "tool": "bash",
+       "path": "/tmp/after.json",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 9,
+       "tool": "bash",
+       "path": "/tmp/after.json",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 9,
+       "tool": "bash",
+       "path": "/tmp/after.json",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [],
+     "concurrentUsers": []
+    },
+    {
+     "runId": "S3-T3-r3b-r1",
+     "model": "cliproxyapi/claude-opus-5-5",
+     "task": "T3-migrate-calls",
+     "config": "r3b",
+     "mode": "auto",
+     "rep": 1,
+     "accepted": true,
+     "costListPrice": 0.1397462,
+     "accesses": [
+      {
+       "call": 8,
+       "tool": "bash",
+       "path": "/tmp/after.json",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 8,
+       "tool": "bash",
+       "path": "/tmp/after.json",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [
+      "S3-S2h-T3-r3b-r2"
+     ],
+     "concurrentUsers": []
+    },
+    {
+     "runId": "S3-T3-current-r2",
+     "model": "cliproxyapi/claude-opus-5-5",
+     "task": "T3-migrate-calls",
+     "config": "current",
+     "mode": "auto",
+     "rep": 2,
+     "accepted": true,
+     "costListPrice": 0.1384016,
+     "accesses": [
+      {
+       "call": 8,
+       "tool": "bash",
+       "path": "/tmp/after.json",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 8,
+       "tool": "bash",
+       "path": "/tmp/after.json",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [
+      "S3-S2h-T3-r3b-r2",
+      "S3-T3-r3b-r1",
+      "S3-S2h-T3-off-r1"
+     ],
+     "concurrentUsers": [
+      "S3-S2h-T3-off-r1"
+     ]
+    },
+    {
+     "runId": "S3-S2h-T3-off-r1",
+     "model": "cliproxyapi/claude-haiku-5-5",
+     "task": "T3-migrate-calls",
+     "config": "off",
+     "mode": "auto",
+     "rep": 1,
+     "accepted": true,
+     "costListPrice": 0.0046935300000000004,
+     "accesses": [
+      {
+       "call": 9,
+       "tool": "bash",
+       "path": "/tmp/after.json",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 9,
+       "tool": "bash",
+       "path": "/tmp/after.json",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [
+      "S3-S2h-T3-r3b-r2",
+      "S3-T3-r3b-r1",
+      "S3-T3-current-r2"
+     ],
+     "concurrentUsers": [
+      "S3-T3-current-r2"
+     ]
+    },
+    {
+     "runId": "S3-T3-current-r1",
+     "model": "cliproxyapi/claude-opus-5-5",
+     "task": "T3-migrate-calls",
+     "config": "current",
+     "mode": "auto",
+     "rep": 1,
+     "accepted": true,
+     "costListPrice": 0.1445874,
+     "accesses": [
+      {
+       "call": 8,
+       "tool": "bash",
+       "path": "/tmp/after.json",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 8,
+       "tool": "bash",
+       "path": "/tmp/after.json",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [
+      "S3-S2h-T3-r3b-r2",
+      "S3-T3-r3b-r1",
+      "S3-T3-current-r2",
+      "S3-S2h-T3-off-r1",
+      "S3-S2h-T3-current-r2"
+     ],
+     "concurrentUsers": [
+      "S3-S2h-T3-current-r2"
+     ]
+    },
+    {
+     "runId": "S3-S2h-T3-current-r2",
+     "model": "cliproxyapi/claude-haiku-5-5",
+     "task": "T3-migrate-calls",
+     "config": "current",
+     "mode": "auto",
+     "rep": 2,
+     "accepted": true,
+     "costListPrice": 0.005221450000000001,
+     "accesses": [
+      {
+       "call": 8,
+       "tool": "bash",
+       "path": "/tmp/after.json",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 8,
+       "tool": "bash",
+       "path": "/tmp/after.json",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [
+      "S3-S2h-T3-r3b-r2",
+      "S3-T3-r3b-r1",
+      "S3-T3-current-r2",
+      "S3-S2h-T3-off-r1",
+      "S3-T3-current-r1"
+     ],
+     "concurrentUsers": [
+      "S3-T3-current-r1"
+     ]
+    }
+   ]
+  },
+  {
+   "resource": "/tmp/after.txt",
+   "users": 1,
+   "entries": [
+    {
+     "runId": "S3-T3-off-r2",
+     "model": "cliproxyapi/claude-opus-5-5",
+     "task": "T3-migrate-calls",
+     "config": "off",
+     "mode": "auto",
+     "rep": 2,
+     "accepted": true,
+     "costListPrice": 0.1083162,
+     "accesses": [
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/after.txt",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/after.txt",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/after.txt",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [],
+     "concurrentUsers": []
+    }
+   ]
+  },
+  {
+   "resource": "/tmp/analysis_out.txt",
+   "users": 1,
+   "entries": [
+    {
+     "runId": "S3-S2h-T4-current-r2",
+     "model": "cliproxyapi/claude-haiku-5-5",
+     "task": "T4-coolant-decision",
+     "config": "current",
+     "mode": "auto",
+     "rep": 2,
+     "accepted": true,
+     "costListPrice": 0.01798531,
+     "accesses": [
+      {
+       "call": 12,
+       "tool": "bash",
+       "path": "/tmp/analysis_out.txt",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 12,
+       "tool": "bash",
+       "path": "/tmp/analysis_out.txt",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [],
+     "concurrentUsers": []
+    }
+   ]
+  },
+  {
+   "resource": "/tmp/b.json",
+   "users": 2,
+   "entries": [
+    {
+     "runId": "S3-T3-r3b-r2",
+     "model": "cliproxyapi/claude-opus-5-5",
+     "task": "T3-migrate-calls",
+     "config": "r3b",
+     "mode": "auto",
+     "rep": 2,
+     "accepted": true,
+     "costListPrice": 0.11173880000000001,
+     "accesses": [
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/b.json",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/b.json",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [
+      "S3-T3-off-r1"
+     ],
+     "concurrentUsers": [
+      "S3-T3-off-r1"
+     ]
+    },
+    {
+     "runId": "S3-T3-off-r1",
+     "model": "cliproxyapi/claude-opus-5-5",
+     "task": "T3-migrate-calls",
+     "config": "off",
+     "mode": "auto",
+     "rep": 1,
+     "accepted": true,
+     "costListPrice": 0.014767800000000001,
+     "accesses": [
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/b.json",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/b.json",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [
+      "S3-T3-r3b-r2"
+     ],
+     "concurrentUsers": [
+      "S3-T3-r3b-r2"
+     ]
+    }
+   ]
+  },
+  {
+   "resource": "/tmp/before.cjs",
+   "users": 2,
+   "entries": [
+    {
+     "runId": "S3-S2h-T2-r1-r2",
+     "model": "cliproxyapi/claude-haiku-5-5",
+     "task": "T2-duration-cli",
+     "config": "r1",
+     "mode": "auto",
+     "rep": 2,
+     "accepted": true,
+     "costListPrice": 0.00395985,
+     "accesses": [
+      {
+       "call": 2,
+       "tool": "bash",
+       "path": "/tmp/before.cjs",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 2,
+       "tool": "bash",
+       "path": "/tmp/before.cjs",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [],
+     "concurrentUsers": []
+    },
+    {
+     "runId": "S3-S2h-T2-r1-r1",
+     "model": "cliproxyapi/claude-haiku-5-5",
+     "task": "T2-duration-cli",
+     "config": "r1",
+     "mode": "auto",
+     "rep": 1,
+     "accepted": true,
+     "costListPrice": 0.00069107,
+     "accesses": [
+      {
+       "call": 3,
+       "tool": "bash",
+       "path": "/tmp/before.cjs",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 3,
+       "tool": "bash",
+       "path": "/tmp/before.cjs",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [
+      "S3-S2h-T2-r1-r2"
+     ],
+     "concurrentUsers": []
+    }
+   ]
+  },
+  {
+   "resource": "/tmp/before.json",
+   "users": 6,
+   "entries": [
+    {
+     "runId": "S3-S2h-T3-r3b-r2",
+     "model": "cliproxyapi/claude-haiku-5-5",
+     "task": "T3-migrate-calls",
+     "config": "r3b",
+     "mode": "auto",
+     "rep": 2,
+     "accepted": true,
+     "costListPrice": 0.00559142,
+     "accesses": [
+      {
+       "call": 4,
+       "tool": "bash",
+       "path": "/tmp/before.json",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 4,
+       "tool": "bash",
+       "path": "/tmp/before.json",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 4,
+       "tool": "bash",
+       "path": "/tmp/before.json",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 9,
+       "tool": "bash",
+       "path": "/tmp/before.json",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [],
+     "concurrentUsers": []
+    },
+    {
+     "runId": "S3-T3-r3b-r1",
+     "model": "cliproxyapi/claude-opus-5-5",
+     "task": "T3-migrate-calls",
+     "config": "r3b",
+     "mode": "auto",
+     "rep": 1,
+     "accepted": true,
+     "costListPrice": 0.1397462,
+     "accesses": [
+      {
+       "call": 3,
+       "tool": "bash",
+       "path": "/tmp/before.json",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 3,
+       "tool": "bash",
+       "path": "/tmp/before.json",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 8,
+       "tool": "bash",
+       "path": "/tmp/before.json",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [
+      "S3-S2h-T3-r3b-r2"
+     ],
+     "concurrentUsers": []
+    },
+    {
+     "runId": "S3-T3-current-r2",
+     "model": "cliproxyapi/claude-opus-5-5",
+     "task": "T3-migrate-calls",
+     "config": "current",
+     "mode": "auto",
+     "rep": 2,
+     "accepted": true,
+     "costListPrice": 0.1384016,
+     "accesses": [
+      {
+       "call": 3,
+       "tool": "bash",
+       "path": "/tmp/before.json",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 3,
+       "tool": "bash",
+       "path": "/tmp/before.json",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 8,
+       "tool": "bash",
+       "path": "/tmp/before.json",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [
+      "S3-S2h-T3-r3b-r2",
+      "S3-T3-r3b-r1",
+      "S3-S2h-T3-off-r1"
+     ],
+     "concurrentUsers": [
+      "S3-S2h-T3-off-r1"
+     ]
+    },
+    {
+     "runId": "S3-S2h-T3-off-r1",
+     "model": "cliproxyapi/claude-haiku-5-5",
+     "task": "T3-migrate-calls",
+     "config": "off",
+     "mode": "auto",
+     "rep": 1,
+     "accepted": true,
+     "costListPrice": 0.0046935300000000004,
+     "accesses": [
+      {
+       "call": 4,
+       "tool": "bash",
+       "path": "/tmp/before.json",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 4,
+       "tool": "bash",
+       "path": "/tmp/before.json",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 4,
+       "tool": "bash",
+       "path": "/tmp/before.json",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 9,
+       "tool": "bash",
+       "path": "/tmp/before.json",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [
+      "S3-S2h-T3-r3b-r2",
+      "S3-T3-r3b-r1",
+      "S3-T3-current-r2"
+     ],
+     "concurrentUsers": [
+      "S3-T3-current-r2"
+     ]
+    },
+    {
+     "runId": "S3-T3-current-r1",
+     "model": "cliproxyapi/claude-opus-5-5",
+     "task": "T3-migrate-calls",
+     "config": "current",
+     "mode": "auto",
+     "rep": 1,
+     "accepted": true,
+     "costListPrice": 0.1445874,
+     "accesses": [
+      {
+       "call": 3,
+       "tool": "bash",
+       "path": "/tmp/before.json",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 3,
+       "tool": "bash",
+       "path": "/tmp/before.json",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 8,
+       "tool": "bash",
+       "path": "/tmp/before.json",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [
+      "S3-S2h-T3-r3b-r2",
+      "S3-T3-r3b-r1",
+      "S3-T3-current-r2",
+      "S3-S2h-T3-off-r1",
+      "S3-S2h-T3-current-r2"
+     ],
+     "concurrentUsers": [
+      "S3-S2h-T3-current-r2"
+     ]
+    },
+    {
+     "runId": "S3-S2h-T3-current-r2",
+     "model": "cliproxyapi/claude-haiku-5-5",
+     "task": "T3-migrate-calls",
+     "config": "current",
+     "mode": "auto",
+     "rep": 2,
+     "accepted": true,
+     "costListPrice": 0.005221450000000001,
+     "accesses": [
+      {
+       "call": 3,
+       "tool": "bash",
+       "path": "/tmp/before.json",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 3,
+       "tool": "bash",
+       "path": "/tmp/before.json",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 8,
+       "tool": "bash",
+       "path": "/tmp/before.json",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [
+      "S3-S2h-T3-r3b-r2",
+      "S3-T3-r3b-r1",
+      "S3-T3-current-r2",
+      "S3-S2h-T3-off-r1",
+      "S3-T3-current-r1"
+     ],
+     "concurrentUsers": [
+      "S3-T3-current-r1"
+     ]
+    }
+   ]
+  },
+  {
+   "resource": "/tmp/before.txt",
+   "users": 1,
+   "entries": [
+    {
+     "runId": "S3-T3-off-r2",
+     "model": "cliproxyapi/claude-opus-5-5",
+     "task": "T3-migrate-calls",
+     "config": "off",
+     "mode": "auto",
+     "rep": 2,
+     "accepted": true,
+     "costListPrice": 0.1083162,
+     "accesses": [
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/before.txt",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/before.txt",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [],
+     "concurrentUsers": []
+    }
+   ]
+  },
+  {
+   "resource": "/tmp/capture-requests.mjs",
+   "users": 1,
+   "entries": [
+    {
+     "runId": "S3-S2h-T3-r3b-r2",
+     "model": "cliproxyapi/claude-haiku-5-5",
+     "task": "T3-migrate-calls",
+     "config": "r3b",
+     "mode": "auto",
+     "rep": 2,
+     "accepted": true,
+     "costListPrice": 0.00559142,
+     "accesses": [
+      {
+       "call": 3,
+       "tool": "write",
+       "path": "/tmp/capture-requests.mjs",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 4,
+       "tool": "bash",
+       "path": "/tmp/capture-requests.mjs",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 9,
+       "tool": "bash",
+       "path": "/tmp/capture-requests.mjs",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [],
+     "concurrentUsers": []
+    }
+   ]
+  },
+  {
+   "resource": "/tmp/capture.mjs",
+   "users": 1,
+   "entries": [
+    {
+     "runId": "S3-T3-current-r2",
+     "model": "cliproxyapi/claude-opus-5-5",
+     "task": "T3-migrate-calls",
+     "config": "current",
+     "mode": "auto",
+     "rep": 2,
+     "accepted": true,
+     "costListPrice": 0.1384016,
+     "accesses": [
+      {
+       "call": 3,
+       "tool": "bash",
+       "path": "/tmp/capture.mjs",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 3,
+       "tool": "bash",
+       "path": "/tmp/capture.mjs",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 8,
+       "tool": "bash",
+       "path": "/tmp/capture.mjs",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [],
+     "concurrentUsers": []
+    }
+   ]
+  },
+  {
+   "resource": "/tmp/check-http-behavior.mjs",
+   "users": 1,
+   "entries": [
+    {
+     "runId": "S3-S2h-T3-current-r2",
+     "model": "cliproxyapi/claude-haiku-5-5",
+     "task": "T3-migrate-calls",
+     "config": "current",
+     "mode": "auto",
+     "rep": 2,
+     "accepted": true,
+     "costListPrice": 0.005221450000000001,
+     "accesses": [
+      {
+       "call": 3,
+       "tool": "bash",
+       "path": "/tmp/check-http-behavior.mjs",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 3,
+       "tool": "bash",
+       "path": "/tmp/check-http-behavior.mjs",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 8,
+       "tool": "bash",
+       "path": "/tmp/check-http-behavior.mjs",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [],
+     "concurrentUsers": []
+    }
+   ]
+  },
+  {
+   "resource": "/tmp/cmp-",
+   "users": 1,
+   "entries": [
+    {
+     "runId": "S3-S2-T3-r3a-profile-r1",
+     "model": "cliproxyapi/claude-opus-5-5",
+     "task": "T3-migrate-calls",
+     "config": "r3a-profile",
+     "mode": "profile",
+     "rep": 1,
+     "accepted": true,
+     "costListPrice": 0.1441834,
+     "accesses": [
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/cmp-",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/cmp-",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/cmp-",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [],
+     "concurrentUsers": []
+    }
+   ]
+  },
+  {
+   "resource": "/tmp/cmp.mjs",
+   "users": 7,
+   "entries": [
+    {
+     "runId": "S3-T3-r3a-r1",
+     "model": "cliproxyapi/claude-opus-5-5",
+     "task": "T3-migrate-calls",
+     "config": "r3a",
+     "mode": "auto",
+     "rep": 1,
+     "accepted": true,
+     "costListPrice": 0.162505,
+     "accesses": [
+      {
+       "call": 8,
+       "tool": "bash",
+       "path": "/tmp/cmp.mjs",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 8,
+       "tool": "bash",
+       "path": "/tmp/cmp.mjs",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 9,
+       "tool": "bash",
+       "path": "/tmp/cmp.mjs",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [
+      "S3-T3-off-r2"
+     ],
+     "concurrentUsers": [
+      "S3-T3-off-r2"
+     ]
+    },
+    {
+     "runId": "S3-T3-off-r2",
+     "model": "cliproxyapi/claude-opus-5-5",
+     "task": "T3-migrate-calls",
+     "config": "off",
+     "mode": "auto",
+     "rep": 2,
+     "accepted": true,
+     "costListPrice": 0.1083162,
+     "accesses": [
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/cmp.mjs",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/cmp.mjs",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/cmp.mjs",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [
+      "S3-T3-r3a-r1"
+     ],
+     "concurrentUsers": [
+      "S3-T3-r3a-r1"
+     ]
+    },
+    {
+     "runId": "S3-S2-T3-r3b-profile-r2",
+     "model": "cliproxyapi/claude-opus-5-5",
+     "task": "T3-migrate-calls",
+     "config": "r3b-profile",
+     "mode": "profile",
+     "rep": 2,
+     "accepted": true,
+     "costListPrice": 0.15121659999999998,
+     "accesses": [
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/cmp.mjs",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/cmp.mjs",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 7,
+       "tool": "bash",
+       "path": "/tmp/cmp.mjs",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [
+      "S3-T3-r3a-r1",
+      "S3-T3-off-r2"
+     ],
+     "concurrentUsers": []
+    },
+    {
+     "runId": "S3-S2-T3-r3b-profile-r1",
+     "model": "cliproxyapi/claude-opus-5-5",
+     "task": "T3-migrate-calls",
+     "config": "r3b-profile",
+     "mode": "profile",
+     "rep": 1,
+     "accepted": true,
+     "costListPrice": 0.1560382,
+     "accesses": [
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/cmp.mjs",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/cmp.mjs",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 7,
+       "tool": "bash",
+       "path": "/tmp/cmp.mjs",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [
+      "S3-T3-r3a-r1",
+      "S3-T3-off-r2",
+      "S3-S2-T3-r3b-profile-r2"
+     ],
+     "concurrentUsers": []
+    },
+    {
+     "runId": "S3-T3-r3a-r2",
+     "model": "cliproxyapi/claude-opus-5-5",
+     "task": "T3-migrate-calls",
+     "config": "r3a",
+     "mode": "auto",
+     "rep": 2,
+     "accepted": true,
+     "costListPrice": 0.12269680000000001,
+     "accesses": [
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/cmp.mjs",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/cmp.mjs",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/cmp.mjs",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [
+      "S3-T3-r3a-r1",
+      "S3-T3-off-r2",
+      "S3-S2-T3-r3b-profile-r2",
+      "S3-S2-T3-r3b-profile-r1"
+     ],
+     "concurrentUsers": []
+    },
+    {
+     "runId": "S3-T3-r3b-r2",
+     "model": "cliproxyapi/claude-opus-5-5",
+     "task": "T3-migrate-calls",
+     "config": "r3b",
+     "mode": "auto",
+     "rep": 2,
+     "accepted": true,
+     "costListPrice": 0.11173880000000001,
+     "accesses": [
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/cmp.mjs",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/cmp.mjs",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/cmp.mjs",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [
+      "S3-T3-r3a-r1",
+      "S3-T3-off-r2",
+      "S3-S2-T3-r3b-profile-r2",
+      "S3-S2-T3-r3b-profile-r1",
+      "S3-T3-r3a-r2",
+      "S3-T3-off-r1"
+     ],
+     "concurrentUsers": [
+      "S3-T3-off-r1"
+     ]
+    },
+    {
+     "runId": "S3-T3-off-r1",
+     "model": "cliproxyapi/claude-opus-5-5",
+     "task": "T3-migrate-calls",
+     "config": "off",
+     "mode": "auto",
+     "rep": 1,
+     "accepted": true,
+     "costListPrice": 0.014767800000000001,
+     "accesses": [
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/cmp.mjs",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/cmp.mjs",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/cmp.mjs",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [
+      "S3-T3-r3a-r1",
+      "S3-T3-off-r2",
+      "S3-S2-T3-r3b-profile-r2",
+      "S3-S2-T3-r3b-profile-r1",
+      "S3-T3-r3a-r2",
+      "S3-T3-r3b-r2"
+     ],
+     "concurrentUsers": [
+      "S3-T3-r3b-r2"
+     ]
+    }
+   ]
+  },
+  {
+   "resource": "/tmp/compare.mjs",
+   "users": 1,
+   "entries": [
+    {
+     "runId": "S3-S2h-T3-r3a-r1",
+     "model": "cliproxyapi/claude-haiku-5-5",
+     "task": "T3-migrate-calls",
+     "config": "r3a",
+     "mode": "auto",
+     "rep": 1,
+     "accepted": true,
+     "costListPrice": 0.00501203,
+     "accesses": [
+      {
+       "call": 9,
+       "tool": "bash",
+       "path": "/tmp/compare.mjs",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 9,
+       "tool": "bash",
+       "path": "/tmp/compare.mjs",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 9,
+       "tool": "bash",
+       "path": "/tmp/compare.mjs",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [],
+     "concurrentUsers": []
+    }
+   ]
+  },
+  {
+   "resource": "/tmp/eqcheck.mjs",
+   "users": 1,
+   "entries": [
+    {
+     "runId": "S3-T3-r3b-r1",
+     "model": "cliproxyapi/claude-opus-5-5",
+     "task": "T3-migrate-calls",
+     "config": "r3b",
+     "mode": "auto",
+     "rep": 1,
+     "accepted": true,
+     "costListPrice": 0.1397462,
+     "accesses": [
+      {
+       "call": 3,
+       "tool": "bash",
+       "path": "/tmp/eqcheck.mjs",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 3,
+       "tool": "bash",
+       "path": "/tmp/eqcheck.mjs",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 8,
+       "tool": "bash",
+       "path": "/tmp/eqcheck.mjs",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [],
+     "concurrentUsers": []
+    }
+   ]
+  },
+  {
+   "resource": "/tmp/equiv.mjs",
+   "users": 1,
+   "entries": [
+    {
+     "runId": "S3-S2h-T3-r3a-r2",
+     "model": "cliproxyapi/claude-haiku-5-5",
+     "task": "T3-migrate-calls",
+     "config": "r3a",
+     "mode": "auto",
+     "rep": 2,
+     "accepted": true,
+     "costListPrice": 0.00607982,
+     "accesses": [
+      {
+       "call": 15,
+       "tool": "bash",
+       "path": "/tmp/equiv.mjs",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 15,
+       "tool": "bash",
+       "path": "/tmp/equiv.mjs",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 15,
+       "tool": "bash",
+       "path": "/tmp/equiv.mjs",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 15,
+       "tool": "bash",
+       "path": "/tmp/equiv.mjs",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [],
+     "concurrentUsers": []
+    }
+   ]
+  },
+  {
+   "resource": "/tmp/make_results.py",
+   "users": 1,
+   "entries": [
+    {
+     "runId": "S3-S2h-T4-off-r2",
+     "model": "cliproxyapi/claude-haiku-5-5",
+     "task": "T4-coolant-decision",
+     "config": "off",
+     "mode": "auto",
+     "rep": 2,
+     "accepted": true,
+     "costListPrice": 0.01646069,
+     "accesses": [
+      {
+       "call": 14,
+       "tool": "bash",
+       "path": "/tmp/make_results.py",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 14,
+       "tool": "bash",
+       "path": "/tmp/make_results.py",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [],
+     "concurrentUsers": []
+    }
+   ]
+  },
+  {
+   "resource": "/tmp/new.json",
+   "users": 1,
+   "entries": [
+    {
+     "runId": "S3-S2h-T3-r3a-r2",
+     "model": "cliproxyapi/claude-haiku-5-5",
+     "task": "T3-migrate-calls",
+     "config": "r3a",
+     "mode": "auto",
+     "rep": 2,
+     "accepted": true,
+     "costListPrice": 0.00607982,
+     "accesses": [
+      {
+       "call": 15,
+       "tool": "bash",
+       "path": "/tmp/new.json",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 15,
+       "tool": "bash",
+       "path": "/tmp/new.json",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 15,
+       "tool": "bash",
+       "path": "/tmp/new.json",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 15,
+       "tool": "bash",
+       "path": "/tmp/new.json",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [],
+     "concurrentUsers": []
+    }
+   ]
+  },
+  {
+   "resource": "/tmp/npmtest.log",
+   "users": 1,
+   "entries": [
+    {
+     "runId": "S3-S2h-T2-off-r1",
+     "model": "cliproxyapi/claude-haiku-5-5",
+     "task": "T2-duration-cli",
+     "config": "off",
+     "mode": "auto",
+     "rep": 1,
+     "accepted": true,
+     "costListPrice": 0.00324835,
+     "accesses": [
+      {
+       "call": 8,
+       "tool": "bash",
+       "path": "/tmp/npmtest.log",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 8,
+       "tool": "bash",
+       "path": "/tmp/npmtest.log",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [],
+     "concurrentUsers": []
+    }
+   ]
+  },
+  {
+   "resource": "/tmp/old.json",
+   "users": 1,
+   "entries": [
+    {
+     "runId": "S3-S2h-T3-r3a-r2",
+     "model": "cliproxyapi/claude-haiku-5-5",
+     "task": "T3-migrate-calls",
+     "config": "r3a",
+     "mode": "auto",
+     "rep": 2,
+     "accepted": true,
+     "costListPrice": 0.00607982,
+     "accesses": [
+      {
+       "call": 15,
+       "tool": "bash",
+       "path": "/tmp/old.json",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 15,
+       "tool": "bash",
+       "path": "/tmp/old.json",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 15,
+       "tool": "bash",
+       "path": "/tmp/old.json",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [],
+     "concurrentUsers": []
+    }
+   ]
+  },
+  {
+   "resource": "/tmp/oldfetch-after.json",
+   "users": 1,
+   "entries": [
+    {
+     "runId": "S3-S2-T3-current-profile-r2",
+     "model": "cliproxyapi/claude-opus-5-5",
+     "task": "T3-migrate-calls",
+     "config": "current-profile",
+     "mode": "profile",
+     "rep": 2,
+     "accepted": true,
+     "costListPrice": 0.171341,
+     "accesses": [
+      {
+       "call": 7,
+       "tool": "bash",
+       "path": "/tmp/oldfetch-after.json",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 7,
+       "tool": "bash",
+       "path": "/tmp/oldfetch-after.json",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 8,
+       "tool": "bash",
+       "path": "/tmp/oldfetch-after.json",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [],
+     "concurrentUsers": []
+    }
+   ]
+  },
+  {
+   "resource": "/tmp/oldfetch-baseline.mjs",
+   "users": 1,
+   "entries": [
+    {
+     "runId": "S3-S2-T3-current-profile-r2",
+     "model": "cliproxyapi/claude-opus-5-5",
+     "task": "T3-migrate-calls",
+     "config": "current-profile",
+     "mode": "profile",
+     "rep": 2,
+     "accepted": true,
+     "costListPrice": 0.171341,
+     "accesses": [
+      {
+       "call": 2,
+       "tool": "bash",
+       "path": "/tmp/oldfetch-baseline.mjs",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 2,
+       "tool": "bash",
+       "path": "/tmp/oldfetch-baseline.mjs",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 7,
+       "tool": "bash",
+       "path": "/tmp/oldfetch-baseline.mjs",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 8,
+       "tool": "bash",
+       "path": "/tmp/oldfetch-baseline.mjs",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [],
+     "concurrentUsers": []
+    }
+   ]
+  },
+  {
+   "resource": "/tmp/oldfetch-before.json",
+   "users": 1,
+   "entries": [
+    {
+     "runId": "S3-S2-T3-current-profile-r2",
+     "model": "cliproxyapi/claude-opus-5-5",
+     "task": "T3-migrate-calls",
+     "config": "current-profile",
+     "mode": "profile",
+     "rep": 2,
+     "accepted": true,
+     "costListPrice": 0.171341,
+     "accesses": [
+      {
+       "call": 2,
+       "tool": "bash",
+       "path": "/tmp/oldfetch-before.json",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 2,
+       "tool": "bash",
+       "path": "/tmp/oldfetch-before.json",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 7,
+       "tool": "bash",
+       "path": "/tmp/oldfetch-before.json",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 8,
+       "tool": "bash",
+       "path": "/tmp/oldfetch-before.json",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [],
+     "concurrentUsers": []
+    }
+   ]
+  },
+  {
+   "resource": "/tmp/oldsnap",
+   "users": 1,
+   "entries": [
+    {
+     "runId": "S3-T3-r3a-r1",
+     "model": "cliproxyapi/claude-opus-5-5",
+     "task": "T3-migrate-calls",
+     "config": "r3a",
+     "mode": "auto",
+     "rep": 1,
+     "accepted": true,
+     "costListPrice": 0.162505,
+     "accesses": [
+      {
+       "call": 8,
+       "tool": "bash",
+       "path": "/tmp/oldsnap",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 8,
+       "tool": "bash",
+       "path": "/tmp/oldsnap",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 8,
+       "tool": "bash",
+       "path": "/tmp/oldsnap",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 8,
+       "tool": "bash",
+       "path": "/tmp/oldsnap",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 9,
+       "tool": "bash",
+       "path": "/tmp/oldsnap",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "read/other",
+     "possibleEarlierOrConcurrentWriters": [],
+     "concurrentUsers": []
+    }
+   ]
+  },
+  {
+   "resource": "/tmp/oldsrc",
+   "users": 1,
+   "entries": [
+    {
+     "runId": "S3-S2-T3-r3b-profile-r1",
+     "model": "cliproxyapi/claude-opus-5-5",
+     "task": "T3-migrate-calls",
+     "config": "r3b-profile",
+     "mode": "profile",
+     "rep": 1,
+     "accepted": true,
+     "costListPrice": 0.1560382,
+     "accesses": [
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/oldsrc",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/oldsrc",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/oldsrc",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 7,
+       "tool": "bash",
+       "path": "/tmp/oldsrc",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [],
+     "concurrentUsers": []
+    }
+   ]
+  },
+  {
+   "resource": "/tmp/oldver",
+   "users": 1,
+   "entries": [
+    {
+     "runId": "S3-S2h-T3-r3a-r2",
+     "model": "cliproxyapi/claude-haiku-5-5",
+     "task": "T3-migrate-calls",
+     "config": "r3a",
+     "mode": "auto",
+     "rep": 2,
+     "accepted": true,
+     "costListPrice": 0.00607982,
+     "accesses": [
+      {
+       "call": 15,
+       "tool": "bash",
+       "path": "/tmp/oldver",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 15,
+       "tool": "bash",
+       "path": "/tmp/oldver",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 15,
+       "tool": "bash",
+       "path": "/tmp/oldver",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 15,
+       "tool": "bash",
+       "path": "/tmp/oldver",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 15,
+       "tool": "bash",
+       "path": "/tmp/oldver",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "read/other",
+     "possibleEarlierOrConcurrentWriters": [],
+     "concurrentUsers": []
+    }
+   ]
+  },
+  {
+   "resource": "/tmp/orig",
+   "users": 3,
+   "entries": [
+    {
+     "runId": "S3-S2-T3-r3b-profile-r2",
+     "model": "cliproxyapi/claude-opus-5-5",
+     "task": "T3-migrate-calls",
+     "config": "r3b-profile",
+     "mode": "profile",
+     "rep": 2,
+     "accepted": true,
+     "costListPrice": 0.15121659999999998,
+     "accesses": [
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/orig",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/orig",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/orig",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/orig",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 7,
+       "tool": "bash",
+       "path": "/tmp/orig",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "read/other",
+     "possibleEarlierOrConcurrentWriters": [],
+     "concurrentUsers": []
+    },
+    {
+     "runId": "S3-T3-r3b-r2",
+     "model": "cliproxyapi/claude-opus-5-5",
+     "task": "T3-migrate-calls",
+     "config": "r3b",
+     "mode": "auto",
+     "rep": 2,
+     "accepted": true,
+     "costListPrice": 0.11173880000000001,
+     "accesses": [
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/orig",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/orig",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/orig",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/orig",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "read/other",
+     "possibleEarlierOrConcurrentWriters": [
+      "S3-S2-T3-r3b-profile-r2",
+      "S3-T3-off-r1"
+     ],
+     "concurrentUsers": [
+      "S3-T3-off-r1"
+     ]
+    },
+    {
+     "runId": "S3-T3-off-r1",
+     "model": "cliproxyapi/claude-opus-5-5",
+     "task": "T3-migrate-calls",
+     "config": "off",
+     "mode": "auto",
+     "rep": 1,
+     "accepted": true,
+     "costListPrice": 0.014767800000000001,
+     "accesses": [
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/orig",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/orig",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/orig",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [
+      "S3-S2-T3-r3b-profile-r2",
+      "S3-T3-r3b-r2"
+     ],
+     "concurrentUsers": [
+      "S3-T3-r3b-r2"
+     ]
+    }
+   ]
+  },
+  {
+   "resource": "/tmp/orig_snap",
+   "users": 1,
+   "entries": [
+    {
+     "runId": "S3-S2h-T3-r3a-r1",
+     "model": "cliproxyapi/claude-haiku-5-5",
+     "task": "T3-migrate-calls",
+     "config": "r3a",
+     "mode": "auto",
+     "rep": 1,
+     "accepted": true,
+     "costListPrice": 0.00501203,
+     "accesses": [
+      {
+       "call": 9,
+       "tool": "bash",
+       "path": "/tmp/orig_snap",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 9,
+       "tool": "bash",
+       "path": "/tmp/orig_snap",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 9,
+       "tool": "bash",
+       "path": "/tmp/orig_snap",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 9,
+       "tool": "bash",
+       "path": "/tmp/orig_snap",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 9,
+       "tool": "bash",
+       "path": "/tmp/orig_snap",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "read/other",
+     "possibleEarlierOrConcurrentWriters": [],
+     "concurrentUsers": []
+    }
+   ]
+  },
+  {
+   "resource": "/tmp/probe.mjs",
+   "users": 1,
+   "entries": [
+    {
+     "runId": "S3-S2h-T3-off-r1",
+     "model": "cliproxyapi/claude-haiku-5-5",
+     "task": "T3-migrate-calls",
+     "config": "off",
+     "mode": "auto",
+     "rep": 1,
+     "accepted": true,
+     "costListPrice": 0.0046935300000000004,
+     "accesses": [
+      {
+       "call": 3,
+       "tool": "write",
+       "path": "/tmp/probe.mjs",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 4,
+       "tool": "bash",
+       "path": "/tmp/probe.mjs",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 9,
+       "tool": "bash",
+       "path": "/tmp/probe.mjs",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [],
+     "concurrentUsers": []
+    }
+   ]
+  },
+  {
+   "resource": "/tmp/pylibs",
+   "users": 1,
+   "entries": [
+    {
+     "runId": "S3-S2h-T4-current-r2",
+     "model": "cliproxyapi/claude-haiku-5-5",
+     "task": "T4-coolant-decision",
+     "config": "current",
+     "mode": "auto",
+     "rep": 2,
+     "accepted": true,
+     "costListPrice": 0.01798531,
+     "accesses": [
+      {
+       "call": 4,
+       "tool": "bash",
+       "path": "/tmp/pylibs",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 4,
+       "tool": "bash",
+       "path": "/tmp/pylibs",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [],
+     "concurrentUsers": []
+    }
+   ]
+  },
+  {
+   "resource": "/tmp/ra_deps",
+   "users": 1,
+   "entries": [
+    {
+     "runId": "S3-S2h-T4-r4-r1",
+     "model": "cliproxyapi/claude-haiku-5-5",
+     "task": "T4-coolant-decision",
+     "config": "r4",
+     "mode": "auto",
+     "rep": 1,
+     "accepted": true,
+     "costListPrice": 0.025199179999999995,
+     "accesses": [
+      {
+       "call": 4,
+       "tool": "bash",
+       "path": "/tmp/ra_deps",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 4,
+       "tool": "bash",
+       "path": "/tmp/ra_deps",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 18,
+       "tool": "bash",
+       "path": "/tmp/ra_deps",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [],
+     "concurrentUsers": []
+    }
+   ]
+  },
+  {
+   "resource": "/tmp/ra_out.txt",
+   "users": 1,
+   "entries": [
+    {
+     "runId": "S3-S2h-T4-r4-select-r2",
+     "model": "cliproxyapi/claude-haiku-5-5",
+     "task": "T4-coolant-decision",
+     "config": "r4-select",
+     "mode": "select",
+     "rep": 2,
+     "accepted": true,
+     "costListPrice": 0.01905805,
+     "accesses": [
+      {
+       "call": 11,
+       "tool": "bash",
+       "path": "/tmp/ra_out.txt",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 11,
+       "tool": "bash",
+       "path": "/tmp/ra_out.txt",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [],
+     "concurrentUsers": []
+    }
+   ]
+  },
+  {
+   "resource": "/tmp/ra_run.txt",
+   "users": 1,
+   "entries": [
+    {
+     "runId": "S3-S2h-T4-r4-r1",
+     "model": "cliproxyapi/claude-haiku-5-5",
+     "task": "T4-coolant-decision",
+     "config": "r4",
+     "mode": "auto",
+     "rep": 1,
+     "accepted": true,
+     "costListPrice": 0.025199179999999995,
+     "accesses": [
+      {
+       "call": 14,
+       "tool": "bash",
+       "path": "/tmp/ra_run.txt",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 18,
+       "tool": "bash",
+       "path": "/tmp/ra_run.txt",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [],
+     "concurrentUsers": []
+    }
+   ]
+  },
+  {
+   "resource": "/tmp/ra_venv",
+   "users": 2,
+   "entries": [
+    {
+     "runId": "S3-S2h-T4-r4-select-r1",
+     "model": "cliproxyapi/claude-haiku-5-5",
+     "task": "T4-coolant-decision",
+     "config": "r4-select",
+     "mode": "select",
+     "rep": 1,
+     "accepted": true,
+     "costListPrice": 0.02591288,
+     "accesses": [
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/ra_venv",
+       "kind": "write",
+       "failed": true
+      },
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/ra_venv/bin/pip",
+       "kind": "exec",
+       "failed": true
+      },
+      {
+       "call": 6,
+       "tool": "bash",
+       "path": "/tmp/ra_venv/bin/python",
+       "kind": "exec",
+       "failed": true
+      },
+      {
+       "call": 7,
+       "tool": "bash",
+       "path": "/tmp/ra_venv/bin",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 7,
+       "tool": "bash",
+       "path": "/tmp/ra_venv/bin/pip",
+       "kind": "exec",
+       "failed": false
+      },
+      {
+       "call": 8,
+       "tool": "bash",
+       "path": "/tmp/ra_venv/bin/python",
+       "kind": "exec",
+       "failed": false
+      },
+      {
+       "call": 8,
+       "tool": "bash",
+       "path": "/tmp/ra_venv/bin/python",
+       "kind": "exec",
+       "failed": false
+      },
+      {
+       "call": 8,
+       "tool": "bash",
+       "path": "/tmp/ra_venv/bin/python",
+       "kind": "exec",
+       "failed": false
+      },
+      {
+       "call": 13,
+       "tool": "bash",
+       "path": "/tmp/ra_venv",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [],
+     "concurrentUsers": []
+    },
+    {
+     "runId": "S3-S2h-T4-r4-r1",
+     "model": "cliproxyapi/claude-haiku-5-5",
+     "task": "T4-coolant-decision",
+     "config": "r4",
+     "mode": "auto",
+     "rep": 1,
+     "accepted": true,
+     "costListPrice": 0.025199179999999995,
+     "accesses": [
+      {
+       "call": 3,
+       "tool": "bash",
+       "path": "/tmp/ra_venv",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 3,
+       "tool": "bash",
+       "path": "/tmp/ra_venv/bin/pip",
+       "kind": "exec",
+       "failed": false
+      },
+      {
+       "call": 3,
+       "tool": "bash",
+       "path": "/tmp/ra_venv/bin/python",
+       "kind": "exec",
+       "failed": false
+      },
+      {
+       "call": 18,
+       "tool": "bash",
+       "path": "/tmp/ra_venv",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [
+      "S3-S2h-T4-r4-select-r1"
+     ],
+     "concurrentUsers": []
+    }
+   ]
+  },
+  {
+   "resource": "/tmp/rave",
+   "users": 1,
+   "entries": [
+    {
+     "runId": "S3-S2h-T4-off-r2",
+     "model": "cliproxyapi/claude-haiku-5-5",
+     "task": "T4-coolant-decision",
+     "config": "off",
+     "mode": "auto",
+     "rep": 2,
+     "accepted": true,
+     "costListPrice": 0.01646069,
+     "accesses": [
+      {
+       "call": 3,
+       "tool": "bash",
+       "path": "/tmp/rave",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 3,
+       "tool": "bash",
+       "path": "/tmp/rave/bin/pip",
+       "kind": "exec",
+       "failed": false
+      },
+      {
+       "call": 3,
+       "tool": "bash",
+       "path": "/tmp/rave/bin/python",
+       "kind": "exec",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [],
+     "concurrentUsers": []
+    }
+   ]
+  },
+  {
+   "resource": "/tmp/run.log",
+   "users": 1,
+   "entries": [
+    {
+     "runId": "S3-S2h-T4-off-r1",
+     "model": "cliproxyapi/claude-haiku-5-5",
+     "task": "T4-coolant-decision",
+     "config": "off",
+     "mode": "auto",
+     "rep": 1,
+     "accepted": true,
+     "costListPrice": 0.01673008,
+     "accesses": [
+      {
+       "call": 12,
+       "tool": "bash",
+       "path": "/tmp/run.log",
+       "kind": "write",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [],
+     "concurrentUsers": []
+    }
+   ]
+  },
+  {
+   "resource": "/tmp/snap",
+   "users": 2,
+   "entries": [
+    {
+     "runId": "S3-S2h-T3-off-r2",
+     "model": "cliproxyapi/claude-haiku-5-5",
+     "task": "T3-migrate-calls",
+     "config": "off",
+     "mode": "auto",
+     "rep": 2,
+     "accepted": true,
+     "costListPrice": 0.0044118199999999995,
+     "accesses": [
+      {
+       "call": 3,
+       "tool": "bash",
+       "path": "/tmp/snap",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 3,
+       "tool": "bash",
+       "path": "/tmp/snap/capture.mjs",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 3,
+       "tool": "bash",
+       "path": "/tmp/snap/capture.mjs",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 3,
+       "tool": "bash",
+       "path": "/tmp/snap/capture.mjs",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 3,
+       "tool": "bash",
+       "path": "/tmp/snap/before.json",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 3,
+       "tool": "bash",
+       "path": "/tmp/snap/before.json",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 8,
+       "tool": "bash",
+       "path": "/tmp/snap/capture.mjs",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 8,
+       "tool": "bash",
+       "path": "/tmp/snap/after.json",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 8,
+       "tool": "bash",
+       "path": "/tmp/snap/before.json",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 8,
+       "tool": "bash",
+       "path": "/tmp/snap/after.json",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [],
+     "concurrentUsers": []
+    },
+    {
+     "runId": "S3-S2h-T3-r3b-r1",
+     "model": "cliproxyapi/claude-haiku-5-5",
+     "task": "T3-migrate-calls",
+     "config": "r3b",
+     "mode": "auto",
+     "rep": 1,
+     "accepted": true,
+     "costListPrice": 0.00744634,
+     "accesses": [
+      {
+       "call": 10,
+       "tool": "write",
+       "path": "/tmp/snap/snap.mjs",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 11,
+       "tool": "bash",
+       "path": "/tmp/snap",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 16,
+       "tool": "bash",
+       "path": "/tmp/snap",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [
+      "S3-S2h-T3-off-r2"
+     ],
+     "concurrentUsers": []
+    }
+   ]
+  },
+  {
+   "resource": "/tmp/snap.mjs",
+   "users": 1,
+   "entries": [
+    {
+     "runId": "S3-T3-current-r1",
+     "model": "cliproxyapi/claude-opus-5-5",
+     "task": "T3-migrate-calls",
+     "config": "current",
+     "mode": "auto",
+     "rep": 1,
+     "accepted": true,
+     "costListPrice": 0.1445874,
+     "accesses": [
+      {
+       "call": 3,
+       "tool": "bash",
+       "path": "/tmp/snap.mjs",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 3,
+       "tool": "bash",
+       "path": "/tmp/snap.mjs",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 8,
+       "tool": "bash",
+       "path": "/tmp/snap.mjs",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [],
+     "concurrentUsers": []
+    }
+   ]
+  },
+  {
+   "resource": "/tmp/statenv",
+   "users": 1,
+   "entries": [
+    {
+     "runId": "S3-S2h-T4-current-r2",
+     "model": "cliproxyapi/claude-haiku-5-5",
+     "task": "T4-coolant-decision",
+     "config": "current",
+     "mode": "auto",
+     "rep": 2,
+     "accepted": true,
+     "costListPrice": 0.01798531,
+     "accesses": [
+      {
+       "call": 3,
+       "tool": "bash",
+       "path": "/tmp/statenv",
+       "kind": "write",
+       "failed": true
+      },
+      {
+       "call": 3,
+       "tool": "bash",
+       "path": "/tmp/statenv/bin/pip",
+       "kind": "exec",
+       "failed": true
+      },
+      {
+       "call": 3,
+       "tool": "bash",
+       "path": "/tmp/statenv/bin/python",
+       "kind": "exec",
+       "failed": true
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [],
+     "concurrentUsers": []
+    }
+   ]
+  },
+  {
+   "resource": "/tmp/verify",
+   "users": 1,
+   "entries": [
+    {
+     "runId": "S3-S2h-T3-current-r1",
+     "model": "cliproxyapi/claude-haiku-5-5",
+     "task": "T3-migrate-calls",
+     "config": "current",
+     "mode": "auto",
+     "rep": 1,
+     "accepted": true,
+     "costListPrice": 0.00520442,
+     "accesses": [
+      {
+       "call": 8,
+       "tool": "bash",
+       "path": "/tmp/verify",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 8,
+       "tool": "bash",
+       "path": "/tmp/verify/record.mjs",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 8,
+       "tool": "bash",
+       "path": "/tmp/verify/record.mjs",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 8,
+       "tool": "bash",
+       "path": "/tmp/verify/before.json",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 8,
+       "tool": "bash",
+       "path": "/tmp/verify/before.json",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 8,
+       "tool": "bash",
+       "path": "/tmp/verify/before.json",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 13,
+       "tool": "bash",
+       "path": "/tmp/verify/record.mjs",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 13,
+       "tool": "bash",
+       "path": "/tmp/verify/after.json",
+       "kind": "write",
+       "failed": false
+      },
+      {
+       "call": 13,
+       "tool": "bash",
+       "path": "/tmp/verify/before.json",
+       "kind": "read/other",
+       "failed": false
+      },
+      {
+       "call": 13,
+       "tool": "bash",
+       "path": "/tmp/verify/after.json",
+       "kind": "read/other",
+       "failed": false
+      }
+     ],
+     "firstKind": "write",
+     "possibleEarlierOrConcurrentWriters": [],
+     "concurrentUsers": []
+    }
+   ]
+  }
+ ]
+}
