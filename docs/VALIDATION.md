@@ -32,6 +32,19 @@ Node.js 24.21.0 and `@earendil-works/pi-coding-agent` 1.1.0. The package archive
 
 Not verified: a terminal TUI session on screen (the transcript renderers and Tab are checked through Pi's own components and `Editor` without drawing a terminal), OMP, model behaviour with real providers, and compaction summaries created before this change (they are not rewritten).
 
+## Pi 1.2.0 (unreleased, validated 2026-10-13)
+
+Pi 1.2.0 emits `before_agent_start` also for a run that another extension's `triggerTurn` message starts while idle (`messageType: "custom"`). A selection that an idle `/skill:` or template request took but that never started (no model, its input handled by another extension) was attached to such a run with the notice "이 사용자 요청 바로 뒤에 붙였습니다" (reproduced with `tests/pi-session.mjs` 5c on Pi 1.2.0 before the change). Now that run cancels it with the existing "요청이 시작되지 않아" notice and attaches nothing; selections no user request has taken yet keep waiting; an event without `messageType` (older Pi, OMP) is a user run as before. Node.js 24.21.0; hosts: the global `@earendil-works/pi-coding-agent` 1.2.0 and, for the older-host path, 1.1.0 from a sibling `node_modules`.
+
+| Check | Result and scope |
+|---|---|
+| `node --test tests/runtime.test.mjs` | 27 tests (stub host), new: "a run another extension's message starts … takes no selection" (unstarted `/skill:` and template requests cancelled at a custom start, with one notice over repeated custom runs, and never passed on, re-selection taken once, pending selections kept through custom runs, a deferred and a pending selection together (only the deferred one cancelled, the pending one with the next user request once), an expanded request's own user run still gets it once, OMP profile fallback kept). It fails on the previous runtime |
+| `tests/pi-session.mjs` with Pi 1.2.0 and with Pi 1.1.0 | 13 real sessions. 5c: no model, or the input handled by another extension, then another extension's `triggerTurn` run and the next user request: the run gets no selection and no one-shot message is stored, the cancellation notice is shown, a selection made meanwhile goes with the next request once, the cancelled one with none. On Pi 1.1.0 (no custom `before_agent_start`) the cancellation comes with the next input, as before |
+| `tests/pi-loader.mjs`, `tests/pi-editor.mjs` with Pi 1.2.0 | Pass: one extension, seven routing skills, zero diagnostics and extension errors; forced Tab unchanged |
+| Interactive TUI of the Pi 1.2.0 CLI in a pseudo-terminal with a real model (CLIProxyAPI `claude-haiku-4-5-20251001`), this checkout's umbrella package and a test-only extension, isolated agent dir | `/workbench skill ponytail-review`, an idle `/skill:` request the test extension handles (no run), `/workbench skill search-first`, then the test extension's `triggerTurn` message: that run (`messageType: "custom"`) got no selection and the model answered; the cancellation notice for ponytail-review was shown; the next typed request got search-first once (the session file has one skill block, none for ponytail-review); `/workbench status` showed nothing pending. The driver is a scratch script, not part of the package |
+
+Not verified: OMP.
+
 ## Vendor corrections (unreleased, validated 2026-10-12)
 
 Six reviewed patches in `patches/` correct 16 vendored files (TAO split leakage and preprocessing parity, Vercel flatMap and localStorage examples, gamedev `asset_report.py --max-colors`, DMAIC statistics, 8D verification sample size, Is/Is-Not, 5-Why and Fishbone reasoning); see [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md#corrected-upstream-files). Node.js 24.21.0, Python 3.14.4 with NumPy 2.5.2 and Pillow 12.1.1 from an existing environment (nothing installed).

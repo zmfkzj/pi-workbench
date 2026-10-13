@@ -2,7 +2,8 @@
 // receives per request: one current profile guidance across requests, branches, auto/off and reload; command output kept out of the
 // context as session records that survive reopening the session file; one-shot skill selections attached to exactly the next user
 // request (also a follow-up or steering message typed while another extension's run works), once per skill, cancelable, dropped
-// by /reload or a branch change, and cancelled (not moved on) when the next request is a queued /skill: command or prompt template.
+// by /reload or a branch change, and cancelled (not moved on) when the next request is a queued /skill: command or prompt template
+// or an idle one that never started, also when another extension's message starts a run first (Pi 1.2.0+ emits before_agent_start).
 // No network or paid model is used.
 import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
@@ -254,6 +255,39 @@ try {
     assert.match(s.session.sessionManager.getEntries().filter((entry) => entry.customType === OUTPUT_ENTRY_TYPE).at(-1).data.text, /대기 중인 스킬 선택: 없음/);
   }
 
+  // 5c. Pi 1.2.0+ emits before_agent_start also for a run another extension's triggerTurn message starts while idle. An idle
+  // /skill: request that took the selection but never started (no model; its input handled by another extension) does not give
+  // it to that run: it is cancelled there with a notice. A selection made again goes with the next user request, once.
+  for (const stop of ["no model", "input handled by another extension"]) {
+    const s = await makeSession({ extension: (pi) => pi.on("input", (event) => (event.text.includes("STOP-BEFORE-RUN") ? { action: "handled" } : undefined)) });
+    await s.session.prompt("/workbench skill ponytail-review");
+    if (stop === "no model") {
+      const model = s.session.model;
+      s.session.agent.state.model = undefined;
+      await assert.rejects(s.session.prompt("/skill:wb-coding UNSTARTED-REQUEST"), /model/i);
+      s.session.agent.state.model = model;
+    } else {
+      await s.session.prompt("/skill:wb-coding UNSTARTED-REQUEST STOP-BEFORE-RUN");
+    }
+    assert.equal(s.requests.length, 0, `${stop}: the request never reached the model`);
+    await s.session.prompt("/workbench skill search-first");
+    s.probe.api.sendMessage({ customType: "probe.extension-message", content: "EXTENSION-MESSAGE arrived", display: true }, { triggerTurn: true });
+    await s.session.waitForIdle();
+    await s.session.prompt("NEXT-REQUEST");
+    const [woken, next] = s.requests;
+    assert.equal(s.requests.length, 2, `${stop}: the extension's run, then the next request`);
+    assert.match(all(woken), /EXTENSION-MESSAGE/);
+    assert.equal(count(all(woken), SKILL_MARKER), 0, `${stop}: the extension's run gets no selection`);
+    assert.ok(s.warnings().some((message) => /스킬\(ponytail-review\)을 받을 요청이 시작되지 않아 선택을 취소했습니다/.test(message)), stop);
+    assert.ok(!s.infos().some((message) => /바로 뒤에 붙였습니다/.test(message)), `${stop}: no "attached" notice`);
+    const stored = s.session.sessionManager.getEntries().filter((entry) => entry.type === "custom_message" && entry.customType === SELECTED_SKILL_TYPE);
+    assert.deepEqual(stored, [], `${stop}: no one-shot message stored`);
+    const mine = userMessage(next, "NEXT-REQUEST");
+    assert.equal(mine.block?.name, "search-first", `${stop}: the selection still waiting goes with the next user request`);
+    assert.equal(count(all(next), SKILL_MARKER), 1, `${stop}: once`);
+    assert.doesNotMatch(all(next), /ponytail-review/, `${stop}: the cancelled selection reaches no request`);
+  }
+
   // 6. Command output: session records the TUI renders, never in a model request, still there when the session file is reopened.
   {
     const sessionDir = join(sandbox, "sessions");
@@ -300,6 +334,7 @@ try {
     selectionGoesWithTypedFollowUpAndSteer: true,
     reloadAndBranchChangeDropSelection: true,
     queuedSkillCommandAndTemplateCancelSelection: true,
+    unstartedRequestSelectionNotGivenToCustomRun: true,
     outputRecordsReopened: true,
   }, null, 2));
 } finally {

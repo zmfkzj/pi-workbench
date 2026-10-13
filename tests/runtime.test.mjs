@@ -589,6 +589,76 @@ test("requests Pi expands itself keep their command at the start: idle ones get 
   assert.equal(unknownHost.input("/anything"), undefined);
 });
 
+test("a run another extension's message starts (Pi 1.2.0+: before_agent_start with messageType custom) takes no selection", async (t) => {
+  const f = await fixture(t);
+  const slash = [{ name: "skill:wb-coding", source: "skill" }, { name: "review-template", source: "prompt" }, { name: "workbench", source: "extension" }];
+  const custom = (extra = {}) => ({ messageType: "custom", message: { role: "custom", customType: "peer-note", content: "note", display: true }, systemPromptOptions: { sections: {} }, ...extra });
+  const userRun = (prompt) => ({ messageType: "user", prompt, systemPromptOptions: { sections: {} } });
+  // An idle /skill: or template request took the selection but never started (no model, its input handled elsewhere); a custom
+  // message then starts a run: the selection is cancelled there with the notice, not attached, and not passed on.
+  for (const text of ["/skill:wb-coding 이 변경을 리뷰해줘", "/review-template src/app.ts"]) {
+    const h = harness(f.root, [], { commands: slash });
+    await h.command("skill review");
+    assert.equal(h.input(text), undefined);
+    assert.equal(await h.beforeStart(custom()), undefined, `${text}: the extension's run gets nothing`);
+    assert.match(h.warnings().at(-1), /스킬\(review\)을 받을 요청이 시작되지 않아 선택을 취소했습니다/);
+    assert.ok(!h.outputs().some((message) => /바로 뒤에 붙였습니다/.test(message)), `${text}: no "attached" notice`);
+    const warnings = h.warnings().length;
+    assert.equal(await h.beforeStart(custom()), undefined, `${text}: a second custom-started run gets nothing either`);
+    assert.equal(h.input("next request"), undefined, `${text}: not passed on to the next input`);
+    assert.equal(await h.beforeStart(userRun("next request")), undefined, `${text}: nor to its run`);
+    assert.equal(h.warnings().length, warnings, `${text}: cancelled once`);
+    // Selected again: it goes with the next user request as usual, once.
+    await h.command("skill review");
+    const again = h.input("selected again");
+    assert.equal(PI_SKILL_BLOCK.exec(again.text)[1], "review");
+    assert.equal(h.input("later"), undefined);
+  }
+  // Selections no user request has taken yet stay for the next one, through any number of custom-started runs.
+  const waiting = harness(f.root, [], { commands: slash });
+  await waiting.command("skill review");
+  assert.equal(await waiting.beforeStart(custom()), undefined);
+  assert.equal(await waiting.beforeStart(custom()), undefined);
+  assert.deepEqual(waiting.warnings(), []);
+  await waiting.command("status");
+  assert.match(waiting.outputs().at(-1), /대기 중인 스킬 선택 \(다음 사용자 요청 한 번\): review/);
+  const taken = waiting.input("user request");
+  assert.equal(PI_SKILL_BLOCK.exec(taken.text)[4], "user request");
+  assert.equal(waiting.input("later"), undefined, "once");
+  // A deferred selection and one made after it (pending) meet a custom-started run: only the deferred one is cancelled, with one
+  // notice over repeated custom runs; the pending one goes with the next user request, once, and never with the extension's runs.
+  const both = harness(f.root, [], { commands: slash });
+  await both.command("skill review");
+  assert.equal(both.input("/skill:wb-coding 이 변경을 리뷰해줘"), undefined);
+  await both.command("skill game-art");
+  assert.equal(await both.beforeStart(custom()), undefined, "the extension's run gets neither selection");
+  assert.equal(await both.beforeStart(custom()), undefined, "nor a second one");
+  assert.equal(both.warnings().length, 1, "one cancellation notice");
+  assert.match(both.warnings()[0], /스킬\(review\)을 받을 요청이 시작되지 않아 선택을 취소했습니다/);
+  assert.doesNotMatch(both.warnings()[0], /game-art/);
+  const next = both.input("next request");
+  assert.equal(PI_SKILL_BLOCK.exec(next.text)[1], "game-art", "the pending selection goes with the next user request");
+  assert.equal(PI_SKILL_BLOCK.exec(next.text)[4], "next request");
+  assert.doesNotMatch(next.text, /name="review"/, "the cancelled one does not");
+  assert.equal(both.input("later"), undefined, "once");
+  // An idle expanded request's own (user) run still gets the selection right after it, once; a custom run after it gets none.
+  const expanded = harness(f.root, [], { commands: slash });
+  await expanded.command("skill review");
+  assert.equal(expanded.input("/review-template x"), undefined);
+  const started = await expanded.beforeStart(userRun("Review x"));
+  assert.deepEqual(started.message.details, { skillIds: ["review"], placement: "after" });
+  assert.equal(await expanded.beforeStart(custom()), undefined);
+  assert.deepEqual(expanded.warnings(), []);
+  // A host without structured prompt options (OMP) keeps its additive profile message in a custom-started run, also when it
+  // cancels an unstarted request's selection there.
+  const omp = harness(f.root, [state("coding")], { commands: slash });
+  await omp.command("skill review");
+  assert.equal(omp.input("/review-template x"), undefined);
+  const ompStart = await omp.beforeStart(custom({ systemPromptOptions: undefined, systemPrompt: "Existing instructions" }));
+  assert.equal(ompStart.message.customType, PROFILE_TYPE);
+  assert.match(omp.warnings().at(-1), /스킬\(review\)을 받을 요청이 시작되지 않아/);
+});
+
 test("invalid commands and missing catalog selections report errors without queueing or persisting work", async (t) => {
   const f = await fixture(t);
   const h = harness(f.root, [state("coding")]);
