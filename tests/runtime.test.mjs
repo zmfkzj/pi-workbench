@@ -115,9 +115,9 @@ const plain = (lines) => lines.map((line) => line.replace(/\x1b\[[0-9;]*m/g, "")
 /**
  * @param {string} root
  * @param {any[]} [initialBranch]
- * @param {{ mode?: string, commands?: any[] | (() => any[]), renderers?: boolean }} [options]
+ * @param {{ mode?: string, commands?: any[] | (() => any[]), renderers?: boolean, dependencies?: any }} [options]
  */
-function harness(root, initialBranch = [], { mode, commands: slashCommands = [], renderers = true } = {}) {
+function harness(root, initialBranch = [], { mode, commands: slashCommands = [], renderers = true, dependencies = { env: { PATH: "" } } } = {}) {
   let branch = initialBranch;
   const commands = new Map();
   const hooks = new Map();
@@ -127,6 +127,16 @@ function harness(root, initialBranch = [], { mode, commands: slashCommands = [],
   const entryRenderers = new Map();
   const messageRenderers = new Map();
   const autocompleteFactories = [];
+  const statuses = [];
+  const listeners = new Map();
+  const events = {
+    on(channel, handler) {
+      if (!listeners.has(channel)) listeners.set(channel, []);
+      listeners.get(channel).push(handler);
+      return () => listeners.set(channel, listeners.get(channel).filter((item) => item !== handler));
+    },
+    emit(channel, data) { for (const handler of listeners.get(channel) ?? []) handler(data); },
+  };
   const pi = {
     registerCommand(name, definition) {
       assert.ok(!commands.has(name), "The extension must not register its command twice.");
@@ -145,6 +155,7 @@ function harness(root, initialBranch = [], { mode, commands: slashCommands = [],
       messages.push({ message: structuredClone(message), options: structuredClone(options) });
     },
     getCommands: () => (typeof slashCommands === "function" ? slashCommands() : slashCommands),
+    events,
     ...(renderers ? {
       registerEntryRenderer(customType, renderer) { entryRenderers.set(customType, renderer); },
       registerMessageRenderer(customType, renderer) { messageRenderers.set(customType, renderer); },
@@ -156,11 +167,12 @@ function harness(root, initialBranch = [], { mode, commands: slashCommands = [],
     ui: {
       notify: (message, level) => notifications.push({ message, level }),
       addAutocompleteProvider: (factory) => autocompleteFactories.push(factory),
+      setStatus: (key, text) => statuses.push([key, text]),
     },
   };
-  registerWorkbench(pi, root);
+  registerWorkbench(pi, root, { dependencies });
   return {
-    commands, hooks, messages, appends, notifications, entryRenderers, messageRenderers, autocompleteFactories,
+    commands, hooks, messages, appends, notifications, entryRenderers, messageRenderers, autocompleteFactories, events, listeners, statuses,
     outputs: () => notifications.filter(({ level }) => level === "info").map(({ message }) => message),
     warnings: () => notifications.filter(({ level }) => level === "warning").map(({ message }) => message),
     errors: () => notifications.filter(({ level }) => level === "error").map(({ message }) => message),
@@ -297,13 +309,18 @@ test("list, filtered list, status, doctor and help become session records that n
   assert.match(h.outputs().at(-1), /\/workbench skill <id>/);
   assert.match(h.outputs().at(-1), /\/workbench cancel \[id\]/);
   await h.command("doctor");
-  assert.deepEqual(h.records().map(({ command }) => command), ["list", "list game", "status", "help", "doctor"],
+  await h.command("install-deps");
+  assert.deepEqual(h.records().map(({ command }) => command), ["list", "list game", "status", "help", "doctor", "install-deps"],
     "Each long output is a session entry; the profile confirmation is a notice only.");
-  assert.deepEqual(h.records().map(({ text }) => text), [0, 1, 3, 4, 5].map((index) => h.outputs()[index]),
+  assert.deepEqual(h.records().map(({ text }) => text), [0, 1, 3, 4, 5, 6].map((index) => h.notifications[index].message),
     "Outside the TUI (here: no mode) the record is also shown as a notification.");
+  assert.deepEqual(h.notifications.slice(5).map(({ level }) => level), ["warning", "warning"],
+    "With nothing on PATH the dependency reports are warnings (optional tools only), at the report's level.");
+  assert.match(h.records()[4].text, /^pi-workbench doctor: warning$/m);
+  assert.match(h.records()[5].text, /^pi-workbench install-deps: manual action required$/m);
   assert.deepEqual(h.messages, [], "Command output is not sent to or stored for the model.");
   // Session entries are not messages: the model's context (here, the context hook's projection) never carries them.
-  assert.doesNotMatch(JSON.stringify(await h.request([user("request")])), /Profiles: coding|Workbench profile: coding|대기 중인 스킬 선택|Local executables|\/workbench cancel/);
+  assert.doesNotMatch(JSON.stringify(await h.request([user("request")])), /Profiles: coding|Workbench profile: coding|대기 중인 스킬 선택|pi-workbench doctor|pi-workbench install-deps|\/workbench cancel/);
   assert.deepEqual(h.errors(), []);
 });
 
@@ -838,12 +855,15 @@ const values = (items) => items?.map((item) => item.value) ?? null;
 test("argument completion follows the command grammar: subcommands, then catalog profiles, skill ids or pending selections", async (t) => {
   const { catalog } = await fixture(t);
   const complete = (prefix, pending) => values(completeWorkbenchArguments(prefix, catalog, pending));
-  const subcommands = ["list", "use ", "skill ", "cancel", "status", "doctor", "help"];
+  const subcommands = ["list", "use ", "skill ", "cancel", "status", "doctor", "install-deps", "help"];
   assert.deepEqual(complete(""), subcommands);
   assert.deepEqual(complete("   "), subcommands, "Leading whitespace is ignored.");
   assert.deepEqual(complete("u"), ["use "]);
   assert.deepEqual(complete("s"), ["skill ", "status"]);
   assert.deepEqual(complete("c"), ["cancel"]);
+  assert.deepEqual(complete("d"), ["doctor"]);
+  assert.deepEqual(complete("i"), ["install-deps"]);
+  assert.deepEqual(complete("install"), ["install-deps"]);
   assert.deepEqual(complete("use "), ["use coding", "use game", "use auto", "use off"]);
   assert.deepEqual(complete("use c"), ["use coding"]);
   assert.deepEqual(complete("  use \t c"), ["use coding"], "Repeated whitespace still finds the argument.");
@@ -863,9 +883,9 @@ test("argument completion follows the command grammar: subcommands, then catalog
   assert.deepEqual(complete("cancel g", ["review", "game-art"]), ["cancel game-art"]);
   assert.equal(completeWorkbenchArguments("cancel ", catalog, []), null, "Nothing pending, nothing to cancel.");
   for (const finished of [
-    "status", "doctor", "help", "list", "cancel", "use coding", "skill review", // complete as typed: Enter submits
+    "status", "doctor", "install-deps", "help", "list", "cancel", "use coding", "skill review", // complete as typed: Enter submits
     "use coding ", "use coding x", "skill review ", "list game more", // a finished argument or an extra word
-    "status ", "doctor x", "help ", // subcommands without arguments
+    "status ", "doctor x", "install-deps ", "install-deps x", "help ", // subcommands without arguments
     "list coding ", "use off ", "\tuse\tcoding\t", "skill review extra", // whitespace or a third token after the argument
     "skill coding", "list auto", "list off", "use minimal-code", "cancel review", // values of another subcommand or not pending
     "bogus", "bogus ", "use zz", "skill nope", "USE ", "use Coding", // unknown words; the handler is case-sensitive
@@ -945,7 +965,7 @@ test("Tab with no list open completes /workbench arguments instead of files and 
   // The file gate declines `/workbench ` (command and space); the wrapper opens it for that command only.
   assert.equal(provider.shouldTriggerFileCompletion(["/workbench "], 0, 11), true);
   assert.equal(provider.shouldTriggerFileCompletion(["/orche "], 0, 7), false, "other commands keep Pi's gate");
-  assert.deepEqual(await suggestion("/workbench "), { prefix: "", values: ["list", "use ", "skill ", "cancel", "status", "doctor", "help"] });
+  assert.deepEqual(await suggestion("/workbench "), { prefix: "", values: ["list", "use ", "skill ", "cancel", "status", "doctor", "install-deps", "help"] });
   assert.deepEqual(await suggestion("/workbench use "), { prefix: "use ", values: ["use coding", "use game", "use auto", "use off"] });
   assert.deepEqual(await suggestion("/workbench list "), { prefix: "list ", values: ["list coding", "list game"] });
   assert.deepEqual(await suggestion("/workbench skill "), { prefix: "skill ", values: ["skill minimal-code", "skill review", "skill game-art"] });
@@ -984,4 +1004,53 @@ test("the shipped catalog supplies every profile and skill id as a candidate", a
   assert.equal(completeWorkbenchArguments("skill ponytail-review", catalog), null);
   assert.equal(catalog.skills.length, 27);
   assert.equal(catalog.profiles.length, 7);
+});
+
+test("the umbrella's dependency request gets the provider synchronously; doctor and install-deps show its formatted report", async (t) => {
+  const f = await fixture(t);
+  const calls = [];
+  const run = async (command, args) => { calls.push([command, ...args]); return { code: 0, stdout: "", stderr: "" }; };
+  const h = harness(f.root, [], { dependencies: { env: { PATH: "" }, platform: "linux", run } });
+  assert.deepEqual([...h.listeners.keys()], ["oh-my-pi-extensions:dependencies"], "The provider listens from load on.");
+  const provided = [];
+  h.events.emit("oh-my-pi-extensions:dependencies", { version: 1, provide: (provider) => provided.push(provider) });
+  assert.equal(provided.length, 1, "Answered inside the handler, synchronously.");
+  assert.deepEqual({ id: provided[0].id, label: provided[0].label, command: provided[0].command }, { id: "pi-workbench", label: "pi-workbench", command: "/workbench" });
+  const report = await provided[0].check({});
+  assert.equal(report.items[0].status, "ok");
+  assert.match(report.items[0].detail, /^3 skills in 2 profiles$/);
+  assert.deepEqual(calls, [], "check runs no process");
+
+  await h.command("doctor");
+  const doctorRecord = h.records().at(-1);
+  assert.equal(doctorRecord.command, "doctor");
+  assert.equal(h.notifications.at(-1).message, doctorRecord.text, "The record is also the notice outside the TUI.");
+  assert.equal(h.notifications.at(-1).level, "warning");
+  assert.match(doctorRecord.text, /^pi-workbench doctor: warning\n {2}Workbench itself needs only Pi/);
+  assert.match(doctorRecord.text, /\[warn\] ast-grep \(optional\): not found on PATH.*\n {6}-> npm install -g @ast-grep\/cli/);
+
+  await h.command("install-deps");
+  const installRecord = h.records().at(-1);
+  assert.equal(installRecord.command, "install-deps");
+  assert.match(installRecord.text, /^pi-workbench install-deps: manual action required$/m);
+  assert.match(installRecord.text, /\[manual\] ffmpeg \(optional\).*\n {6}-> sudo apt install ffmpeg/);
+  assert.equal(h.notifications.at(-1).level, "warning");
+  assert.deepEqual(h.statuses, [["pi-workbench", "Workbench: installing skill tools…"], ["pi-workbench", undefined]], "The progress line is cleared.");
+  assert.deepEqual(calls, [], "No npm or pipx on PATH: nothing is run.");
+
+  // The new words take no argument; the existing grammar is unchanged.
+  await h.command("install-deps now");
+  await h.command("doctor x");
+  assert.equal(h.errors().length, 2);
+  assert.ok(h.errors().every((message) => message.includes("/workbench install-deps")), "Help, which lists the new subcommand.");
+  assert.equal(h.records().length, 2);
+});
+
+test("in the TUI the dependency reports are transcript records only, like the other long outputs", async (t) => {
+  const f = await fixture(t);
+  const h = harness(f.root, [], { mode: "tui" });
+  await h.command("doctor");
+  await h.command("install-deps");
+  assert.deepEqual(h.records().map(({ command }) => command), ["doctor", "install-deps"]);
+  assert.deepEqual(h.notifications, []);
 });

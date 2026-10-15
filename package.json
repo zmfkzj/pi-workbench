@@ -42,7 +42,7 @@
   ],
   "scripts": {
     "check": "node scripts/check.mjs",
-    "test": "node --test tests/runtime.test.mjs tests/vendor-corrections.test.mjs",
+    "test": "node --test tests/runtime.test.mjs tests/dependencies.test.mjs tests/vendor-corrections.test.mjs",
     "vendor": "python3 scripts/vendor_sources.py"
   },
   "pi": {

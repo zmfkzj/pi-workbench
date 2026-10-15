@@ -127,13 +127,14 @@ Game UI/UX는 플레이 화면의 HUD·메뉴·입력 설계용이라 `game`에�
 | `/workbench skill ponytail-review` | 다음 사용자 요청 한 번에 원본 스킬과 적용 조건 전달(작업 중 steering·follow-up 포함) |
 | `/workbench cancel [id]` | 대기 중인 스킬 선택 취소(id를 빼면 전부) |
 | `/workbench status` | 현재 프로필과 대기 중인 스킬 선택 확인 |
-| `/workbench doctor` | 로컬 도구·환경변수의 존재 여부 확인 |
+| `/workbench doctor` | 패키지 파일과 선택 스킬용 로컬 도구·환경변수 점검, 비정상 항목마다 조치 안내 |
+| `/workbench install-deps` | 권한 없이 설치할 수 있는 선택 도구(ast-grep, uv)만 설치하고 나머지는 정확한 수동 조치로 안내 |
 
 Pi 입력창에서 `/workbench ` 뒤에 Tab을 누르면 하위 명령을, `use `·`list `·`skill `·`cancel ` 뒤에서는 `catalog.json`의 프로필(`use`는 `auto`·`off` 포함)·스킬 ID·대기 중인 선택을 입력한 prefix에 맞춰 제안한다(예: `/workbench use co` → `use coding`, `/workbench skill ponytail-r` → `skill ponytail-review`). 후보 목록이 닫힌 상태에서 Tab을 눌러도(Pi의 강제 완성) 같은 후보가 나오며 파일 목록으로 빠지지 않는다. 확장이 세션 시작 때 `ctx.ui.addAutocompleteProvider`로 `/workbench` 인수 위치에만 작용하는 wrapper를 등록하고, 다른 명령·파일 경로·입력 중 자동 제안은 Pi의 기본 동작 그대로다. 후보가 하나면 Tab이 바로 적용하고, 목록이 열린 상태의 Enter는 고른 후보를 적용만 하며 실행은 다음 Enter로 한다. `ponytail`처럼 다른 ID(`ponytail-review`)의 prefix인 ID를 끝까지 입력하면 두 후보가 모두 나오고 Enter는 입력한 ID를 그대로 둔다. 완성은 catalog만 읽고 스킬 본문을 열거나 프로필·세션 상태를 바꾸지 않는다. 이미 완성된 인수 뒤나 인수가 없는 하위 명령 뒤에는 후보를 내지 않는다. print·JSON·RPC 모드에는 입력창 자동완성이 없다.
 
 설치된 Pi의 native skill 명령으로 `/skill:wb-requirements`, `/skill:wb-game`, `/skill:wb-analysis`, `/skill:wb-vision`, `/skill:wb-manufacturing`, `/skill:wb-coding`, `/skill:wb-promo`를 직접 선택할 수도 있다.
 
-`list`·`status`·`doctor`·도움말의 출력은 세션 기록(custom entry `pi-workbench.command-output`)으로 남긴다. 대화형(TUI)에서는 이 기록이 대화 화면에 표시되어 다음 알림에 덮이지 않고, 세션을 다시 열어도 보인다. 이 기록은 모델 요청과 압축 요약에 들어가지 않는다(Pi는 custom entry를 모델 컨텍스트에서 제외한다). 단, Pi는 사용자·assistant 메시지가 하나도 없는 세션을 파일로 저장하지 않으므로, 명령만 실행한 새 세션의 기록은 첫 대화가 생기기 전에는 디스크에 남지 않는다. 다른 모드(Pi 1.1.0 CLI로 확인): RPC(`--mode rpc`)는 `extension_ui_request`의 `notify` 알림과 `entry_appended` 이벤트를 모두 보내고, JSON 모드(`--mode json`)는 `entry_appended` 이벤트의 `entry.data.text`로만 보낸다. 텍스트 print 모드(`pi -p`)는 확장 알림과 세션 기록을 출력하지 않아 아무것도 보이지 않는다. 짧은 확인(`use`·`skill`·`cancel`)은 알림으로만 보여 준다.
+`list`·`status`·`doctor`·`install-deps`·도움말의 출력은 세션 기록(custom entry `pi-workbench.command-output`)으로 남긴다. 대화형(TUI)에서는 이 기록이 대화 화면에 표시되어 다음 알림에 덮이지 않고, 세션을 다시 열어도 보인다. 이 기록은 모델 요청과 압축 요약에 들어가지 않는다(Pi는 custom entry를 모델 컨텍스트에서 제외한다). 단, Pi는 사용자·assistant 메시지가 하나도 없는 세션을 파일로 저장하지 않으므로, 명령만 실행한 새 세션의 기록은 첫 대화가 생기기 전에는 디스크에 남지 않는다. 다른 모드(Pi 1.1.0 CLI로 확인): RPC(`--mode rpc`)는 `extension_ui_request`의 `notify` 알림과 `entry_appended` 이벤트를 모두 보내고, JSON 모드(`--mode json`)는 `entry_appended` 이벤트의 `entry.data.text`로만 보낸다. 텍스트 print 모드(`pi -p`)는 확장 알림과 세션 기록을 출력하지 않아 아무것도 보이지 않는다. 짧은 확인(`use`·`skill`·`cancel`)은 알림으로만 보여 준다. TUI 밖에서 `doctor`·`install-deps` 알림은 보고서 수준(info·warning·error)으로 보낸다.
 
 프로필 안내는 요청마다 현재 대화 분기의 프로필로 다시 만들어 모델 요청에만 하나 넣고, 세션에는 저장하지 않는다(Pi의 `context` 이벤트). 이전 버전이 저장한 프로필 안내·명령 출력 메시지도 요청에서 제외한다. 세션 파일의 기존 기록이나 이미 만든 압축 요약을 지우지는 않는다. `off`는 스킬을 제거하거나 지난 대화를 지우지 않는다.
 
@@ -175,16 +176,34 @@ Git 설치본의 내려받은 디렉터리 경로는 등록된 source가 아니�
 | 비전 실행·평가 | 실제 데이터·모델·프레임워크; 사용 경로에 따라 FiftyOne/NumPy/Pillow 등 |
 | 구조 검색·문서 조회 | ast-grep CLI, Context7 MCP 또는 CLI 등 선택한 경로 |
 
-`doctor`는 PATH와 환경변수의 비어 있지 않음만 검사한다. 버전·인증·구독·MCP·Python 모듈·생성 성공 여부는 검증하지 않는다. 생성 도구가 없으면 브리프·프롬프트·스토리보드·검증 계획까지 작성하고 실제 제작은 미완료로 구분한다.
+### 의존성 점검과 설치 (`doctor`, `install-deps`)
+
+Workbench 자체는 Pi와 Node.js 내장 모듈만 쓰므로 npm 설치가 필요 없다. 아래 도구·환경변수는 프로필별 선택 스킬용이라, 없어도 패키지는 정상 동작하고 항목은 `warn (optional)`로 표시된다. 두 명령은 umbrella 패키지(oh-my-pi-extensions)의 `pi.events` 채널 `oh-my-pi-extensions:dependencies`에도 같은 provider(id `pi-workbench`)로 응답하므로 `/oh-my-pi doctor`·`install-deps`에서 한꺼번에 실행된다.
+
+`/workbench doctor`가 점검하는 항목(읽기 전용, 프로그램을 실행하거나 네트워크에 접속하지 않음):
+
+- 필수: `catalog.json`을 읽을 수 있고 모든 번들 SKILL.md가 패키지 안에 있는지(`bundled catalog and skills`). 깨졌으면 `error`와 재설치(`pi update --extensions`) 또는 git checkout 복원 명령을 안내한다.
+- 선택(PATH에 있는지만): `git`, `rg`, `node`, `python3`/`python`(둘 중 하나면 충분), `uv`, `ffmpeg`, `ffprobe`, `blender`, `godot`, `ast-grep`. 없으면 어떤 스킬·프로필에 필요한지와 플랫폼별 설치 명령(Linux: apt/dnf, macOS: brew, Windows: winget 등)을 보여 준다.
+- 선택(비어 있지 않은지만, 값은 표시하지 않음): `OPENAI_API_KEY`, `ELEVENLABS_API_KEY`, `SCENARIO_API_KEY`, `CONTEXT7_API_KEY`, `LAYER_API_KEY`. 없으면 Pi를 시작하는 환경에 설정하는 방법과 키 발급 위치를 안내한다.
+- 버전·인증·구독·MCP·Python 모듈(NumPy·Pillow·fonttools·brotli·openai·fiftyone)·생성 성공 여부는 검증하지 않으며, 보고서 첫 줄(note)에 Python 모듈을 직접 확인·설치하는 명령을 적는다. 생성 도구가 없으면 브리프·프롬프트·스토리보드·검증 계획까지 작성하고 실제 제작은 미완료로 구분한다.
+
+`/workbench install-deps`가 자동으로 설치하는 것은 권한 없이 확실한 방법이 있는 두 가지뿐이다.
+
+- `ast-grep`: npm이 PATH에 있고 npm 전역 prefix(`npm prefix -g`)에 현재 사용자가 쓸 수 있을 때만 `npm install -g @ast-grep/cli`. prefix에 권한이 필요하면 설치하지 않고 사용자 prefix 설정(`npm config set prefix ~/.npm-global`) 등 수동 조치를 안내한다.
+- `uv`: `pipx`가 PATH에 있을 때만 `pipx install uv`.
+- 설치 후 다시 찾아 PATH에서 보일 때만 `installed`로 보고한다. 설치는 됐지만 PATH 밖이면 `manual`(PATH 추가 방법), 실패하면 `failed`(오류 마지막 줄과 직접 실행할 명령)다. 이미 있으면 `ok`(already available)라 반복 실행해도 안전하고, 같은 세션에서 겹친 실행은 진행 중인 설치를 공유한다.
+- 그 밖의 도구(시스템 패키지·다운로드), API 키, Python 모듈은 설치하지 않고 `manual`과 정확한 명령으로 안내한다. sudo를 실행하지 않고 환경변수·자격 증명·설정 파일을 바꾸지 않는다.
+
+지원 범위: Linux·macOS·Windows에서 PATH 탐색(Windows는 PATHEXT)과 플랫폼별 안내를 제공한다. 자동 설치는 npm·pipx가 있는 환경에서만 시도하며, 실제 설치 동작은 가짜 실행기로만 테스트했다(테스트는 아무것도 내려받지 않는다).
 
 ## 검증과 유지보수
 
 ```bash
 node scripts/check.mjs
-node --test tests/runtime.test.mjs tests/vendor-corrections.test.mjs
+node --test tests/runtime.test.mjs tests/dependencies.test.mjs tests/vendor-corrections.test.mjs
 ```
 
-첫 명령은 구성, 프로필↔스킬 소속의 양방향 일치, 라이선스 포함 여부, 모든 vendor 파일의 Git blob/SHA-256, 별칭 파일, 교정 패치(역적용 시 upstream 원본 digest 재현), 로컬 Markdown 참조를 검사한다. `vendor-corrections.test.mjs`는 교정한 vendor CLI(TAO 누수·전처리 parity, asset_report)를 실제로 실행하고, Vercel 예제를 rules와 컴파일된 `AGENTS.md`에서 추출해 실행하며, DMAIC·8D 문서의 통계값을 입력값에서 다시 계산한다. 교정 전 원본(패치 역적용)으로 같은 오류가 재현되는 음성 대조도 포함한다. Python CLI 검사는 NumPy·Pillow가 있는 `python3`가 필요하며, 없으면 실패한다(`PI_WORKBENCH_SKIP_PYTHON_TESTS=1`이면 건너뜀으로 보고). `runtime.test.mjs`는 상태·명령·인수 자동완성(강제 Tab wrapper 포함)·요청별 프로필 안내·one-shot 선택(다음 사용자 입력 연결, 중복·취소·분기/reload, 대기열 `/skill:`·템플릿 취소, 읽기 중 경합)·명령 출력 기록과 렌더러·호스트 호환·doctor를 검증한다.
+첫 명령은 구성, 프로필↔스킬 소속의 양방향 일치, 라이선스 포함 여부, 모든 vendor 파일의 Git blob/SHA-256, 별칭 파일, 교정 패치(역적용 시 upstream 원본 digest 재현), 로컬 Markdown 참조를 검사한다. `vendor-corrections.test.mjs`는 교정한 vendor CLI(TAO 누수·전처리 parity, asset_report)를 실제로 실행하고, Vercel 예제를 rules와 컴파일된 `AGENTS.md`에서 추출해 실행하며, DMAIC·8D 문서의 통계값을 입력값에서 다시 계산한다. 교정 전 원본(패치 역적용)으로 같은 오류가 재현되는 음성 대조도 포함한다. Python CLI 검사는 NumPy·Pillow가 있는 `python3`가 필요하며, 없으면 실패한다(`PI_WORKBENCH_SKIP_PYTHON_TESTS=1`이면 건너뜀으로 보고). `runtime.test.mjs`는 상태·명령·인수 자동완성(강제 Tab wrapper 포함)·요청별 프로필 안내·one-shot 선택(다음 사용자 입력 연결, 중복·취소·분기/reload, 대기열 `/skill:`·템플릿 취소, 읽기 중 경합)·명령 출력 기록과 렌더러·호스트 호환·doctor·install-deps 명령과 umbrella 채널 응답을 검증한다. `dependencies.test.mjs`는 의존성 계약(상태·형식), 정상·누락·패키지 손상 점검, 가짜 실행기로 설치 성공·실패·권한 없는 prefix·PATH 밖 설치·반복 실행·겹친 실행을 검사한다.
 
 별도로 설치된 Pi로 실제 리소스 로딩과 세션·입력창 동작을 확인할 수 있다. `pi-session.mjs`는 스크립트 모델(faux)로 연속 요청·분기 전환·reload·auto/off, 다른 확장의 `triggerTurn` 실행 중 steering·follow-up에 붙는 선택, 대기열 `/skill:`·템플릿의 취소, 명령 출력 기록의 재열기에서 모델이 받는 내용을 검사하며 네트워크나 유료 모델을 쓰지 않는다. `pi-editor.mjs`는 Pi 입력창 편집기(pi-tui `Editor`)에 키를 입력해 Tab·Enter 동작을 확인한다(터미널 화면은 그리지 않음).
 

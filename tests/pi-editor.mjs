@@ -73,7 +73,7 @@ try {
   const tab = { key: "tab" };
   const enter = { key: "enter" };
   const escape = { key: "escape" };
-  const subcommands = ["list", "use ", "skill ", "cancel", "status", "doctor", "help"];
+  const subcommands = ["list", "use ", "skill ", "cancel", "status", "doctor", "install-deps", "help"];
   const catalog = JSON.parse(await (await import("node:fs/promises")).readFile(join(root, "catalog.json"), "utf8"));
   const profileValues = catalog.profiles.map((profile) => `use ${profile.id}`);
 

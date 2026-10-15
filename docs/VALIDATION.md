@@ -71,6 +71,6 @@ Not verified: model behaviour with the corrected guidance, and manufacturing or 
 - No end-to-end model conversation was executed against a paid model API. Skill discovery and extension behavior are verified; model compliance and output quality still depend on the selected model, tools, context and task.
 - No image, audio or video provider API was called, no account was authenticated, and no media or 3D generation quality was claimed.
 - No GPU training, dataset evaluation, actual game-engine playback or manufacturing process change was performed.
-- `doctor` is a presence report, not provider readiness certification.
+- `doctor` is a presence report, not provider readiness certification. `install-deps` is tested with fake runners only (npm prefix, `npm install -g @ast-grep/cli`, `pipx install uv`); no real install is performed by the tests.
 
 Reproduction commands are documented in the README. Tests and checks are included in the package.
