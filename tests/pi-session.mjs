@@ -14,19 +14,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import { OUTPUT_ENTRY_TYPE, SELECTED_SKILL_TYPE, SKILL_MARKER, displayWidth } from "../lib/runtime.js";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const hostPath = process.env.PI_WORKBENCH_HOST_MODULE ? resolve(process.env.PI_WORKBENCH_HOST_MODULE) : undefined;
-const host = await import(hostPath ? pathToFileURL(hostPath).href : "@earendil-works/pi-coding-agent");
-// pi-ai (faux provider) and pi-tui next to the host package: its own node_modules or the sibling install.
-const sibling = (name, envName) => {
-  const candidates = hostPath ? [
-    join(dirname(hostPath), "..", "node_modules", "@earendil-works", name, "dist", "index.js"),
-    join(dirname(hostPath), "..", "..", name, "dist", "index.js"),
-  ] : [];
-  const found = process.env[envName] ? resolve(process.env[envName]) : candidates.find((path) => existsSync(path));
-  return found ? pathToFileURL(found).href : `@earendil-works/${name}`;
-};
-const ai = await import(sibling("pi-ai", "PI_WORKBENCH_AI_MODULE"));
-const tui = await import(sibling("pi-tui", "PI_WORKBENCH_TUI_MODULE"));
+import { hostPath, host, ai, tui } from "./pi-host.mjs";
 
 const PROFILE = "Selected workbench profile:";
 const count = (text, needle) => text.split(needle).length - 1;

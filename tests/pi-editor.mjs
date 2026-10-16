@@ -2,24 +2,13 @@
 // mode builds it (built-in commands, then extension commands with their argument completion) and the wrapper this package registers
 // at session start (ctx.ui.addAutocompleteProvider). Key presses go through the editor exactly as typed; no terminal is drawn.
 import assert from "node:assert/strict";
-import { existsSync } from "node:fs";
 import { mkdtemp, mkdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const hostPath = process.env.PI_WORKBENCH_HOST_MODULE ? resolve(process.env.PI_WORKBENCH_HOST_MODULE) : undefined;
-const host = await import(hostPath ? pathToFileURL(hostPath).href : "@earendil-works/pi-coding-agent");
-const sibling = (relativePath, envName) => {
-  const candidates = hostPath ? [
-    join(dirname(hostPath), "..", "node_modules", "@earendil-works", ...relativePath),
-    join(dirname(hostPath), "..", "..", ...relativePath),
-  ] : [];
-  const found = process.env[envName] ? resolve(process.env[envName]) : candidates.find((path) => existsSync(path));
-  return found ? pathToFileURL(found).href : `@earendil-works/${relativePath.join("/").replace("/dist/index.js", "")}`;
-};
-const tui = await import(sibling(["pi-tui", "dist", "index.js"], "PI_WORKBENCH_TUI_MODULE"));
+import { hostPath, host, ai, tui } from "./pi-host.mjs";
 const { BUILTIN_SLASH_COMMANDS } = await import(hostPath ? pathToFileURL(join(dirname(hostPath), "core", "slash-commands.js")).href : "@earendil-works/pi-coding-agent/dist/core/slash-commands.js");
 
 const sandbox = await mkdtemp(join(tmpdir(), "pi-workbench-editor-"));
@@ -34,7 +23,8 @@ try {
   const settingsManager = host.SettingsManager.inMemory({ packages: [root], compaction: { enabled: false } });
   const resourceLoader = new host.DefaultResourceLoader({ cwd, agentDir, settingsManager, noPromptTemplates: true, noThemes: true, noContextFiles: true });
   await resourceLoader.reload();
-  ({ session } = await host.createAgentSession({ cwd, agentDir, resourceLoader, settingsManager, sessionManager: host.SessionManager.inMemory(cwd) }));
+  const modelRuntime = await host.ModelRuntime.create({ credentials: new ai.InMemoryCredentialStore(), modelsPath: null, refreshOnCreate: false });
+  ({ session } = await host.createAgentSession({ cwd, agentDir, modelRuntime, resourceLoader, settingsManager, sessionManager: host.SessionManager.inMemory(cwd) }));
   const wrappers = [];
   await session.bindExtensions({ uiContext: { notify() {}, addAutocompleteProvider: (factory) => wrappers.push(factory) }, mode: "tui" });
   assert.equal(wrappers.length, 1, "Workbench registers one autocomplete wrapper at session start.");
