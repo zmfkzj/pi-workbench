@@ -5,7 +5,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
-const expected = process.env.OMP_PI_VERSION || "1.3.0";
+const expected = process.env.OMP_PI_VERSION || "1.4.0";
 export const hostPath = process.env.PI_WORKBENCH_HOST_MODULE ? resolve(process.env.PI_WORKBENCH_HOST_MODULE)
   : fileURLToPath(import.meta.resolve("@earendil-works/pi-coding-agent"));
 const sibling = (name, envName) => {
