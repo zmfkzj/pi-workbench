@@ -107,6 +107,36 @@
         "video-director"
       ],
       "guidance": "Read the promo section of docs/WORKFLOWS.ko.md and provider adapters. Establish audience, channel, dimensions, safe areas, message and rights. Use actual gameplay for gameplay claims. Render, inspect and listen when tools exist; clearly label brief-only or unverified outputs."
+    },
+    {
+      "id": "research",
+      "title": "연구·학술",
+      "description": "가설·문헌·실험 설계·통계·논문 작성·인용 검증·심사 대응과 280개 분야별 연구 스킬",
+      "skills": [
+        "research-agent-skills",
+        "hypothesis-generation",
+        "scientific-brainstorming",
+        "scientific-critical-thinking",
+        "literature-review",
+        "paper-lookup",
+        "systematic-review-prisma",
+        "database-lookup",
+        "experimental-design",
+        "statistical-power",
+        "statistical-analysis",
+        "scientific-writing",
+        "scientific-visualization",
+        "unslop-academic-writing",
+        "citation-verification",
+        "reproducibility-statement",
+        "venue-templates",
+        "arxiv-submission",
+        "research-grants",
+        "peer-review",
+        "rebuttal-and-response-to-reviewers",
+        "autoresearch"
+      ],
+      "guidance": "Read the research section of docs/WORKFLOWS.ko.md. Start from the listed workflow skills; for domain tools (biology, chemistry, medicine, physics, ML and more) choose specialists from the Research Agent Skills index (references/catalog.md) and read vendor/research-agent-skills/skills/<name>/SKILL.md in this package, the sibling directories of the index. Tie claims and citations to checked sources, separate executed analyses from plans, and start no autonomous loop, paid API, upload or submission unless asked."
     }
   ],
   "skills": [
@@ -778,6 +808,531 @@
         "commit": "442fc9d6c89b1e937e6f7a477e7071ea75fcbea4",
         "license": "CC-BY-SA-4.0",
         "url": "https://github.com/trailofbits/skills/blob/442fc9d6c89b1e937e6f7a477e7071ea75fcbea4/plugins/property-based-testing/skills/property-based-testing/SKILL.md"
+      }
+    },
+    {
+      "id": "research-agent-skills",
+      "name": "Research Agent Skills Index",
+      "description": "280개 전문 연구 스킬 색인에서 분야·산출물에 맞는 최소 스킬 조합을 선택",
+      "profiles": [
+        "research"
+      ],
+      "path": "vendor/research-agent-skills/skills/research-agent-skills/SKILL.md",
+      "notes": [
+        "references/catalog.md에서 고른 전문 스킬은 이 패키지의 vendor/research-agent-skills/skills/<name>/SKILL.md(이 색인 디렉터리의 형제 폴더)에 함께 번들되어 있다. 원문의 설치 안내 대신 그 SKILL.md를 읽는다.",
+        "/workbench skill로 직접 고를 수 있는 것은 research 프로필의 핵심 항목뿐이다. 나머지 전문 스킬은 이 색인으로 찾아 그 경로를 읽는다."
+      ],
+      "dependencies": [],
+      "sourceId": "research-agent-skills",
+      "sourcePath": "skills/research-agent-skills",
+      "source": {
+        "repository": "KalarisLabs/research-agent-skills",
+        "path": "skills/research-agent-skills/SKILL.md",
+        "commit": "b0ee35abfd7e26428846fbd84f282114560a5fbd",
+        "license": "MIT",
+        "url": "https://github.com/KalarisLabs/research-agent-skills/blob/b0ee35abfd7e26428846fbd84f282114560a5fbd/skills/research-agent-skills/SKILL.md"
+      }
+    },
+    {
+      "id": "hypothesis-generation",
+      "name": "Hypothesis Generation",
+      "description": "관찰에서 검증 가능한 가설·경쟁 설명·판별 예측·사전등록 계획을 도출",
+      "profiles": [
+        "research"
+      ],
+      "path": "vendor/research-agent-skills/skills/hypothesis-generation/SKILL.md",
+      "notes": [
+        "가설을 사실로 쓰지 않는다. 판별 예측과 기각 조건을 함께 남긴다."
+      ],
+      "dependencies": [
+        "Python 3.11+ (번들 CLI 실행 시, 표준 라이브러리)"
+      ],
+      "sourceId": "research-agent-skills",
+      "sourcePath": "skills/hypothesis-generation",
+      "source": {
+        "repository": "KalarisLabs/research-agent-skills",
+        "path": "skills/hypothesis-generation/SKILL.md",
+        "commit": "b0ee35abfd7e26428846fbd84f282114560a5fbd",
+        "license": "MIT",
+        "url": "https://github.com/KalarisLabs/research-agent-skills/blob/b0ee35abfd7e26428846fbd84f282114560a5fbd/skills/hypothesis-generation/SKILL.md"
+      }
+    },
+    {
+      "id": "scientific-brainstorming",
+      "name": "Scientific Brainstorming",
+      "description": "가정·평가 기준·반론을 드러내는 연구 아이디어 발상과 우선순위 결정",
+      "profiles": [
+        "research"
+      ],
+      "path": "vendor/research-agent-skills/skills/scientific-brainstorming/SKILL.md",
+      "notes": [
+        "실증 검증·윤리·임상 판단은 해당 전문가나 스킬로 넘긴다."
+      ],
+      "dependencies": [
+        "Python 3.11+ (번들 CLI 실행 시, 표준 라이브러리)"
+      ],
+      "sourceId": "research-agent-skills",
+      "sourcePath": "skills/scientific-brainstorming",
+      "source": {
+        "repository": "KalarisLabs/research-agent-skills",
+        "path": "skills/scientific-brainstorming/SKILL.md",
+        "commit": "b0ee35abfd7e26428846fbd84f282114560a5fbd",
+        "license": "MIT",
+        "url": "https://github.com/KalarisLabs/research-agent-skills/blob/b0ee35abfd7e26428846fbd84f282114560a5fbd/skills/scientific-brainstorming/SKILL.md"
+      }
+    },
+    {
+      "id": "scientific-critical-thinking",
+      "name": "Scientific Critical Thinking",
+      "description": "연구 주장과 근거 품질, 편향·교란·근거 등급(GRADE 등) 평가",
+      "profiles": [
+        "research"
+      ],
+      "path": "vendor/research-agent-skills/skills/scientific-critical-thinking/SKILL.md",
+      "notes": [
+        "근거 등급은 판단이며 측정값이 아니다. 확인한 출처만 인용한다."
+      ],
+      "dependencies": [
+        "선택: scientific-schematics 그림 생성에는 OPENROUTER_API_KEY·OpenRouter 네트워크 접근(유료 API)"
+      ],
+      "sourceId": "research-agent-skills",
+      "sourcePath": "skills/scientific-critical-thinking",
+      "source": {
+        "repository": "KalarisLabs/research-agent-skills",
+        "path": "skills/scientific-critical-thinking/SKILL.md",
+        "commit": "b0ee35abfd7e26428846fbd84f282114560a5fbd",
+        "license": "MIT",
+        "url": "https://github.com/KalarisLabs/research-agent-skills/blob/b0ee35abfd7e26428846fbd84f282114560a5fbd/skills/scientific-critical-thinking/SKILL.md"
+      }
+    },
+    {
+      "id": "literature-review",
+      "name": "Literature Review",
+      "description": "PubMed·arXiv 등 검색, 선별, 종합, 인용 검증을 거친 체계적·범위 문헌고찰",
+      "profiles": [
+        "research"
+      ],
+      "path": "vendor/research-agent-skills/skills/literature-review/SKILL.md",
+      "notes": [
+        "parallel-cli·OpenRouter 경로는 사용자가 연결한 경우에만 쓴다. 없으면 현재 호스트의 검색·문서 도구와 공개 API로 진행하고 검색 범위를 밝힌다.",
+        "검색 문자열·날짜·결과 수를 기록한다. 읽지 않은 논문을 읽었다고 쓰지 않는다."
+      ],
+      "dependencies": [
+        "네트워크; Python 3 스크립트; 선택: parallel-cli(PARALLEL_API_KEY), OPENROUTER_API_KEY, PDF 출력 도구"
+      ],
+      "sourceId": "research-agent-skills",
+      "sourcePath": "skills/literature-review",
+      "source": {
+        "repository": "KalarisLabs/research-agent-skills",
+        "path": "skills/literature-review/SKILL.md",
+        "commit": "b0ee35abfd7e26428846fbd84f282114560a5fbd",
+        "license": "MIT",
+        "url": "https://github.com/KalarisLabs/research-agent-skills/blob/b0ee35abfd7e26428846fbd84f282114560a5fbd/skills/literature-review/SKILL.md"
+      }
+    },
+    {
+      "id": "paper-lookup",
+      "name": "Paper Lookup",
+      "description": "18개 학술 API로 논문·인용·오픈액세스 원문을 재현 가능한 출처와 함께 조회",
+      "profiles": [
+        "research"
+      ],
+      "path": "vendor/research-agent-skills/skills/paper-lookup/SKILL.md",
+      "notes": [
+        "조회 실패·속도 제한을 결과 없음으로 보고하지 않는다. API 키 값은 출력하지 않는다."
+      ],
+      "dependencies": [
+        "네트워크·curl; Python 3.11+; 선택: NCBI_API_KEY, S2_API_KEY, CORE_API_KEY, OPENALEX_API_KEY"
+      ],
+      "sourceId": "research-agent-skills",
+      "sourcePath": "skills/paper-lookup",
+      "source": {
+        "repository": "KalarisLabs/research-agent-skills",
+        "path": "skills/paper-lookup/SKILL.md",
+        "commit": "b0ee35abfd7e26428846fbd84f282114560a5fbd",
+        "license": "MIT",
+        "url": "https://github.com/KalarisLabs/research-agent-skills/blob/b0ee35abfd7e26428846fbd84f282114560a5fbd/skills/paper-lookup/SKILL.md"
+      }
+    },
+    {
+      "id": "systematic-review-prisma",
+      "name": "Systematic Review (PRISMA 2020)",
+      "description": "PRISMA 2020 프로토콜·검색식·중복 제거·선별·비뚤림 평가·흐름도 작성",
+      "profiles": [
+        "research"
+      ],
+      "path": "vendor/research-agent-skills/skills/systematic-review-prisma/SKILL.md",
+      "notes": [
+        "실제로 수행한 검색·선별 단계와 계획 단계를 구분한다. 등록(PROSPERO/OSF)은 사용자가 수행한다."
+      ],
+      "dependencies": [
+        "Python 3.9+ (번들 스크립트); 선택: Graphviz"
+      ],
+      "sourceId": "research-agent-skills",
+      "sourcePath": "skills/systematic-review-prisma",
+      "source": {
+        "repository": "KalarisLabs/research-agent-skills",
+        "path": "skills/systematic-review-prisma/SKILL.md",
+        "commit": "b0ee35abfd7e26428846fbd84f282114560a5fbd",
+        "license": "MIT",
+        "url": "https://github.com/KalarisLabs/research-agent-skills/blob/b0ee35abfd7e26428846fbd84f282114560a5fbd/skills/systematic-review-prisma/SKILL.md"
+      }
+    },
+    {
+      "id": "database-lookup",
+      "name": "Database Lookup",
+      "description": "공개 데이터베이스 API를 명시한 엔드포인트·필터·출처로 재현 가능하게 조회",
+      "profiles": [
+        "research"
+      ],
+      "path": "vendor/research-agent-skills/skills/database-lookup/SKILL.md",
+      "notes": [
+        "일반 지식으로 추정한 값을 조회 결과처럼 쓰지 않는다. 조회 시점·버전·쿼리를 남긴다."
+      ],
+      "dependencies": [
+        "네트워크; 데이터베이스별 선택 API 키(예: NCBI_API_KEY, FRED_API_KEY)"
+      ],
+      "sourceId": "research-agent-skills",
+      "sourcePath": "skills/database-lookup",
+      "source": {
+        "repository": "KalarisLabs/research-agent-skills",
+        "path": "skills/database-lookup/SKILL.md",
+        "commit": "b0ee35abfd7e26428846fbd84f282114560a5fbd",
+        "license": "MIT",
+        "url": "https://github.com/KalarisLabs/research-agent-skills/blob/b0ee35abfd7e26428846fbd84f282114560a5fbd/skills/database-lookup/SKILL.md"
+      }
+    },
+    {
+      "id": "experimental-design",
+      "name": "Experimental Design",
+      "description": "데이터 수집 전 무작위화·블록화·요인 설계·DOE 배치 설계",
+      "profiles": [
+        "research"
+      ],
+      "path": "vendor/research-agent-skills/skills/experimental-design/SKILL.md",
+      "notes": [
+        "실험 수행·윤리 승인·측정 결과를 만들어내지 않는다. 설계의 가정과 제약을 밝힌다."
+      ],
+      "dependencies": [
+        "Python 3.10+, numpy, pandas, pyDOE3 (프로젝트 환경에 설치)"
+      ],
+      "sourceId": "research-agent-skills",
+      "sourcePath": "skills/experimental-design",
+      "source": {
+        "repository": "KalarisLabs/research-agent-skills",
+        "path": "skills/experimental-design/SKILL.md",
+        "commit": "b0ee35abfd7e26428846fbd84f282114560a5fbd",
+        "license": "MIT",
+        "url": "https://github.com/KalarisLabs/research-agent-skills/blob/b0ee35abfd7e26428846fbd84f282114560a5fbd/skills/experimental-design/SKILL.md"
+      }
+    },
+    {
+      "id": "statistical-power",
+      "name": "Statistical Power",
+      "description": "표본 수·검정력·최소 검출 효과 크기 계산과 시뮬레이션 검정력",
+      "profiles": [
+        "research"
+      ],
+      "path": "vendor/research-agent-skills/skills/statistical-power/SKILL.md",
+      "notes": [
+        "효과 크기 가정의 출처를 밝힌다. 근거 없는 효과 크기로 표본 수를 확정하지 않는다."
+      ],
+      "dependencies": [
+        "Python 3.10+, statsmodels, scipy, pingouin, numpy, matplotlib; 선택: lifelines"
+      ],
+      "sourceId": "research-agent-skills",
+      "sourcePath": "skills/statistical-power",
+      "source": {
+        "repository": "KalarisLabs/research-agent-skills",
+        "path": "skills/statistical-power/SKILL.md",
+        "commit": "b0ee35abfd7e26428846fbd84f282114560a5fbd",
+        "license": "MIT",
+        "url": "https://github.com/KalarisLabs/research-agent-skills/blob/b0ee35abfd7e26428846fbd84f282114560a5fbd/skills/statistical-power/SKILL.md"
+      }
+    },
+    {
+      "id": "statistical-analysis",
+      "name": "Statistical Analysis",
+      "description": "검정 선택·가정 점검·효과 크기·베이즈 대안·APA 형식 보고",
+      "profiles": [
+        "research"
+      ],
+      "path": "vendor/research-agent-skills/skills/statistical-analysis/SKILL.md",
+      "notes": [
+        "실제 데이터로 실행한 분석과 예시·계획을 구분한다. 유의성을 인과의 증거로 쓰지 않는다."
+      ],
+      "dependencies": [
+        "Python 3, pingouin, scipy, statsmodels, pandas (uv pip install 등 프로젝트 환경); 선택: pymc, arviz"
+      ],
+      "sourceId": "research-agent-skills",
+      "sourcePath": "skills/statistical-analysis",
+      "source": {
+        "repository": "KalarisLabs/research-agent-skills",
+        "path": "skills/statistical-analysis/SKILL.md",
+        "commit": "b0ee35abfd7e26428846fbd84f282114560a5fbd",
+        "license": "MIT",
+        "url": "https://github.com/KalarisLabs/research-agent-skills/blob/b0ee35abfd7e26428846fbd84f282114560a5fbd/skills/statistical-analysis/SKILL.md"
+      }
+    },
+    {
+      "id": "scientific-writing",
+      "name": "Scientific Writing",
+      "description": "근거 출처·보고 지침·저자 책임을 추적하는 원고 작성·수정·점검",
+      "profiles": [
+        "research"
+      ],
+      "path": "vendor/research-agent-skills/skills/scientific-writing/SKILL.md",
+      "notes": [
+        "확인하지 않은 결과·인용을 만들지 않는다. 사용자의 원고 언어와 투고처 규칙을 우선한다."
+      ],
+      "dependencies": [
+        "Python 3.11+ (번들 CLI 실행 시, 표준 라이브러리)"
+      ],
+      "sourceId": "research-agent-skills",
+      "sourcePath": "skills/scientific-writing",
+      "source": {
+        "repository": "KalarisLabs/research-agent-skills",
+        "path": "skills/scientific-writing/SKILL.md",
+        "commit": "b0ee35abfd7e26428846fbd84f282114560a5fbd",
+        "license": "MIT",
+        "url": "https://github.com/KalarisLabs/research-agent-skills/blob/b0ee35abfd7e26428846fbd84f282114560a5fbd/skills/scientific-writing/SKILL.md"
+      }
+    },
+    {
+      "id": "scientific-visualization",
+      "name": "Scientific Visualization",
+      "description": "정확하고 접근성 있는 출판용 그림 설계·불확실성 표시·색 대비·내보내기 점검",
+      "profiles": [
+        "research"
+      ],
+      "path": "vendor/research-agent-skills/skills/scientific-visualization/SKILL.md",
+      "notes": [
+        "렌더링한 그림을 실제로 열어 확인하지 않았다면 시각 검수를 미완료로 보고한다."
+      ],
+      "dependencies": [
+        "Python 3.11+, uv; 필요 시 Matplotlib, Pillow, pypdf; Plotly 정적 내보내기는 Chrome/Chromium"
+      ],
+      "sourceId": "research-agent-skills",
+      "sourcePath": "skills/scientific-visualization",
+      "source": {
+        "repository": "KalarisLabs/research-agent-skills",
+        "path": "skills/scientific-visualization/SKILL.md",
+        "commit": "b0ee35abfd7e26428846fbd84f282114560a5fbd",
+        "license": "MIT",
+        "url": "https://github.com/KalarisLabs/research-agent-skills/blob/b0ee35abfd7e26428846fbd84f282114560a5fbd/skills/scientific-visualization/SKILL.md"
+      }
+    },
+    {
+      "id": "unslop-academic-writing",
+      "name": "Unslop Academic Writing",
+      "description": "학술 문장의 상투어·과잉 수식·모호한 주장 제거",
+      "profiles": [
+        "research"
+      ],
+      "path": "vendor/research-agent-skills/skills/unslop-academic-writing/SKILL.md",
+      "notes": [
+        "문체 교정이 내용·수치·인용을 바꾸지 않게 한다."
+      ],
+      "dependencies": [
+        "Python 3.9+ (scripts/slop_check.py)"
+      ],
+      "sourceId": "research-agent-skills",
+      "sourcePath": "skills/unslop-academic-writing",
+      "source": {
+        "repository": "KalarisLabs/research-agent-skills",
+        "path": "skills/unslop-academic-writing/SKILL.md",
+        "commit": "b0ee35abfd7e26428846fbd84f282114560a5fbd",
+        "license": "MIT",
+        "url": "https://github.com/KalarisLabs/research-agent-skills/blob/b0ee35abfd7e26428846fbd84f282114560a5fbd/skills/unslop-academic-writing/SKILL.md"
+      }
+    },
+    {
+      "id": "citation-verification",
+      "name": "Citation Verification",
+      "description": "Crossref·OpenAlex·arXiv로 참고문헌의 실재와 메타데이터 일치를 검증",
+      "profiles": [
+        "research"
+      ],
+      "path": "vendor/research-agent-skills/skills/citation-verification/SKILL.md",
+      "notes": [
+        "조회하지 못한 항목은 검증 실패가 아니라 미확인으로 구분한다."
+      ],
+      "dependencies": [
+        "Python 3.9+; api.crossref.org·api.openalex.org·export.arxiv.org 네트워크 접근"
+      ],
+      "sourceId": "research-agent-skills",
+      "sourcePath": "skills/citation-verification",
+      "source": {
+        "repository": "KalarisLabs/research-agent-skills",
+        "path": "skills/citation-verification/SKILL.md",
+        "commit": "b0ee35abfd7e26428846fbd84f282114560a5fbd",
+        "license": "MIT",
+        "url": "https://github.com/KalarisLabs/research-agent-skills/blob/b0ee35abfd7e26428846fbd84f282114560a5fbd/skills/citation-verification/SKILL.md"
+      }
+    },
+    {
+      "id": "reproducibility-statement",
+      "name": "Reproducibility Statement",
+      "description": "데이터·코드 공개, 재현성 체크리스트, CRediT·이해 상충·AI 사용 고지 작성",
+      "profiles": [
+        "research"
+      ],
+      "path": "vendor/research-agent-skills/skills/reproducibility-statement/SKILL.md",
+      "notes": [
+        "실제로 공개·보관하지 않은 데이터·코드·DOI를 공개했다고 쓰지 않는다."
+      ],
+      "dependencies": [],
+      "sourceId": "research-agent-skills",
+      "sourcePath": "skills/reproducibility-statement",
+      "source": {
+        "repository": "KalarisLabs/research-agent-skills",
+        "path": "skills/reproducibility-statement/SKILL.md",
+        "commit": "b0ee35abfd7e26428846fbd84f282114560a5fbd",
+        "license": "MIT",
+        "url": "https://github.com/KalarisLabs/research-agent-skills/blob/b0ee35abfd7e26428846fbd84f282114560a5fbd/skills/reproducibility-statement/SKILL.md"
+      }
+    },
+    {
+      "id": "venue-templates",
+      "name": "Venue Templates",
+      "description": "학술지·학회·포스터·연구비 양식과 번들 LaTeX 템플릿으로 투고 형식 준비",
+      "profiles": [
+        "research"
+      ],
+      "path": "vendor/research-agent-skills/skills/venue-templates/SKILL.md",
+      "notes": [
+        "번들 출판사·학회 템플릿은 각자의 조건을 따른다. 현재 페이지·익명화 규칙은 투고처의 최신 공식 안내로 확인한다."
+      ],
+      "dependencies": [
+        "Python 3.11+ (보조 스크립트); 선택: LaTeX, Poppler"
+      ],
+      "sourceId": "research-agent-skills",
+      "sourcePath": "skills/venue-templates",
+      "source": {
+        "repository": "KalarisLabs/research-agent-skills",
+        "path": "skills/venue-templates/SKILL.md",
+        "commit": "b0ee35abfd7e26428846fbd84f282114560a5fbd",
+        "license": "MIT",
+        "url": "https://github.com/KalarisLabs/research-agent-skills/blob/b0ee35abfd7e26428846fbd84f282114560a5fbd/skills/venue-templates/SKILL.md"
+      }
+    },
+    {
+      "id": "arxiv-submission",
+      "name": "arXiv Submission",
+      "description": "arXiv 투고용 TeX 소스 정리·비공개 주석 제거·분류·버전 관리 준비",
+      "profiles": [
+        "research"
+      ],
+      "path": "vendor/research-agent-skills/skills/arxiv-submission/SKILL.md",
+      "notes": [
+        "실제 업로드·공개는 사용자가 요청하고 수행한다. 준비 결과와 게시를 구분한다."
+      ],
+      "dependencies": [
+        "Python 3.9+ (점검 스크립트); .bbl 생성용 TeX"
+      ],
+      "sourceId": "research-agent-skills",
+      "sourcePath": "skills/arxiv-submission",
+      "source": {
+        "repository": "KalarisLabs/research-agent-skills",
+        "path": "skills/arxiv-submission/SKILL.md",
+        "commit": "b0ee35abfd7e26428846fbd84f282114560a5fbd",
+        "license": "MIT",
+        "url": "https://github.com/KalarisLabs/research-agent-skills/blob/b0ee35abfd7e26428846fbd84f282114560a5fbd/skills/arxiv-submission/SKILL.md"
+      }
+    },
+    {
+      "id": "research-grants",
+      "name": "Research Grants",
+      "description": "NSF·NIH·DOE·DARPA·NSTC 연구비 제안서의 목표·의의·예산·일정 작성",
+      "profiles": [
+        "research"
+      ],
+      "path": "vendor/research-agent-skills/skills/research-grants/SKILL.md",
+      "notes": [
+        "기관 규정은 현재 공모 안내로 확인한다. 예비 결과·협력 확약을 만들어내지 않는다."
+      ],
+      "dependencies": [
+        "선택: scientific-schematics 그림 생성에는 OPENROUTER_API_KEY·OpenRouter 네트워크 접근(유료 API)"
+      ],
+      "sourceId": "research-agent-skills",
+      "sourcePath": "skills/research-grants",
+      "source": {
+        "repository": "KalarisLabs/research-agent-skills",
+        "path": "skills/research-grants/SKILL.md",
+        "commit": "b0ee35abfd7e26428846fbd84f282114560a5fbd",
+        "license": "MIT",
+        "url": "https://github.com/KalarisLabs/research-agent-skills/blob/b0ee35abfd7e26428846fbd84f282114560a5fbd/skills/research-grants/SKILL.md"
+      }
+    },
+    {
+      "id": "peer-review",
+      "name": "Peer Review",
+      "description": "근거 기반 동료 심사 초안, 방법·통계·재현성·윤리·인용 점검",
+      "profiles": [
+        "research"
+      ],
+      "path": "vendor/research-agent-skills/skills/peer-review/SKILL.md",
+      "notes": [
+        "권한 있는 심사에만 사용하고 기밀 원고를 외부 서비스에 보내지 않는다."
+      ],
+      "dependencies": [
+        "Python 3.11+ (번들 CLI 실행 시, 표준 라이브러리)"
+      ],
+      "sourceId": "research-agent-skills",
+      "sourcePath": "skills/peer-review",
+      "source": {
+        "repository": "KalarisLabs/research-agent-skills",
+        "path": "skills/peer-review/SKILL.md",
+        "commit": "b0ee35abfd7e26428846fbd84f282114560a5fbd",
+        "license": "MIT",
+        "url": "https://github.com/KalarisLabs/research-agent-skills/blob/b0ee35abfd7e26428846fbd84f282114560a5fbd/skills/peer-review/SKILL.md"
+      }
+    },
+    {
+      "id": "rebuttal-and-response-to-reviewers",
+      "name": "Rebuttal and Response to Reviewers",
+      "description": "심사 의견 분류와 항목별 답변·반박·수정 추적",
+      "profiles": [
+        "research"
+      ],
+      "path": "vendor/research-agent-skills/skills/rebuttal-and-response-to-reviewers/SKILL.md",
+      "notes": [
+        "수행하지 않은 추가 실험이나 수정을 완료했다고 쓰지 않는다."
+      ],
+      "dependencies": [],
+      "sourceId": "research-agent-skills",
+      "sourcePath": "skills/rebuttal-and-response-to-reviewers",
+      "source": {
+        "repository": "KalarisLabs/research-agent-skills",
+        "path": "skills/rebuttal-and-response-to-reviewers/SKILL.md",
+        "commit": "b0ee35abfd7e26428846fbd84f282114560a5fbd",
+        "license": "MIT",
+        "url": "https://github.com/KalarisLabs/research-agent-skills/blob/b0ee35abfd7e26428846fbd84f282114560a5fbd/skills/rebuttal-and-response-to-reviewers/SKILL.md"
+      }
+    },
+    {
+      "id": "autoresearch",
+      "name": "Autoresearch",
+      "description": "내부·외부 두 루프로 실험 반복과 연구 방향 조정을 관리하는 자율 연구 운영",
+      "profiles": [
+        "research"
+      ],
+      "path": "vendor/research-agent-skills/skills/autoresearch/SKILL.md",
+      "notes": [
+        "Pi에는 Claude Code /loop나 OpenClaw cron이 없다. 반복 실행·정기 호출·git commit·외부 공개는 사용자가 명시하고 호스트가 허용할 때만 한다. 'never stop' 지시는 사용자 범위와 중단 요청보다 우선하지 않는다.",
+        "원본 Claude·OpenClaw·Codex 전용 명령·설치 안내는 Pi에서 실행 가능한 기능으로 간주하지 않는다."
+      ],
+      "dependencies": [
+        "실험 대상 런타임·데이터·연산 자원; 선택: arxiv, semanticscholar Python 패키지"
+      ],
+      "sourceId": "research-agent-skills",
+      "sourcePath": "skills/autoresearch",
+      "source": {
+        "repository": "KalarisLabs/research-agent-skills",
+        "path": "skills/autoresearch/SKILL.md",
+        "commit": "b0ee35abfd7e26428846fbd84f282114560a5fbd",
+        "license": "MIT",
+        "url": "https://github.com/KalarisLabs/research-agent-skills/blob/b0ee35abfd7e26428846fbd84f282114560a5fbd/skills/autoresearch/SKILL.md"
       }
     }
   ]

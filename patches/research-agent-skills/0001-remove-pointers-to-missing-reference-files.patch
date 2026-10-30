@@ -1,0 +1,199 @@
+pi-workbench correction to KalarisLabs/research-agent-skills at b0ee35abfd7e26428846fbd84f282114560a5fbd
+License of the changed files: MIT (unchanged).
+
+Eight SKILL.md files point to reference files that the upstream repository does not contain
+(llamaguard, constitutional-ai, nemo-guardrails and mamba-architecture: their whole "Advanced topics"
+section; optimizing-attention-flash, ray-train, verl-rl-training and speculative-decoding: the
+individual pointers). The pointers are removed so an agent does not look for missing files; the
+existing reference links in the same sections are kept.
+
+Paths are relative to the upstream repository root. Applied strictly by
+scripts/vendor_sources.py through scripts/vendor_patches.mjs; verified by scripts/check.mjs.
+diff --git a/skills/constitutional-ai/SKILL.md b/skills/constitutional-ai/SKILL.md
+--- a/skills/constitutional-ai/SKILL.md
++++ b/skills/constitutional-ai/SKILL.md
+@@ -9,6 +9,7 @@
+   tags: Safety Alignment, Constitutional AI, RLAIF, Self-Critique, Harmlessness, Anthropic, AI Safety, RL From AI Feedback, Claude
+   dependencies: transformers, torch, trl
+ ---
++<!-- Modified by pi-workbench: removed pointers to reference files that do not exist in the upstream repository (the "Advanced topics" section). Upstream original and patch: see the pi-workbench patches/research-agent-skills/ directory and THIRD_PARTY_NOTICES.md. -->
+ 
+ # Constitutional AI - Harmlessness from AI Feedback
+ 
+@@ -259,14 +260,6 @@
+ final_preference = majority_vote(prefs_1, prefs_2, prefs_3)
+ ```
+ 
+-## Advanced topics
+-
+-**Constitution design**: See references/constitution-design.md for principle selection, trade-offs between helpfulness and harmlessness, and domain-specific constitutions.
+-
+-**RLAIF vs RLHF**: See references/rlaif-comparison.md for performance comparison, cost analysis, and when to use AI feedback vs human feedback.
+-
+-**Chain-of-thought reasoning**: See references/cot-critique.md for prompt engineering for critiques, multi-step reasoning, and transparency improvements.
+-
+ ## Hardware requirements
+ 
+ - **GPU**: NVIDIA A100/H100 recommended
+diff --git a/skills/llamaguard/SKILL.md b/skills/llamaguard/SKILL.md
+--- a/skills/llamaguard/SKILL.md
++++ b/skills/llamaguard/SKILL.md
+@@ -9,6 +9,7 @@
+   tags: Safety Alignment, LlamaGuard, Content Moderation, Meta, Guardrails, Safety Classification, Input Filtering, Output Filtering, AI Safety
+   dependencies: transformers, torch, vllm
+ ---
++<!-- Modified by pi-workbench: removed pointers to reference files that do not exist in the upstream repository (the "Advanced topics" section). Upstream original and patch: see the pi-workbench patches/research-agent-skills/ directory and THIRD_PARTY_NOTICES.md. -->
+ 
+ # LlamaGuard - AI Content Moderation
+ 
+@@ -302,14 +303,6 @@
+ # Memory: 14GB → 7GB
+ ```
+ 
+-## Advanced topics
+-
+-**Custom categories**: See references/custom-categories.md for fine-tuning LlamaGuard with domain-specific safety categories.
+-
+-**Performance benchmarks**: See references/benchmarks.md for accuracy comparison with other moderation APIs and latency optimization.
+-
+-**Deployment guide**: See references/deployment.md for Sagemaker, Kubernetes, and scaling strategies.
+-
+ ## Hardware requirements
+ 
+ - **GPU**: NVIDIA T4/A10/A100
+diff --git a/skills/mamba-architecture/SKILL.md b/skills/mamba-architecture/SKILL.md
+--- a/skills/mamba-architecture/SKILL.md
++++ b/skills/mamba-architecture/SKILL.md
+@@ -9,6 +9,7 @@
+   tags: Model Architecture, Mamba, State Space Models, SSM, Linear Complexity, Long Context, Efficient Inference, Hardware-Aware, Alternative To Transformers
+   dependencies: mamba-ssm, torch, transformers, causal-conv1d
+ ---
++<!-- Modified by pi-workbench: removed pointers to reference files that do not exist in the upstream repository (the "Advanced topics" section). Upstream original and patch: see the pi-workbench patches/research-agent-skills/ directory and THIRD_PARTY_NOTICES.md. -->
+ 
+ # Mamba - Selective State Space Models
+ 
+@@ -226,14 +227,6 @@
+ model = MambaLMHeadModel.from_pretrained("state-spaces/mamba-2.8b")
+ ```
+ 
+-## Advanced topics
+-
+-**Selective SSM**: See references/selective-ssm.md for mathematical formulation, state-space equations, and how selectivity enables O(n) complexity.
+-
+-**Mamba-2 architecture**: See references/mamba2-details.md for multi-head structure, tensor parallelism, and distributed training setup.
+-
+-**Performance optimization**: See references/performance.md for hardware-aware design, CUDA kernels, and memory efficiency techniques.
+-
+ ## Hardware requirements
+ 
+ - **GPU**: NVIDIA with CUDA 11.6+
+diff --git a/skills/nemo-guardrails/SKILL.md b/skills/nemo-guardrails/SKILL.md
+--- a/skills/nemo-guardrails/SKILL.md
++++ b/skills/nemo-guardrails/SKILL.md
+@@ -9,6 +9,7 @@
+   tags: Safety Alignment, NeMo Guardrails, NVIDIA, Jailbreak Detection, Guardrails, Colang, Runtime Safety, Hallucination Detection, PII Filtering, Production
+   dependencies: nemoguardrails
+ ---
++<!-- Modified by pi-workbench: removed pointers to reference files that do not exist in the upstream repository (the "Advanced topics" section). Upstream original and patch: see the pi-workbench patches/research-agent-skills/ directory and THIRD_PARTY_NOTICES.md. -->
+ 
+ # NeMo Guardrails - Programmable Safety for LLMs
+ 
+@@ -265,14 +266,6 @@
+     return all(verified)
+ ```
+ 
+-## Advanced topics
+-
+-**Colang 2.0 DSL**: See references/colang-guide.md for flow syntax, actions, variables, and advanced patterns.
+-
+-**Integration guide**: See references/integrations.md for LlamaGuard, Presidio, ActiveFence, and custom models.
+-
+-**Performance optimization**: See references/performance.md for latency reduction, caching, and batching strategies.
+-
+ ## Hardware requirements
+ 
+ - **GPU**: Optional (CPU works, GPU faster)
+diff --git a/skills/optimizing-attention-flash/SKILL.md b/skills/optimizing-attention-flash/SKILL.md
+--- a/skills/optimizing-attention-flash/SKILL.md
++++ b/skills/optimizing-attention-flash/SKILL.md
+@@ -9,6 +9,7 @@
+   tags: Optimization, Flash Attention, Attention Optimization, Memory Efficiency, Speed Optimization, Long Context, PyTorch, SDPA, H100, FP8, Transformers
+   dependencies: flash-attn, torch, transformers
+ ---
++<!-- Modified by pi-workbench: removed pointers to reference files that do not exist in the upstream repository (references/algorithm.md, references/advanced-features.md). Upstream original and patch: see the pi-workbench patches/research-agent-skills/ directory and THIRD_PARTY_NOTICES.md. -->
+ 
+ # Flash Attention - Fast Memory-Efficient Attention
+ 
+@@ -344,10 +345,6 @@
+ 
+ **Performance benchmarks**: See [references/benchmarks.md](references/benchmarks.md) for detailed speed and memory comparisons across GPUs and sequence lengths.
+ 
+-**Algorithm details**: See references/algorithm.md for tiling strategy, recomputation, and IO complexity analysis.
+-
+-**Advanced features**: See references/advanced-features.md for rotary embeddings, ALiBi, paged KV cache, and custom attention masks.
+-
+ ## Hardware requirements
+ 
+ - **GPU**: NVIDIA Ampere+ (A100, A10, A30) or AMD MI200+
+diff --git a/skills/ray-train/SKILL.md b/skills/ray-train/SKILL.md
+--- a/skills/ray-train/SKILL.md
++++ b/skills/ray-train/SKILL.md
+@@ -9,6 +9,7 @@
+   tags: Ray Train, Distributed Training, Orchestration, Ray, Hyperparameter Tuning, Fault Tolerance, Elastic Scaling, Multi-Node, PyTorch, TensorFlow
+   dependencies: ray[train], torch, transformers
+ ---
++<!-- Modified by pi-workbench: removed pointers to reference files that do not exist in the upstream repository (references/hyperparameter-tuning.md, references/custom-loops.md). Upstream original and patch: see the pi-workbench patches/research-agent-skills/ directory and THIRD_PARTY_NOTICES.md. -->
+ 
+ # Ray Train - Distributed Training Orchestration
+ 
+@@ -379,10 +380,6 @@
+ 
+ **Multi-node setup**: See [references/multi-node.md](references/multi-node.md) for Ray cluster deployment on AWS, GCP, Kubernetes, and SLURM.
+ 
+-**Hyperparameter tuning**: See references/hyperparameter-tuning.md for Ray Tune integration, search algorithms (Optuna, HyperOpt), and population-based training.
+-
+-**Custom training loops**: See references/custom-loops.md for advanced Ray Train usage, custom backends, and integration with other frameworks.
+-
+ ## Hardware requirements
+ 
+ - **Single node**: 1+ GPUs (or CPUs)
+diff --git a/skills/speculative-decoding/SKILL.md b/skills/speculative-decoding/SKILL.md
+--- a/skills/speculative-decoding/SKILL.md
++++ b/skills/speculative-decoding/SKILL.md
+@@ -9,6 +9,7 @@
+   tags: Emerging Techniques, Speculative Decoding, Medusa, Lookahead Decoding, Fast Inference, Draft Models, Tree Attention, Parallel Generation, Latency Reduction, Inference Optimization
+   dependencies: transformers, torch
+ ---
++<!-- Modified by pi-workbench: removed pointers to reference files that do not exist in the upstream repository (references/draft_model.md). Upstream original and patch: see the pi-workbench patches/research-agent-skills/ directory and THIRD_PARTY_NOTICES.md. -->
+ 
+ # Speculative Decoding: Accelerating LLM Inference
+ 
+@@ -462,6 +463,5 @@
+ 
+ ## See Also
+ 
+-- `references/draft_model.md` - Draft model selection and training
+ - `references/medusa.md` - Medusa architecture and training
+ - `references/lookahead.md` - Lookahead decoding implementation details
+diff --git a/skills/verl-rl-training/SKILL.md b/skills/verl-rl-training/SKILL.md
+--- a/skills/verl-rl-training/SKILL.md
++++ b/skills/verl-rl-training/SKILL.md
+@@ -9,6 +9,7 @@
+   tags: Reinforcement Learning, RLHF, GRPO, PPO, Post-Training, Distributed Training
+   dependencies: verl>=0.3.0, torch>=2.0.0, ray>=2.41.0, vllm>=0.8.2, transformers>=4.40.0
+ ---
++<!-- Modified by pi-workbench: removed pointers to reference files that do not exist in the upstream repository (references/multi-turn.md). Upstream original and patch: see the pi-workbench patches/research-agent-skills/ directory and THIRD_PARTY_NOTICES.md. -->
+ 
+ # verl: Volcano Engine Reinforcement Learning for LLMs
+ 
+@@ -354,10 +355,6 @@
+ 
+ ## Advanced Topics
+ 
+-### Multi-Turn Tool Calling
+-
+-See references/multi-turn.md for agentic workflows with tool use.
+-
+ ### Vision-Language Models
+ 
+ ```yaml

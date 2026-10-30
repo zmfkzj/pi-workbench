@@ -4,7 +4,7 @@ These are newly authored integration instructions. Files under `vendor/` are the
 
 ## How selection works
 
-The extension registers `/workbench`. Pi discovers only the seven routing skills under `skills/`; the original skill collection is kept under `vendor/` and is read when needed. This avoids placing every original skill's instructions in every request.
+The extension registers `/workbench`. Pi discovers only the eight routing skills under `skills/`; the original skill collection is kept under `vendor/` and is read when needed. This avoids placing every original skill's instructions in every request.
 
 - `auto` is the default. Normal Pi skill discovery chooses a suitable `wb-*` routing skill from its name and description. Automatic selection is model behavior, not a forced keyword classifier.
 - `/workbench use <profile>` stores a profile on the current session branch. Each model request then carries exactly one copy of that profile's concise directions, file locations and integration notes, placed first in the request's conversation. It is built per request from the current branch (Pi `context` event) and never stored in the session, so it does not accumulate across requests, follows branch switches and reloads, and disappears with `auto` or `off`. Profile guidance or command output that an earlier version stored is left out of requests; the session file and any summary already produced are not rewritten. Hosts without Pi's structured prompt options (for example OMP) fall back to an additive message per request.
@@ -70,6 +70,14 @@ Video Director edits and renders supplied footage with HyperFrames and local med
 Repository-root Video Director example media is excluded from this package. Use footage and audio whose provenance and rights are known. Verify render dimensions, frame rate, safe areas, actual playback, title readability and audio mix. A still contact sheet cannot verify playback or sound.
 
 The bundled fire/smoke implementation targets Three.js r170, WebGL2 and GLSL. Use its ready-made module only in compatible projects. Other engines can use its reference quality criteria while implementing the effect using their own APIs and shaders.
+
+## Research Agent Skills
+
+The `research` profile bundles the `skills/` tree of [KalarisLabs/research-agent-skills](https://github.com/KalarisLabs/research-agent-skills) at the locked commit (one developer `.gitignore` excluded, eight SKILL.md files corrected to drop pointers to reference files the upstream repository lacks): 281 skill directories, that is 280 specialists and the `research-agent-skills` index whose `references/catalog.md` lists every specialist by category. Only 22 of them are catalog entries (the index and the cross-domain workflow skills the upstream README names per research stage), so `/workbench list research`, `/workbench skill <id>`, completion and the profile guidance cover those 22. Every other specialist is reached through the index: pick its name in `references/catalog.md` and read `vendor/research-agent-skills/skills/<name>/SKILL.md` in this package (a sibling directory of the index). The index's advice to install missing specialists does not apply here; they are already bundled. Pi does not discover the 281 skills natively, which would put every description into every system prompt.
+
+Resolve each skill's `scripts/`, `references/` and `assets/` against its own directory. Many specialists need task-specific Python packages, command-line tools, accounts or network APIs (for example OpenRouter, Parallel, Exa, NCBI, cloud GPU or lab-automation services), declared in their `compatibility` and `metadata` frontmatter. Loading or selecting a skill installs none of them and does not establish API access; doctor does not check them. A `license:` frontmatter value other than MIT names the license of the software a skill documents; the skill text is MIT (see [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md#license-boundaries)).
+
+Upstream instructions written for Claude Code (`/loop`), OpenClaw (`cron.add`, heartbeats), `npx skills` or Codex plugins are not Pi features. `autoresearch` in particular asks for unattended, never-stopping loops with periodic git commits: in Pi run iterations only within the user's request and host permissions, and commit, publish, upload data or call paid services only when the user asked for it. Medical and clinical skills support research and documentation; they are not clinical decisions. Do not send confidential manuscripts, patient data or unpublished results to external services without the user's explicit consent.
 
 ## Dependency report
 

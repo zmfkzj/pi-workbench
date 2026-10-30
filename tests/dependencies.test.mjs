@@ -100,7 +100,7 @@ test("a fully equipped machine is healthy; doctor runs nothing and prints no sec
   const { text, level } = formatDependencyReport("pi-workbench", report, "check");
   assert.equal(level, "info");
   assert.match(text, /^pi-workbench doctor: healthy$/m);
-  assert.match(text, /\[ok\] bundled catalog and skills: 27 skills in 7 profiles/);
+  assert.match(text, /\[ok\] bundled catalog and skills: 49 skills in 8 profiles/);
   assert.match(text, /\[ok\] python3 \/ python: python3: found, python: found/);
   for (const name of VARIABLE_NAMES) assert.match(text, new RegExp(`\\[ok\\] ${name}: set$`, "m"));
   assert.match(report.note, /only Pi and Node\.js built-ins/);

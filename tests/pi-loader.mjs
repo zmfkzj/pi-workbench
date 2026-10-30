@@ -41,14 +41,22 @@ try {
   assert.deepEqual(await values("use co"), ["use coding"]);
   assert.deepEqual(await values("list ga"), ["list game"]);
   assert.deepEqual(await values("skill ponytail-r"), ["skill ponytail-review"]);
+  assert.deepEqual(await values("use res"), ["use research"]);
+  assert.deepEqual(await values("list res"), ["list research"]);
+  assert.deepEqual(await values("skill hypothesis-g"), ["skill hypothesis-generation"]);
+  assert.equal(await complete("skill scanpy"), null, "Specialists outside the catalog are reached through the research index, not as ids.");
   assert.equal(await complete("use coding "), null);
   assert.deepEqual(await values("c"), ["cancel"]);
   assert.equal(await complete("cancel "), null, "Nothing is pending in a fresh runtime.");
   const skills = loader.getSkills();
   assert.deepEqual(skills.diagnostics, []);
-  const expected = ["requirements", "game", "analysis", "vision", "manufacturing", "coding", "promo"].map((id) => `wb-${id}`).sort();
-  assert.deepEqual(skills.skills.map((skill) => skill.name).sort(), expected, "Discover only the seven routing skills, not all vendor skills.");
+  const expected = ["requirements", "game", "analysis", "vision", "manufacturing", "coding", "promo", "research"].map((id) => `wb-${id}`).sort();
+  assert.deepEqual(skills.skills.map((skill) => skill.name).sort(), expected, "Discover only the eight routing skills, not the 27 + 281 vendor skills.");
   assert(skills.skills.every((skill) => skill.filePath.startsWith(join(root, "skills"))));
+  assert(!skills.skills.some((skill) => skill.filePath.includes(`${join(root, "vendor")}`)), "No vendor skill is discovered natively.");
+  const research = skills.skills.find((skill) => skill.name === "wb-research");
+  assert.equal(research.filePath, join(root, "skills", "wb-research", "SKILL.md"));
+  assert.match(research.description, /연구·학술/);
   console.log(JSON.stringify({ ok: true, hostModule: hostSpecifier, registeredCommands: ["workbench"], handlers: [...installed[0].handlers.keys()], entryRenderers: [...installed[0].entryRenderers.keys()], argumentCompletion: true, discoveredSkills: expected, extensionErrors: 0, skillDiagnostics: 0 }, null, 2));
 } finally {
   await rm(sandbox, { recursive: true, force: true });

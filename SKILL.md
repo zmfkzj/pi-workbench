@@ -1,6 +1,6 @@
 ---
 name: pi-workbench
-description: Select bundled workflows for functional and nonfunctional requirements, game design and assets, evidence-based cause analysis, vision AI, manufacturing software, coding, and promotional media. Use the matching routing skill and preserve its Pi integration notes and upstream license boundaries.
+description: Select bundled workflows for functional and nonfunctional requirements, game design and assets, evidence-based cause analysis, vision AI, manufacturing software, coding, promotional media, and academic research. Use the matching routing skill and preserve its Pi integration notes and upstream license boundaries.
 ---
 
 # Pi Workbench
@@ -16,5 +16,6 @@ Choose the route that matches the user's actual task, then read only its relevan
 | Manufacturing software and quality problems | [Manufacturing](skills/wb-manufacturing/SKILL.md) |
 | Implementation, simplification, review, verification | [Coding](skills/wb-coding/SKILL.md) |
 | Promotional stills, banners and videos | [Promo](skills/wb-promo/SKILL.md) |
+| Research questions, literature, study design, statistics, papers, citations, peer review, domain science tools | [Research](skills/wb-research/SKILL.md) |
 
 Read [Pi adapters](docs/ADAPTERS.md) for execution boundaries and [workflow guidance](docs/WORKFLOWS.ko.md) for domain reasoning. Use [README](README.md) for installing the actual extension in Pi. No provider, API key, engine, server or external agent tool is supplied by merely loading this skill.

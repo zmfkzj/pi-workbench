@@ -1,7 +1,7 @@
 {
   "name": "pi-workbench",
   "version": "0.1.0",
-  "description": "On-demand requirements, game, vision AI, manufacturing, coding and promotional media skills for Pi.",
+  "description": "On-demand requirements, game, vision AI, manufacturing, coding, promotional media and research skills for Pi.",
   "type": "module",
   "license": "MIT",
   "repository": {
@@ -17,7 +17,8 @@
     "skills",
     "requirements",
     "game-development",
-    "vision-ai"
+    "vision-ai",
+    "research"
   ],
   "engines": {
     "node": ">=20"
@@ -42,7 +43,7 @@
   ],
   "scripts": {
     "check": "node scripts/check.mjs",
-    "test": "node --test tests/runtime.test.mjs tests/dependencies.test.mjs tests/vendor-corrections.test.mjs",
+    "test": "node --test tests/runtime.test.mjs tests/dependencies.test.mjs tests/vendor-corrections.test.mjs tests/research-skills.test.mjs",
     "test:pi-session": "node tests/pi-session.mjs",
     "test:pi-editor": "node tests/pi-editor.mjs",
     "vendor": "python3 scripts/vendor_sources.py"

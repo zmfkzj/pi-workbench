@@ -2,7 +2,8 @@
 """Fetch the explicitly selected, licensed upstream files at locked Git commits.
 
 No downloaded script is executed. Git symlinks are rejected unless the source
-spec explicitly maps them to a real subtree. Existing locks are never advanced
+spec explicitly maps them to a real subtree. Paths listed under `exclude` (each
+with a reason) are not fetched. Existing locks are never advanced
 automatically; edit sources.lock.json deliberately after reviewing an update.
 
 After every upstream file has been verified against its Git blob, the reviewed
@@ -67,7 +68,12 @@ def fetch_repo(source, lock):
     if tree.get("truncated"):
         raise ValueError(f"GitHub truncated the tree for {repo}; do not produce an incomplete vendor.")
     selections = source["include"] + source["licenseFiles"]
-    candidates = [item for item in tree["tree"] if item["type"] == "blob" and included(item["path"], selections)]
+    excluded = [entry["path"] for entry in source.get("exclude", [])]
+    for path in excluded:
+        safe_relative(path)
+        if not any(item["type"] == "blob" and included(item["path"], [path]) for item in tree["tree"]):
+            raise ValueError(f"Stale exclusion {repo}:{path}; remove it from sources.json")
+    candidates = [item for item in tree["tree"] if item["type"] == "blob" and included(item["path"], selections) and not included(item["path"], excluded)]
     selected_paths = {item["path"] for item in candidates}
     for path in selections:
         safe_relative(path)

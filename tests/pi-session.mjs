@@ -7,7 +7,7 @@
 // No network or paid model is used.
 import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
-import { mkdtemp, mkdir, rm, writeFile } from "node:fs/promises";
+import { mkdtemp, mkdir, rm, stat, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -169,6 +169,27 @@ try {
     assert.equal(userMessage(s.requests[1], "next request").text, "next request", "a cancelled selection reaches no request");
   }
 
+  // 3b. The research profile and a one-shot research skill: the guidance carries the Research Agent Skills index and the path of
+  // the bundled specialists; the selected skill arrives with its own base directory, whose relative references exist.
+  {
+    const s = await makeSession({ mode: "print" });
+    await s.session.prompt("/workbench use research");
+    await s.session.prompt("/workbench skill hypothesis-generation");
+    await s.session.prompt("RESEARCH-REQUEST");
+    const request = s.requests[0];
+    assert.equal(count(all(request), PROFILE), 1);
+    assert.match(all(request), /\(research\)/);
+    assert.ok(all(request).includes(join(root, "vendor/research-agent-skills/skills/research-agent-skills/SKILL.md")), "the index location");
+    assert.ok(all(request).includes("vendor/research-agent-skills/skills/<name>/SKILL.md"), "where the other specialists are");
+    const mine = userMessage(request, "RESEARCH-REQUEST");
+    assert.equal(mine.block?.name, "hypothesis-generation");
+    const baseDir = join(root, "vendor/research-agent-skills/skills/hypothesis-generation");
+    assert.ok(mine.block.content.includes(`Base directory: ${JSON.stringify(baseDir)}`));
+    const references = [...new Set([...mine.block.content.matchAll(/\b(references\/[\w.-]+\.md)\b/g)].map((match) => match[1]))];
+    assert.ok(references.length > 0, "the skill names its references relative to its directory");
+    for (const reference of references) await stat(join(baseDir, reference));
+  }
+
   // 4. Lifecycle: /reload and a branch change drop a pending selection with a notice; a cancelled branch change keeps it.
   {
     let cancelTree = false;
@@ -324,6 +345,7 @@ try {
     queuedSkillCommandAndTemplateCancelSelection: true,
     unstartedRequestSelectionNotGivenToCustomRun: true,
     outputRecordsReopened: true,
+    researchProfileAndSkillSelection: true,
   }, null, 2));
 } finally {
   for (const session of sessions) {

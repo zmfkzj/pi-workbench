@@ -105,6 +105,11 @@
       "repository": "obra/superpowers",
       "branch": "main",
       "commit": "bb92a77741419a4ab5f06e711a283343f1ada0c3"
+    },
+    "research-agent-skills": {
+      "repository": "KalarisLabs/research-agent-skills",
+      "branch": "main",
+      "commit": "b0ee35abfd7e26428846fbd84f282114560a5fbd"
     }
   }
 }

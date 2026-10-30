@@ -1,8 +1,8 @@
 # Pi Workbench
 
-**요구사항 도출, 게임 제작, 원인·솔루션·대안 비교, 비전 AI, 제조업 SW, 코딩, 홍보 제작을 하나로 묶은 Pi extension 패키지.**
+**요구사항 도출, 게임 제작, 원인·솔루션·대안 비교, 비전 AI, 제조업 SW, 코딩, 홍보 제작, 연구·학술을 하나로 묶은 Pi extension 패키지.**
 
-7개 작업 프로필에서 27개 원본 스킬을 필요한 때 선택한다. Ponytail full을 기본 코딩 방식으로 두고, ECC Search First·Anthropic Frontend Design·UI UX Pro Max·Vercel React·Context7·ast-grep·Superpowers 검증·Trail of Bits 테스트를 함께 제공한다.
+8개 작업 프로필에서 49개 원본 스킬을 필요한 때 선택한다. Ponytail full을 기본 코딩 방식으로 두고, ECC Search First·Anthropic Frontend Design·UI UX Pro Max·Vercel React·Context7·ast-grep·Superpowers 검증·Trail of Bits 테스트를 함께 제공한다. `research` 프로필은 [Research Agent Skills](https://github.com/KalarisLabs/research-agent-skills)의 281개 스킬(전문 스킬 280개와 색인 1개)을 모두 포함하고, 그중 색인과 연구 단계별 핵심 스킬 22개를 직접 선택할 수 있다.
 
 원본 스킬의 참고 문서·스크립트·데이터·라이선스도 포함한다. 설치 과정에서 외부 서비스를 연결하거나 생성 API를 호출하지 않는다. 이미지·음원·영상 제작에 필요한 도구는 해당 작업을 수행할 때 사용자의 환경에 연결해야 한다.
 
@@ -80,6 +80,11 @@ Pi 1.1.0의 실제 리소스 로더에서 확장과 스킬 발견을 검증했�
 이 게임 플레이 영상으로 15초 세로 트레일러와 가로 배너를 만들어줘. 연결된 도구로 제작하고 실제 확인한 항목을 알려줘.
 ```
 
+```text
+/workbench use research
+이 관찰 결과로 검증 가능한 가설과 판별 예측을 세우고, 필요한 표본 수와 관련 문헌 검색 계획을 정리해줘.
+```
+
 특정 스킬을 다음 요청 한 번에만 적용하려면:
 
 ```text
@@ -109,17 +114,20 @@ Pi 1.1.0의 실제 리소스 로더에서 확장과 스킬 발견을 검증했�
 | `manufacturing` | 발생 원인과 검출 실패, 측정 신뢰성, 개선·관리 | 8D Problem Solving, DMAIC, 공통 원인 분석 |
 | `coding` | 구현·리뷰·재사용·문서 조회·UI·구조 검색·검증 | Ponytail/Review, ECC, Frontend Design, UI UX Pro Max, Vercel React, Context7, ast-grep/Outline, Superpowers, Trail of Bits |
 | `promo` | 홍보 스틸컷·배너·음향·영상 | Imagegen, Create Game Assets, Frontend Design, UI UX Pro Max, ElevenLabs, Video Director |
+| `research` | 가설·문헌고찰·실험 설계·통계·논문 작성·인용 검증·투고·심사 대응, 분야별 연구 도구 | Research Agent Skills 색인, Hypothesis Generation, Literature Review, Paper Lookup, PRISMA, Experimental Design, Statistical Power/Analysis, Scientific Writing, Citation Verification, Venue Templates, Peer Review, Autoresearch 등 22개 |
 
 Game UI/UX는 플레이 화면의 HUD·메뉴·입력 설계용이라 `game`에만 속한다. 홍보 시안의 화면 구성은 `promo`의 Frontend Design·UI UX Pro Max가 담당한다. `scripts/check.mjs`는 스킬의 `profiles`와 프로필의 `skills` 목록이 양방향으로 일치하는지 검사한다.
 
 `comparison`은 별도 모드가 아니라 `analysis`와 분야별 프로필이 함께 사용하는 대안 비교 절차다. 게임 엔진이 정해지지 않았으므로 기본 구성은 범용이고, Three.js 전용 VFX는 적합한 프로젝트에서만 선택한다.
+
+`research`의 나머지 전문 스킬 259개(생물정보·화학·의료·물리·ML 학습/서빙·실험실 자동화·출판사 형식 등)는 카탈로그 항목이 아니라 `/workbench skill`·`list`·자동완성에는 나오지 않는다. 대신 프로필 안내와 `wb-research`가 가리키는 색인(`vendor/research-agent-skills/skills/research-agent-skills/references/catalog.md`)에서 이름을 고르면 `vendor/research-agent-skills/skills/<name>/SKILL.md`를 읽는다. 280개를 모두 카탈로그에 넣으면 프로필 안내가 요청마다 280개 경로와 주의사항을 싣게 되므로 핵심 22개만 등록했다. 특정 전문 스킬을 확실히 쓰려면 `/workbench skill research-agent-skills` 뒤에 "scanpy 스킬로 …"처럼 이름을 적어 요청한다.
 
 ## 명령
 
 | 명령 | 동작 |
 |---|---|
 | `/workbench` | 도움말 |
-| `/workbench list` | 27개 선택 가능한 원본 스킬 목록 |
+| `/workbench list` | 49개 선택 가능한 원본 스킬 목록 |
 | `/workbench list game` | 프로필별 스킬 목록 |
 | `/workbench use coding` | 현재 대화 분기의 프로필 선택 |
 | `/workbench use auto` | 기본 Pi 스킬 탐색 사용 |
@@ -132,7 +140,7 @@ Game UI/UX는 플레이 화면의 HUD·메뉴·입력 설계용이라 `game`에�
 
 Pi 입력창에서 `/workbench ` 뒤에 Tab을 누르면 하위 명령을, `use `·`list `·`skill `·`cancel ` 뒤에서는 `catalog.json`의 프로필(`use`는 `auto`·`off` 포함)·스킬 ID·대기 중인 선택을 입력한 prefix에 맞춰 제안한다(예: `/workbench use co` → `use coding`, `/workbench skill ponytail-r` → `skill ponytail-review`). 후보 목록이 닫힌 상태에서 Tab을 눌러도(Pi의 강제 완성) 같은 후보가 나오며 파일 목록으로 빠지지 않는다. 확장이 세션 시작 때 `ctx.ui.addAutocompleteProvider`로 `/workbench` 인수 위치에만 작용하는 wrapper를 등록하고, 다른 명령·파일 경로·입력 중 자동 제안은 Pi의 기본 동작 그대로다. 후보가 하나면 Tab이 바로 적용하고, 목록이 열린 상태의 Enter는 고른 후보를 적용만 하며 실행은 다음 Enter로 한다. `ponytail`처럼 다른 ID(`ponytail-review`)의 prefix인 ID를 끝까지 입력하면 두 후보가 모두 나오고 Enter는 입력한 ID를 그대로 둔다. 완성은 catalog만 읽고 스킬 본문을 열거나 프로필·세션 상태를 바꾸지 않는다. 이미 완성된 인수 뒤나 인수가 없는 하위 명령 뒤에는 후보를 내지 않는다. print·JSON·RPC 모드에는 입력창 자동완성이 없다.
 
-설치된 Pi의 native skill 명령으로 `/skill:wb-requirements`, `/skill:wb-game`, `/skill:wb-analysis`, `/skill:wb-vision`, `/skill:wb-manufacturing`, `/skill:wb-coding`, `/skill:wb-promo`를 직접 선택할 수도 있다.
+설치된 Pi의 native skill 명령으로 `/skill:wb-requirements`, `/skill:wb-game`, `/skill:wb-analysis`, `/skill:wb-vision`, `/skill:wb-manufacturing`, `/skill:wb-coding`, `/skill:wb-promo`, `/skill:wb-research`를 직접 선택할 수도 있다.
 
 `list`·`status`·`doctor`·`install-deps`·도움말의 출력은 세션 기록(custom entry `pi-workbench.command-output`)으로 남긴다. 대화형(TUI)에서는 이 기록이 대화 화면에 표시되어 다음 알림에 덮이지 않고, 세션을 다시 열어도 보인다. 이 기록은 모델 요청과 압축 요약에 들어가지 않는다(Pi는 custom entry를 모델 컨텍스트에서 제외한다). 단, Pi는 사용자·assistant 메시지가 하나도 없는 세션을 파일로 저장하지 않으므로, 명령만 실행한 새 세션의 기록은 첫 대화가 생기기 전에는 디스크에 남지 않는다. 다른 모드(Pi 1.1.0 CLI로 확인): RPC(`--mode rpc`)는 `extension_ui_request`의 `notify` 알림과 `entry_appended` 이벤트를 모두 보내고, JSON 모드(`--mode json`)는 `entry_appended` 이벤트의 `entry.data.text`로만 보낸다. 텍스트 print 모드(`pi -p`)는 확장 알림과 세션 기록을 출력하지 않아 아무것도 보이지 않는다. 짧은 확인(`use`·`skill`·`cancel`)은 알림으로만 보여 준다. TUI 밖에서 `doctor`·`install-deps` 알림은 보고서 수준(info·warning·error)으로 보낸다.
 
@@ -175,6 +183,7 @@ Git 설치본의 내려받은 디렉터리 경로는 등록된 source가 아니�
 | 웹·게임 UI | 대상 프로젝트 런타임, 실제 화면을 확인할 환경 |
 | 비전 실행·평가 | 실제 데이터·모델·프레임워크; 사용 경로에 따라 FiftyOne/NumPy/Pillow 등 |
 | 구조 검색·문서 조회 | ast-grep CLI, Context7 MCP 또는 CLI 등 선택한 경로 |
+| 연구 스킬 실행 | 스킬별 Python 패키지(uv 권장)·CLI·LaTeX 등과 학술 API 네트워크 접근; 일부는 OpenRouter·Parallel·Exa·클라우드 GPU·실험실 서비스 계정과 API 키. 각 SKILL.md의 `compatibility`에 적혀 있으며 이 패키지가 설치·연결하지 않고 doctor도 점검하지 않음 |
 
 ### 의존성 점검과 설치 (`doctor`, `install-deps`)
 
@@ -200,10 +209,10 @@ Workbench 자체는 Pi와 Node.js 내장 모듈만 쓰므로 npm 설치가 필�
 
 ```bash
 node scripts/check.mjs
-node --test tests/runtime.test.mjs tests/dependencies.test.mjs tests/vendor-corrections.test.mjs
+node --test tests/runtime.test.mjs tests/dependencies.test.mjs tests/vendor-corrections.test.mjs tests/research-skills.test.mjs
 ```
 
-첫 명령은 구성, 프로필↔스킬 소속의 양방향 일치, 라이선스 포함 여부, 모든 vendor 파일의 Git blob/SHA-256, 별칭 파일, 교정 패치(역적용 시 upstream 원본 digest 재현), 로컬 Markdown 참조를 검사한다. `vendor-corrections.test.mjs`는 교정한 vendor CLI(TAO 누수·전처리 parity, asset_report)를 실제로 실행하고, Vercel 예제를 rules와 컴파일된 `AGENTS.md`에서 추출해 실행하며, DMAIC·8D 문서의 통계값을 입력값에서 다시 계산한다. 교정 전 원본(패치 역적용)으로 같은 오류가 재현되는 음성 대조도 포함한다. Python CLI 검사는 NumPy·Pillow가 있는 `python3`가 필요하며, 없으면 실패한다(`PI_WORKBENCH_SKIP_PYTHON_TESTS=1`이면 건너뜀으로 보고). `runtime.test.mjs`는 상태·명령·인수 자동완성(강제 Tab wrapper 포함)·요청별 프로필 안내·one-shot 선택(다음 사용자 입력 연결, 중복·취소·분기/reload, 대기열 `/skill:`·템플릿 취소, 읽기 중 경합)·명령 출력 기록과 렌더러·호스트 호환·doctor·install-deps 명령과 umbrella 채널 응답을 검증한다. `dependencies.test.mjs`는 의존성 계약(상태·형식), 정상·누락·패키지 손상 점검, 가짜 실행기로 설치 성공·실패·권한 없는 prefix·PATH 밖 설치·반복 실행·겹친 실행을 검사한다.
+첫 명령은 구성, 프로필↔스킬 소속의 양방향 일치, 라이선스 포함 여부, 모든 vendor 파일의 Git blob/SHA-256, 별칭 파일, 교정 패치(역적용 시 upstream 원본 digest 재현), 로컬 Markdown 참조를 검사한다. `vendor-corrections.test.mjs`는 교정한 vendor CLI(TAO 누수·전처리 parity, asset_report)를 실제로 실행하고, Vercel 예제를 rules와 컴파일된 `AGENTS.md`에서 추출해 실행하며, DMAIC·8D 문서의 통계값을 입력값에서 다시 계산한다. 교정 전 원본(패치 역적용)으로 같은 오류가 재현되는 음성 대조도 포함한다. Python CLI 검사는 NumPy·Pillow가 있는 `python3`가 필요하며, 없으면 실패한다(`PI_WORKBENCH_SKIP_PYTHON_TESTS=1`이면 건너뜀으로 보고). `runtime.test.mjs`는 상태·명령·인수 자동완성(강제 Tab wrapper 포함)·요청별 프로필 안내·one-shot 선택(다음 사용자 입력 연결, 중복·취소·분기/reload, 대기열 `/skill:`·템플릿 취소, 읽기 중 경합)·명령 출력 기록과 렌더러·호스트 호환·doctor·install-deps 명령과 umbrella 채널 응답을 검증한다. `dependencies.test.mjs`는 의존성 계약(상태·형식), 정상·누락·패키지 손상 점검, 가짜 실행기로 설치 성공·실패·권한 없는 prefix·PATH 밖 설치·반복 실행·겹친 실행을 검사한다. `research-skills.test.mjs`는 Research Agent Skills 281개 디렉터리의 추적·이름, 색인이 280개 전문 스킬을 빠짐없이 가리키는지, research 프로필 등록과 안내 크기, 스킬이 경로로 언급한 참조 파일의 존재, 라이선스·출처 파일, `npm pack --dry-run`에 모든 vendor 파일이 들어가는지를 검사한다.
 
 별도로 설치된 Pi로 실제 리소스 로딩과 세션·입력창 동작을 확인할 수 있다. `pi-session.mjs`는 스크립트 모델(faux)로 연속 요청·분기 전환·reload·auto/off, 다른 확장의 `triggerTurn` 실행 중 steering·follow-up에 붙는 선택, 대기열 `/skill:`·템플릿의 취소, 명령 출력 기록의 재열기에서 모델이 받는 내용을 검사하며 네트워크나 유료 모델을 쓰지 않는다. `pi-editor.mjs`는 Pi 입력창 편집기(pi-tui `Editor`)에 키를 입력해 Tab·Enter 동작을 확인한다(터미널 화면은 그리지 않음).
 
@@ -219,6 +228,6 @@ PI_WORKBENCH_HOST_MODULE=/path/to/pi/dist/index.js node tests/pi-editor.mjs
 
 ## 출처와 라이선스
 
-확장 코드·라우팅 지침은 MIT다. `vendor/`의 원본은 각자의 MIT, Apache-2.0 또는 CC-BY-SA-4.0 조건을 유지한다. 교정한 파일은 `Modified by pi-workbench` 표기와 원래 저작권·라이선스 표기를 함께 유지하며, 교정분은 해당 파일의 라이선스를 따른다. 특히 Trail of Bits 자료를 MIT로 재표시하지 않았다. 전체 목록과 정확한 commit, 재배포하지 않은 참고 후보는 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)에 있다.
+확장 코드·라우팅 지침은 MIT다. `vendor/`의 원본은 각자의 MIT, Apache-2.0 또는 CC-BY-SA-4.0 조건을 유지한다. Research Agent Skills는 MIT이며, 원본의 `LICENSE`·`LICENSES/`(K-Dense·AI Research Skills 기여자 MIT 고지)·`THIRD_PARTY_NOTICES.md`·스킬별 출처 `third_party/upstream-manifest.json`을 그대로 포함한다. 번들 출판사·학회 LaTeX 템플릿은 각자의 조건을 따른다. 교정한 파일은 `Modified by pi-workbench` 표기와 원래 저작권·라이선스 표기를 함께 유지하며, 교정분은 해당 파일의 라이선스를 따른다. 특히 Trail of Bits 자료를 MIT로 재표시하지 않았다. 전체 목록과 정확한 commit, 재배포하지 않은 참고 후보는 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)에 있다.
 
 공식 호스트 문서: [Pi packages](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/docs/packages.md), [Pi extensions](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/docs/extensions.md), [Pi skills](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/docs/skills.md).

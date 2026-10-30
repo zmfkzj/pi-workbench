@@ -59,6 +59,20 @@ Six reviewed patches in `patches/` correct 16 vendored files (TAO split leakage 
 
 Not verified: model behaviour with the corrected guidance, and manufacturing or vision outcomes; the statistics tests check arithmetic and stated reasoning, not real process data.
 
+## Research Agent Skills (unreleased, validated 2026-10-30)
+
+Added [KalarisLabs/research-agent-skills](https://github.com/KalarisLabs/research-agent-skills) at `b0ee35abfd7e26428846fbd84f282114560a5fbd` as source `research-agent-skills` and the `research` profile (`wb-research`). Node.js 24.21.0, Python 3 without NumPy/Pillow (the Python CLI tests of `vendor-corrections.test.mjs` were skipped with `PI_WORKBENCH_SKIP_PYTHON_TESTS=1`), `@earendil-works/pi-coding-agent` 1.4.0.
+
+| Check | Result and scope |
+|---|---|
+| `python3 scripts/vendor_sources.py` (cache in a scratch directory) + `build_catalog.py` | 2,419 files of the new source fetched and Git-blob verified (all 281 skill directories, 5 license/provenance files); one `.gitignore` excluded, one patch applied to 8 SKILL.md files. The other 21 sources were fetched again and are byte-identical to the repository |
+| `node scripts/check.mjs` | Passes: 8 profiles, 49 selectable skills, 2,772 files, 24 corrected, 7 patches, 1,254 local Markdown links (now also `README.md` and `THIRD_PARTY_NOTICES.md`). Link targets follow CommonMark destinations (`scripts/markdown_links.mjs`), so prose such as `[2, 4](like in a/b.json)` in the DeepSpeed reference is no longer read as a broken link; the only change in the previously checked files |
+| `tests/research-skills.test.mjs` | 8 tests: 281 directories tracked with matching frontmatter names; the upstream index lists each of the 280 specialists once; the research profile's 22 entries, routing links, guidance (index path, specialist path, < 12 KB, 22 entries); one-shot base directory and named files; every `references/`, `scripts/`, `assets/`, `templates/` path a research SKILL.md names exists (three documented cross-skill or upstream-project paths aside); licenses, notices, lock and exclusion; CommonMark link targets; `npm pack --dry-run` contains every integrity entry |
+| `npm test` | 66 tests pass |
+| `tests/pi-loader.mjs`, `tests/pi-session.mjs`, `tests/pi-editor.mjs` with Pi 1.4.0 | Pass. Eight routing skills, no vendor skill discovered natively, `use res`/`list res`/`skill hypothesis-g` completion; a real session with `/workbench use research` and `/workbench skill hypothesis-generation` gives the request one research guidance with the index and specialist paths and the skill with its base directory, whose named references exist |
+
+Not verified: research skill scripts, network lookups, paid APIs, LaTeX builds or GPU workflows (none was run), model behaviour with the research profile, OMP, and the umbrella package's own tests (outside this repository).
+
 ## Selection policy pilot (2026-10-12, not shipped in the package)
 
 `experiments/policy-pilot/` in the repository holds a real-model pilot of four content-policy proposals (Ponytail/ECC default, Verification as a separate skill, manual-only vs. conditional tool skills, split DMAIC). It ran 90 sessions with Claude Opus 5.5 and Haiku 5.5 in scratch copies, then re-ran the 40 runs of the pair groups that had used the shared host /tmp inside a bubblewrap boundary (read-only host, private /tmp). All 130 runs met their acceptance checks, and the vendor texts were rarely or never opened (Verification never), so the pilot supports none of the four proposals; all four stay on hold. Operational defaults were not changed.

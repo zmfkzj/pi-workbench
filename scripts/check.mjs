@@ -5,6 +5,7 @@ import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { PROFILE_IDS, readCatalog, resolveSkillPath } from "../lib/runtime.js";
 import { verifyPatches } from "./vendor_patches.mjs";
+import { localLinkTargets } from "./markdown_links.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const json = async (path) => JSON.parse(await readFile(join(root, path), "utf8"));
@@ -75,12 +76,9 @@ async function walk(directory) {
 const vendorFiles = await walk(join(root, "vendor"));
 for (const path of vendorFiles) assert(tracked.has(path.slice(root.length + 1).replaceAll("\\", "/")), `Untracked vendor file ${path}`);
 let checkedLinks = 0;
-const markdown = [join(root, "SKILL.md"), ...await walk(join(root, "skills")), ...await walk(join(root, "docs")), ...vendorFiles].filter((p) => p.endsWith(".md"));
+const markdown = [join(root, "SKILL.md"), join(root, "README.md"), join(root, "THIRD_PARTY_NOTICES.md"), ...await walk(join(root, "skills")), ...await walk(join(root, "docs")), ...vendorFiles].filter((p) => p.endsWith(".md"));
 for (const path of markdown) {
-  const body = (await readFile(path, "utf8")).replace(/```[\s\S]*?```/g, "");
-  for (const match of body.matchAll(/(?<!!)\[[^\]\n]+\]\(([^)\n]+)\)/g)) {
-    const target = match[1].split(' "')[0].replace(/^<|>$/g, "").split(/[?#]/)[0];
-    if (!target || /^[a-z][a-z0-9+.-]*:/i.test(target) || target.startsWith("/") || /[{}*<>]/.test(target)) continue;
+  for (const target of localLinkTargets(await readFile(path, "utf8"))) {
     let exists = true;
     try { await stat(resolve(dirname(path), decodeURIComponent(target))); } catch { exists = false; }
     assert(exists, `Broken local Markdown reference: ${path} -> ${target}`);

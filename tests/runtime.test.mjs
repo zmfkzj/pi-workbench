@@ -1002,8 +1002,8 @@ test("the shipped catalog supplies every profile and skill id as a candidate", a
   assert.deepEqual(values(completeWorkbenchArguments("skill ponytail", catalog)), ["skill ponytail", "skill ponytail-review"],
     "An id that prefixes another stays offered next to it.");
   assert.equal(completeWorkbenchArguments("skill ponytail-review", catalog), null);
-  assert.equal(catalog.skills.length, 27);
-  assert.equal(catalog.profiles.length, 7);
+  assert.equal(catalog.skills.length, 49);
+  assert.equal(catalog.profiles.length, 8);
 });
 
 test("the umbrella's dependency request gets the provider synchronously; doctor and install-deps show its formatted report", async (t) => {

@@ -312,6 +312,35 @@
           "reason": "The flatMap examples keep the falsy-value filtering of .filter(Boolean), and the localStorage migration removes the v1 key only after the v2 value was stored; the compiled AGENTS.md carries the same corrections as the rules."
         }
       ]
+    },
+    {
+      "id": "research-agent-skills",
+      "repository": "KalarisLabs/research-agent-skills",
+      "branch": "main",
+      "license": "MIT",
+      "include": [
+        "skills"
+      ],
+      "licenseFiles": [
+        "LICENSE",
+        "LICENSES/MIT-upstream-a.txt",
+        "LICENSES/MIT-upstream-b.txt",
+        "THIRD_PARTY_NOTICES.md",
+        "third_party/upstream-manifest.json"
+      ],
+      "exclude": [
+        {
+          "path": "skills/autoskill/.gitignore",
+          "reason": "A developer ignore file (__pycache__/, *.pyc, .pytest_cache/), not skill content; npm never packs .gitignore files, so keeping it would make the npm package differ from the integrity manifest."
+        }
+      ],
+      "patches": [
+        {
+          "file": "patches/research-agent-skills/0001-remove-pointers-to-missing-reference-files.patch",
+          "reason": "Eight SKILL.md files (llamaguard, constitutional-ai, nemo-guardrails, mamba-architecture, optimizing-attention-flash, ray-train, verl-rl-training, speculative-decoding) pointed to 18 reference files that the upstream repository does not contain; the pointers are removed and the existing reference links are kept."
+        }
+      ],
+      "licenseEvidence": "MIT (Kalaris Labs) for the whole skills/ tree; 257 skills are adapted from the MIT-licensed K-Dense-AI/scientific-agent-skills and orchestra-research/AI-research-SKILLs, whose notices are preserved in LICENSES/ and the upstream THIRD_PARTY_NOTICES.md, with per-skill provenance in third_party/upstream-manifest.json. A non-MIT `license:` frontmatter value names the license of the software a skill documents, not of the skill text. Bundled LaTeX classes, styles and bibliography styles from publishers and conferences keep their own terms."
     }
   ]
 }
