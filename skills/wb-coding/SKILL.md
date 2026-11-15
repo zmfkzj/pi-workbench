@@ -1,6 +1,6 @@
 ---
 name: wb-coding
-description: "코딩·리뷰·검증. Ponytail 중심의 재사용·문서 조회·웹 플랫폼·UI·구조 검색·다이어그램·테스트. Use for the coding workflow; select only relevant bundled skills and their references."
+description: "코딩·리뷰·검증. Ponytail 중심의 재사용·문서 조회·웹 플랫폼·UI·구조 검색·다이어그램·테스트. 코드 구현·수정·리팩터링·버그 수정·코드 리뷰, 라이브러리 문서와 버전 확인, React·Next.js, 라이브러리 없이 표준 HTML·CSS·브라우저 API로 구현하는 방법과 접근성, Chrome 확장(Manifest V3), 구문 기반 코드 검색·대량 변경, 아키텍처 다이어그램, property-based 테스트와 완료 전 검증 (implementation, code review, library docs, current web platform how-to questions, Chrome extensions, structural search, diagrams, tests). Use for the coding workflow; select only relevant bundled skills and their references."
 ---
 
 # 코딩·리뷰·검증
@@ -56,8 +56,8 @@ Read the coding section of docs/WORKFLOWS.ko.md. Default to Ponytail full and li
   Required when executing: ast-grep CLI.
 - **ast-grep-outline**: 설치된 CLI의 outline 지원을 먼저 확인한다. 미지원이면 기존 검색·읽기로 진행한다.
   Required when executing: outline 명령을 지원하는 ast-grep CLI.
-- **archify**: 명령의 `bin/archify.mjs`는 이 스킬 디렉터리의 절대 경로로 바꿔 작업 디렉터리에서 실행한다(npm install 불필요). 산출물(`.archify/...`)은 사용자 프로젝트나 지정 위치에 두고 패키지 디렉터리에 쓰지 않는다. `finalize`의 browser-check는 실제 Chrome/Chromium(`ARCHIFY_CHROME` 또는 PATH의 google-chrome·chromium·chromium-browser)이 있어야 통과한다. 0이 아닌 종료는 실패로 보고하고 자동 검사 통과와 캡처·실제 시각 검토를 구분한다. finalize·deliver는 GitHub Pages의 업데이트 매니페스트를 조회한다(`ARCHIFY_UPDATE_CHECK_DISABLED=1`로 끔). 번들 사본은 sources.lock.json의 commit에 고정되어 있으므로 업데이트 알림이 와도 skills CLI로 설치·갱신하지 않고 Workbench 원본 갱신 대상으로만 알린다. 원문의 explainer 모드 제안과 전역 규칙 파일(~/.claude/CLAUDE.md 등) 수정은 하지 않는다. 사용자가 명시적으로 원할 때만 Pi가 읽는 AGENTS.md 위치를 확인해 그 줄을 넣는다. 브랜드 마크는 요청된 것만 쓰고 개별 라이선스·상표 조건을 따른다.
-  Required when executing: Node 18+ (번들 CLI); finalize·browser-check: Chrome 또는 Chromium; 업데이트 확인: 네트워크(선택).
+- **archify**: 명령의 `bin/archify.mjs`는 이 스킬 디렉터리의 절대 경로로 바꿔 작업 디렉터리에서 실행한다(npm install 불필요). 산출물(`.archify/...`)은 사용자 프로젝트나 지정 위치에 두고 패키지 디렉터리에 쓰지 않는다. `finalize`의 browser-check는 실제 Chrome/Chromium(`ARCHIFY_CHROME` 또는 PATH의 google-chrome·chromium·chromium-browser)이 있어야 통과한다. 0이 아닌 종료는 실패로 보고하고 자동 검사 통과와 캡처·실제 시각 검토를 구분한다. `ARCHIFY_CHROME`가 이미 설정돼 있으면 그 값을 바꾸거나 다른 브라우저로 덮어쓰지 않는다. 설정이 없고 browser-check 오류가 `/snap/bin/chromium` 실행에서 임시 프로필(SingletonLock Permission denied)이나 페이지(ERR_FILE_NOT_FOUND)를 열지 못한 경우에만 snap 제한(비공개 /tmp와 홈의 숨김이 아닌 파일만 보임) 때문이므로, `mkdir -p "$HOME/snap/chromium/common/archify-tmp"` 뒤 같은 명령 앞에 `TMPDIR="$HOME/snap/chromium/common/archify-tmp"`를 붙여 한 번 다시 실행한다. 이 조건은 `/workbench doctor`가 점검한다. `ARCHIFY_CHROME_NO_SANDBOX=1`(브라우저 sandbox 해제)은 사용자가 명시적으로 원할 때만 쓴다. finalize·deliver는 GitHub Pages의 업데이트 매니페스트를 조회한다(`ARCHIFY_UPDATE_CHECK_DISABLED=1`로 끔). 번들 사본은 sources.lock.json의 commit에 고정되어 있으므로 업데이트 알림이 와도 skills CLI로 설치·갱신하지 않고 Workbench 원본 갱신 대상으로만 알린다. 원문의 explainer 모드 제안과 전역 규칙 파일(~/.claude/CLAUDE.md 등) 수정은 하지 않는다. 사용자가 명시적으로 원할 때만 Pi가 읽는 AGENTS.md 위치를 확인해 그 줄을 넣는다. 브랜드 마크는 요청된 것만 쓰고 개별 라이선스·상표 조건을 따른다.
+  Required when executing: Node 18+ (번들 CLI); finalize·browser-check: Chrome·Chromium·Edge(`ARCHIFY_CHROME` 또는 Archify 탐색 위치; snap 브라우저는 홈 아래 TMPDIR); 업데이트 확인: 네트워크(선택).
 - **structured-root-cause-research**: 관찰·가정·추론을 구분한다. 5 Why의 단계 수나 단일 원인을 강제하지 않는다.
 - **verification-before-completion**: 의미 있는 검증을 선택하고 결과의 실행 여부를 구분한다. 사소한 변경마다 전체 테스트를 강제하지 않는다.
 - **property-based-testing**: 원본은 CC-BY-SA-4.0이며 이 번들의 MIT 코드와 별도다. 불변식이 실질적인 위험을 줄이는 경우 선택한다. 기존 테스트 도구를 존중한다.

@@ -1002,7 +1002,7 @@ test("the shipped catalog supplies every profile and skill id as a candidate", a
   assert.deepEqual(values(completeWorkbenchArguments("skill ponytail", catalog)), ["skill ponytail", "skill ponytail-review"],
     "An id that prefixes another stays offered next to it.");
   assert.equal(completeWorkbenchArguments("skill ponytail-review", catalog), null);
-  assert.equal(catalog.skills.length, 52);
+  assert.equal(catalog.skills.length, 56);
   assert.equal(catalog.profiles.length, 8);
 });
 

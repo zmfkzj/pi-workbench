@@ -69,9 +69,10 @@ test("the research profile registers the index and the workflow skills and tells
   const guidance = await profileGuidance(root, catalog, "research");
   assert(guidance.includes(JSON.stringify(join(root, INDEX, "SKILL.md"))), "guidance carries the index location");
   assert(guidance.includes("vendor/research-agent-skills/skills/<name>/SKILL.md"));
-  // Every request with the profile carries this text; it lists 22 entries, not the 281 bundled skills.
+  // Every request with the profile carries this text; it lists the index file and 22 entries, not the 281 bundled skills.
   assert(Buffer.byteLength(guidance) < 12_000, `profile guidance is ${Buffer.byteLength(guidance)} bytes`);
-  assert.equal(guidance.split("\n").filter((line) => line.startsWith("- ")).length, 22);
+  assert.equal(guidance.split("\n").filter((line) => line.startsWith("- ")).length, 23);
+  assert(guidance.includes(`- Research Agent Skills index: ${JSON.stringify(join(root, INDEX, "references/catalog.md"))}`), "guidance carries the index file");
 });
 
 test("a one-shot research selection resolves the skill's own relative references", async () => {

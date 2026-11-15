@@ -1,6 +1,6 @@
 ---
 name: wb-game
-description: "게임 제작·분석. 레퍼런스 판단, 게임 설계·밸런스·에셋·VFX·사운드·UI. Use for the game workflow; select only relevant bundled skills and their references."
+description: "게임 제작·분석. 레퍼런스 판단, 게임 설계·밸런스·에셋·VFX·사운드·UI. 게임 기획·코어 루프·레벨·밸런스, 레퍼런스 게임 분석, 스프라이트·텍스처·컨셉 아트, 타격감·카메라 연출, HUD·메뉴, 화염·연기 VFX, 효과음·BGM, 게임 코드 구현과 수정 (game design, balance, sprites, VFX, sound and music, game feel, HUD, game code). Use for the game workflow; select only relevant bundled skills and their references."
 ---
 
 # 게임 제작·분석

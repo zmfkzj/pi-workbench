@@ -1,11 +1,11 @@
 ---
 name: wb-research
-description: "연구·학술. 가설·문헌·실험 설계·통계·논문 작성·인용 검증·심사 대응과 280개 분야별 연구 스킬. Use for the research workflow; select only relevant bundled skills and their references."
+description: "연구·학술. 가설·문헌·실험 설계·통계·논문 작성·인용 검증·심사 대응과 280개 분야별 연구 스킬. 논문·문헌 조사, 체계적 문헌고찰, 가설·실험 설계, 표본 수·검정력, 통계 분석, 논문 작성·그림·LaTeX 투고·arXiv, 인용 검증, 연구비 제안서, 동료 심사·리뷰 답변, 단일세포·화학정보학·양자·천문·ML 학습 등 분야별 연구 도구 (literature review, experimental design, power analysis, statistics, paper writing, citations, grants, peer review and reviewer responses, domain research tools). Use for the research workflow; select only relevant bundled skills and their references."
 ---
 
 # 연구·학술
 
-Read the research section of docs/WORKFLOWS.ko.md. Start from the listed workflow skills; for domain tools (biology, chemistry, medicine, physics, ML and more) choose specialists from the Research Agent Skills index (references/catalog.md) and read vendor/research-agent-skills/skills/<name>/SKILL.md in this package, the sibling directories of the index. Tie claims and citations to checked sources, separate executed analyses from plans, and start no autonomous loop, paid API, upload or submission unless asked.
+Read the research section of docs/WORKFLOWS.ko.md. Start from the listed workflow skills; for domain tools (biology, chemistry, medicine, physics, ML and more) choose specialists from the Research Agent Skills index listed under Indexes (a file of this package, not of the routing skill or project directory) and read the chosen specialist's SKILL.md in the index's sibling directories. Tie claims and citations to checked sources, separate executed analyses from plans, and start no autonomous loop, paid API, upload or submission unless asked.
 
 ## Start here
 
@@ -14,6 +14,10 @@ Read the research section of docs/WORKFLOWS.ko.md. Start from the listed workflo
 3. Read the original skill from its linked path. Resolve its scripts and references relative to that original file, not this routing skill or the project directory.
 4. Apply the integration notes below and the user's scope. Existing authorization and the user's language take precedence over upstream generic process examples.
 5. Report what was actually researched, changed, generated and verified. A missing provider does not become an available tool by reading a skill.
+
+## Indexes
+
+- [Research Agent Skills index](../../vendor/research-agent-skills/skills/research-agent-skills/references/catalog.md) (package path `vendor/research-agent-skills/skills/research-agent-skills/references/catalog.md`): 280 specialists by field and output; read or grep it for the field or tool, then read vendor/research-agent-skills/skills/<name>/SKILL.md for each chosen specialist.
 
 ## Available skills
 
@@ -44,7 +48,7 @@ Read the research section of docs/WORKFLOWS.ko.md. Start from the listed workflo
 
 ## Integration notes
 
-- **research-agent-skills**: references/catalog.md에서 고른 전문 스킬은 이 패키지의 vendor/research-agent-skills/skills/<name>/SKILL.md(이 색인 디렉터리의 형제 폴더)에 함께 번들되어 있다. 원문의 설치 안내 대신 그 SKILL.md를 읽는다. /workbench skill로 직접 고를 수 있는 것은 research 프로필의 핵심 항목뿐이다. 나머지 전문 스킬은 이 색인으로 찾아 그 경로를 읽는다.
+- **research-agent-skills**: 색인은 이 스킬 디렉터리의 references/catalog.md(패키지 경로 vendor/research-agent-skills/skills/research-agent-skills/references/catalog.md)다. 여기서 고른 전문 스킬은 이 패키지의 vendor/research-agent-skills/skills/<name>/SKILL.md(이 색인 디렉터리의 형제 폴더)에 함께 번들되어 있다. 원문의 설치 안내 대신 그 SKILL.md를 읽는다. /workbench skill로 직접 고를 수 있는 것은 research 프로필의 핵심 항목뿐이다. 나머지 전문 스킬은 이 색인으로 찾아 그 경로를 읽는다.
 - **hypothesis-generation**: 가설을 사실로 쓰지 않는다. 판별 예측과 기각 조건을 함께 남긴다.
   Required when executing: Python 3.11+ (번들 CLI 실행 시, 표준 라이브러리).
 - **scientific-brainstorming**: 실증 검증·윤리·임상 판단은 해당 전문가나 스킬로 넘긴다.

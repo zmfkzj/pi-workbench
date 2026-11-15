@@ -1,6 +1,6 @@
 ---
 name: wb-promo
-description: "홍보 스틸·배너·영상. 실제 게임의 장점을 전달하는 이미지·음향·영상 제작. Use for the promo workflow; select only relevant bundled skills and their references."
+description: "홍보 스틸·배너·영상. 실제 게임의 장점을 전달하는 이미지·음향·영상 제작. 게임 트레일러·홍보 영상, 스토어 스크린샷·키 아트·배너·썸네일, SNS·광고 소재, 홍보용 음악·효과음, 출시 홍보물 제작 (trailers, store screenshots, key art, banners, promotional audio). Use for the promo workflow; select only relevant bundled skills and their references."
 ---
 
 # 홍보 스틸·배너·영상

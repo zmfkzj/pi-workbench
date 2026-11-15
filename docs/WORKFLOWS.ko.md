@@ -156,7 +156,7 @@ GPU·모델 교체는 가능한 후보 중 하나다. 센서·소프트웨어·�
 ## research — 연구·학술
 
 1. 연구 질문·분야·산출물(가설, 문헌고찰, 분석, 원고, 투고, 심사 답변)과 사용자가 이미 정한 방법·자료를 먼저 정리한다.
-2. 단계별 핵심 스킬(가설·문헌·설계·통계·작성·검증·투고·심사)에서 시작하고, 분야 도구가 필요하면 Research Agent Skills 색인(`references/catalog.md`)에서 해당 분야 항목만 읽는다. 색인의 전문 스킬은 `vendor/research-agent-skills/skills/<name>/SKILL.md`에 있다.
+2. 단계별 핵심 스킬(가설·문헌·설계·통계·작성·검증·투고·심사)에서 시작하고, 분야 도구가 필요하면 [Research Agent Skills 색인](../vendor/research-agent-skills/skills/research-agent-skills/references/catalog.md)(패키지 경로 `vendor/research-agent-skills/skills/research-agent-skills/references/catalog.md`; 라우팅 스킬·프로젝트 디렉터리 기준 경로가 아니다)을 읽거나 grep해 해당 분야 항목만 본다. 색인의 전문 스킬은 `vendor/research-agent-skills/skills/<name>/SKILL.md`에 있다.
 3. 문헌·데이터베이스 조회는 검색어·출처·조회 날짜·결과 수를 남긴다. 조회하지 못한 자료와 읽지 않은 원문을 확인한 것으로 쓰지 않는다.
 4. 인용은 실제 메타데이터로 확인한다. DOI·저자·연도를 추정해 채우지 않고, 확인하지 못한 항목은 미확인으로 표시한다.
 5. 가설·설계·검정력 계산의 가정(효과 크기, 분산, 표본 단위)과 그 출처를 밝힌다. 사전등록·윤리 승인·실험 수행을 대신했다고 쓰지 않는다.

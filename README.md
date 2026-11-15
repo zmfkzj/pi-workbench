@@ -2,7 +2,7 @@
 
 **요구사항 도출, 게임 제작, 원인·솔루션·대안 비교, 비전 AI, 제조업 SW, 코딩, 홍보 제작, 연구·학술을 하나로 묶은 Pi extension 패키지.**
 
-8개 작업 프로필에서 52개 원본 스킬을 필요한 때 선택한다. Ponytail full을 기본 코딩 방식으로 두고, ECC Search First·Anthropic Frontend Design·UI UX Pro Max·Vercel React·Context7·ast-grep·Superpowers 검증·Trail of Bits 테스트와 함께 Google Chrome의 [Modern Web Guidance](https://github.com/GoogleChrome/modern-web-guidance)(최신 웹 플랫폼 가이드·Chrome Extensions)와 [Archify](https://github.com/tt-a1i/archify)(검증된 단독 HTML 다이어그램·설명 페이지)를 제공한다. `research` 프로필은 [Research Agent Skills](https://github.com/KalarisLabs/research-agent-skills)의 281개 스킬(전문 스킬 280개와 색인 1개)을 모두 포함하고, 그중 색인과 연구 단계별 핵심 스킬 22개를 직접 선택할 수 있다.
+8개 작업 프로필에서 56개 원본 스킬을 필요한 때 선택한다. Ponytail full을 기본 코딩 방식으로 두고, ECC Search First·Anthropic Frontend Design·UI UX Pro Max·Vercel React·Context7·ast-grep·Superpowers 검증·Trail of Bits 테스트와 함께 Google Chrome의 [Modern Web Guidance](https://github.com/GoogleChrome/modern-web-guidance)(최신 웹 플랫폼 가이드·Chrome Extensions)와 [Archify](https://github.com/tt-a1i/archify)(검증된 단독 HTML 다이어그램·설명 페이지)를 제공한다. 제조·원인 분석에는 Quality-Engineering의 8D·DMAIC와 Is/Is-Not·5-Why·Fishbone·8D 보고서 작성 스킬을 쓴다. `research` 프로필은 [Research Agent Skills](https://github.com/KalarisLabs/research-agent-skills)의 281개 스킬(전문 스킬 280개와 색인 1개)을 모두 포함하고, 그중 색인과 연구 단계별 핵심 스킬 22개를 직접 선택할 수 있다.
 
 원본 스킬의 참고 문서·스크립트·데이터·라이선스도 포함한다. 설치 과정에서 외부 서비스를 연결하거나 생성 API를 호출하지 않는다. 이미지·음원·영상 제작에 필요한 도구는 해당 작업을 수행할 때 사용자의 환경에 연결해야 한다.
 
@@ -58,7 +58,7 @@ Pi 1.1.0의 실제 리소스 로더에서 확장과 스킬 발견을 검증했�
 
 ## 바로 사용하기
 
-기본값 `auto`에서는 일반 Pi 스킬 탐색을 통해 필요한 `wb-*` 프로필을 선택한다. 자연어로 요청하면 된다. 자동 선택은 모델의 판단이므로 특정 경로를 확실히 쓰려면 프로필을 지정한다.
+기본값 `auto`에서는 일반 Pi 스킬 탐색을 통해 필요한 `wb-*` 프로필을 선택한다. 자연어로 요청하면 된다. Pi가 모델에 보여주는 것은 8개 `wb-*`의 이름과 설명뿐이므로, 각 설명에는 프로필이 다루는 요청과 산출물(예: 특정 로트 불량·고객 8D 보고서, Chrome 확장, 시퀀스 다이어그램, 단일세포 분석)을 적어 둔다. 이 문구는 `catalog.json`의 프로필 `routing` 필드에서 `scripts/build_catalog.py`가 생성한다(최대 1024자). 원본 스킬을 Pi 스킬로 직접 등록하지는 않는다. 자동 선택은 모델의 판단이므로 특정 경로를 확실히 쓰려면 프로필을 지정한다.
 
 ```text
 /workbench use requirements
@@ -123,9 +123,9 @@ Chrome 확장 작업은 `/workbench skill chrome-extensions`로 고른다. 세 �
 |---|---|---|
 | `requirements` | 기능·비기능 요구사항, 업무 규칙, 충돌, 수용 기준 | Requirements Elicitation, Problem Solving, ECC Search First |
 | `game` | 레퍼런스 판단, 게임 설계·밸런스·에셋·VFX·UI·소리 | Game Design, Create Game Assets, Game Feel, Game UI/UX, Fire & Smoke VFX, Imagegen, ElevenLabs, Ponytail |
-| `analysis` | 원인·해결책·대안 비교 | Problem Solving, Structured Root Cause Research, 분야별 진단, Verification Before Completion, Archify(요청 시 다이어그램·설명 페이지) |
+| `analysis` | 원인·해결책·대안 비교 | Problem Solving, Structured Root Cause Research, 분야별 진단, Is/Is-Not·5-Why·Fishbone, Verification Before Completion, Archify(요청 시 다이어그램·설명 페이지) |
 | `vision` | 촬영·라벨·분할·전처리·모델·평가·배포 분석 | NVIDIA TAO Recipe Transfer, FiftyOne Model Evaluation, Context7, Property-Based Testing |
-| `manufacturing` | 발생 원인과 검출 실패, 측정 신뢰성, 개선·관리 | 8D Problem Solving, DMAIC, 공통 원인 분석 |
+| `manufacturing` | 발생 원인과 검출 실패, 측정 신뢰성, 개선·관리 | 8D Problem Solving, Is/Is-Not Scoping, 5-Why Root Cause, Fishbone Analysis, 8D Report Writing(고객 제출용 초안), DMAIC, 공통 원인 분석 |
 | `coding` | 구현·리뷰·재사용·문서 조회·웹 플랫폼·UI·구조 검색·다이어그램·검증 | Ponytail/Review, ECC, Frontend Design, UI UX Pro Max, Modern Web Guidance, Chrome Extensions, Vercel React, Context7, ast-grep/Outline, Archify, Superpowers, Trail of Bits |
 | `promo` | 홍보 스틸컷·배너·음향·영상 | Imagegen, Create Game Assets, Frontend Design, UI UX Pro Max, ElevenLabs, Video Director |
 | `research` | 가설·문헌고찰·실험 설계·통계·논문 작성·인용 검증·투고·심사 대응, 분야별 연구 도구 | Research Agent Skills 색인, Hypothesis Generation, Literature Review, Paper Lookup, PRISMA, Experimental Design, Statistical Power/Analysis, Scientific Writing, Citation Verification, Venue Templates, Peer Review, Autoresearch 등 22개 |
@@ -141,7 +141,7 @@ Game UI/UX는 플레이 화면의 HUD·메뉴·입력 설계용이라 `game`에�
 | 명령 | 동작 |
 |---|---|
 | `/workbench` | 도움말 |
-| `/workbench list` | 52개 선택 가능한 원본 스킬 목록 |
+| `/workbench list` | 56개 선택 가능한 원본 스킬 목록 |
 | `/workbench list game` | 프로필별 스킬 목록 |
 | `/workbench use coding` | 현재 대화 분기의 프로필 선택 |
 | `/workbench use auto` | 기본 Pi 스킬 탐색 사용 |
@@ -149,8 +149,8 @@ Game UI/UX는 플레이 화면의 HUD·메뉴·입력 설계용이라 `game`에�
 | `/workbench skill ponytail-review` | 다음 사용자 요청 한 번에 원본 스킬과 적용 조건 전달(작업 중 steering·follow-up 포함) |
 | `/workbench cancel [id]` | 대기 중인 스킬 선택 취소(id를 빼면 전부) |
 | `/workbench status` | 현재 프로필과 대기 중인 스킬 선택 확인 |
-| `/workbench doctor` | 패키지 파일과 선택 스킬용 로컬 도구·환경변수 점검, 비정상 항목마다 조치 안내 |
-| `/workbench install-deps` | 권한 없이 설치할 수 있는 선택 도구(ast-grep, uv)만 설치하고 나머지는 정확한 수동 조치로 안내 |
+| `/workbench doctor` | 패키지 파일과 선택 스킬용 로컬 도구·환경변수·Archify 브라우저 점검, 비정상 항목마다 조치 안내 |
+| `/workbench install-deps` | 권한 없이 설치할 수 있는 선택 도구(ast-grep, uv)만 설치하고 snap 브라우저용 Archify 임시 디렉터리를 만들며, 나머지는 정확한 수동 조치로 안내 |
 
 Pi 입력창에서 `/workbench ` 뒤에 Tab을 누르면 하위 명령을, `use `·`list `·`skill `·`cancel ` 뒤에서는 `catalog.json`의 프로필(`use`는 `auto`·`off` 포함)·스킬 ID·대기 중인 선택을 입력한 prefix에 맞춰 제안한다(예: `/workbench use co` → `use coding`, `/workbench skill ponytail-r` → `skill ponytail-review`). 후보 목록이 닫힌 상태에서 Tab을 눌러도(Pi의 강제 완성) 같은 후보가 나오며 파일 목록으로 빠지지 않는다. 확장이 세션 시작 때 `ctx.ui.addAutocompleteProvider`로 `/workbench` 인수 위치에만 작용하는 wrapper를 등록하고, 다른 명령·파일 경로·입력 중 자동 제안은 Pi의 기본 동작 그대로다. 후보가 하나면 Tab이 바로 적용하고, 목록이 열린 상태의 Enter는 고른 후보를 적용만 하며 실행은 다음 Enter로 한다. `ponytail`처럼 다른 ID(`ponytail-review`)의 prefix인 ID를 끝까지 입력하면 두 후보가 모두 나오고 Enter는 입력한 ID를 그대로 둔다. 완성은 catalog만 읽고 스킬 본문을 열거나 프로필·세션 상태를 바꾸지 않는다. 이미 완성된 인수 뒤나 인수가 없는 하위 명령 뒤에는 후보를 내지 않는다. print·JSON·RPC 모드에는 입력창 자동완성이 없다.
 
@@ -196,7 +196,7 @@ Git 설치본의 내려받은 디렉터리 경로는 등록된 source가 아니�
 | 3D 에셋 | 사용자가 연결한 3D 생성 도구·Blender·엔진 등; 이 패키지에 3D 생성 서비스가 내장되지는 않음 |
 | 웹·게임 UI | 대상 프로젝트 런타임, 실제 화면을 확인할 환경 |
 | 최신 웹 플랫폼 가이드 | 번들 가이드는 추가 도구 없이 읽음; 원래 CLI 경로는 Node 22+·npx와 npm 레지스트리 네트워크(익명 텔레메트리는 `DISABLE_TELEMETRY=1`로 끔) |
-| 아키텍처·흐름 다이어그램(Archify) | Node 18+; `finalize`의 browser-check에는 Chrome/Chromium(`ARCHIFY_CHROME` 또는 PATH). 업데이트 확인은 네트워크(선택) |
+| 아키텍처·흐름 다이어그램(Archify) | Node 18+(npm 설치 불필요); `finalize`의 browser-check에는 Chrome·Chromium·Edge(`ARCHIFY_CHROME` 또는 Archify가 찾는 설치 위치·PATH). snap Chromium은 TMPDIR가 홈 아래여야 한다(아래 doctor 항목). 업데이트 확인은 네트워크(선택) |
 | 비전 실행·평가 | 실제 데이터·모델·프레임워크; 사용 경로에 따라 FiftyOne/NumPy/Pillow 등 |
 | 구조 검색·문서 조회 | ast-grep CLI, Context7 MCP 또는 CLI 등 선택한 경로 |
 | 연구 스킬 실행 | 스킬별 Python 패키지(uv 권장)·CLI·LaTeX 등과 학술 API 네트워크 접근; 일부는 OpenRouter·Parallel·Exa·클라우드 GPU·실험실 서비스 계정과 API 키. 각 SKILL.md의 `compatibility`에 적혀 있으며 이 패키지가 설치·연결하지 않고 doctor도 점검하지 않음 |
@@ -209,6 +209,7 @@ Workbench 자체는 Pi와 Node.js 내장 모듈만 쓰므로 npm 설치가 필�
 
 - 필수: `catalog.json`을 읽을 수 있고 모든 번들 SKILL.md가 패키지 안에 있는지(`bundled catalog and skills`). 깨졌으면 `error`와 재설치(`pi update --extensions`) 또는 git checkout 복원 명령을 안내한다.
 - 선택(PATH에 있는지만): `git`, `rg`, `node`, `python3`/`python`(둘 중 하나면 충분), `uv`, `ffmpeg`, `ffprobe`, `blender`, `godot`, `ast-grep`. 없으면 어떤 스킬·프로필에 필요한지와 플랫폼별 설치 명령(Linux: apt/dnf, macOS: brew, Windows: winget 등)을 보여 준다.
+- 선택(Archify 브라우저, `Chrome/Chromium for Archify`): Archify의 `findChrome`과 같은 순서로 찾는다. `ARCHIFY_CHROME`이 설정돼 있으면 그 값만 쓰고(비었거나 실행 파일이 아니면 Archify는 다른 브라우저로 넘어가지 않으므로 `warn`), 아니면 macOS·Windows 설치 위치, PATH의 `google-chrome`·`google-chrome-stable`·`chromium`·`chromium-browser`(Windows는 `chrome`도), 마지막으로 Microsoft Edge다. 브라우저를 실행하지 않으므로 `ok`는 browser gate 통과가 아니다. 찾은 브라우저가 snap(`/snap/bin/…` 또는 그것을 실행하는 Ubuntu wrapper)이고 임시 디렉터리(`TMPDIR`, 기본 `/tmp`)가 홈 아래가 아니면 `warn`이다. snap은 비공개 `/tmp`와 홈의 숨김이 아닌 파일만 보므로 Archify가 임시 디렉터리에 두는 브라우저 프로필과 페이지를 열지 못한다(이 저장소에서 TMPDIR=`/tmp`·`/var/tmp/...`는 실패, `~/snap/chromium/common/archify-tmp`는 통과로 확인). 조치는 Archify 명령 앞에 `TMPDIR="$HOME/snap/chromium/common/archify-tmp"`를 붙이는 것이고, Workbench의 Archify 주의사항도 같은 안내를 담는다. `ARCHIFY_CHROME_NO_SANDBOX`는 권하지 않는다.
 - 선택(비어 있지 않은지만, 값은 표시하지 않음): `OPENAI_API_KEY`, `ELEVENLABS_API_KEY`, `SCENARIO_API_KEY`, `CONTEXT7_API_KEY`, `LAYER_API_KEY`. 없으면 Pi를 시작하는 환경에 설정하는 방법과 키 발급 위치를 안내한다.
 - 버전·인증·구독·MCP·Python 모듈(NumPy·Pillow·fonttools·brotli·openai·fiftyone)·생성 성공 여부는 검증하지 않으며, 보고서 첫 줄(note)에 Python 모듈을 직접 확인·설치하는 명령을 적는다. 생성 도구가 없으면 브리프·프롬프트·스토리보드·검증 계획까지 작성하고 실제 제작은 미완료로 구분한다.
 
@@ -217,6 +218,7 @@ Workbench 자체는 Pi와 Node.js 내장 모듈만 쓰므로 npm 설치가 필�
 - `ast-grep`: npm이 PATH에 있고 npm 전역 prefix(`npm prefix -g`)에 현재 사용자가 쓸 수 있을 때만 `npm install -g @ast-grep/cli`. prefix에 권한이 필요하면 설치하지 않고 사용자 prefix 설정(`npm config set prefix ~/.npm-global`) 등 수동 조치를 안내한다.
 - `uv`: `pipx`가 PATH에 있을 때만 `pipx install uv`.
 - 설치 후 다시 찾아 PATH에서 보일 때만 `installed`로 보고한다. 설치는 됐지만 PATH 밖이면 `manual`(PATH 추가 방법), 실패하면 `failed`(오류 마지막 줄과 직접 실행할 명령)다. 이미 있으면 `ok`(already available)라 반복 실행해도 안전하고, 같은 세션에서 겹친 실행은 진행 중인 설치를 공유한다.
+- Archify 브라우저가 snap이고 임시 디렉터리 조건에 걸리면 그 snap의 사용자 데이터 안에 `~/snap/<snap>/common/archify-tmp`를 한 번 만든다(권한 불필요, 이미 있으면 그대로). 환경변수는 바꾸지 않으므로 결과는 `manual`(명령마다 `TMPDIR` 지정)이다. 브라우저는 내려받지 않는다. Chrome for Testing은 권한 없이 받을 수 있지만 Ubuntu 23.10+처럼 비특권 user namespace가 막힌 Linux에서는 sandbox를 끄지 않는 한 실행되지 않기 때문이다(이 저장소에서 "No usable sandbox"로 확인). 브라우저가 없으면 플랫폼별 설치 명령을 `manual`로 안내한다.
 - 그 밖의 도구(시스템 패키지·다운로드), API 키, Python 모듈은 설치하지 않고 `manual`과 정확한 명령으로 안내한다. sudo를 실행하지 않고 환경변수·자격 증명·설정 파일을 바꾸지 않는다.
 
 지원 범위: Linux·macOS·Windows에서 PATH 탐색(Windows는 PATHEXT)과 플랫폼별 안내를 제공한다. 자동 설치는 npm·pipx가 있는 환경에서만 시도하며, 실제 설치 동작은 가짜 실행기로만 테스트했다(테스트는 아무것도 내려받지 않는다).

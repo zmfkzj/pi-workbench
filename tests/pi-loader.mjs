@@ -41,6 +41,8 @@ try {
   assert.deepEqual(await values("use co"), ["use coding"]);
   assert.deepEqual(await values("list ga"), ["list game"]);
   assert.deepEqual(await values("skill ponytail-r"), ["skill ponytail-review"]);
+  assert.deepEqual(await values("skill 5w"), ["skill 5why-root-cause"]);
+  assert.deepEqual(await values("skill 8d-r"), ["skill 8d-report-writing"]);
   assert.deepEqual(await values("use res"), ["use research"]);
   assert.deepEqual(await values("list res"), ["list research"]);
   assert.deepEqual(await values("skill hypothesis-g"), ["skill hypothesis-generation"]);
@@ -51,12 +53,15 @@ try {
   const skills = loader.getSkills();
   assert.deepEqual(skills.diagnostics, []);
   const expected = ["requirements", "game", "analysis", "vision", "manufacturing", "coding", "promo", "research"].map((id) => `wb-${id}`).sort();
-  assert.deepEqual(skills.skills.map((skill) => skill.name).sort(), expected, "Discover only the eight routing skills, not the 27 + 281 vendor skills.");
+  assert.deepEqual(skills.skills.map((skill) => skill.name).sort(), expected, "Discover only the eight routing skills, not the bundled vendor or research specialist skills.");
   assert(skills.skills.every((skill) => skill.filePath.startsWith(join(root, "skills"))));
   assert(!skills.skills.some((skill) => skill.filePath.includes(`${join(root, "vendor")}`)), "No vendor skill is discovered natively.");
   const research = skills.skills.find((skill) => skill.name === "wb-research");
   assert.equal(research.filePath, join(root, "skills", "wb-research", "SKILL.md"));
   assert.match(research.description, /연구·학술/);
+  // The generated routing descriptions load without length or format diagnostics (checked above) and name the requests they cover.
+  assert.match(skills.skills.find((skill) => skill.name === "wb-manufacturing").description, /5-Why·Is\/Is-Not·Fishbone/);
+  assert(skills.skills.every((skill) => skill.description.length <= 1024));
   console.log(JSON.stringify({ ok: true, hostModule: hostSpecifier, registeredCommands: ["workbench"], handlers: [...installed[0].handlers.keys()], entryRenderers: [...installed[0].entryRenderers.keys()], argumentCompletion: true, discoveredSkills: expected, extensionErrors: 0, skillDiagnostics: 0 }, null, 2));
 } finally {
   await rm(sandbox, { recursive: true, force: true });

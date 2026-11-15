@@ -1,0 +1,449 @@
+{
+  "about": "Representative requests that do not name a skill. `profiles`: acceptable routing profiles, the first one primary. `skills`: acceptable catalog skills, any one of them counts. `specialist`: a Research Agent Skills specialist reached through the research index. `cues`: wording of the primary profile's routing description that should match the request. tests/routing-skills.test.mjs checks this metadata structurally; experiments/routing-selection measures what a real model reads. Requests with `heldOut: true` were written after the first measurement round and were not used to tune the routing text; they carry no cues. Requests with `round: 2` were added for the second measurement round (index path, sample-size wrapper and diagram evaluation) and were not used to tune any routing text. A request without acceptable `skills` is a negative case: it lists `avoidSkills` that should not be opened. `scenario` names an entry of `scenarios` (default `readonly`): the tools, working-directory fixture, browser and limits of experiments/routing-selection/run.mjs.",
+  "scenarios": {
+    "readonly": {
+      "tools": "read,grep,find,ls",
+      "maxTools": 14,
+      "timeLimit": 240,
+      "runCostCap": 0.5
+    },
+    "diagram-workspace": {
+      "tools": "read,bash,edit,write,grep,find,ls",
+      "fixture": "payments",
+      "browser": true,
+      "maxTools": 45,
+      "timeLimit": 600,
+      "runCostCap": 1.2
+    }
+  },
+  "requests": [
+    {
+      "id": "lot-escape",
+      "lang": "ko",
+      "request": "A 라인에서 3월 12일에 생산된 특정 로트에서만 커넥터 플랜지 두께가 규격 미달로 나왔고, 출하 검사에서 걸러지지 않고 고객사까지 갔어. 원인을 어떻게 좁혀가야 할지 정리해줘.",
+      "profiles": [
+        "manufacturing",
+        "analysis"
+      ],
+      "skills": [
+        "is-is-not-scoping",
+        "8d-problem-solving",
+        "5why-root-cause"
+      ],
+      "cues": [
+        "특정 로트",
+        "발생 원인과 검출 실패"
+      ]
+    },
+    {
+      "id": "oem-report",
+      "lang": "en",
+      "request": "An automotive OEM rejected our first response to their quality complaint. Help me restructure the formal D0 to D8 corrective action report that we have to upload to their supplier portal.",
+      "profiles": [
+        "manufacturing"
+      ],
+      "skills": [
+        "8d-report-writing"
+      ],
+      "cues": [
+        "고객 8D 보고서",
+        "고객 클레임"
+      ]
+    },
+    {
+      "id": "cause-categories",
+      "lang": "ko",
+      "request": "야간조에서만 비전 검사기의 불량 판정이 늘었어. 사람, 설비, 방법, 자재, 측정, 환경으로 원인 후보를 나눠서 정리해줘.",
+      "profiles": [
+        "manufacturing",
+        "analysis",
+        "vision"
+      ],
+      "skills": [
+        "fishbone-analysis"
+      ],
+      "cues": [
+        "Fishbone(6M)",
+        "교대"
+      ]
+    },
+    {
+      "id": "why-chain",
+      "lang": "en",
+      "request": "Our nightly batch job keeps failing every few weeks. Walk me through asking why repeatedly until we reach the systemic cause, and check that each step is backed by evidence.",
+      "profiles": [
+        "analysis",
+        "manufacturing",
+        "coding"
+      ],
+      "skills": [
+        "5why-root-cause",
+        "structured-root-cause-research"
+      ],
+      "cues": [
+        "근본 원인",
+        "5-Why"
+      ]
+    },
+    {
+      "id": "light-dismiss",
+      "lang": "en",
+      "request": "In our web app a popover menu should close when the user clicks outside it or presses Escape. What is the current standard HTML/CSS way to do this without a library?",
+      "profiles": [
+        "coding"
+      ],
+      "skills": [
+        "modern-web-guidance"
+      ],
+      "cues": [
+        "HTML·CSS"
+      ]
+    },
+    {
+      "id": "mv3-worker",
+      "lang": "ko",
+      "request": "크롬 확장 프로그램을 Manifest V3로 옮겼더니 background service worker가 잠들 때 상태가 사라져. 어떻게 고쳐야 해?",
+      "profiles": [
+        "coding"
+      ],
+      "skills": [
+        "chrome-extensions"
+      ],
+      "cues": [
+        "Chrome 확장(Manifest V3)"
+      ]
+    },
+    {
+      "id": "sequence-diagram",
+      "lang": "ko",
+      "request": "결제 요청이 API 게이트웨이, 주문 서비스, 외부 결제 대행사를 거치는 흐름을 시퀀스 다이어그램 HTML로 만들어줘.",
+      "profiles": [
+        "coding",
+        "analysis"
+      ],
+      "skills": [
+        "archify"
+      ],
+      "cues": [
+        "다이어그램"
+      ]
+    },
+    {
+      "id": "single-cell",
+      "lang": "en",
+      "request": "I have single-cell RNA-seq counts from 10x Genomics. I want to cluster the cells and find marker genes in Python.",
+      "profiles": [
+        "research"
+      ],
+      "skills": [
+        "research-agent-skills"
+      ],
+      "specialist": "scanpy",
+      "cues": [
+        "단일세포"
+      ]
+    },
+    {
+      "id": "camera-swap",
+      "lang": "ko",
+      "request": "카메라를 새 모델로 교체한 뒤 YOLO 검출 모델의 미검출이 늘었어. 재학습하기 전에 무엇을 확인해야 할까?",
+      "profiles": [
+        "vision"
+      ],
+      "skills": [
+        "tao-validate-recipe-transfer",
+        "fiftyone-model-evaluation",
+        "structured-root-cause-research"
+      ],
+      "cues": [
+        "미검출",
+        "배포 결과 불일치"
+      ]
+    },
+    {
+      "id": "steam-launch",
+      "lang": "ko",
+      "request": "다음 달 출시하는 인디 게임의 스팀 페이지에 쓸 캡슐 이미지와 30초 트레일러 구성을 잡아줘.",
+      "profiles": [
+        "promo"
+      ],
+      "skills": [
+        "video-director",
+        "create-game-assets",
+        "imagegen"
+      ],
+      "cues": [
+        "게임 트레일러",
+        "키 아트"
+      ]
+    },
+    {
+      "id": "reviewer-response",
+      "lang": "en",
+      "request": "Reviewers of our conference submission raised concerns about the baselines and the ablations. Draft a point-by-point response.",
+      "profiles": [
+        "research"
+      ],
+      "skills": [
+        "rebuttal-and-response-to-reviewers"
+      ],
+      "cues": [
+        "리뷰 답변"
+      ]
+    },
+    {
+      "id": "booking-system",
+      "lang": "ko",
+      "request": "사내 장비 예약 시스템을 새로 만들려고 해. 개발을 시작하기 전에 무엇을 만들어야 하는지와 완료 조건을 정리해줘.",
+      "profiles": [
+        "requirements"
+      ],
+      "skills": [
+        "requirements-elicitation"
+      ],
+      "cues": [
+        "완료 조건"
+      ]
+    },
+    {
+      "id": "scroll-progress",
+      "lang": "en",
+      "heldOut": true,
+      "request": "I want a reading progress bar at the top of an article page that fills as the user scrolls, using only CSS if browsers support it. What is the right approach today?",
+      "profiles": [
+        "coding"
+      ],
+      "skills": [
+        "modern-web-guidance"
+      ],
+      "cues": []
+    },
+    {
+      "id": "gauge-grr",
+      "lang": "ko",
+      "heldOut": true,
+      "request": "측정 시스템 분석에서 %GRR이 28%, 구별 범주 수가 4로 나왔어. 이 계측기로 공정 개선 데이터를 계속 모아도 될지 판단해줘.",
+      "profiles": [
+        "manufacturing"
+      ],
+      "skills": [
+        "dmaic"
+      ],
+      "cues": []
+    },
+    {
+      "id": "sample-size",
+      "lang": "en",
+      "heldOut": true,
+      "request": "How many participants per group do we need to detect a medium effect in a two-arm study with 80% power, and how should we justify it in the protocol?",
+      "profiles": [
+        "research"
+      ],
+      "skills": [
+        "statistical-power",
+        "experimental-design"
+      ],
+      "cues": []
+    },
+    {
+      "id": "label-boundaries",
+      "lang": "ko",
+      "heldOut": true,
+      "request": "세그멘테이션 데이터셋의 라벨 경계가 작업자마다 달라서 검증 성능이 들쭉날쭉해. 무엇부터 확인해야 할까?",
+      "profiles": [
+        "vision"
+      ],
+      "skills": [
+        "fiftyone-model-evaluation",
+        "tao-validate-recipe-transfer",
+        "structured-root-cause-research"
+      ],
+      "cues": []
+    },
+    {
+      "id": "flaky-ci",
+      "lang": "en",
+      "heldOut": true,
+      "request": "One test in our CI fails about once every twenty runs and nobody can reproduce it locally. How should we track down the cause?",
+      "profiles": [
+        "analysis",
+        "coding"
+      ],
+      "skills": [
+        "structured-root-cause-research",
+        "5why-root-cause"
+      ],
+      "cues": []
+    },
+    {
+      "id": "phylo-tree",
+      "lang": "ko",
+      "heldOut": true,
+      "round": 2,
+      "request": "유전자 서열로 만든 Newick 계통수를 파이썬에서 불러와서 특정 분류군 가지만 잘라내고, 가지마다 부트스트랩 값을 표시한 그림으로 저장하고 싶어.",
+      "profiles": [
+        "research"
+      ],
+      "skills": [
+        "research-agent-skills"
+      ],
+      "specialist": "etetoolkit",
+      "cues": []
+    },
+    {
+      "id": "msms-spectra",
+      "lang": "en",
+      "heldOut": true,
+      "round": 2,
+      "request": "We have tandem mass spectra in MGF files from an untargeted metabolomics run. How do we clean them and score their similarity against a reference spectral library in Python?",
+      "profiles": [
+        "research"
+      ],
+      "skills": [
+        "research-agent-skills"
+      ],
+      "specialist": "matchms",
+      "cues": []
+    },
+    {
+      "id": "mri-layout",
+      "lang": "ko",
+      "heldOut": true,
+      "round": 2,
+      "request": "여러 병원에서 받은 뇌 MRI DICOM 파일을 공유 가능한 표준 폴더·파일 이름 규칙으로 변환하고 검증하고 싶어. 어떻게 시작해야 해?",
+      "profiles": [
+        "research"
+      ],
+      "skills": [
+        "research-agent-skills"
+      ],
+      "specialist": "bids",
+      "cues": []
+    },
+    {
+      "id": "censored-survival",
+      "lang": "en",
+      "heldOut": true,
+      "round": 2,
+      "request": "Our patient follow-up data has many censored cases. I want to fit and compare a Cox model and a random forest for time-to-event prediction in Python and report a proper concordance metric.",
+      "profiles": [
+        "research"
+      ],
+      "skills": [
+        "research-agent-skills"
+      ],
+      "specialist": "scikit-survival",
+      "cues": []
+    },
+    {
+      "id": "ss-two-group-ko",
+      "lang": "ko",
+      "heldOut": true,
+      "round": 2,
+      "request": "두 집단 평균 비교 실험에서 효과 크기 0.4, 유의수준 0.05, 검정력 90%를 맞추려면 집단당 몇 명이 필요해? IRB 계획서에 넣을 근거 문단도 써줘.",
+      "profiles": [
+        "research"
+      ],
+      "skills": [
+        "statistical-power",
+        "experimental-design"
+      ],
+      "cues": []
+    },
+    {
+      "id": "ss-animal-ko",
+      "lang": "ko",
+      "heldOut": true,
+      "round": 2,
+      "request": "쥐 실험에서 처리군과 대조군을 비교하려는데, 동물실험윤리위원회가 마릿수 근거를 요구해. 선행 연구에선 두 군의 평균 차이가 표준편차 정도였어. 몇 마리로 하면 될까?",
+      "profiles": [
+        "research"
+      ],
+      "skills": [
+        "statistical-power",
+        "experimental-design"
+      ],
+      "cues": []
+    },
+    {
+      "id": "ss-ab-test",
+      "lang": "en",
+      "heldOut": true,
+      "round": 2,
+      "request": "We're planning an A/B test of a new onboarding flow. Current conversion is 12% and we hope to reach 15%. With about 2,000 visitors a day split evenly, how long should the test run?",
+      "profiles": [
+        "research"
+      ],
+      "skills": [
+        "statistical-power",
+        "experimental-design"
+      ],
+      "cues": []
+    },
+    {
+      "id": "ss-cluster",
+      "lang": "en",
+      "heldOut": true,
+      "round": 2,
+      "request": "We will randomize 20 schools to a reading intervention or control. With an ICC around 0.05, how many students per school do we need to detect a 0.25 SD improvement?",
+      "profiles": [
+        "research"
+      ],
+      "skills": [
+        "statistical-power",
+        "experimental-design"
+      ],
+      "cues": []
+    },
+    {
+      "id": "diagram-html",
+      "lang": "ko",
+      "heldOut": true,
+      "round": 2,
+      "scenario": "diagram-workspace",
+      "request": "이 저장소의 결제 흐름(API 게이트웨이 → 주문 서비스 → 외부 결제 대행사, 3-D Secure 웹훅 포함)을 팀 위키에 첨부할 시퀀스 다이어그램 HTML 파일로 만들어줘.",
+      "profiles": [
+        "coding",
+        "analysis"
+      ],
+      "skills": [
+        "archify"
+      ],
+      "cues": []
+    },
+    {
+      "id": "diagram-mermaid",
+      "lang": "ko",
+      "heldOut": true,
+      "round": 2,
+      "scenario": "diagram-workspace",
+      "request": "이 저장소의 결제 요청 흐름을 Mermaid 시퀀스 다이어그램 코드로만 답해줘. 파일은 만들지 마.",
+      "profiles": [
+        "coding",
+        "analysis"
+      ],
+      "skills": [],
+      "avoidSkills": [
+        "archify"
+      ],
+      "cues": []
+    },
+    {
+      "id": "diagram-prose",
+      "lang": "en",
+      "heldOut": true,
+      "round": 2,
+      "scenario": "diagram-workspace",
+      "request": "In a few sentences, explain how a checkout request moves through the services in this repository. No diagram needed.",
+      "profiles": [
+        "coding",
+        "analysis"
+      ],
+      "skills": [],
+      "avoidSkills": [
+        "archify"
+      ],
+      "cues": []
+    }
+  ]
+}

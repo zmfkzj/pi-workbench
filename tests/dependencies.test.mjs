@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { mkdirSync } from "node:fs";
 import { chmod, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { delimiter, join } from "node:path";
 import { tmpdir } from "node:os";
@@ -17,7 +18,8 @@ import {
   registerDependencyProvider,
 } from "../lib/dependencies.js";
 import { checkWorkbenchDependencies, createWorkbenchDependencyProvider, installWorkbenchDependencies } from "../lib/runtime.js";
-import { TOOLS, VARIABLES, toolAction, variableAction } from "../lib/workbench-dependencies.js";
+import { ARCHIFY_BROWSER, TOOLS, VARIABLES, archifyBrowserPresence, findArchifyBrowser, snapCanUseTemp, toolAction, variableAction } from "../lib/workbench-dependencies.js";
+import { findChrome } from "../vendor/archify/archify/bin/visual-check.mjs";
 
 const packageRoot = fileURLToPath(new URL("..", import.meta.url));
 const TOOL_NAMES = ["git", "rg", "node", "python3", "python", "uv", "ffmpeg", "ffprobe", "blender", "godot", "ast-grep"];
@@ -92,7 +94,7 @@ test("a fully equipped machine is healthy; doctor runs nothing and prints no sec
   const temporary = await temporaryDirectory(t);
   const bin = join(temporary, "bin");
   const marker = join(temporary, "must-not-execute");
-  await stubs(bin, TOOL_NAMES, marker);
+  await stubs(bin, [...TOOL_NAMES, "chromium"], marker);
   const env = Object.freeze({ PATH: bin, ...secrets() });
   const { calls, run } = recorder();
   const report = await createWorkbenchDependencyProvider(packageRoot, { env, platform: "linux", run }).check({});
@@ -100,8 +102,9 @@ test("a fully equipped machine is healthy; doctor runs nothing and prints no sec
   const { text, level } = formatDependencyReport("pi-workbench", report, "check");
   assert.equal(level, "info");
   assert.match(text, /^pi-workbench doctor: healthy$/m);
-  assert.match(text, /\[ok\] bundled catalog and skills: 52 skills in 8 profiles/);
+  assert.match(text, /\[ok\] bundled catalog and skills: 56 skills in 8 profiles/);
   assert.match(text, /\[ok\] python3 \/ python: python3: found, python: found/);
+  assert.match(text, new RegExp(`\\[ok\\] ${ARCHIFY_BROWSER}: .*/chromium \\(via PATH; presence only, the browser gate is not run\\)$`, "m"));
   for (const name of VARIABLE_NAMES) assert.match(text, new RegExp(`\\[ok\\] ${name}: set$`, "m"));
   assert.match(report.note, /only Pi and Node\.js built-ins/);
   assert.match(report.note, /python3 -c "import numpy, PIL/, "The note says how to verify the unchecked Python modules.");
@@ -178,7 +181,7 @@ async function installMachine(t, { pipxBinOnPath = true } = {}) {
   const bin = join(temporary, "bin");
   const prefix = join(temporary, "npm-prefix");
   const pipxBin = join(temporary, "pipx-bin");
-  await stubs(bin, [...TOOL_NAMES.filter((name) => name !== "ast-grep" && name !== "uv"), "npm", "pipx"], join(temporary, "marker"));
+  await stubs(bin, [...TOOL_NAMES.filter((name) => name !== "ast-grep" && name !== "uv"), "npm", "pipx", "google-chrome"], join(temporary, "marker"));
   const env = { PATH: [bin, join(prefix, "bin"), ...(pipxBinOnPath ? [pipxBin] : [])].join(delimiter), PIPX_BIN_DIR: pipxBin, ...secrets() };
   const executable = async (directory, name) => {
     await mkdir(directory, { recursive: true });
@@ -287,4 +290,104 @@ test("overlapping installs share one run", async (t) => {
   const again = await provider.install({});
   assert.notEqual(again, a, "A later request runs again (and finds everything present).");
   assert.equal(dependencyOutcome(again, "install"), "already available");
+});
+
+test("Archify's browser is found exactly as the bundled Archify findChrome finds it", () => {
+  // The same injected file system for both: a set of executable paths.
+  const cases = [
+    { platform: "linux", env: { PATH: "/usr/bin:/snap/bin" }, files: ["/snap/bin/chromium", "/usr/bin/chromium-browser"] },
+    { platform: "linux", env: { PATH: "/a:/b" }, files: ["/b/google-chrome-stable", "/a/chromium"] },
+    { platform: "linux", env: { PATH: "/a" }, files: ["/a/microsoft-edge-stable"] },
+    { platform: "linux", env: { PATH: "/a" }, files: [] },
+    { platform: "linux", env: { PATH: "/a", ARCHIFY_CHROME: "" }, files: ["/a/chromium"] },
+    { platform: "linux", env: { PATH: "/a", ARCHIFY_CHROME: "/missing/chrome" }, files: ["/a/chromium"] },
+    { platform: "linux", env: { PATH: "/a", ARCHIFY_CHROME: "/opt/c/chrome" }, files: ["/a/chromium", "/opt/c/chrome"] },
+    { platform: "darwin", env: { PATH: "/usr/local/bin" }, files: ["/Applications/Chromium.app/Contents/MacOS/Chromium", "/usr/local/bin/google-chrome"] },
+    { platform: "darwin", env: { PATH: "/x" }, files: ["/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge", "/x/microsoft-edge"] },
+    { platform: "win32", env: { Path: "C:\\bin", PathExt: ".EXE", ProgramFiles: "C:\\PF" }, files: ["C:\\PF\\Google\\Chrome\\Application\\chrome.exe", "C:\\bin\\chrome.EXE"] },
+    { platform: "win32", env: { PATH: "C:\\bin", LOCALAPPDATA: "C:\\L" }, files: ["C:\\L\\Microsoft\\Edge\\Application\\msedge.exe", "C:\\bin\\chromium.EXE"] },
+    { platform: "win32", env: { PATH: "C:\\bin", "PROGRAMFILES(X86)": "C:\\X" }, files: ["C:\\X\\Microsoft\\Edge\\Application\\msedge.exe"] },
+    { platform: "win32", env: { archify_chrome: "C:\\c\\chrome.exe", PATH: "C:\\bin" }, files: ["C:\\bin\\chrome.EXE"] },
+  ];
+  for (const { platform, env, files } of cases) {
+    const exists = new Set(files);
+    const resolveExecutable = (file) => (file && exists.has(file) ? file : null);
+    const expected = findChrome({ env, platform, resolveExecutable });
+    const actual = findArchifyBrowser({ env, platform, resolveExecutable });
+    assert.equal(actual.path, expected, `${platform} ${JSON.stringify(env)} ${files.join(",")}`);
+  }
+  assert.deepEqual(findArchifyBrowser({ env: { PATH: "/a", ARCHIFY_CHROME: "" }, platform: "linux", resolveExecutable: () => "/a/chromium" }).via, "ARCHIFY_CHROME");
+});
+
+test("doctor reports Archify's browser: missing, a blocking ARCHIFY_CHROME, a snap with an unusable TMPDIR, and usable cases", async (t) => {
+  const temporary = await temporaryDirectory(t);
+  const bin = join(temporary, "bin");
+  const home = join(temporary, "home");
+  const marker = join(temporary, "must-not-execute");
+  await stubs(bin, ["git"], marker);
+  const item = async (env) => byName(await checkWorkbenchDependencies(packageRoot, { env, platform: "linux" })).get(ARCHIFY_BROWSER);
+
+  const missing = await item({ PATH: bin });
+  assert.equal(missing.status, "warn");
+  assert.equal(missing.optional, true);
+  assert.match(missing.detail, /no Chrome, Chromium or Edge found where Archify looks/);
+  assert.match(missing.action, /sudo apt install chromium .* or set ARCHIFY_CHROME/);
+  assert.match((await checkWorkbenchDependencies(packageRoot, { env: { PATH: "" }, platform: "darwin" })).items.find((i) => i.name === ARCHIFY_BROWSER).action, /brew install --cask google-chrome/);
+  assert.match((await checkWorkbenchDependencies(packageRoot, { env: { PATH: "" }, platform: "win32" })).items.find((i) => i.name === ARCHIFY_BROWSER).action, /winget install --id Google\.Chrome -e/);
+
+  // Ubuntu's transitional wrapper that starts the snap, and a non-snap browser.
+  await writeFile(join(bin, "chromium-browser"), `#!/bin/sh\nprintf executed > '${marker}'\nexec /snap/bin/chromium "$@"\n`);
+  await chmod(join(bin, "chromium-browser"), 0o755);
+  const blocked = await item({ PATH: bin, HOME: home, TMPDIR: "/var/tmp/agent" });
+  assert.equal(blocked.status, "warn");
+  assert.match(blocked.detail, /chromium-browser \(via PATH.*is the chromium snap, which cannot read Archify's temporary profile and page under \/var\/tmp\/agent/);
+  assert.match(blocked.action, new RegExp(`TMPDIR="${join(home, "snap/chromium/common/archify-tmp")}"`));
+  assert.match(blocked.action, /Do not set ARCHIFY_CHROME_NO_SANDBOX/);
+  assert.equal((await item({ PATH: bin, HOME: home })).status, "warn", "the default /tmp is the snap's private /tmp: not usable");
+  assert.equal((await item({ PATH: bin, HOME: home, TMPDIR: join(home, "snap/chromium/common/archify-tmp") })).status, "ok");
+  assert.equal(snapCanUseTemp({ TMPDIR: join(home, ".cache/tmp") }, home, "chromium"), false, "hidden home directories are not visible to a snap");
+  assert.equal(snapCanUseTemp({ TMPDIR: join(home, "snap/firefox/common") }, home, "chromium"), false, "another snap's data is not visible");
+  assert.equal(snapCanUseTemp({ TMP: join(home, "work/tmp") }, home, "chromium"), true);
+
+  await stubs(bin, ["google-chrome"], marker);
+  const usable = await item({ PATH: bin, HOME: home, TMPDIR: "/var/tmp/agent" });
+  assert.equal(usable.status, "ok", "a non-snap browser comes first and has no temporary-directory limit");
+  assert.match(usable.detail, /google-chrome \(via PATH; presence only, the browser gate is not run\)$/);
+
+  const wrong = await item({ PATH: bin, ARCHIFY_CHROME: join(temporary, "nothing") });
+  assert.equal(wrong.status, "warn");
+  assert.match(wrong.detail, /is not an executable; Archify uses only this value and does not fall back/);
+  assert.equal((await item({ PATH: bin, ARCHIFY_CHROME: join(bin, "google-chrome") })).detail.includes("via ARCHIFY_CHROME"), true);
+  await assert.rejects(readFile(marker), { code: "ENOENT" }, "no browser or wrapper was executed");
+  assert.equal(archifyBrowserPresence({ env: { PATH: bin }, platform: "linux" }).snap, null);
+});
+
+test("install-deps prepares a snap browser's Archify temporary directory once and never downloads or runs a browser", async (t) => {
+  const temporary = await temporaryDirectory(t);
+  const bin = join(temporary, "bin");
+  const home = join(temporary, "home");
+  await stubs(bin, TOOL_NAMES, join(temporary, "marker"));
+  await writeFile(join(bin, "chromium-browser"), "#!/bin/sh\nexec /snap/bin/chromium \"$@\"\n");
+  await chmod(join(bin, "chromium-browser"), 0o755);
+  const made = [];
+  const { calls, run } = recorder();
+  const options = { env: { PATH: bin, HOME: home, TMPDIR: "/var/tmp/agent", ...secrets() }, platform: "linux", run, makeDirectory: (directory) => { made.push(directory); mkdirSync(directory, { recursive: true }); } };
+  const dir = join(home, "snap/chromium/common/archify-tmp");
+  const first = byName(await installWorkbenchDependencies(packageRoot, { ...options, makeDirectory: (directory) => { made.push(directory); mkdirSync(directory, { recursive: true }); } })).get(ARCHIFY_BROWSER);
+  assert.equal(first.status, "manual");
+  assert.match(first.detail, /created its Archify temporary directory .*archify-tmp\. TMPDIR=\/var\/tmp\/agent stays unusable for the snap, and your environment is not changed/);
+  assert.match(first.action, new RegExp(`Run Archify commands with TMPDIR="${dir}"`));
+  assert.deepEqual(made, [dir]);
+  const second = byName(await installWorkbenchDependencies(packageRoot, options)).get(ARCHIFY_BROWSER);
+  assert.deepEqual(made, [dir], "idempotent: the existing directory is not created again");
+  assert.match(second.detail, /already exists/);
+  assert.deepEqual(calls, [], "no installer, browser or download is run");
+
+  const none = byName(await installWorkbenchDependencies(packageRoot, { env: { PATH: "" }, platform: "linux", run })).get(ARCHIFY_BROWSER);
+  assert.equal(none.status, "manual");
+  assert.match(none.detail, /install-deps does not download a browser/);
+  assert.match(none.action, /sudo apt install chromium/);
+  const failing = byName(await installWorkbenchDependencies(packageRoot, { ...options, env: { ...options.env, HOME: join(temporary, "home2") }, makeDirectory: () => { throw new Error("EACCES: permission denied"); } })).get(ARCHIFY_BROWSER);
+  assert.equal(failing.status, "failed");
+  assert.match(failing.action, /mkdir -p/);
 });

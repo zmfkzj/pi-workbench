@@ -1,6 +1,6 @@
 ---
 name: wb-vision
-description: "비전 AI 분석. 데이터·라벨·모델·평가·배포를 잇는 진단과 비교. Use for the vision workflow; select only relevant bundled skills and their references."
+description: "비전 AI 분석. 데이터·라벨·모델·평가·배포를 잇는 진단과 비교. 객체 검출·분류·세그멘테이션 모델의 정확도 저하, FP/FN·오검출·미검출, 라벨 품질, 데이터 누수, 전처리·학습·배포 결과 불일치, 임계값·모델 비교, FiftyOne·TAO 평가를 다룰 때 (object detection, segmentation, false positives and negatives, label noise, data leakage, model evaluation). Use for the vision workflow; select only relevant bundled skills and their references."
 ---
 
 # 비전 AI 분석

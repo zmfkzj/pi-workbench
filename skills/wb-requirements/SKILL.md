@@ -1,6 +1,6 @@
 ---
 name: wb-requirements
-description: "요구사항 도출. 사용자의 목적에서 기능·비기능 요구사항과 수용 기준을 만든다. Use for the requirements workflow; select only relevant bundled skills and their references."
+description: "요구사항 도출. 사용자의 목적에서 기능·비기능 요구사항과 수용 기준을 만든다. 요구사항 정의·명세, PRD·사용자 스토리, 범위·우선순위, 비기능 요구사항, 수용 기준이나 완료 조건을 정할 때 (requirements, user stories, acceptance criteria, scope). Use for the requirements workflow; select only relevant bundled skills and their references."
 ---
 
 # 요구사항 도출

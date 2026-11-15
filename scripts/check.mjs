@@ -27,6 +27,10 @@ for (const profile of catalog.profiles) {
   const route = await readFile(join(root, "skills", `wb-${profile.id}`, "SKILL.md"), "utf8");
   assert(route.startsWith(`---\nname: wb-${profile.id}\n`));
   for (const id of profile.skills) assert(route.includes(catalog.skills.find((s) => s.id === id).path));
+  for (const index of profile.indexes ?? []) {
+    await resolveSkillPath(root, index.path);
+    assert(route.includes(`](../../${index.path})`), `wb-${profile.id} links its index ${index.path}`);
+  }
 }
 const profileIds = new Set(catalog.profiles.map((p) => p.id));
 for (const skill of catalog.skills) {

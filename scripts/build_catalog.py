@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+MAX_DESCRIPTION = 1024
 
 
 def main():
@@ -18,11 +19,16 @@ def main():
         skill["source"] = {"repository": source["repository"], "path": path, "commit": locked["commit"], "license": source["license"], "url": f"https://github.com/{source['repository']}/blob/{locked['commit']}/{path}"}
     (ROOT / "catalog.json").write_text(json.dumps(catalog, ensure_ascii=False, indent=2) + "\n")
     for profile in catalog["profiles"]:
+        # Pi shows only name and description to the model when it decides which skill to load (docs/skills.md):
+        # `routing` names the requests and outputs the profile covers; Pi accepts at most 1024 description characters.
+        description = f"{profile['title']}. {profile['description']}. {profile['routing']} Use for the {profile['id']} workflow; select only relevant bundled skills and their references."
+        if len(description) > MAX_DESCRIPTION:
+            raise SystemExit(f"wb-{profile['id']} description has {len(description)} characters; Pi allows {MAX_DESCRIPTION}.")
         path = ROOT / "skills" / f"wb-{profile['id']}" / "SKILL.md"
         path.parent.mkdir(parents=True, exist_ok=True)
         content = [
             "---", f"name: wb-{profile['id']}",
-            "description: " + json.dumps(f"{profile['title']}. {profile['description']}. Use for the {profile['id']} workflow; select only relevant bundled skills and their references.", ensure_ascii=False),
+            "description: " + json.dumps(description, ensure_ascii=False),
             "---", "", f"# {profile['title']}", "",
             profile["guidance"], "",
             "## Start here", "",
@@ -31,8 +37,15 @@ def main():
             "3. Read the original skill from its linked path. Resolve its scripts and references relative to that original file, not this routing skill or the project directory.",
             "4. Apply the integration notes below and the user's scope. Existing authorization and the user's language take precedence over upstream generic process examples.",
             "5. Report what was actually researched, changed, generated and verified. A missing provider does not become an available tool by reading a skill.", "",
-            "## Available skills", "", "| Skill | Use |", "|---|---|",
         ]
+        if profile.get("indexes"):
+            # Index files named by the guidance: a link relative to this routing skill (Pi resolves relative paths
+            # against the skill directory) and the package path, so the model does not resolve it from skills/wb-*/.
+            content.extend(["## Indexes", ""])
+            for index in profile["indexes"]:
+                content.append(f"- [{index['name']}](../../{index['path']}) (package path `{index['path']}`): {index['use']}.")
+            content.append("")
+        content.extend(["## Available skills", "", "| Skill | Use |", "|---|---|"])
         for skill_id in profile["skills"]:
             skill = by_id[skill_id]
             content.append(f"| [{skill['name']}](../../{skill['path']}) | {skill['description']} |")
