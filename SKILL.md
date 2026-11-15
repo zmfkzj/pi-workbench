@@ -1,6 +1,6 @@
 ---
 name: pi-workbench
-description: Select bundled workflows for functional and nonfunctional requirements, game design and assets, evidence-based cause analysis, vision AI, manufacturing software, coding, promotional media, and academic research. Use the matching routing skill and preserve its Pi integration notes and upstream license boundaries.
+description: Select bundled workflows for functional and nonfunctional requirements, game design and assets, evidence-based cause analysis, vision AI, manufacturing software, coding (including modern web platform guidance and architecture diagrams), promotional media, and academic research. Use the matching routing skill and preserve its Pi integration notes and upstream license boundaries.
 ---
 
 # Pi Workbench
@@ -14,7 +14,7 @@ Choose the route that matches the user's actual task, then read only its relevan
 | Causes, solutions, alternatives | [Analysis](skills/wb-analysis/SKILL.md) |
 | Vision AI data, model, evaluation and deployment issues | [Vision](skills/wb-vision/SKILL.md) |
 | Manufacturing software and quality problems | [Manufacturing](skills/wb-manufacturing/SKILL.md) |
-| Implementation, simplification, review, verification | [Coding](skills/wb-coding/SKILL.md) |
+| Implementation, simplification, review, verification, modern web platform and Chrome extension guidance, architecture and flow diagrams | [Coding](skills/wb-coding/SKILL.md) |
 | Promotional stills, banners and videos | [Promo](skills/wb-promo/SKILL.md) |
 | Research questions, literature, study design, statistics, papers, citations, peer review, domain science tools | [Research](skills/wb-research/SKILL.md) |
 

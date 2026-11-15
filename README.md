@@ -2,7 +2,7 @@
 
 **요구사항 도출, 게임 제작, 원인·솔루션·대안 비교, 비전 AI, 제조업 SW, 코딩, 홍보 제작, 연구·학술을 하나로 묶은 Pi extension 패키지.**
 
-8개 작업 프로필에서 49개 원본 스킬을 필요한 때 선택한다. Ponytail full을 기본 코딩 방식으로 두고, ECC Search First·Anthropic Frontend Design·UI UX Pro Max·Vercel React·Context7·ast-grep·Superpowers 검증·Trail of Bits 테스트를 함께 제공한다. `research` 프로필은 [Research Agent Skills](https://github.com/KalarisLabs/research-agent-skills)의 281개 스킬(전문 스킬 280개와 색인 1개)을 모두 포함하고, 그중 색인과 연구 단계별 핵심 스킬 22개를 직접 선택할 수 있다.
+8개 작업 프로필에서 52개 원본 스킬을 필요한 때 선택한다. Ponytail full을 기본 코딩 방식으로 두고, ECC Search First·Anthropic Frontend Design·UI UX Pro Max·Vercel React·Context7·ast-grep·Superpowers 검증·Trail of Bits 테스트와 함께 Google Chrome의 [Modern Web Guidance](https://github.com/GoogleChrome/modern-web-guidance)(최신 웹 플랫폼 가이드·Chrome Extensions)와 [Archify](https://github.com/tt-a1i/archify)(검증된 단독 HTML 다이어그램·설명 페이지)를 제공한다. `research` 프로필은 [Research Agent Skills](https://github.com/KalarisLabs/research-agent-skills)의 281개 스킬(전문 스킬 280개와 색인 1개)을 모두 포함하고, 그중 색인과 연구 단계별 핵심 스킬 22개를 직접 선택할 수 있다.
 
 원본 스킬의 참고 문서·스크립트·데이터·라이선스도 포함한다. 설치 과정에서 외부 서비스를 연결하거나 생성 API를 호출하지 않는다. 이미지·음원·영상 제작에 필요한 도구는 해당 작업을 수행할 때 사용자의 환경에 연결해야 한다.
 
@@ -92,6 +92,20 @@ Pi 1.1.0의 실제 리소스 로더에서 확장과 스킬 발견을 검증했�
 이 변경을 구현해줘.
 ```
 
+웹 UI·다이어그램 작업에서 원본 스킬을 바로 지정하는 예:
+
+```text
+/workbench skill modern-web-guidance
+설정 모달을 바깥 클릭과 Esc로 닫히게 바꿔줘.
+```
+
+```text
+/workbench skill archify
+이 저장소의 요청 처리 흐름을 시퀀스 다이어그램으로 만들어줘.
+```
+
+Chrome 확장 작업은 `/workbench skill chrome-extensions`로 고른다. 세 스킬은 `coding` 프로필에 들어 있어 `/workbench use coding`이나 자동 선택(`wb-coding`)으로도 쓰이며, Archify는 `analysis` 프로필에도 들어 있다. Modern Web Guidance의 원래 경로인 `npx modern-web-guidance@latest` CLI와 Archify의 브라우저 검사 조건은 [Pi 적용 지침](docs/ADAPTERS.md#modern-web-guidance-and-chrome-extensions)에 있다.
+
 선택한 스킬은 바로 다음 사용자 요청 한 번에 붙는다. 그 요청 앞에 Pi의 `/skill:` 형식 블록(대화 화면에서는 접힌 `[skill]` 항목)으로 원본 스킬·위치·주의사항을 넣고, 같은 메시지의 그 요청과 그 요청이 시작한 작업에만 적용하며 이후 요청에는 적용하지 않는다고 밝힌다. 이 텍스트는 대화 이력에 남지만 적용 범위는 그 요청 하나다. 모델 턴을 자동 시작하지 않고 프로필도 바꾸지 않는다.
 
 - **다음 사용자 요청:** idle 상태에서 보낸 요청, 에이전트가 작업하는 동안 입력한 steering·follow-up 메시지, RPC 입력, 확장이 사용자 대신 보내는 요청(`/orche single` 등, 보류됐다 다시 보내지는 follow-up, session-bus 작업 큐)이다. 작업 중에도 선택할 수 있다.
@@ -109,10 +123,10 @@ Pi 1.1.0의 실제 리소스 로더에서 확장과 스킬 발견을 검증했�
 |---|---|---|
 | `requirements` | 기능·비기능 요구사항, 업무 규칙, 충돌, 수용 기준 | Requirements Elicitation, Problem Solving, ECC Search First |
 | `game` | 레퍼런스 판단, 게임 설계·밸런스·에셋·VFX·UI·소리 | Game Design, Create Game Assets, Game Feel, Game UI/UX, Fire & Smoke VFX, Imagegen, ElevenLabs, Ponytail |
-| `analysis` | 원인·해결책·대안 비교 | Problem Solving, Structured Root Cause Research, 분야별 진단, Verification Before Completion |
+| `analysis` | 원인·해결책·대안 비교 | Problem Solving, Structured Root Cause Research, 분야별 진단, Verification Before Completion, Archify(요청 시 다이어그램·설명 페이지) |
 | `vision` | 촬영·라벨·분할·전처리·모델·평가·배포 분석 | NVIDIA TAO Recipe Transfer, FiftyOne Model Evaluation, Context7, Property-Based Testing |
 | `manufacturing` | 발생 원인과 검출 실패, 측정 신뢰성, 개선·관리 | 8D Problem Solving, DMAIC, 공통 원인 분석 |
-| `coding` | 구현·리뷰·재사용·문서 조회·UI·구조 검색·검증 | Ponytail/Review, ECC, Frontend Design, UI UX Pro Max, Vercel React, Context7, ast-grep/Outline, Superpowers, Trail of Bits |
+| `coding` | 구현·리뷰·재사용·문서 조회·웹 플랫폼·UI·구조 검색·다이어그램·검증 | Ponytail/Review, ECC, Frontend Design, UI UX Pro Max, Modern Web Guidance, Chrome Extensions, Vercel React, Context7, ast-grep/Outline, Archify, Superpowers, Trail of Bits |
 | `promo` | 홍보 스틸컷·배너·음향·영상 | Imagegen, Create Game Assets, Frontend Design, UI UX Pro Max, ElevenLabs, Video Director |
 | `research` | 가설·문헌고찰·실험 설계·통계·논문 작성·인용 검증·투고·심사 대응, 분야별 연구 도구 | Research Agent Skills 색인, Hypothesis Generation, Literature Review, Paper Lookup, PRISMA, Experimental Design, Statistical Power/Analysis, Scientific Writing, Citation Verification, Venue Templates, Peer Review, Autoresearch 등 22개 |
 
@@ -127,7 +141,7 @@ Game UI/UX는 플레이 화면의 HUD·메뉴·입력 설계용이라 `game`에�
 | 명령 | 동작 |
 |---|---|
 | `/workbench` | 도움말 |
-| `/workbench list` | 49개 선택 가능한 원본 스킬 목록 |
+| `/workbench list` | 52개 선택 가능한 원본 스킬 목록 |
 | `/workbench list game` | 프로필별 스킬 목록 |
 | `/workbench use coding` | 현재 대화 분기의 프로필 선택 |
 | `/workbench use auto` | 기본 Pi 스킬 탐색 사용 |
@@ -181,6 +195,8 @@ Git 설치본의 내려받은 디렉터리 경로는 등록된 source가 아니�
 | 영상 편집·렌더링 | 실제 footage, Node 22+, FFmpeg/ffprobe, Python 패키지, 별도 HyperFrames 환경 |
 | 3D 에셋 | 사용자가 연결한 3D 생성 도구·Blender·엔진 등; 이 패키지에 3D 생성 서비스가 내장되지는 않음 |
 | 웹·게임 UI | 대상 프로젝트 런타임, 실제 화면을 확인할 환경 |
+| 최신 웹 플랫폼 가이드 | 번들 가이드는 추가 도구 없이 읽음; 원래 CLI 경로는 Node 22+·npx와 npm 레지스트리 네트워크(익명 텔레메트리는 `DISABLE_TELEMETRY=1`로 끔) |
+| 아키텍처·흐름 다이어그램(Archify) | Node 18+; `finalize`의 browser-check에는 Chrome/Chromium(`ARCHIFY_CHROME` 또는 PATH). 업데이트 확인은 네트워크(선택) |
 | 비전 실행·평가 | 실제 데이터·모델·프레임워크; 사용 경로에 따라 FiftyOne/NumPy/Pillow 등 |
 | 구조 검색·문서 조회 | ast-grep CLI, Context7 MCP 또는 CLI 등 선택한 경로 |
 | 연구 스킬 실행 | 스킬별 Python 패키지(uv 권장)·CLI·LaTeX 등과 학술 API 네트워크 접근; 일부는 OpenRouter·Parallel·Exa·클라우드 GPU·실험실 서비스 계정과 API 키. 각 SKILL.md의 `compatibility`에 적혀 있으며 이 패키지가 설치·연결하지 않고 doctor도 점검하지 않음 |
@@ -209,10 +225,10 @@ Workbench 자체는 Pi와 Node.js 내장 모듈만 쓰므로 npm 설치가 필�
 
 ```bash
 node scripts/check.mjs
-node --test tests/runtime.test.mjs tests/dependencies.test.mjs tests/vendor-corrections.test.mjs tests/research-skills.test.mjs
+node --test tests/runtime.test.mjs tests/dependencies.test.mjs tests/vendor-corrections.test.mjs tests/research-skills.test.mjs tests/web-diagram-skills.test.mjs
 ```
 
-첫 명령은 구성, 프로필↔스킬 소속의 양방향 일치, 라이선스 포함 여부, 모든 vendor 파일의 Git blob/SHA-256, 별칭 파일, 교정 패치(역적용 시 upstream 원본 digest 재현), 로컬 Markdown 참조를 검사한다. `vendor-corrections.test.mjs`는 교정한 vendor CLI(TAO 누수·전처리 parity, asset_report)를 실제로 실행하고, Vercel 예제를 rules와 컴파일된 `AGENTS.md`에서 추출해 실행하며, DMAIC·8D 문서의 통계값을 입력값에서 다시 계산한다. 교정 전 원본(패치 역적용)으로 같은 오류가 재현되는 음성 대조도 포함한다. Python CLI 검사는 NumPy·Pillow가 있는 `python3`가 필요하며, 없으면 실패한다(`PI_WORKBENCH_SKIP_PYTHON_TESTS=1`이면 건너뜀으로 보고). `runtime.test.mjs`는 상태·명령·인수 자동완성(강제 Tab wrapper 포함)·요청별 프로필 안내·one-shot 선택(다음 사용자 입력 연결, 중복·취소·분기/reload, 대기열 `/skill:`·템플릿 취소, 읽기 중 경합)·명령 출력 기록과 렌더러·호스트 호환·doctor·install-deps 명령과 umbrella 채널 응답을 검증한다. `dependencies.test.mjs`는 의존성 계약(상태·형식), 정상·누락·패키지 손상 점검, 가짜 실행기로 설치 성공·실패·권한 없는 prefix·PATH 밖 설치·반복 실행·겹친 실행을 검사한다. `research-skills.test.mjs`는 Research Agent Skills 281개 디렉터리의 추적·이름, 색인이 280개 전문 스킬을 빠짐없이 가리키는지, research 프로필 등록과 안내 크기, 스킬이 경로로 언급한 참조 파일의 존재, 라이선스·출처 파일, `npm pack --dry-run`에 모든 vendor 파일이 들어가는지를 검사한다.
+첫 명령은 구성, 프로필↔스킬 소속의 양방향 일치, 라이선스 포함 여부, 모든 vendor 파일의 Git blob/SHA-256, 별칭 파일, 교정 패치(역적용 시 upstream 원본 digest 재현), 로컬 Markdown 참조를 검사한다. `vendor-corrections.test.mjs`는 교정한 vendor CLI(TAO 누수·전처리 parity, asset_report)를 실제로 실행하고, Vercel 예제를 rules와 컴파일된 `AGENTS.md`에서 추출해 실행하며, DMAIC·8D 문서의 통계값을 입력값에서 다시 계산한다. 교정 전 원본(패치 역적용)으로 같은 오류가 재현되는 음성 대조도 포함한다. Python CLI 검사는 NumPy·Pillow가 있는 `python3`가 필요하며, 없으면 실패한다(`PI_WORKBENCH_SKIP_PYTHON_TESTS=1`이면 건너뜀으로 보고). `runtime.test.mjs`는 상태·명령·인수 자동완성(강제 Tab wrapper 포함)·요청별 프로필 안내·one-shot 선택(다음 사용자 입력 연결, 중복·취소·분기/reload, 대기열 `/skill:`·템플릿 취소, 읽기 중 경합)·명령 출력 기록과 렌더러·호스트 호환·doctor·install-deps 명령과 umbrella 채널 응답을 검증한다. `dependencies.test.mjs`는 의존성 계약(상태·형식), 정상·누락·패키지 손상 점검, 가짜 실행기로 설치 성공·실패·권한 없는 prefix·PATH 밖 설치·반복 실행·겹친 실행을 검사한다. `research-skills.test.mjs`는 Research Agent Skills 281개 디렉터리의 추적·이름, 색인이 280개 전문 스킬을 빠짐없이 가리키는지, research 프로필 등록과 안내 크기, 스킬이 경로로 언급한 참조 파일의 존재, 라이선스·출처 파일, `npm pack --dry-run`에 모든 vendor 파일이 들어가는지를 검사한다. `web-diagram-skills.test.mjs`는 Modern Web Guidance·Chrome Extensions·Archify의 프로필 등록과 one-shot 선택(기준 디렉터리·주의사항), 원본 README 가이드 색인이 번들 가이드 파일을 가리키는지, 스킬이 경로로 언급한 참조·스키마·예제 파일의 존재, 제외한 Archify 렌더링 예제가 스킬에서 참조되지 않는지, 라이선스·NOTICE 파일과 잠긴 commit을 검사하고, 번들 Archify CLI의 `doctor`와 `demo`를 실제로 실행한다(브라우저·네트워크 불필요, 업데이트 확인 꺼짐).
 
 별도로 설치된 Pi로 실제 리소스 로딩과 세션·입력창 동작을 확인할 수 있다. `pi-session.mjs`는 스크립트 모델(faux)로 연속 요청·분기 전환·reload·auto/off, 다른 확장의 `triggerTurn` 실행 중 steering·follow-up에 붙는 선택, 대기열 `/skill:`·템플릿의 취소, 명령 출력 기록의 재열기에서 모델이 받는 내용을 검사하며 네트워크나 유료 모델을 쓰지 않는다. `pi-editor.mjs`는 Pi 입력창 편집기(pi-tui `Editor`)에 키를 입력해 Tab·Enter 동작을 확인한다(터미널 화면은 그리지 않음).
 
@@ -228,6 +244,6 @@ PI_WORKBENCH_HOST_MODULE=/path/to/pi/dist/index.js node tests/pi-editor.mjs
 
 ## 출처와 라이선스
 
-확장 코드·라우팅 지침은 MIT다. `vendor/`의 원본은 각자의 MIT, Apache-2.0 또는 CC-BY-SA-4.0 조건을 유지한다. Research Agent Skills는 MIT이며, 원본의 `LICENSE`·`LICENSES/`(K-Dense·AI Research Skills 기여자 MIT 고지)·`THIRD_PARTY_NOTICES.md`·스킬별 출처 `third_party/upstream-manifest.json`을 그대로 포함한다. 번들 출판사·학회 LaTeX 템플릿은 각자의 조건을 따른다. 교정한 파일은 `Modified by pi-workbench` 표기와 원래 저작권·라이선스 표기를 함께 유지하며, 교정분은 해당 파일의 라이선스를 따른다. 특히 Trail of Bits 자료를 MIT로 재표시하지 않았다. 전체 목록과 정확한 commit, 재배포하지 않은 참고 후보는 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)에 있다.
+확장 코드·라우팅 지침은 MIT다. `vendor/`의 원본은 각자의 MIT, Apache-2.0, CC-BY-4.0 또는 CC-BY-SA-4.0 조건을 유지한다. Research Agent Skills는 MIT이며, 원본의 `LICENSE`·`LICENSES/`(K-Dense·AI Research Skills 기여자 MIT 고지)·`THIRD_PARTY_NOTICES.md`·스킬별 출처 `third_party/upstream-manifest.json`을 그대로 포함한다. 번들 출판사·학회 LaTeX 템플릿은 각자의 조건을 따른다. Modern Web Guidance는 소프트웨어가 Apache-2.0, `guides/` 내용이 CC-BY-4.0(일부 MDN·W3C·WHATWG·IETF 문서 기반)이며 이를 밝힌 원본 `README.md`와 `LICENSE`를 포함한다. Archify는 Apache-2.0이며 원본 `NOTICE`·`LICENSE-MIT`·`THIRD_PARTY_NOTICES.md`(브랜드 마크별 라이선스·상표 조건)·JetBrains Mono OFL·Pele MIT 고지를 포함한다. 교정한 파일은 `Modified by pi-workbench` 표기와 원래 저작권·라이선스 표기를 함께 유지하며, 교정분은 해당 파일의 라이선스를 따른다. 특히 Trail of Bits 자료를 MIT로 재표시하지 않았다. 전체 목록과 정확한 commit, 제외한 파일, 재배포하지 않은 참고 후보는 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)에 있다.
 
 공식 호스트 문서: [Pi packages](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/docs/packages.md), [Pi extensions](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/docs/extensions.md), [Pi skills](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/docs/skills.md).

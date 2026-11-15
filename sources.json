@@ -341,6 +341,101 @@
         }
       ],
       "licenseEvidence": "MIT (Kalaris Labs) for the whole skills/ tree; 257 skills are adapted from the MIT-licensed K-Dense-AI/scientific-agent-skills and orchestra-research/AI-research-SKILLs, whose notices are preserved in LICENSES/ and the upstream THIRD_PARTY_NOTICES.md, with per-skill provenance in third_party/upstream-manifest.json. A non-MIT `license:` frontmatter value names the license of the software a skill documents, not of the skill text. Bundled LaTeX classes, styles and bibliography styles from publishers and conferences keep their own terms."
+    },
+    {
+      "id": "modern-web-guidance",
+      "repository": "GoogleChrome/modern-web-guidance",
+      "branch": "main",
+      "license": "Apache-2.0 AND CC-BY-4.0",
+      "include": [
+        "skills/modern-web-guidance",
+        "skills/chrome-extensions"
+      ],
+      "licenseFiles": [
+        "LICENSE",
+        "README.md"
+      ],
+      "licenseEvidence": "Apache-2.0 LICENSE for the software; the upstream README's License section states that documentation and guide content under guides/ is CC-BY-4.0 and that portions derive from MDN Web Docs (Mozilla Contributors) and W3C, WHATWG and IETF specifications. The README is kept as that notice and as the upstream guide index. The upstream has no NOTICE file. The `modern-web-guidance` npm CLI that the skill runs with npx is not bundled; its 1.0.0 package carries the same guides/ files and SKILL.md as the locked commit."
+    },
+    {
+      "id": "archify",
+      "repository": "tt-a1i/archify",
+      "branch": "main",
+      "license": "Apache-2.0",
+      "include": [
+        "archify"
+      ],
+      "licenseFiles": [
+        "archify/LICENSE",
+        "archify/LICENSE-MIT",
+        "archify/NOTICE",
+        "archify/THIRD_PARTY_NOTICES.md",
+        "archify/assets/JetBrainsMono-OFL.txt",
+        "archify/explainer/vendor/pele/LICENSE"
+      ],
+      "exclude": [
+        {
+          "path": "archify/examples/class-payment-processors-rendered.html",
+          "reason": "Prebuilt demo output (about 0.8 MB each, 13 MB together) that the maintainer script archify/scripts/render-examples.mjs generates from the bundled JSON examples; SKILL.md, its references and the CLI read only the JSON examples, so the skill works unchanged without them."
+        },
+        {
+          "path": "archify/examples/class-payments-rendered.html",
+          "reason": "Prebuilt demo output (about 0.8 MB each, 13 MB together) that the maintainer script archify/scripts/render-examples.mjs generates from the bundled JSON examples; SKILL.md, its references and the CLI read only the JSON examples, so the skill works unchanged without them."
+        },
+        {
+          "path": "archify/examples/dataflow-product-analytics.html",
+          "reason": "Prebuilt demo output (about 0.8 MB each, 13 MB together) that the maintainer script archify/scripts/render-examples.mjs generates from the bundled JSON examples; SKILL.md, its references and the CLI read only the JSON examples, so the skill works unchanged without them."
+        },
+        {
+          "path": "archify/examples/erd-orders-rendered.html",
+          "reason": "Prebuilt demo output (about 0.8 MB each, 13 MB together) that the maintainer script archify/scripts/render-examples.mjs generates from the bundled JSON examples; SKILL.md, its references and the CLI read only the JSON examples, so the skill works unchanged without them."
+        },
+        {
+          "path": "archify/examples/lifecycle-agent-run.html",
+          "reason": "Prebuilt demo output (about 0.8 MB each, 13 MB together) that the maintainer script archify/scripts/render-examples.mjs generates from the bundled JSON examples; SKILL.md, its references and the CLI read only the JSON examples, so the skill works unchanged without them."
+        },
+        {
+          "path": "archify/examples/sequence-cache-miss-request.html",
+          "reason": "Prebuilt demo output (about 0.8 MB each, 13 MB together) that the maintainer script archify/scripts/render-examples.mjs generates from the bundled JSON examples; SKILL.md, its references and the CLI read only the JSON examples, so the skill works unchanged without them."
+        },
+        {
+          "path": "archify/examples/subscription-billing-rendered.html",
+          "reason": "Prebuilt demo output (about 0.8 MB each, 13 MB together) that the maintainer script archify/scripts/render-examples.mjs generates from the bundled JSON examples; SKILL.md, its references and the CLI read only the JSON examples, so the skill works unchanged without them."
+        },
+        {
+          "path": "archify/examples/timeline-archify-dev-activity-rendered.html",
+          "reason": "Prebuilt demo output (about 0.8 MB each, 13 MB together) that the maintainer script archify/scripts/render-examples.mjs generates from the bundled JSON examples; SKILL.md, its references and the CLI read only the JSON examples, so the skill works unchanged without them."
+        },
+        {
+          "path": "archify/examples/timeline-payment-incident-rendered.html",
+          "reason": "Prebuilt demo output (about 0.8 MB each, 13 MB together) that the maintainer script archify/scripts/render-examples.mjs generates from the bundled JSON examples; SKILL.md, its references and the CLI read only the JSON examples, so the skill works unchanged without them."
+        },
+        {
+          "path": "archify/examples/tree-archify-repository-rendered.html",
+          "reason": "Prebuilt demo output (about 0.8 MB each, 13 MB together) that the maintainer script archify/scripts/render-examples.mjs generates from the bundled JSON examples; SKILL.md, its references and the CLI read only the JSON examples, so the skill works unchanged without them."
+        },
+        {
+          "path": "archify/examples/tree-payment-platform-rendered.html",
+          "reason": "Prebuilt demo output (about 0.8 MB each, 13 MB together) that the maintainer script archify/scripts/render-examples.mjs generates from the bundled JSON examples; SKILL.md, its references and the CLI read only the JSON examples, so the skill works unchanged without them."
+        },
+        {
+          "path": "archify/examples/waterfall-checkout-request-rendered.html",
+          "reason": "Prebuilt demo output (about 0.8 MB each, 13 MB together) that the maintainer script archify/scripts/render-examples.mjs generates from the bundled JSON examples; SKILL.md, its references and the CLI read only the JSON examples, so the skill works unchanged without them."
+        },
+        {
+          "path": "archify/examples/waterfall-example-rebuild-rendered.html",
+          "reason": "Prebuilt demo output (about 0.8 MB each, 13 MB together) that the maintainer script archify/scripts/render-examples.mjs generates from the bundled JSON examples; SKILL.md, its references and the CLI read only the JSON examples, so the skill works unchanged without them."
+        },
+        {
+          "path": "archify/examples/web-app-rendered.html",
+          "reason": "Prebuilt demo output (about 0.8 MB each, 13 MB together) that the maintainer script archify/scripts/render-examples.mjs generates from the bundled JSON examples; SKILL.md, its references and the CLI read only the JSON examples, so the skill works unchanged without them."
+        },
+        {
+          "path": "archify/examples/workflow-agent-tool-call-rendered.html",
+          "reason": "Prebuilt demo output (about 0.8 MB each, 13 MB together) that the maintainer script archify/scripts/render-examples.mjs generates from the bundled JSON examples; SKILL.md, its references and the CLI read only the JSON examples, so the skill works unchanged without them."
+        }
+      ],
+      "licenseEvidence": "Apache-2.0 (archify/LICENSE) with archify/NOTICE: code received under MIT before commit 25cf37080fc8b1dbe758a4efc3935b55f3327083 keeps those terms (archify/LICENSE-MIT), and Archify originated from Cocoon-AI/architecture-diagram-generator. archify/THIRD_PARTY_NOTICES.md records the embedded third-party material: brand-mark vector data from Simple Icons 16.28.0 (collection CC0-1.0; individual marks keep their recorded licenses and trademark terms, for example Vue.js CC-BY-NC-SA-4.0, Jenkins CC-BY-SA-3.0, Rust CC-BY-SA-4.0, Angular CC-BY-4.0), the OpenAI mark under its brand guidelines, JetBrains Mono under the SIL Open Font License 1.1 (archify/assets/JetBrainsMono-OFL.txt) and a Pele 1.3.0 subset under MIT (archify/explainer/vendor/pele/LICENSE)."
     }
   ]
 }

@@ -43,9 +43,10 @@
         "game-design",
         "tao-validate-recipe-transfer",
         "8d-problem-solving",
-        "verification-before-completion"
+        "verification-before-completion",
+        "archify"
       ],
-      "guidance": "Read the analysis and comparison sections of docs/WORKFLOWS.ko.md. Separate facts, hypotheses and conclusions. Seek a discriminating check, compare distinct interventions after hard constraints, and state evidence gaps and conditions that change the recommendation."
+      "guidance": "Read the analysis and comparison sections of docs/WORKFLOWS.ko.md. Separate facts, hypotheses and conclusions. Seek a discriminating check, compare distinct interventions after hard constraints, and state evidence gaps and conditions that change the recommendation. Use Archify only when a diagram or a one-page explainer is requested."
     },
     {
       "id": "vision",
@@ -76,7 +77,7 @@
     {
       "id": "coding",
       "title": "코딩·리뷰·검증",
-      "description": "Ponytail 중심의 재사용·문서 조회·UI·구조 검색·테스트",
+      "description": "Ponytail 중심의 재사용·문서 조회·웹 플랫폼·UI·구조 검색·다이어그램·테스트",
       "skills": [
         "ponytail",
         "search-first",
@@ -84,14 +85,17 @@
         "ponytail-review",
         "frontend-design",
         "ui-ux-pro-max",
+        "modern-web-guidance",
+        "chrome-extensions",
         "vercel-react-best-practices",
         "ast-grep",
         "ast-grep-outline",
+        "archify",
         "structured-root-cause-research",
         "verification-before-completion",
         "property-based-testing"
       ],
-      "guidance": "Read the coding section of docs/WORKFLOWS.ko.md. Default to Ponytail full and lightweight ECC search-first. Read current callers and tests, honor the existing stack, make the smallest complete change, and verify concrete risks. Load specialized skills only when relevant."
+      "guidance": "Read the coding section of docs/WORKFLOWS.ko.md. Default to Ponytail full and lightweight ECC search-first. Read current callers and tests, honor the existing stack, make the smallest complete change, and verify concrete risks. Load specialized skills only when relevant: Modern Web Guidance for HTML/CSS/client-side JS, Chrome Extensions for Manifest V3 extensions, Archify for requested architecture or flow diagrams."
     },
     {
       "id": "promo",
@@ -1333,6 +1337,88 @@
         "commit": "b0ee35abfd7e26428846fbd84f282114560a5fbd",
         "license": "MIT",
         "url": "https://github.com/KalarisLabs/research-agent-skills/blob/b0ee35abfd7e26428846fbd84f282114560a5fbd/skills/autoresearch/SKILL.md"
+      }
+    },
+    {
+      "id": "modern-web-guidance",
+      "name": "Modern Web Guidance",
+      "description": "HTML·CSS·클라이언트 JS 작업 전에 최신 웹 플랫폼 패턴·접근성·성능·보안 가이드와 Baseline 대체 전략을 조회",
+      "profiles": [
+        "coding"
+      ],
+      "path": "vendor/modern-web-guidance/skills/modern-web-guidance/SKILL.md",
+      "notes": [
+        "원문 경로는 `npx -y modern-web-guidance@latest search`/`retrieve`다. 실행 때 npm 레지스트리에서 최신 CLI를 받아 실행하므로 네트워크·Node 22+·호스트 권한이 필요하고, 결과가 번들 사본(1.0.0)보다 새로울 수 있다. CLI는 기본으로 검색어·가이드 ID·에이전트 이름을 Google에 텔레메트리로 보내므로 사용자가 허용하지 않았다면 `DISABLE_TELEMETRY=1`로 실행한다.",
+        "CLI를 쓸 수 없으면 이 스킬 디렉터리의 `guides/<분류>/<id>.md`(잠긴 commit의 원문, npm 1.0.0과 동일)를 파일명·제목으로 찾아 읽고, 원본 README(`../../README.md`)의 가이드 목록을 색인으로 쓴다. 이 경우 CLI 검색·조회를 실행했다고 쓰지 않고 번들 버전임을 밝힌다.",
+        "CLI가 Origin Trial·volatile 기능 가이드에 거는 `.mwgrc` 동의 게이트를 로컬 파일 열람으로 우회하지 않는다(해당 가이드 목록은 docs/ADAPTERS.md). `install`·`legacy-scan`·`set-allow-*`·`set-baseline`(.mwgrc 작성)과 AGENTS.md·CLAUDE.md 정책 추가는 사용자가 요청할 때만 한다."
+      ],
+      "dependencies": [
+        "CLI 경로: Node 22+·npx 또는 pnpx·npm 레지스트리 네트워크; 번들 가이드 열람은 추가 도구 불필요"
+      ],
+      "sourceId": "modern-web-guidance",
+      "sourcePath": "skills/modern-web-guidance",
+      "source": {
+        "repository": "GoogleChrome/modern-web-guidance",
+        "path": "skills/modern-web-guidance/SKILL.md",
+        "commit": "4dd968349e54ca45a05dd5c818fb035c9054b022",
+        "license": "Apache-2.0 AND CC-BY-4.0",
+        "url": "https://github.com/GoogleChrome/modern-web-guidance/blob/4dd968349e54ca45a05dd5c818fb035c9054b022/skills/modern-web-guidance/SKILL.md"
+      }
+    },
+    {
+      "id": "chrome-extensions",
+      "name": "Chrome Extensions",
+      "description": "Manifest V3 확장 프로그램 구현·디버깅과 Chrome Web Store 게시 준비(권한 사유·개인정보처리방침·심사 대응)",
+      "profiles": [
+        "coding"
+      ],
+      "path": "vendor/modern-web-guidance/skills/chrome-extensions/SKILL.md",
+      "notes": [
+        "Chrome 확장 작업에만 적용한다. 압축 해제 확장으로 실제 Chrome에 로드해 확인하지 않았다면 동작을 미검증으로 보고한다.",
+        "Web Store 제출·게시·심사 답변 발송과 OAuth 클라이언트 변경은 사용자가 요청할 때만 한다. 개인정보처리방침·권한 사유는 실제 데이터 처리와 대조한 초안으로 제공한다.",
+        "원문이 일반 Prompt API 패턴을 맡기는 `modern-web-guidance` 스킬은 이 패키지의 vendor/modern-web-guidance/skills/modern-web-guidance/SKILL.md다."
+      ],
+      "dependencies": [
+        "확장 로드·검증: Chrome 또는 Chromium"
+      ],
+      "sourceId": "modern-web-guidance",
+      "sourcePath": "skills/chrome-extensions",
+      "source": {
+        "repository": "GoogleChrome/modern-web-guidance",
+        "path": "skills/chrome-extensions/SKILL.md",
+        "commit": "4dd968349e54ca45a05dd5c818fb035c9054b022",
+        "license": "Apache-2.0 AND CC-BY-4.0",
+        "url": "https://github.com/GoogleChrome/modern-web-guidance/blob/4dd968349e54ca45a05dd5c818fb035c9054b022/skills/chrome-extensions/SKILL.md"
+      }
+    },
+    {
+      "id": "archify",
+      "name": "Archify",
+      "description": "저장소 근거·요구사항·Mermaid로 아키텍처·워크플로·시퀀스·데이터 흐름·상태·ERD·클래스·트리·타임라인·워터폴 다이어그램과 한 페이지 설명서를 검증된 단독 HTML로 생성",
+      "profiles": [
+        "coding",
+        "analysis"
+      ],
+      "path": "vendor/archify/archify/SKILL.md",
+      "notes": [
+        "명령의 `bin/archify.mjs`는 이 스킬 디렉터리의 절대 경로로 바꿔 작업 디렉터리에서 실행한다(npm install 불필요). 산출물(`.archify/...`)은 사용자 프로젝트나 지정 위치에 두고 패키지 디렉터리에 쓰지 않는다.",
+        "`finalize`의 browser-check는 실제 Chrome/Chromium(`ARCHIFY_CHROME` 또는 PATH의 google-chrome·chromium·chromium-browser)이 있어야 통과한다. 0이 아닌 종료는 실패로 보고하고 자동 검사 통과와 캡처·실제 시각 검토를 구분한다.",
+        "finalize·deliver는 GitHub Pages의 업데이트 매니페스트를 조회한다(`ARCHIFY_UPDATE_CHECK_DISABLED=1`로 끔). 번들 사본은 sources.lock.json의 commit에 고정되어 있으므로 업데이트 알림이 와도 skills CLI로 설치·갱신하지 않고 Workbench 원본 갱신 대상으로만 알린다.",
+        "원문의 explainer 모드 제안과 전역 규칙 파일(~/.claude/CLAUDE.md 등) 수정은 하지 않는다. 사용자가 명시적으로 원할 때만 Pi가 읽는 AGENTS.md 위치를 확인해 그 줄을 넣는다. 브랜드 마크는 요청된 것만 쓰고 개별 라이선스·상표 조건을 따른다."
+      ],
+      "dependencies": [
+        "Node 18+ (번들 CLI)",
+        "finalize·browser-check: Chrome 또는 Chromium",
+        "업데이트 확인: 네트워크(선택)"
+      ],
+      "sourceId": "archify",
+      "sourcePath": "archify",
+      "source": {
+        "repository": "tt-a1i/archify",
+        "path": "archify/SKILL.md",
+        "commit": "e37848822238e3a61b12739185cdadd49843a620",
+        "license": "Apache-2.0",
+        "url": "https://github.com/tt-a1i/archify/blob/e37848822238e3a61b12739185cdadd49843a620/archify/SKILL.md"
       }
     }
   ]

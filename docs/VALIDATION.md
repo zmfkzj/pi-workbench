@@ -73,6 +73,21 @@ Added [KalarisLabs/research-agent-skills](https://github.com/KalarisLabs/researc
 
 Not verified: research skill scripts, network lookups, paid APIs, LaTeX builds or GPU workflows (none was run), model behaviour with the research profile, OMP, and the umbrella package's own tests (outside this repository).
 
+## Modern Web Guidance and Archify (unreleased, validated 2026-11-15)
+
+Added [GoogleChrome/modern-web-guidance](https://github.com/GoogleChrome/modern-web-guidance) at `4dd968349e54ca45a05dd5c818fb035c9054b022` ("Release v1.0.0") as source `modern-web-guidance` (skills `modern-web-guidance` and `chrome-extensions`, profile `coding`) and [tt-a1i/archify](https://github.com/tt-a1i/archify) at `e37848822238e3a61b12739185cdadd49843a620` as source `archify` (skill `archify`, profiles `coding` and `analysis`). Node.js 24.21.0, Python 3 with NumPy and Pillow, `@earendil-works/pi-coding-agent` 1.5.2.
+
+| Check | Result and scope |
+|---|---|
+| `python3 scripts/vendor_sources.py` (cache in a scratch directory, blob cache seeded from the repository and the upstream clones; every blob verified against the GitHub tree) + `build_catalog.py` | 236 files of modern-web-guidance and 191 of archify (15 prebuilt `examples/*.html` excluded) fetched and Git-blob verified; the 2,772 existing entries are unchanged. Running `build_catalog.py` again changes nothing |
+| `npm run check` | Passes: 8 profiles, 52 selectable skills, 3,199 files, 1,322 local Markdown links |
+| `npm test` | 83 tests pass, 8 of them in the new `tests/web-diagram-skills.test.mjs`: catalog entries point at the original SKILL.md at the locked commit and appear in the `wb-coding`/`wb-analysis` routes; coding guidance < 12 KB with the new paths and notes; one-shot selection carries base directory, notes and dependencies; every path the Chrome Extensions and Archify texts name exists; the upstream README's 204 guide links resolve to bundled `guides/<category>/<id>.md` (209 guide files, all tracked); the 18 gated guide IDs in `docs/ADAPTERS.md` are bundled guides; only the 15 renderings are excluded and no bundled file reads them; licenses, NOTICE and notices; the bundled Archify CLI's `doctor` passes and `demo` reproduces the excluded web-app rendering's Git blob |
+| `tests/pi-loader.mjs`, `tests/pi-session.mjs`, `tests/pi-editor.mjs` with Pi 1.5.2 | Pass: eight routing skills, zero diagnostics and extension errors |
+| `modern-web-guidance` npm 1.0.0 (packed into a scratch directory, CLI run there with `DISABLE_TELEMETRY=1`) | Its `guides/` and `SKILL.md` equal the bundled files; `search "light dismiss dialog"` returned matching IDs; `retrieve dialog` output contains the bundled `ui-components/dialog.md`; `retrieve webmcp` returned the Origin Trial gate; the gated IDs come from its `gen/guides.json` |
+| Archify `finalize sequence` on the bundled `cache-miss-request.sequence.json` in a scratch directory | validate, deliver, check and browser-check pass with Playwright's Chromium and `ARCHIFY_CHROME_NO_SANDBOX=1`. Without that variable this host's Chromium aborts ("No usable sandbox", AppArmor user-namespace restriction), and the snap Chromium could not create its profile under `/var/tmp`; both runs reported `browser-check:fail` with exit 1 |
+
+Not verified: `npx modern-web-guidance@latest` itself (the registry's 1.0.0 package was run locally instead), `legacy-scan`, model behaviour with the new skills, an Archify explainer, visual review of a generated diagram, a Chrome extension load, and OMP.
+
 ## Selection policy pilot (2026-10-12, not shipped in the package)
 
 `experiments/policy-pilot/` in the repository holds a real-model pilot of four content-policy proposals (Ponytail/ECC default, Verification as a separate skill, manual-only vs. conditional tool skills, split DMAIC). It ran 90 sessions with Claude Opus 5.5 and Haiku 5.5 in scratch copies, then re-ran the 40 runs of the pair groups that had used the shared host /tmp inside a bubblewrap boundary (read-only host, private /tmp). All 130 runs met their acceptance checks, and the vendor texts were rarely or never opened (Verification never), so the pilot supports none of the four proposals; all four stay on hold. Operational defaults were not changed.

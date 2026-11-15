@@ -110,6 +110,16 @@
       "repository": "KalarisLabs/research-agent-skills",
       "branch": "main",
       "commit": "b0ee35abfd7e26428846fbd84f282114560a5fbd"
+    },
+    "modern-web-guidance": {
+      "repository": "GoogleChrome/modern-web-guidance",
+      "branch": "main",
+      "commit": "4dd968349e54ca45a05dd5c818fb035c9054b022"
+    },
+    "archify": {
+      "repository": "tt-a1i/archify",
+      "branch": "main",
+      "commit": "e37848822238e3a61b12739185cdadd49843a620"
     }
   }
 }

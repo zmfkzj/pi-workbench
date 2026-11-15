@@ -53,6 +53,28 @@ python3 vendor/ui-ux-pro-max/.claude/skills/ui-ux-pro-max/scripts/search.py --he
 
 The data is a local design reference, not current web research. Fetch actual game or product references when the user's decision benefits from them. Preserve an existing design system rather than replacing it merely to follow a suggested style.
 
+## Modern Web Guidance and Chrome Extensions
+
+The `modern-web-guidance` source bundles the two skill directories of [GoogleChrome/modern-web-guidance](https://github.com/GoogleChrome/modern-web-guidance) at the locked commit: `modern-web-guidance` with its complete `guides/` tree, and `chrome-extensions` with its `references/`. The upstream `README.md` is kept as the license notice (guides are CC-BY-4.0) and as the guide index; its guide links name `guides/<category>/<id>.md`.
+
+The skill's own workflow runs the `modern-web-guidance` npm CLI through `npx -y modern-web-guidance@latest search|retrieve`. That CLI is not bundled and loading the skill does not run it. Executing it downloads the current package from npm (network, Node 22+, host approval) and, unless `DISABLE_TELEMETRY=1` is set, sends anonymous usage telemetry (agent name, search queries, retrieved guide IDs) to Google; set the variable unless the user accepted that. Its 1.0.0 package carries the same `guides/` files and `SKILL.md` as the bundled commit, so `retrieve <id>` returns the bundled `guides/<category>/<id>.md` text, preceded by a project baseline banner when `.mwgrc` sets one.
+
+When the CLI cannot run, read the bundled guide files directly and say that the locked bundled version was used, not a CLI search. Do not use that path to bypass the CLI's opt-in gate: in 1.0.0, `retrieve` refuses these guides unless the project's `.mwgrc` opts in, and the gate message forbids reading their raw files instead.
+
+- Origin Trial (`allowOriginTrials`): `verify-email-ownership`, `apply-webgl-shaders`, `export-html-media-from-canvas`, `expose-canvas-content-to-browser-features`, `interactive-content-in-3d-scenes`, `agentic-forms`, `agentic-javascript-tools`, `webmcp`.
+- Volatile features (`allowVolatileFeatures`): `language-detection`, `language-model`, `summarizer`, `translator`, `out-of-order-html-streaming`, `client-side-encryption`, `digital-signatures`, `restrict-outbound-connections`, `2d-panning`, `custom-text-decorations`.
+- `guides/built-in-ai/prompt-api.md` has no CLI ID in 1.0.0; treat it like the volatile guides.
+
+Read such a guide only when the project's `.mwgrc` already opts in or the user explicitly named that API. Running `install`, `legacy-scan`, `set-allow-*` or `set-baseline` (which write `.mwgrc` or agent configuration) and adding browser-support policies to `AGENTS.md` or `CLAUDE.md` happen only on the user's request. The Chrome Extensions skill does not load, publish or submit anything; loading the unpacked extension in Chrome, Web Store submission and OAuth client changes are the user's actions or explicit requests.
+
+## Archify
+
+The `archify` source bundles the [tt-a1i/archify](https://github.com/tt-a1i/archify) skill package (`archify/`) at the locked commit, with its `LICENSE`, `LICENSE-MIT`, `NOTICE`, `THIRD_PARTY_NOTICES.md`, the JetBrains Mono OFL text and the Pele license. The 15 prebuilt `examples/*.html` renderings are excluded ([THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md)); the JSON examples, schemas, references, renderers and CLI that SKILL.md uses are complete, and `demo` regenerates the web-app rendering byte for byte.
+
+Replace `bin/archify.mjs` in its commands with the absolute path beside the bundled SKILL.md and run them from the user's working directory, so `.archify/...` output lands in the user's project, never in the package directory. The CLI needs Node.js 18+ and no npm install. `finalize` passes only after its real-browser `browser-check`, which needs Chrome or Chromium (`ARCHIFY_CHROME`, or `google-chrome`, `google-chrome-stable`, `chromium`, `chromium-browser` on PATH). Where Chrome aborts with "No usable sandbox" (unprivileged user namespaces restricted, for example by Ubuntu's AppArmor policy) or a snap Chromium cannot use the temporary profile directory, the gate fails; the code honors `ARCHIFY_CHROME_NO_SANDBOX=1` (adds `--no-sandbox`), which weakens browser isolation and is set only with the user's consent for local artifacts. A failed gate is reported as failed, and passing automated gates is not a visual review.
+
+`finalize` and `deliver` check an update manifest on GitHub Pages (cache under the user's cache directory; `ARCHIFY_UPDATE_CHECK_DISABLED=1` turns it off). The bundled copy is pinned by `sources.lock.json`: report an update notice as a candidate for a Workbench source update and do not install or update Archify with the skills CLI. Its offer to switch explainer modes by writing a line into a global agent rules file (`~/.claude/CLAUDE.md` and similar) is not a Pi step; only when the user explicitly asks, put the line into the Pi context file they choose (an `AGENTS.md`). Brand marks keep their individual licenses and trademark terms (see Archify's `THIRD_PARTY_NOTICES.md`); use only marks the user requested.
+
 ## Image, sound and music generation
 
 The OpenAI image skill contains the original CLI and reference material, but Pi has no built-in Codex image tool solely because this package is installed. Prefer a generation tool already configured by the user. For the API route, the user must select that provider path and supply credentials through their environment or normal credential store. Use the bundled CLI help for supported flags rather than guessing a model name.

@@ -5,7 +5,7 @@ description: "원인·솔루션·대안 비교. 경쟁 가설·판별 검증·�
 
 # 원인·솔루션·대안 비교
 
-Read the analysis and comparison sections of docs/WORKFLOWS.ko.md. Separate facts, hypotheses and conclusions. Seek a discriminating check, compare distinct interventions after hard constraints, and state evidence gaps and conditions that change the recommendation.
+Read the analysis and comparison sections of docs/WORKFLOWS.ko.md. Separate facts, hypotheses and conclusions. Seek a discriminating check, compare distinct interventions after hard constraints, and state evidence gaps and conditions that change the recommendation. Use Archify only when a diagram or a one-page explainer is requested.
 
 ## Start here
 
@@ -25,6 +25,7 @@ Read the analysis and comparison sections of docs/WORKFLOWS.ko.md. Separate fact
 | [NVIDIA TAO Recipe Transfer](../../vendor/tao/skills/applications/tao-validate-recipe-transfer/SKILL.md) | 비전 모델의 데이터·전처리·학습·평가·배포 차이를 진단 |
 | [8D Problem Solving](../../vendor/quality-engineering/skills/problem-solving/8d-problem-solving/SKILL.md) | 제조 문제의 발생 원인·검출 실패·임시 조치·영구 조치를 분리 |
 | [Superpowers Verification Before Completion](../../vendor/superpowers/skills/verification-before-completion/SKILL.md) | 완료·수정 성공 주장에 대응하는 실제 검증 근거 확인 |
+| [Archify](../../vendor/archify/archify/SKILL.md) | 저장소 근거·요구사항·Mermaid로 아키텍처·워크플로·시퀀스·데이터 흐름·상태·ERD·클래스·트리·타임라인·워터폴 다이어그램과 한 페이지 설명서를 검증된 단독 HTML로 생성 |
 
 ## Integration notes
 
@@ -35,5 +36,7 @@ Read the analysis and comparison sections of docs/WORKFLOWS.ko.md. Separate fact
   Required when executing: 진단 스크립트: Python 3, NumPy, Pillow; 실제 모델 실행: 대상 프로젝트의 프레임워크·모델·데이터·연산 환경.
 - **8d-problem-solving**: 현물 격리·고객 통지·승인·현장 검증을 수행한 것처럼 보고하지 않는다. 프로세스·센서·SW 문제를 증거로 분리하고 작업 규모에 맞춰 8D를 축약한다.
 - **verification-before-completion**: 의미 있는 검증을 선택하고 결과의 실행 여부를 구분한다. 사소한 변경마다 전체 테스트를 강제하지 않는다.
+- **archify**: 명령의 `bin/archify.mjs`는 이 스킬 디렉터리의 절대 경로로 바꿔 작업 디렉터리에서 실행한다(npm install 불필요). 산출물(`.archify/...`)은 사용자 프로젝트나 지정 위치에 두고 패키지 디렉터리에 쓰지 않는다. `finalize`의 browser-check는 실제 Chrome/Chromium(`ARCHIFY_CHROME` 또는 PATH의 google-chrome·chromium·chromium-browser)이 있어야 통과한다. 0이 아닌 종료는 실패로 보고하고 자동 검사 통과와 캡처·실제 시각 검토를 구분한다. finalize·deliver는 GitHub Pages의 업데이트 매니페스트를 조회한다(`ARCHIFY_UPDATE_CHECK_DISABLED=1`로 끔). 번들 사본은 sources.lock.json의 commit에 고정되어 있으므로 업데이트 알림이 와도 skills CLI로 설치·갱신하지 않고 Workbench 원본 갱신 대상으로만 알린다. 원문의 explainer 모드 제안과 전역 규칙 파일(~/.claude/CLAUDE.md 등) 수정은 하지 않는다. 사용자가 명시적으로 원할 때만 Pi가 읽는 AGENTS.md 위치를 확인해 그 줄을 넣는다. 브랜드 마크는 요청된 것만 쓰고 개별 라이선스·상표 조건을 따른다.
+  Required when executing: Node 18+ (번들 CLI); finalize·browser-check: Chrome 또는 Chromium; 업데이트 확인: 네트워크(선택).
 
 Use `/workbench skill <id>` for an explicit one-request selection, or `/workbench use analysis` for a session-branch profile. The default `auto` mode relies on normal Pi skill discovery.
