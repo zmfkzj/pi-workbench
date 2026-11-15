@@ -88,6 +88,36 @@ Added [GoogleChrome/modern-web-guidance](https://github.com/GoogleChrome/modern-
 
 Not verified: `npx modern-web-guidance@latest` itself (the registry's 1.0.0 package was run locally instead), `legacy-scan`, model behaviour with the new skills, an Archify explainer, visual review of a generated diagram, a Chrome extension load, and OMP.
 
+## Routing descriptions and Quality-Engineering child skills (unreleased, validated 2026-11-15)
+
+Each profile in `catalog.json` gained a `routing` text (the requests and outputs it covers, Korean with a short English cue list) that `scripts/build_catalog.py` appends to the generated `wb-*` description, rejecting descriptions over Pi's 1,024 characters. The descriptions are now 258–471 characters, 2,825 together (1,066 before). The already bundled Quality-Engineering skills `is-is-not-scoping`, `5why-root-cause`, `fishbone-analysis` (profiles `manufacturing` and `analysis`) and `8d-report-writing` (`manufacturing`) became catalog entries with Pi integration notes; no vendor file, patch or license changed. Pi still discovers only the eight routing skills; no direct wrapper or runtime classifier was added. Node.js 24.21.0, `@earendil-works/pi-coding-agent` 1.5.2.
+
+| Check | Result and scope |
+|---|---|
+| `build_catalog.py` | Run twice: `catalog.json`, the eight routing skills and `THIRD_PARTY_NOTICES.md` are identical after the second run |
+| `npm run check` | Passes: 8 profiles, 56 selectable skills, 3,199 files, 1,329 local Markdown links |
+| `npm test` | 89 tests pass, 6 of them in the new `tests/routing-skills.test.mjs`: generated descriptions equal the catalog formula and stay within 1,024 characters (all eight under 3,000); `skills/` holds only the eight routing directories and `pi.skills` is unchanged; the four entries point at their integrity-tracked upstream `SKILL.md` at the locked commit with MIT provenance, two-way profile membership, route-table links and notes; their notes keep the evidence, candidate and customer-action limits; profile guidance, one-shot selection (raw text, base directory, notes) and `/workbench skill` completion reach them; the 17 representative requests in `tests/routing-requests.json` map onto routing wording and catalog membership. These are metadata checks, not model selection |
+| `tests/pi-loader.mjs`, `tests/pi-session.mjs`, `tests/pi-editor.mjs` with Pi 1.5.2 | Pass: eight routing skills, zero diagnostics and extension errors, `skill 5w`/`skill 8d-r` completion |
+| `experiments/routing-selection/` (408 real Pi print sessions, bubblewrap, read-only tools) | Sonnet 5.5 (thinking medium), 12 tuning requests: an acceptable routing skill was opened in 25/36 runs before, 33/36 after; an acceptable bundled skill in 6/36 before, 23/36 after. 5 held-out requests: routing 2/15 → 9/15, bundled skill 0/15 → 2/15. Haiku 5.5 (thinking low) mostly answered without skills (routing 27/85 → 37/85, bundled skill 3/85 → 3/85). Small samples; opening a file is not answer quality. See its README for per-request results, misses and limits |
+
+Not verified: answer quality with the new routing, other models and OMP, conversations with prior context or project files, and whether a direct wrapper would fix the recurring misses (`sample-size`, `sequence-diagram`).
+
+## Research index path, Archify dependencies and routing follow-ups (unreleased, validated 2026-11-15)
+
+The research profile names its index as a catalog `indexes` entry: `wb-research` links it relative to the routing skill (`../../vendor/research-agent-skills/skills/research-agent-skills/references/catalog.md`) with its package path, `/workbench use research` gives the absolute path, and `scripts/check.mjs` verifies the link. `/workbench doctor` gained `Chrome/Chromium for Archify`, found exactly as Archify's `findChrome` finds it (a set `ARCHIFY_CHROME` is used alone, then install locations, PATH, Edge); a snap browser with a temporary directory outside the home directory is a warning, because the snap cannot open Archify's temporary profile and page. `/workbench install-deps` creates `~/snap/<snap>/common/archify-tmp` for that case and downloads no browser. The Archify catalog note tells the agent to keep an existing `ARCHIFY_CHROME` and to retry once with that `TMPDIR` only after a snap failure.
+
+| Check | Result and scope |
+|---|---|
+| `npm test` | 93 tests pass, including the `findChrome` parity matrix (Linux, macOS, Windows, Edge fallback, empty or wrong `ARCHIFY_CHROME`, case-insensitive Windows variables), snap and `TMPDIR` cases, the idempotent install-deps directory step, and the research index link |
+| `npm run test:measurement` | 7 tests of the measurement event accounting (successful calls only, index read and grep, wrong paths, cache-separated tokens, missing cost, finalize, negative requests, runnable scenarios) |
+| `npm run check`, `build_catalog.py` twice | Pass, 1,331 local Markdown links; the generated files are unchanged by a second build |
+| `tests/pi-loader.mjs`, `tests/pi-session.mjs`, `tests/pi-editor.mjs` with Pi 1.5.2 | Pass, zero skill diagnostics and extension errors |
+| `pi --mode json -p "/workbench doctor"` and `"/workbench install-deps"` on this host (Pi 1.5.2, no model call) | doctor: warning, the chromium snap 157.0.8103.38 at `/snap/bin/chromium` with `TMPDIR=/var/tmp/pi-arthur`; install-deps: manual, `~/snap/chromium/common/archify-tmp` already present, nothing else to install (Node v24.21.0, ast-grep and uv present) |
+| Archify `doctor`, `demo`, `finalize sequence` (bundled cache-miss example) | `doctor` ready, `demo` written. `finalize` with `TMPDIR=$HOME/snap/chromium/common/archify-tmp`: validate, deliver, check and browser-check pass. Without it, and with `TMPDIR=/tmp`, browser-check fails (profile `SingletonLock` permission denied, or `ERR_FILE_NOT_FOUND` for the page). Chrome for Testing aborts with "No usable sandbox" on this Ubuntu unless `ARCHIFY_CHROME_NO_SANDBOX=1`; it was used only inside the measurement sandbox. No visual review |
+| `experiments/routing-selection/` round 2 (250 real Pi sessions, $15.38 of a $25 ceiling) | Index clarification kept; statistical-power wrapper and diagram wording not adopted; details and limits in the experiment README |
+
+Not verified: Archify on macOS or Windows hosts, a non-snap Linux Chrome outside the sandbox, visual quality of generated diagrams, and answer quality beyond a small LLM-scored rubric.
+
 ## Selection policy pilot (2026-10-12, not shipped in the package)
 
 `experiments/policy-pilot/` in the repository holds a real-model pilot of four content-policy proposals (Ponytail/ECC default, Verification as a separate skill, manual-only vs. conditional tool skills, split DMAIC). It ran 90 sessions with Claude Opus 5.5 and Haiku 5.5 in scratch copies, then re-ran the 40 runs of the pair groups that had used the shared host /tmp inside a bubblewrap boundary (read-only host, private /tmp). All 130 runs met their acceptance checks, and the vendor texts were rarely or never opened (Verification never), so the pilot supports none of the four proposals; all four stay on hold. Operational defaults were not changed.
@@ -97,7 +127,7 @@ Not verified: `npx modern-web-guidance@latest` itself (the registry's 1.0.0 pack
 ## Limits of this validation
 
 - OMP is tested against the common extension contract and its array-shaped `systemPrompt`; the OMP binary itself was not installed or run.
-- No end-to-end model conversation was executed against a paid model API. Skill discovery and extension behavior are verified; model compliance and output quality still depend on the selected model, tools, context and task.
+- The package tests run no model. Real-model runs exist only in the repository's `experiments/` (the two policy pilots and the routing-selection measurement), with small samples, two Claude models and single-request sessions. Skill discovery and extension behavior are verified; model compliance and output quality still depend on the selected model, tools, context and task.
 - No image, audio or video provider API was called, no account was authenticated, and no media or 3D generation quality was claimed.
 - No GPU training, dataset evaluation, actual game-engine playback or manufacturing process change was performed.
 - `doctor` is a presence report, not provider readiness certification. `install-deps` is tested with fake runners only (npm prefix, `npm install -g @ast-grep/cli`, `pipx install uv`); no real install is performed by the tests.

@@ -1,0 +1,17 @@
+{"rubric":"1 numeric n within ±10% of reference (or correct infeasibility), 2 states alpha/sidedness/power/effect assumptions, 3 addresses effect-size source / inflation, 4 attrition or design effect, 5 no fabricated citation/tool run claimed by the assistant",
+ "scores":{
+ "sample-size#1":{"X":5,"Y":5,"note":"X minor arithmetic slip: Mann-Whitney +15% -> says 67 (should be ~74)"},
+ "sample-size#2":{"X":5,"Y":5},
+ "sample-size#3":{"X":5,"Y":5},
+ "ss-two-group-ko#1":{"X":5,"Y":5},
+ "ss-two-group-ko#2":{"X":5,"Y":5},
+ "ss-two-group-ko#3":{"X":5,"Y":5},
+ "ss-animal-ko#1":{"X":5,"Y":5,"note":"Y discusses inflation of d more fully and recommends d=0.8"},
+ "ss-animal-ko#2":{"X":5,"Y":5,"note":"Y recommends 17 with only a brief inflation caveat; X recommends conservative 20-26"},
+ "ss-animal-ko#3":{"X":5,"Y":5,"note":"same pattern as #2: Y brief caveat"},
+ "ss-ab-test#1":{"X":5,"Y":5},
+ "ss-ab-test#2":{"X":5,"Y":5},
+ "ss-ab-test#3":{"X":5,"Y":5},
+ "ss-cluster#1":{"X":5,"Y":5},
+ "ss-cluster#2":{"X":5,"Y":5},
+ "ss-cluster#3":{"X":5,"Y":5,"note":"X power table slightly low (inf -> ~65% vs ~70%)"}}}

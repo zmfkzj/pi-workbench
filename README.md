@@ -227,10 +227,12 @@ Workbench 자체는 Pi와 Node.js 내장 모듈만 쓰므로 npm 설치가 필�
 
 ```bash
 node scripts/check.mjs
-node --test tests/runtime.test.mjs tests/dependencies.test.mjs tests/vendor-corrections.test.mjs tests/research-skills.test.mjs tests/web-diagram-skills.test.mjs
+node --test tests/runtime.test.mjs tests/dependencies.test.mjs tests/vendor-corrections.test.mjs tests/research-skills.test.mjs tests/web-diagram-skills.test.mjs tests/routing-skills.test.mjs
 ```
 
 첫 명령은 구성, 프로필↔스킬 소속의 양방향 일치, 라이선스 포함 여부, 모든 vendor 파일의 Git blob/SHA-256, 별칭 파일, 교정 패치(역적용 시 upstream 원본 digest 재현), 로컬 Markdown 참조를 검사한다. `vendor-corrections.test.mjs`는 교정한 vendor CLI(TAO 누수·전처리 parity, asset_report)를 실제로 실행하고, Vercel 예제를 rules와 컴파일된 `AGENTS.md`에서 추출해 실행하며, DMAIC·8D 문서의 통계값을 입력값에서 다시 계산한다. 교정 전 원본(패치 역적용)으로 같은 오류가 재현되는 음성 대조도 포함한다. Python CLI 검사는 NumPy·Pillow가 있는 `python3`가 필요하며, 없으면 실패한다(`PI_WORKBENCH_SKIP_PYTHON_TESTS=1`이면 건너뜀으로 보고). `runtime.test.mjs`는 상태·명령·인수 자동완성(강제 Tab wrapper 포함)·요청별 프로필 안내·one-shot 선택(다음 사용자 입력 연결, 중복·취소·분기/reload, 대기열 `/skill:`·템플릿 취소, 읽기 중 경합)·명령 출력 기록과 렌더러·호스트 호환·doctor·install-deps 명령과 umbrella 채널 응답을 검증한다. `dependencies.test.mjs`는 의존성 계약(상태·형식), 정상·누락·패키지 손상 점검, 가짜 실행기로 설치 성공·실패·권한 없는 prefix·PATH 밖 설치·반복 실행·겹친 실행을 검사한다. `research-skills.test.mjs`는 Research Agent Skills 281개 디렉터리의 추적·이름, 색인이 280개 전문 스킬을 빠짐없이 가리키는지, research 프로필 등록과 안내 크기, 스킬이 경로로 언급한 참조 파일의 존재, 라이선스·출처 파일, `npm pack --dry-run`에 모든 vendor 파일이 들어가는지를 검사한다. `web-diagram-skills.test.mjs`는 Modern Web Guidance·Chrome Extensions·Archify의 프로필 등록과 one-shot 선택(기준 디렉터리·주의사항), 원본 README 가이드 색인이 번들 가이드 파일을 가리키는지, 스킬이 경로로 언급한 참조·스키마·예제 파일의 존재, 제외한 Archify 렌더링 예제가 스킬에서 참조되지 않는지, 라이선스·NOTICE 파일과 잠긴 commit을 검사하고, 번들 Archify CLI의 `doctor`와 `demo`를 실제로 실행한다(브라우저·네트워크 불필요, 업데이트 확인 꺼짐).
+
+`routing-skills.test.mjs`는 `wb-*` 설명문이 카탈로그에서 생성되고 1024자 이내인지, Pi에 노출되는 스킬이 라우팅 스킬 8개뿐인지, Quality-Engineering 하위 스킬 4개의 출처·소속·주의사항·선택 경로, 대표 요청(`tests/routing-requests.json`)과 라우팅 문구·카탈로그의 대응을 검사한다. 이것은 메타데이터 검사이며 모델의 실제 선택은 측정하지 않는다. 연구 색인이 라우팅 스킬 기준 상대 경로가 아니라 해석 가능한 링크와 패키지 경로로 적혀 있는지도 검사한다. 실제 모델 측정은 저장소의 `experiments/routing-selection/`(패키지 미포함)에 있고, 그 이벤트 집계는 저장소에서 `npm run test:measurement`로 검사한다. 2차 측정의 결론은 다음과 같다. 연구 색인 경로 명확화는 채택했다. statistical-power 직접 wrapper는 표본 수 요청 도달을 0/15에서 15/15로 올렸지만, 다른 요청의 회귀 기준을 넘지 못해 채택하지 않았다. 다이어그램 문구 변경은 현재 문구로도 단독 HTML 요청에서 Archify를 3/3 열어 필요가 없었다.
 
 별도로 설치된 Pi로 실제 리소스 로딩과 세션·입력창 동작을 확인할 수 있다. `pi-session.mjs`는 스크립트 모델(faux)로 연속 요청·분기 전환·reload·auto/off, 다른 확장의 `triggerTurn` 실행 중 steering·follow-up에 붙는 선택, 대기열 `/skill:`·템플릿의 취소, 명령 출력 기록의 재열기에서 모델이 받는 내용을 검사하며 네트워크나 유료 모델을 쓰지 않는다. `pi-editor.mjs`는 Pi 입력창 편집기(pi-tui `Editor`)에 키를 입력해 Tab·Enter 동작을 확인한다(터미널 화면은 그리지 않음).
 
