@@ -1,11 +1,11 @@
 ---
 name: wb-research
-description: "연구·학술. 가설·문헌·실험 설계·통계·논문 작성·인용 검증·심사 대응과 280개 분야별 연구 스킬. 논문·문헌 조사, 체계적 문헌고찰, 가설·실험 설계, 표본 수·검정력, 통계 분석, 논문 작성·그림·LaTeX 투고·arXiv, 인용 검증, 연구비 제안서, 동료 심사·리뷰 답변, 단일세포·화학정보학·양자·천문·ML 학습 등 분야별 연구 도구 (literature review, experimental design, power analysis, statistics, paper writing, citations, grants, peer review and reviewer responses, domain research tools). Use for the research workflow; select only relevant bundled skills and their references."
+description: "연구·학술. 가설·문헌·실험 설계·통계·논문 작성·인용 검증·심사 대응과 280개 분야별 연구 스킬. 연구 방향 탐색·문제 재정의, 논문·문헌 조사, 체계적 문헌고찰, 가설·실험 설계, 표본 수·검정력, 통계 분석, 논문 작성·그림·LaTeX 투고·arXiv, 인용 검증, 연구비 제안서, 동료 심사·리뷰 답변, 단일세포·화학정보학·양자·천문·ML 학습 등 분야별 연구 도구 (research directions, reframing, literature review, experimental design, power analysis, statistics, paper writing, citations, grants, peer review and reviewer responses, domain research tools). Use for the research workflow; select only relevant bundled skills and their references."
 ---
 
 # 연구·학술
 
-Read the research section of docs/WORKFLOWS.ko.md. Start from the listed workflow skills; for domain tools (biology, chemistry, medicine, physics, ML and more) choose specialists from the Research Agent Skills index listed under Indexes (a file of this package, not of the routing skill or project directory) and read the chosen specialist's SKILL.md in the index's sibling directories. Tie claims and citations to checked sources, separate executed analyses from plans, and start no autonomous loop, paid API, upload or submission unless asked.
+Read the research section of docs/WORKFLOWS.ko.md. For new research directions, stalled approaches or explicit reframing, follow Research formulation in the Pi adapters before hypotheses; keep the goal and fixed constraints. Skip it for summaries, translations, specified calculations or executing a chosen hypothesis. Start from the listed workflow skills; for domain tools (biology, chemistry, medicine, physics, ML and more) choose specialists from the Research Agent Skills index listed under Indexes (a file of this package, not of the routing skill or project directory) and read the chosen specialist's SKILL.md in the index's sibling directories. Tie claims and citations to checked sources, separate executed analyses from plans, and start no autonomous loop, paid API, upload or submission unless asked.
 
 ## Start here
 
@@ -49,9 +49,9 @@ Read the research section of docs/WORKFLOWS.ko.md. Start from the listed workflo
 ## Integration notes
 
 - **research-agent-skills**: 색인은 이 스킬 디렉터리의 references/catalog.md(패키지 경로 vendor/research-agent-skills/skills/research-agent-skills/references/catalog.md)다. 여기서 고른 전문 스킬은 이 패키지의 vendor/research-agent-skills/skills/<name>/SKILL.md(이 색인 디렉터리의 형제 폴더)에 함께 번들되어 있다. 원문의 설치 안내 대신 그 SKILL.md를 읽는다. /workbench skill로 직접 고를 수 있는 것은 research 프로필의 핵심 항목뿐이다. 나머지 전문 스킬은 이 색인으로 찾아 그 경로를 읽는다.
-- **hypothesis-generation**: 가설을 사실로 쓰지 않는다. 판별 예측과 기각 조건을 함께 남긴다.
+- **hypothesis-generation**: 가설을 사실로 쓰지 않는다. 판별 예측과 기각 조건을 함께 남긴다. 새 연구 방향·접근 정체·명시적 재정의 요청은 먼저 Pi adapters의 Research formulation을 따른다. 목표·평가 기준·고정 방법을 유지하며 질문을 재구성한다. 정해진 계산·요약·번역·확정된 가설 실행에는 적용하지 않는다.
   Required when executing: Python 3.11+ (번들 CLI 실행 시, 표준 라이브러리).
-- **scientific-brainstorming**: 실증 검증·윤리·임상 판단은 해당 전문가나 스킬로 넘긴다.
+- **scientific-brainstorming**: 실증 검증·윤리·임상 판단은 해당 전문가나 스킬로 넘긴다. 새 연구 방향·접근 정체·명시적 재정의 요청은 먼저 Pi adapters의 Research formulation을 따른다. 목표·평가 기준·고정 방법을 유지하며 질문을 재구성한다. 정해진 계산·요약·번역·확정된 가설 실행에는 적용하지 않는다.
   Required when executing: Python 3.11+ (번들 CLI 실행 시, 표준 라이브러리).
 - **scientific-critical-thinking**: 근거 등급은 판단이며 측정값이 아니다. 확인한 출처만 인용한다.
   Required when executing: 선택: scientific-schematics 그림 생성에는 OPENROUTER_API_KEY·OpenRouter 네트워크 접근(유료 API).

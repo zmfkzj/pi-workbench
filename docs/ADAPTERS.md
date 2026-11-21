@@ -101,6 +101,12 @@ Resolve each skill's `scripts/`, `references/` and `assets/` against its own dir
 
 Upstream instructions written for Claude Code (`/loop`), OpenClaw (`cron.add`, heartbeats), `npx skills` or Codex plugins are not Pi features. `autoresearch` in particular asks for unattended, never-stopping loops with periodic git commits: in Pi run iterations only within the user's request and host permissions, and commit, publish, upload data or call paid services only when the user asked for it. Medical and clinical skills support research and documentation; they are not clinical decisions. Do not send confidential manuscripts, patient data or unpublished results to external services without the user's explicit consent.
 
+### Research formulation
+
+For new research directions, a stalled approach, or explicit problem reframing, follow [Research formulation](RESEARCH_FORMULATION.ko.md) once before generating hypotheses. Keep the original goal, evaluation criteria and fixed methods; distinguish problem statements by the evidence or mechanism they would examine. Reuse existing formulations when their objective and constraints still apply. Skip this step for summaries, translations, specified calculations, and implementing or running an already chosen hypothesis unless reframing is also requested.
+
+This is authored Workbench guidance reached through the research profile and the integration notes for `scientific-brainstorming` and `hypothesis-generation`. One-shot selections receive this adapter's absolute path, so resolve the linked guide from this document's directory, not from the vendor skill or the user's project. The procedure connects to the existing skills; it does not install or call Abelio, change orchestration modes, rank scientific hypotheses automatically, or authorize an experimental loop. Its effect on research quality is unmeasured.
+
 ## Dependency report
 
 `/workbench doctor` checks names on PATH and whether selected environment variables are nonempty. It does not execute those programs, authenticate providers, inspect secret values, test installed versions, discover all MCP tools or validate Python package dependencies. Its output is a setup aid; successful generation and runtime QA still require an actual task-specific check.
