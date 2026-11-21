@@ -118,6 +118,21 @@ The research profile names its index as a catalog `indexes` entry: `wb-research`
 
 Not verified: Archify on macOS or Windows hosts, a non-snap Linux Chrome outside the sandbox, visual quality of generated diagrams, and answer quality beyond a small LLM-scored rubric.
 
+## Research formulation guidance (unreleased, validated 2026-11-21)
+
+The research profile and the integration notes for `scientific-brainstorming` and `hypothesis-generation` now reach [Research formulation](RESEARCH_FORMULATION.ko.md) through the Pi adapters. The authored procedure adds one problem-framing step before hypotheses for new research directions, stalled approaches and explicit reframing. It preserves the original goal, evaluation criteria and fixed methods, reuses applicable earlier formulations, and skips routine summaries, translations, specified calculations and execution of chosen hypotheses. No runtime, vendor source or dependency changed. Node.js 24.22.3, Python 3.12.14 with NumPy 2.3.5 and Pillow 13.0.0; available Pi host 1.1.0.
+
+| Check | Result and scope |
+|---|---|
+| `npm test` | 93 tests pass, zero failures and zero skips, including the Python CLI checks. The research/routing subset also passes after adding the new guide to the package inclusion assertion (15 tests) |
+| `node scripts/check.mjs` | Passes: 8 profiles, 56 selectable skills, 3,199 upstream files, 24 corrected files, 7 patches and 1,336 local Markdown links |
+| `python3 scripts/build_catalog.py` | Rebuilding leaves `catalog.json`, all eight routing skills and `THIRD_PARTY_NOTICES.md` byte-identical. Research profile guidance is 10,597 bytes (limit 12,000); the eight routing descriptions total 2,874 characters (limit 3,000) |
+| Skill frontmatter validation and `tests/pi-loader.mjs` with Pi 1.1.0 | Pass: eight routing skills, zero skill diagnostics and zero extension errors. This checks host loading, not automatic model selection |
+| Independent change review | No actionable correctness or integration findings; checked profile and one-shot reachability, relative adapter links, packaging, scope and paper attribution |
+| Two qualitative instruction checks in fresh ChatGPT subagent sessions, without inherited conversation | Supplied the actual `profileGuidance` text for an exploratory vision request and the actual `skillSelectionText` for a translation-only request. The research answer read the guide, kept the frozen DINOv2, per-image maximum of 8 candidates, joint recall ≥90% and precision ≥50% at one fixed operating point, and the development/final-evaluation boundary; it connected five distinct questions to hypotheses and rejection criteria, marking unobserved explanations as assumptions. The translation answer returned only the translation. These are one case per path, reviewed qualitatively, with no baseline, Pi model run or performance estimate |
+
+[The evaluation plan](../experiments/research-formulation/README.md) and 20 synthetic requests are prepared for a future paired A/B comparison against `2fe50ad98b9d7e546be45a6589a07543b95076e2`. They are public development material, not an independent holdout. The A/B comparison has not run. Research-quality, diversity, cost and experimental-performance improvements remain unmeasured; the paper's full-pipeline results are not Workbench results. Automatic routing with this wording, current Pi versions, OMP and real research outcomes were not verified in this change.
+
 ## Selection policy pilot (2026-10-12, not shipped in the package)
 
 `experiments/policy-pilot/` in the repository holds a real-model pilot of four content-policy proposals (Ponytail/ECC default, Verification as a separate skill, manual-only vs. conditional tool skills, split DMAIC). It ran 90 sessions with Claude Opus 5.5 and Haiku 5.5 in scratch copies, then re-ran the 40 runs of the pair groups that had used the shared host /tmp inside a bubblewrap boundary (read-only host, private /tmp). All 130 runs met their acceptance checks, and the vendor texts were rarely or never opened (Verification never), so the pilot supports none of the four proposals; all four stay on hold. Operational defaults were not changed.
@@ -127,7 +142,7 @@ Not verified: Archify on macOS or Windows hosts, a non-snap Linux Chrome outside
 ## Limits of this validation
 
 - OMP is tested against the common extension contract and its array-shaped `systemPrompt`; the OMP binary itself was not installed or run.
-- The package tests run no model. Real-model runs exist only in the repository's `experiments/` (the two policy pilots and the routing-selection measurement), with small samples, two Claude models and single-request sessions. Skill discovery and extension behavior are verified; model compliance and output quality still depend on the selected model, tools, context and task.
+- The package tests run no model. Recorded Pi model experiments are in the repository's `experiments/` (the two policy pilots and the routing-selection measurement), with small samples, two Claude models and single-request sessions. The separate qualitative ChatGPT checks above are not Pi model experiments. Skill discovery and extension behavior are verified; model compliance and output quality still depend on the selected model, tools, context and task.
 - No image, audio or video provider API was called, no account was authenticated, and no media or 3D generation quality was claimed.
 - No GPU training, dataset evaluation, actual game-engine playback or manufacturing process change was performed.
 - `doctor` is a presence report, not provider readiness certification. `install-deps` is tested with fake runners only (npm prefix, `npm install -g @ast-grep/cli`, `pipx install uv`); no real install is performed by the tests.

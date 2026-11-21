@@ -152,5 +152,5 @@ test("npm packs every tracked vendor file and preserved notice", { timeout: 120_
   const packed = new Set(JSON.parse(output)[0].files.map((file) => file.path));
   const missing = (await json("vendor-integrity.json")).files.map((file) => file.path).filter((path) => !packed.has(path));
   assert.deepEqual(missing, []);
-  for (const path of ["skills/wb-research/SKILL.md", "catalog.json", "THIRD_PARTY_NOTICES.md", "scripts/markdown_links.mjs", "docs/WORKFLOWS.ko.md"]) assert(packed.has(path), path);
+  for (const path of ["skills/wb-research/SKILL.md", "catalog.json", "THIRD_PARTY_NOTICES.md", "scripts/markdown_links.mjs", "docs/WORKFLOWS.ko.md", "docs/RESEARCH_FORMULATION.ko.md"]) assert(packed.has(path), path);
 });
