@@ -37,9 +37,9 @@ Read the game section of docs/WORKFLOWS.ko.md and applicable adapter notes. Insp
 
 - **game-design**: Claude 전용 wire/hook 설정은 Pi에 적용하지 않는다. 저자의 디자인 선호를 보편 법칙으로 취급하지 않는다. 최신 게임 레퍼런스는 별도 검색·열람이 필요하다.
 - **problem-solving**: 난이도에 맞는 참조만 읽는다. 필수 제약을 먼저 걸러내고 효과·비용·가역성·불확실성을 비교한다.
-- **create-game-assets**: 레퍼런스 출처와 사용 권리, 생성/수정 이력을 기록한다. 실제 표시 크기와 엔진 화면으로 검수한다.
+- **create-game-assets**: 레퍼런스 출처와 사용 권리, 생성/수정 이력을 기록한다. 실제 표시 크기와 엔진 화면으로 검수한다. 엔진 화면 검수는 pi-gui 비공개 데스크톱(`/skill:pi-gui`)에서 게임을 실행해 캡처하고, 위임할 때는 orche_task에 `gui: true`를 준다.
   Required when executing: 이미지·3D 생성 도구는 별도 연결; 래스터 검수 스크립트: Python 3.10+, Pillow.
-- **game-feel**: 실제 엔진의 프레임·물리·입력 특성을 따른다. 정지 이미지로 움직임 품질을 검증했다고 하지 않는다.
+- **game-feel**: 실제 엔진의 프레임·물리·입력 특성을 따른다. 정지 이미지로 움직임 품질을 검증했다고 하지 않는다. 플레이·화면 캡처는 pi-gui 비공개 데스크톱(`/skill:pi-gui`)에서 하고, 위임할 때는 orche_task에 `gui: true`를 준다.
   Required when executing: 대상 게임 엔진과 플레이·화면 캡처 환경.
 - **game-ui-ux**: 해상도·안전 영역·패드/키보드 입력을 실제 런타임에서 확인한다.
   Required when executing: 대상 엔진 또는 UI 런타임.
@@ -51,7 +51,7 @@ Read the game section of docs/WORKFLOWS.ko.md and applicable adapter notes. Insp
   Required when executing: ElevenLabs CLI/SDK·인증·사용 가능한 계정 한도.
 - **music**: 서비스 플랜·권리 조건과 프로젝트 예산을 확인한다. 사용 가능한 인증을 선택하며 비밀값을 출력하지 않는다.
   Required when executing: ElevenLabs 음악 기능이 가능한 계정·CLI/SDK·인증.
-- **frontend-design**: 실제 UI 런타임·기존 디자인 시스템·접근성을 우선한다. 시각 검수가 없으면 미검증으로 보고한다.
+- **frontend-design**: 실제 UI 런타임·기존 디자인 시스템·접근성을 우선한다. 시각 검수가 없으면 미검증으로 보고한다. 렌더링·스크린샷·클릭 확인 같은 시각 검수는 browser_* 또는 pi-gui 비공개 데스크톱(`/skill:pi-gui`)으로 하고, orche로 위임할 때는 orche_task에 `gui: true`를 준다.
   Required when executing: 대상 프런트엔드 런타임·가능하면 브라우저 캡처.
 - **ui-ux-pro-max**: CLAUDE_PLUGIN_ROOT가 있다고 가정하지 않는다. 이 스킬의 Base directory/scripts/search.py를 실행한다. 로컬 CSV 검색은 최신 외부 레퍼런스 조사를 대신하지 않는다.
   Required when executing: Python 3 (검색 스크립트는 표준 라이브러리).

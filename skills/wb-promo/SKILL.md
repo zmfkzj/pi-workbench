@@ -29,11 +29,11 @@ Read the promo section of docs/WORKFLOWS.ko.md and provider adapters. Establish 
 
 ## Integration notes
 
-- **create-game-assets**: 레퍼런스 출처와 사용 권리, 생성/수정 이력을 기록한다. 실제 표시 크기와 엔진 화면으로 검수한다.
+- **create-game-assets**: 레퍼런스 출처와 사용 권리, 생성/수정 이력을 기록한다. 실제 표시 크기와 엔진 화면으로 검수한다. 엔진 화면 검수는 pi-gui 비공개 데스크톱(`/skill:pi-gui`)에서 게임을 실행해 캡처하고, 위임할 때는 orche_task에 `gui: true`를 준다.
   Required when executing: 이미지·3D 생성 도구는 별도 연결; 래스터 검수 스크립트: Python 3.10+, Pillow.
 - **imagegen**: Pi에는 Codex image_gen이 자동으로 생기지 않는다. 사용자가 연결한 생성 도구 또는 선택한 API 경로만 쓴다. 미설정이면 브리프·프롬프트를 완성하고 실제 생성 여부를 명확히 표시한다. 임의 API 비용을 발생시키지 않는다.
   Required when executing: 호스트의 이미지 생성 도구 또는 Python openai SDK·OPENAI_API_KEY (API 경로 선택 시).
-- **frontend-design**: 실제 UI 런타임·기존 디자인 시스템·접근성을 우선한다. 시각 검수가 없으면 미검증으로 보고한다.
+- **frontend-design**: 실제 UI 런타임·기존 디자인 시스템·접근성을 우선한다. 시각 검수가 없으면 미검증으로 보고한다. 렌더링·스크린샷·클릭 확인 같은 시각 검수는 browser_* 또는 pi-gui 비공개 데스크톱(`/skill:pi-gui`)으로 하고, orche로 위임할 때는 orche_task에 `gui: true`를 준다.
   Required when executing: 대상 프런트엔드 런타임·가능하면 브라우저 캡처.
 - **ui-ux-pro-max**: CLAUDE_PLUGIN_ROOT가 있다고 가정하지 않는다. 이 스킬의 Base directory/scripts/search.py를 실행한다. 로컬 CSV 검색은 최신 외부 레퍼런스 조사를 대신하지 않는다.
   Required when executing: Python 3 (검색 스크립트는 표준 라이브러리).

@@ -174,3 +174,13 @@ test("representative requests map onto routing wording and catalog membership (s
     if (item.round === 2) assert(item.heldOut && item.cues.length === 0, `${item.id}: round-2 requests are held out and carry no cues`);
   }
 });
+
+test("visual verification and capture notes point to pi-gui and gui: true (wb-coding, wb-game)", async () => {
+  const coding = await readFile(join(root, "skills/wb-coding/SKILL.md"), "utf8");
+  const game = await readFile(join(root, "skills/wb-game/SKILL.md"), "utf8");
+  const note = (text, id) => text.split("\n").find((line) => line.startsWith(`- **${id}**:`)) ?? "";
+  assert.match(note(coding, "frontend-design"), /시각 검수는 browser_\* 또는 pi-gui 비공개 데스크톱\(`\/skill:pi-gui`\).*`gui: true`/);
+  for (const id of ["create-game-assets", "game-feel"]) assert.match(note(game, id), /pi-gui 비공개 데스크톱\(`\/skill:pi-gui`\).*orche_task에 `gui: true`/, id);
+  // The routing skills name the pi-gui skill, not a sibling checkout path.
+  assert.doesNotMatch(coding + game, /\.\.\/pi-gui|pi-gui\/skills/);
+});

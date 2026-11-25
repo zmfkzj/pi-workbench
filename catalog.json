@@ -469,7 +469,8 @@
       ],
       "path": "vendor/gamedev/skills/disciplines/create-game-assets/SKILL.md",
       "notes": [
-        "레퍼런스 출처와 사용 권리, 생성/수정 이력을 기록한다. 실제 표시 크기와 엔진 화면으로 검수한다."
+        "레퍼런스 출처와 사용 권리, 생성/수정 이력을 기록한다. 실제 표시 크기와 엔진 화면으로 검수한다.",
+        "엔진 화면 검수는 pi-gui 비공개 데스크톱(`/skill:pi-gui`)에서 게임을 실행해 캡처하고, 위임할 때는 orche_task에 `gui: true`를 준다."
       ],
       "dependencies": [
         "이미지·3D 생성 도구는 별도 연결",
@@ -494,7 +495,8 @@
       ],
       "path": "vendor/gamedev/skills/disciplines/game-feel/SKILL.md",
       "notes": [
-        "실제 엔진의 프레임·물리·입력 특성을 따른다. 정지 이미지로 움직임 품질을 검증했다고 하지 않는다."
+        "실제 엔진의 프레임·물리·입력 특성을 따른다. 정지 이미지로 움직임 품질을 검증했다고 하지 않는다.",
+        "플레이·화면 캡처는 pi-gui 비공개 데스크톱(`/skill:pi-gui`)에서 하고, 위임할 때는 orche_task에 `gui: true`를 준다."
       ],
       "dependencies": [
         "대상 게임 엔진과 플레이·화면 캡처 환경"
@@ -745,7 +747,8 @@
       ],
       "path": "vendor/anthropic-skills/skills/frontend-design/SKILL.md",
       "notes": [
-        "실제 UI 런타임·기존 디자인 시스템·접근성을 우선한다. 시각 검수가 없으면 미검증으로 보고한다."
+        "실제 UI 런타임·기존 디자인 시스템·접근성을 우선한다. 시각 검수가 없으면 미검증으로 보고한다.",
+        "렌더링·스크린샷·클릭 확인 같은 시각 검수는 browser_* 또는 pi-gui 비공개 데스크톱(`/skill:pi-gui`)으로 하고, orche로 위임할 때는 orche_task에 `gui: true`를 준다."
       ],
       "dependencies": [
         "대상 프런트엔드 런타임·가능하면 브라우저 캡처"
